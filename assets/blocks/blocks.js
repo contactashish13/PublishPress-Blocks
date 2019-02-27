@@ -9539,6 +9539,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
+        TextControl = wpComponents.TextControl,
         QueryControls = wpComponents.QueryControls,
         Spinner = wpComponents.Spinner,
         Toolbar = wpComponents.Toolbar,
@@ -9691,7 +9692,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayExcerpt = attributes.displayExcerpt,
                     postTextAsExcerpt = attributes.postTextAsExcerpt,
                     postTextExcerptLength = attributes.postTextExcerptLength,
-                    displayReadMore = attributes.displayReadMore;
+                    displayReadMore = attributes.displayReadMore,
+                    readMoreLbl = attributes.readMoreLbl;
 
 
                 var inspectorControls = React.createElement(
@@ -9752,6 +9754,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             checked: displayReadMore,
                             onChange: function onChange() {
                                 return setAttributes({ displayReadMore: !displayReadMore });
+                            }
+                        }),
+                        displayReadMore && React.createElement(TextControl, {
+                            label: __('Read more text'),
+                            value: readMoreLbl,
+                            onChange: function onChange(value) {
+                                return setAttributes({ readMoreLbl: value });
                             }
                         }),
                         React.createElement(ToggleControl, {
@@ -9901,7 +9910,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             { className: "advgb-post-content" },
                                             displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
                                                 dangerouslySetInnerHTML: {
-                                                    __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.rendered
+                                                    __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
                                                 } }),
                                             displayReadMore && React.createElement(
                                                 "div",
@@ -9909,7 +9918,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 React.createElement(
                                                     "a",
                                                     { href: post.link, target: "_blank" },
-                                                    __('Read More')
+                                                    readMoreLbl ? readMoreLbl : __('Read More')
                                                 )
                                             )
                                         )
