@@ -664,10 +664,20 @@ div.advgb-tab-body {
     padding: 15px 0;
 }
 
-.advgb-testimonial > div {
+.advgb-testimonial .advgb-testimonial-item {
     flex: auto;
     margin: 0 10px;
     text-align: center;
+}
+
+.advgb-testimonial.avatar-bottom .advgb-testimonial-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.advgb-testimonial.avatar-bottom .advgb-testimonial-item > *:first-child {
+    flex: 1;
+    margin-bottom: 15px;
 }
 
 .advgb-testimonial .advgb-testimonial-avatar-group {
@@ -705,6 +715,7 @@ div.advgb-tab-body {
 
 .advgb-testimonial .advgb-testimonial-name {
     padding: 5px;
+    margin: 10px 0;
 }
 
 .advgb-testimonial p.advgb-testimonial-position {

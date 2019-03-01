@@ -11232,10 +11232,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     nameColor = attributes.nameColor,
                     positionColor = attributes.positionColor,
                     descColor = attributes.descColor,
-                    columns = attributes.columns;
+                    columns = attributes.columns,
+                    avatarBottom = attributes.avatarBottom;
 
 
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view'].filter(Boolean).join(' ');
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
 
                 var maxCols = sliderView ? 10 : 3;
                 var minCols = sliderView ? 4 : 1;
@@ -11268,6 +11269,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 checked: sliderView,
                                 onChange: function onChange() {
                                     return setAttributes({ sliderView: !sliderView });
+                                }
+                            }),
+                            React.createElement(ToggleControl, {
+                                label: __('Avatar at the bottom'),
+                                checked: avatarBottom,
+                                onChange: function onChange() {
+                                    return setAttributes({ avatarBottom: !avatarBottom });
                                 }
                             }),
                             React.createElement(RangeControl, {
@@ -11362,6 +11370,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             return React.createElement(
                                 'div',
                                 { className: 'advgb-testimonial-item', key: idx },
+                                avatarBottom && React.createElement(RichText, {
+                                    tagName: 'p',
+                                    className: 'advgb-testimonial-desc',
+                                    value: item.desc,
+                                    isSelected: isSelected && currentEdit === 'desc' + idx,
+                                    unstableOnFocus: function unstableOnFocus() {
+                                        return _this2.setState({ currentEdit: 'desc' + idx });
+                                    },
+                                    onChange: function onChange(value) {
+                                        return _this2.updateItems(idx, { desc: value });
+                                    },
+                                    style: { color: descColor },
+                                    placeholder: __('Text…')
+                                }),
                                 React.createElement(MediaUpload, {
                                     allowedTypes: ["image"],
                                     onSelect: function onSelect(media) {
@@ -11432,7 +11454,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     style: { color: positionColor },
                                     placeholder: __('Text…')
                                 }),
-                                React.createElement(RichText, {
+                                !avatarBottom && React.createElement(RichText, {
                                     tagName: 'p',
                                     className: 'advgb-testimonial-desc',
                                     value: item.desc,
@@ -11752,6 +11774,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             sliderView: {
                 type: 'boolean',
                 default: false
+            },
+            avatarBottom: {
+                type: 'boolean',
+                default: false
             }
         }),
         edit: AdvTestimonial,
@@ -11767,10 +11793,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 nameColor = attributes.nameColor,
                 positionColor = attributes.positionColor,
                 descColor = attributes.descColor,
-                columns = attributes.columns;
+                columns = attributes.columns,
+                avatarBottom = attributes.avatarBottom;
 
 
-            var blockClass = ['advgb-testimonial', sliderView && 'slider-view'].filter(Boolean).join(' ');
+            var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
 
             var i = 0;
             var validCols = columns;
@@ -11793,6 +11820,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return React.createElement(
                         'div',
                         { className: 'advgb-testimonial-item', key: idx },
+                        avatarBottom && React.createElement(
+                            'p',
+                            { className: 'advgb-testimonial-desc',
+                                style: { color: descColor }
+                            },
+                            item.desc
+                        ),
                         React.createElement(
                             'div',
                             { className: 'advgb-testimonial-avatar-group' },
@@ -11822,7 +11856,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             },
                             item.position
                         ),
-                        React.createElement(
+                        !avatarBottom && React.createElement(
                             'p',
                             { className: 'advgb-testimonial-desc',
                                 style: { color: descColor }

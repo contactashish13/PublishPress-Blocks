@@ -110,11 +110,13 @@
                 positionColor,
                 descColor,
                 columns,
+                avatarBottom,
             } = attributes;
 
             const blockClass = [
                 'advgb-testimonial',
                 sliderView && 'slider-view',
+                avatarBottom && 'avatar-bottom',
             ].filter( Boolean ).join( ' ' );
 
             const maxCols  = sliderView ? 10 : 3;
@@ -142,6 +144,11 @@
                                 label={ __( 'Slider view' ) }
                                 checked={ sliderView }
                                 onChange={ () => setAttributes( { sliderView: !sliderView } ) }
+                            />
+                            <ToggleControl
+                                label={ __( 'Avatar at the bottom' ) }
+                                checked={ avatarBottom }
+                                onChange={ () => setAttributes( { avatarBottom: !avatarBottom } ) }
                             />
                             <RangeControl
                                 label={ __( 'Columns' ) }
@@ -219,6 +226,17 @@
                             if (i > validCols) return false;
                             return (
                                 <div className="advgb-testimonial-item" key={idx}>
+                                    {avatarBottom &&
+                                    <RichText
+                                        tagName="p"
+                                        className="advgb-testimonial-desc"
+                                        value={ item.desc }
+                                        isSelected={ isSelected && currentEdit === 'desc' + idx }
+                                        unstableOnFocus={ () => this.setState( { currentEdit: 'desc' + idx } ) }
+                                        onChange={ (value) => this.updateItems(idx, { desc: value } ) }
+                                        style={ { color: descColor } }
+                                        placeholder={ __( 'Text…' ) }
+                                    />}
                                     <MediaUpload
                                         allowedTypes={ ["image"] }
                                         onSelect={ (media) => this.updateItems(idx, {
@@ -270,6 +288,7 @@
                                         style={ { color: positionColor } }
                                         placeholder={ __( 'Text…' ) }
                                     />
+                                    {!avatarBottom &&
                                     <RichText
                                         tagName="p"
                                         className="advgb-testimonial-desc"
@@ -279,7 +298,7 @@
                                         onChange={ (value) => this.updateItems(idx, { desc: value } ) }
                                         style={ { color: descColor } }
                                         placeholder={ __( 'Text…' ) }
-                                    />
+                                    />}
                                 </div>
                         ) } ) }
                     </div>
@@ -558,6 +577,10 @@
                 type: 'boolean',
                 default: false,
             },
+            avatarBottom: {
+                type: 'boolean',
+                default: false,
+            }
         },
         edit: AdvTestimonial,
         save: function ( { attributes } ) {
@@ -573,11 +596,13 @@
                 positionColor,
                 descColor,
                 columns,
+                avatarBottom,
             } = attributes;
 
             const blockClass = [
                 'advgb-testimonial',
                 sliderView && 'slider-view',
+                avatarBottom && 'avatar-bottom',
             ].filter( Boolean ).join( ' ' );
 
             let i = 0;
@@ -599,6 +624,12 @@
                         if (i > validCols) return false;
                         return (
                             <div className="advgb-testimonial-item" key={idx}>
+                                {avatarBottom &&
+                                <p className="advgb-testimonial-desc"
+                                   style={ { color: descColor } }
+                                >
+                                    { item.desc }
+                                </p>}
                                 <div className="advgb-testimonial-avatar-group">
                                     <div className="advgb-testimonial-avatar"
                                          style={ {
@@ -622,11 +653,12 @@
                                 >
                                     { item.position }
                                 </p>
+                                {!avatarBottom &&
                                 <p className="advgb-testimonial-desc"
                                    style={ { color: descColor } }
                                 >
                                     { item.desc }
-                                </p>
+                                </p>}
                             </div>
                         ) } ) }
                 </div>
