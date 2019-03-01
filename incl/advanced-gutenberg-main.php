@@ -3275,7 +3275,7 @@ float: left;'
             wp_enqueue_style('slick_theme_style');
             wp_enqueue_script('slick_js');
             wp_add_inline_script('slick_js', 'jQuery(document).ready(function($){
-                $(".advgb-testimonial.slider-view:not(.slick-initialized)").slick({
+                $(".advgb-testimonial.slider-view:not(.slick-initialized):not(.avatar-bottom)").slick({
                     infinite: true,
                     centerMode: true,
                     centerPadding: "40px",
@@ -3284,6 +3284,7 @@ float: left;'
                         {breakpoint: 480, settings: {slidesToShow: 1}}
                     ]
                 })
+                $(".advgb-testimonial.slider-view.avatar-bottom:not(.slick-initialized)").slick({slidesToShow: 1});
             });');
         }
 
