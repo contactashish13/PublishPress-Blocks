@@ -37,24 +37,25 @@
 
         componentDidMount() {
             const { attributes, clientId } = this.props;
-            const { sliderView } = attributes;
+            const { sliderView, avatarBottom } = attributes;
 
             if (sliderView) {
+                const num = avatarBottom ? 1 : 3;
                 jQuery(`#block-${clientId} .advgb-testimonial.slider-view`).slick({
                     infinite: true,
-                    centerMode: true,
+                    centerMode: !avatarBottom,
                     centerPadding: '40px',
-                    slidesToShow: 3,
+                    slidesToShow: num,
                 });
             }
         }
 
         componentWillUpdate(nextProps) {
-            const { sliderView: nextView, columns: nextColumns } = nextProps.attributes;
+            const { sliderView: nextView, columns: nextColumns, avatarBottom: nextAvaPos } = nextProps.attributes;
             const { attributes, clientId } = this.props;
-            const { sliderView, columns } = attributes;
+            const { sliderView, columns, avatarBottom } = attributes;
 
-            if (nextView !== sliderView || nextColumns !== columns) {
+            if (nextView !== sliderView || nextColumns !== columns || avatarBottom !== nextAvaPos) {
                 if (sliderView) {
                     jQuery(`#block-${clientId} .advgb-testimonial.slick-initialized`).slick('unslick');
                     jQuery(`#block-${clientId} .advgb-testimonial`)
@@ -66,17 +67,18 @@
         }
 
         componentDidUpdate(prevProps) {
-            const { sliderView: prevView, columns: prevColumns } = prevProps.attributes;
+            const { sliderView: prevView, columns: prevColumns, avatarBottom: prevAvaPos } = prevProps.attributes;
             const { attributes, clientId } = this.props;
-            const { sliderView, columns } = attributes;
+            const { sliderView, columns, avatarBottom } = attributes;
 
-            if (sliderView !== prevView || columns !== prevColumns) {
+            if (sliderView !== prevView || columns !== prevColumns || avatarBottom !== prevAvaPos) {
                 if (sliderView) {
+                    const num = avatarBottom ? 1 : 3;
                     jQuery(`#block-${clientId} .advgb-testimonial.slider-view`).slick({
                         infinite: true,
-                        centerMode: true,
+                        centerMode: !avatarBottom,
                         centerPadding: '40px',
-                        slidesToShow: 3,
+                        slidesToShow: num,
                     });
                 }
             }

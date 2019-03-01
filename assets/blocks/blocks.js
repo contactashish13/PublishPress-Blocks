@@ -11139,15 +11139,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props2 = this.props,
                     attributes = _props2.attributes,
                     clientId = _props2.clientId;
-                var sliderView = attributes.sliderView;
+                var sliderView = attributes.sliderView,
+                    avatarBottom = attributes.avatarBottom;
 
 
                 if (sliderView) {
+                    var num = avatarBottom ? 1 : 3;
                     jQuery('#block-' + clientId + ' .advgb-testimonial.slider-view').slick({
                         infinite: true,
-                        centerMode: true,
+                        centerMode: !avatarBottom,
                         centerPadding: '40px',
-                        slidesToShow: 3
+                        slidesToShow: num
                     });
                 }
             }
@@ -11156,15 +11158,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function componentWillUpdate(nextProps) {
                 var _nextProps$attributes = nextProps.attributes,
                     nextView = _nextProps$attributes.sliderView,
-                    nextColumns = _nextProps$attributes.columns;
+                    nextColumns = _nextProps$attributes.columns,
+                    nextAvaPos = _nextProps$attributes.avatarBottom;
                 var _props3 = this.props,
                     attributes = _props3.attributes,
                     clientId = _props3.clientId;
                 var sliderView = attributes.sliderView,
-                    columns = attributes.columns;
+                    columns = attributes.columns,
+                    avatarBottom = attributes.avatarBottom;
 
 
-                if (nextView !== sliderView || nextColumns !== columns) {
+                if (nextView !== sliderView || nextColumns !== columns || avatarBottom !== nextAvaPos) {
                     if (sliderView) {
                         jQuery('#block-' + clientId + ' .advgb-testimonial.slick-initialized').slick('unslick');
                         jQuery('#block-' + clientId + ' .advgb-testimonial').removeAttr('tabindex').removeAttr('role').removeAttr('aria-describedby');
@@ -11176,21 +11180,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function componentDidUpdate(prevProps) {
                 var _prevProps$attributes = prevProps.attributes,
                     prevView = _prevProps$attributes.sliderView,
-                    prevColumns = _prevProps$attributes.columns;
+                    prevColumns = _prevProps$attributes.columns,
+                    prevAvaPos = _prevProps$attributes.avatarBottom;
                 var _props4 = this.props,
                     attributes = _props4.attributes,
                     clientId = _props4.clientId;
                 var sliderView = attributes.sliderView,
-                    columns = attributes.columns;
+                    columns = attributes.columns,
+                    avatarBottom = attributes.avatarBottom;
 
 
-                if (sliderView !== prevView || columns !== prevColumns) {
+                if (sliderView !== prevView || columns !== prevColumns || avatarBottom !== prevAvaPos) {
                     if (sliderView) {
+                        var num = avatarBottom ? 1 : 3;
                         jQuery('#block-' + clientId + ' .advgb-testimonial.slider-view').slick({
                             infinite: true,
-                            centerMode: true,
+                            centerMode: !avatarBottom,
                             centerPadding: '40px',
-                            slidesToShow: 3
+                            slidesToShow: num
                         });
                     }
                 }
