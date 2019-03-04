@@ -2426,7 +2426,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             className: 'advgb-image-title',
                             value: title,
                             onChange: function onChange(value) {
-                                return setAttributes({ title: value });
+                                return setAttributes({ title: value.trim() });
                             },
                             style: { color: titleColor },
                             isSelected: isSelected && currentEdit === 'title',
@@ -2443,7 +2443,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             className: 'advgb-image-subtitle',
                             value: subtitle,
                             onChange: function onChange(value) {
-                                return setAttributes({ subtitle: value });
+                                return setAttributes({ subtitle: value.trim() });
                             },
                             style: { color: subtitleColor },
                             isSelected: isSelected && currentEdit === 'subtitle',
@@ -4862,10 +4862,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             )
                         ),
                         !openInLightbox && ((videoSourceType === 'youtube' || videoSourceType === 'vimeo') && React.createElement("iframe", { src: videoURL,
-                            width: videoWidth,
-                            height: videoHeight,
                             frameBorder: "0",
-                            allowFullScreen: true }) || videoSourceType === 'local' && React.createElement(
+                            allowFullScreen: true,
+                            style: { width: videoWidth, height: videoHeight }
+                        }) || videoSourceType === 'local' && React.createElement(
                             "video",
                             { width: videoWidth,
                                 height: videoHeight,
@@ -5067,7 +5067,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     width: videoWidth,
                     height: videoHeight,
                     frameBorder: "0",
-                    allowFullScreen: true }) || videoSourceType === 'local' && React.createElement(
+                    allowFullScreen: true
+                }) || videoSourceType === 'local' && React.createElement(
                     "video",
                     { className: videoFullWidth && 'full-width',
                         width: videoWidth,
@@ -12156,6 +12157,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 } else if (columns > 10) {
                     validCols = 10;
                     setAttributes({ columns: 10 });
+                } else {
+                    validCols = sliderView ? 4 : 1;
                 }
 
                 return React.createElement(
