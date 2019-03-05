@@ -2020,7 +2020,7 @@ float: left;'
                             'name'  => 'headerTextColor'
                         ),
                         array(
-                            'title'   => __('Header Icon', 'advanced-gutenberg'),
+                            'title'   => __('Expand Icon', 'advanced-gutenberg'),
                             'type'    => 'select',
                             'name'    => 'headerIcon',
                             'options' => array(
@@ -2055,9 +2055,61 @@ float: left;'
                             )
                         ),
                         array(
-                            'title' => __('Header Icon Color', 'advanced-gutenberg'),
+                            'title' => __('Expand Icon Color', 'advanced-gutenberg'),
                             'type'  => 'color',
                             'name'  => 'headerIconColor',
+                        ),
+                        array(
+                            'title'   => __('Collapse Icon', 'advanced-gutenberg'),
+                            'type'    => 'select',
+                            'name'    => 'collapseIcon',
+                            'options' => array(
+                                array(
+                                    'label' => __('Remove', 'advanced-gutenberg'),
+                                    'value' => 'remove',
+                                ),
+                                array(
+                                    'label' => __('Remove Circle', 'advanced-gutenberg'),
+                                    'value' => 'removeCircle',
+                                ),
+                                array(
+                                    'label' => __('Remove Circle Outline', 'advanced-gutenberg'),
+                                    'value' => 'removeCircleOutline',
+                                ),
+                                array(
+                                    'label' => __('Close', 'advanced-gutenberg'),
+                                    'value' => 'close',
+                                ),
+                                array(
+                                    'label' => __('Close Circle', 'advanced-gutenberg'),
+                                    'value' => 'closeCircle',
+                                ),
+                                array(
+                                    'label' => __('Close Circle Outline', 'advanced-gutenberg'),
+                                    'value' => 'closeCircleOutline',
+                                ),
+                                array(
+                                    'label' => __('Close Square Outline', 'advanced-gutenberg'),
+                                    'value' => 'closeBox',
+                                ),
+                                array(
+                                    'label' => __('Unfold Less', 'advanced-gutenberg'),
+                                    'value' => 'unfoldLess',
+                                ),
+                                array(
+                                    'label' => __('Arrow Up', 'advanced-gutenberg'),
+                                    'value' => 'arrowUp',
+                                ),
+                                array(
+                                    'label' => __('Power', 'advanced-gutenberg'),
+                                    'value' => 'power',
+                                ),
+                            )
+                        ),
+                        array(
+                            'title' => __('Collapse Icon Color', 'advanced-gutenberg'),
+                            'type'  => 'color',
+                            'name'  => 'collapseIconColor',
                         ),
                     ),
                 ),
