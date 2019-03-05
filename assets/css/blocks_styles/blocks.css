@@ -42,6 +42,7 @@
     line-height: 1.8;
     font-size: 1.2em;
     cursor: pointer;
+    display: block;
 }
 
 .advgb-accordion-header-icon svg {
@@ -58,8 +59,13 @@
     cursor: pointer;
 }
 
-.advgb-accordion-header[aria-expanded="true"] .advgb-accordion-header-icon {
+.advgb-accordion-header.ui-state-active .advgb-accordion-header-icon,
+.advgb-accordion-header .advgb-accordion-header-icon.collapse-icon {
     display: none;
+}
+
+.advgb-accordion-header.ui-state-active .advgb-accordion-header-icon.collapse-icon {
+    display: block;
 }
 
 .advgb-accordion-body {
