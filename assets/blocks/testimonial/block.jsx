@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, RichText, PanelColorSettings, MediaUpload } = wpEditor;
-    const { RangeControl, ToggleControl, PanelBody, Tooltip } = wpComponents;
+    const { RangeControl, ToggleControl, TextControl, PanelBody, Tooltip, Button } = wpComponents;
     const { times } = lodash;
 
     class AdvTestimonial extends Component {
@@ -11,6 +11,7 @@
             super( ...arguments );
             this.state = {
                 currentEdit: '',
+                refresh: true,
             }
         }
 
@@ -37,24 +38,31 @@
 
         componentDidMount() {
             const { attributes, clientId } = this.props;
-            const { sliderView } = attributes;
+            const { sliderView, avatarBottom, prevArrow, nextArrow } = attributes;
 
             if (sliderView) {
+                const num = avatarBottom ? 1 : 3;
                 jQuery(`#block-${clientId} .advgb-testimonial.slider-view`).slick({
                     infinite: true,
-                    centerMode: true,
+                    centerMode: !avatarBottom,
                     centerPadding: '40px',
-                    slidesToShow: 3,
+                    slidesToShow: num,
+                    nextArrow: !!nextArrow ? nextArrow : undefined, //<div class="slick-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+                    prevArrow: !!prevArrow ? prevArrow : undefined, //<div class="slick-prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></div>
                 });
             }
         }
 
-        componentWillUpdate(nextProps) {
-            const { sliderView: nextView, columns: nextColumns } = nextProps.attributes;
+        componentWillUpdate(nextProps, nextState) {
+            const { sliderView: nextView, columns: nextColumns, avatarBottom: nextAvaPos } = nextProps.attributes;
             const { attributes, clientId } = this.props;
-            const { sliderView, columns } = attributes;
+            const { sliderView, columns, avatarBottom } = attributes;
 
-            if (nextView !== sliderView || nextColumns !== columns) {
+            if (nextView !== sliderView
+                || nextColumns !== columns
+                || avatarBottom !== nextAvaPos
+                || nextState.refresh !== this.state.refresh
+            ) {
                 if (sliderView) {
                     jQuery(`#block-${clientId} .advgb-testimonial.slick-initialized`).slick('unslick');
                     jQuery(`#block-${clientId} .advgb-testimonial`)
@@ -65,18 +73,25 @@
             }
         }
 
-        componentDidUpdate(prevProps) {
-            const { sliderView: prevView, columns: prevColumns } = prevProps.attributes;
+        componentDidUpdate(prevProps, prevState) {
+            const { sliderView: prevView, columns: prevColumns, avatarBottom: prevAvaPos } = prevProps.attributes;
             const { attributes, clientId } = this.props;
-            const { sliderView, columns } = attributes;
+            const { sliderView, columns, avatarBottom, nextArrow, prevArrow } = attributes;
 
-            if (sliderView !== prevView || columns !== prevColumns) {
+            if (sliderView !== prevView
+                || columns !== prevColumns
+                || avatarBottom !== prevAvaPos
+                || prevState.refresh !== this.state.refresh
+            ) {
                 if (sliderView) {
+                    const num = avatarBottom ? 1 : 3;
                     jQuery(`#block-${clientId} .advgb-testimonial.slider-view`).slick({
                         infinite: true,
-                        centerMode: true,
+                        centerMode: !avatarBottom,
                         centerPadding: '40px',
-                        slidesToShow: 3,
+                        slidesToShow: num,
+                        nextArrow: !!nextArrow ? nextArrow : undefined,
+                        prevArrow: !!prevArrow ? prevArrow : undefined,
                     });
                 }
             }
@@ -96,7 +111,7 @@
         }
 
         render() {
-            const { currentEdit } = this.state;
+            const { currentEdit, refresh } = this.state;
             const { attributes, setAttributes, isSelected } = this.props;
             const {
                 items,
@@ -110,11 +125,15 @@
                 positionColor,
                 descColor,
                 columns,
+                avatarBottom,
+                prevArrow,
+                nextArrow,
             } = attributes;
 
             const blockClass = [
                 'advgb-testimonial',
                 sliderView && 'slider-view',
+                avatarBottom && 'avatar-bottom',
             ].filter( Boolean ).join( ' ' );
 
             const maxCols  = sliderView ? 10 : 3;
@@ -145,6 +164,11 @@
                                 checked={ sliderView }
                                 onChange={ () => setAttributes( { sliderView: !sliderView } ) }
                             />
+                            <ToggleControl
+                                label={ __( 'Avatar at the bottom' ) }
+                                checked={ avatarBottom }
+                                onChange={ () => setAttributes( { avatarBottom: !avatarBottom } ) }
+                            />
                             <RangeControl
                                 label={ __( 'Columns' ) }
                                 help={ __( 'Columns range in Normal view is 1-3, and in Slider view is 4-10.' ) }
@@ -153,6 +177,23 @@
                                 value={ columns }
                                 onChange={ (value) => setAttributes( { columns: value } ) }
                             />
+                            {sliderView && (
+                                <PanelBody title={ __( 'Custom Prev/Next Arrow' ) } initialOpen={ false }>
+                                    <TextControl
+                                        label={ __( 'Prev Arrow HTML' ) }
+                                        value={ prevArrow }
+                                        onChange={ (value) => setAttributes( { prevArrow: value } ) }
+                                    />
+                                    <TextControl
+                                        label={ __( 'Next Arrow HTML' ) }
+                                        value={ nextArrow }
+                                        onChange={ (value) => setAttributes( { nextArrow: value } ) }
+                                    />
+                                    <Button isPrimary={ true } onClick={ () => this.setState( { refresh: !refresh } ) }>
+                                        { __( 'Apply' ) }
+                                    </Button>
+                                </PanelBody>
+                            ) }
                             <PanelBody title={ __( 'Avatar' ) } initialOpen={ false }>
                                 <PanelColorSettings
                                     title={ __( 'Avatar Colors' ) }
@@ -221,6 +262,17 @@
                             if (i > validCols) return false;
                             return (
                                 <div className="advgb-testimonial-item" key={idx}>
+                                    {avatarBottom &&
+                                    <RichText
+                                        tagName="p"
+                                        className="advgb-testimonial-desc"
+                                        value={ item.desc }
+                                        isSelected={ isSelected && currentEdit === 'desc' + idx }
+                                        unstableOnFocus={ () => this.setState( { currentEdit: 'desc' + idx } ) }
+                                        onChange={ (value) => this.updateItems(idx, { desc: value } ) }
+                                        style={ { color: descColor } }
+                                        placeholder={ __( 'Text…' ) }
+                                    />}
                                     <MediaUpload
                                         allowedTypes={ ["image"] }
                                         onSelect={ (media) => this.updateItems(idx, {
@@ -245,9 +297,9 @@
                                                     />
                                                 </Tooltip>
                                                 <Tooltip text={ __( 'Remove avatar' ) }>
-                                                <span className="dashicons dashicons-no advgb-testimonial-avatar-clear"
-                                                      onClick={ () => this.updateItems(idx, { avatarUrl: undefined, avatarID: undefined } ) }
-                                                />
+                                            <span className="dashicons dashicons-no advgb-testimonial-avatar-clear"
+                                                  onClick={ () => this.updateItems(idx, { avatarUrl: undefined, avatarID: undefined } ) }
+                                            />
                                                 </Tooltip>
                                             </div>
                                         ) }
@@ -272,6 +324,7 @@
                                         style={ { color: positionColor } }
                                         placeholder={ __( 'Text…' ) }
                                     />
+                                    {!avatarBottom &&
                                     <RichText
                                         tagName="p"
                                         className="advgb-testimonial-desc"
@@ -281,7 +334,7 @@
                                         onChange={ (value) => this.updateItems(idx, { desc: value } ) }
                                         style={ { color: descColor } }
                                         placeholder={ __( 'Text…' ) }
-                                    />
+                                    />}
                                 </div>
                         ) } ) }
                     </div>
@@ -560,6 +613,16 @@
                 type: 'boolean',
                 default: false,
             },
+            avatarBottom: {
+                type: 'boolean',
+                default: false,
+            },
+            prevArrow: {
+                type: 'string',
+            },
+            nextArrow: {
+                type: 'string',
+            },
         },
         edit: AdvTestimonial,
         save: function ( { attributes } ) {
@@ -575,11 +638,15 @@
                 positionColor,
                 descColor,
                 columns,
+                avatarBottom,
+                prevArrow,
+                nextArrow,
             } = attributes;
 
             const blockClass = [
                 'advgb-testimonial',
                 sliderView && 'slider-view',
+                avatarBottom && 'avatar-bottom',
             ].filter( Boolean ).join( ' ' );
 
             let i = 0;
@@ -595,12 +662,21 @@
             }
 
             return (
-                <div className={ blockClass }>
+                <div className={ blockClass }
+                     data-prev-arrow={ prevArrow ? encodeURIComponent(prevArrow) : undefined }
+                     data-next-arrow={ nextArrow ? encodeURIComponent(nextArrow) : undefined }
+                >
                     {items.map( (item, idx) => {
                         i++;
                         if (i > validCols) return false;
                         return (
                             <div className="advgb-testimonial-item" key={idx}>
+                                {avatarBottom &&
+                                <p className="advgb-testimonial-desc"
+                                   style={ { color: descColor } }
+                                >
+                                    { item.desc }
+                                </p>}
                                 <div className="advgb-testimonial-avatar-group">
                                     <div className="advgb-testimonial-avatar"
                                          style={ {
@@ -624,11 +700,12 @@
                                 >
                                     { item.position }
                                 </p>
+                                {!avatarBottom &&
                                 <p className="advgb-testimonial-desc"
                                    style={ { color: descColor } }
                                 >
                                     { item.desc }
-                                </p>
+                                </p>}
                             </div>
                         ) } ) }
                 </div>

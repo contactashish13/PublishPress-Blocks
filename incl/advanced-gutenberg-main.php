@@ -3275,15 +3275,34 @@ float: left;'
             wp_enqueue_style('slick_theme_style');
             wp_enqueue_script('slick_js');
             wp_add_inline_script('slick_js', 'jQuery(document).ready(function($){
-                $(".advgb-testimonial.slider-view:not(.slick-initialized)").slick({
-                    infinite: true,
-                    centerMode: true,
-                    centerPadding: "40px",
-                    slidesToShow: 3,
-                    responsive: [
-                        {breakpoint: 480, settings: {slidesToShow: 1}}
-                    ]
+                $(".advgb-testimonial.slider-view:not(.slick-initialized):not(.avatar-bottom)").each(function(){
+                    var prevArrow = decodeURIComponent($(this).data("prev-arrow"));
+                    var nextArrow = decodeURIComponent($(this).data("next-arrow"));
+                    prevArrow = prevArrow != "undefined" ? prevArrow : undefined;
+                    nextArrow = nextArrow != "undefined" ? nextArrow : undefined;
+                    $(this).slick({
+                        infinite: true,
+                        centerMode: true,
+                        centerPadding: "40px",
+                        slidesToShow: 3,
+                        prevArrow: prevArrow,
+                        nextArrow: nextArrow,
+                        responsive: [
+                            {breakpoint: 480, settings: {slidesToShow: 1}}
+                        ]
+                    })
                 })
+                $(".advgb-testimonial.slider-view.avatar-bottom:not(.slick-initialized)").each(function(){
+                    var prevArrow = decodeURIComponent($(this).data("prev-arrow"));
+                    var nextArrow = decodeURIComponent($(this).data("next-arrow"));
+                    prevArrow = prevArrow != "undefined" ? prevArrow : undefined;
+                    nextArrow = nextArrow != "undefined" ? nextArrow : undefined;
+                    $(this).slick({
+                        slidesToShow: 1,
+                        prevArrow: prevArrow,
+                        nextArrow: nextArrow,
+                    })
+                });
             });');
         }
 

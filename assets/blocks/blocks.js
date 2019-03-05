@@ -12080,8 +12080,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         MediaUpload = wpEditor.MediaUpload;
     var RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
+        TextControl = wpComponents.TextControl,
         PanelBody = wpComponents.PanelBody,
-        Tooltip = wpComponents.Tooltip;
+        Tooltip = wpComponents.Tooltip,
+        Button = wpComponents.Button;
     var _lodash = lodash,
         times = _lodash.times;
 
@@ -12094,7 +12096,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, (AdvTestimonial.__proto__ || Object.getPrototypeOf(AdvTestimonial)).apply(this, arguments));
 
             _this.state = {
-                currentEdit: ''
+                currentEdit: '',
+                refresh: true
             };
             return _this;
         }
@@ -12130,32 +12133,40 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props2 = this.props,
                     attributes = _props2.attributes,
                     clientId = _props2.clientId;
-                var sliderView = attributes.sliderView;
+                var sliderView = attributes.sliderView,
+                    avatarBottom = attributes.avatarBottom,
+                    prevArrow = attributes.prevArrow,
+                    nextArrow = attributes.nextArrow;
 
 
                 if (sliderView) {
+                    var num = avatarBottom ? 1 : 3;
                     jQuery('#block-' + clientId + ' .advgb-testimonial.slider-view').slick({
                         infinite: true,
-                        centerMode: true,
+                        centerMode: !avatarBottom,
                         centerPadding: '40px',
-                        slidesToShow: 3
+                        slidesToShow: num,
+                        nextArrow: !!nextArrow ? nextArrow : undefined, //<div class="slick-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+                        prevArrow: !!prevArrow ? prevArrow : undefined //<div class="slick-prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></div>
                     });
                 }
             }
         }, {
             key: 'componentWillUpdate',
-            value: function componentWillUpdate(nextProps) {
+            value: function componentWillUpdate(nextProps, nextState) {
                 var _nextProps$attributes = nextProps.attributes,
                     nextView = _nextProps$attributes.sliderView,
-                    nextColumns = _nextProps$attributes.columns;
+                    nextColumns = _nextProps$attributes.columns,
+                    nextAvaPos = _nextProps$attributes.avatarBottom;
                 var _props3 = this.props,
                     attributes = _props3.attributes,
                     clientId = _props3.clientId;
                 var sliderView = attributes.sliderView,
-                    columns = attributes.columns;
+                    columns = attributes.columns,
+                    avatarBottom = attributes.avatarBottom;
 
 
-                if (nextView !== sliderView || nextColumns !== columns) {
+                if (nextView !== sliderView || nextColumns !== columns || avatarBottom !== nextAvaPos || nextState.refresh !== this.state.refresh) {
                     if (sliderView) {
                         jQuery('#block-' + clientId + ' .advgb-testimonial.slick-initialized').slick('unslick');
                         jQuery('#block-' + clientId + ' .advgb-testimonial').removeAttr('tabindex').removeAttr('role').removeAttr('aria-describedby');
@@ -12164,24 +12175,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }, {
             key: 'componentDidUpdate',
-            value: function componentDidUpdate(prevProps) {
+            value: function componentDidUpdate(prevProps, prevState) {
                 var _prevProps$attributes = prevProps.attributes,
                     prevView = _prevProps$attributes.sliderView,
-                    prevColumns = _prevProps$attributes.columns;
+                    prevColumns = _prevProps$attributes.columns,
+                    prevAvaPos = _prevProps$attributes.avatarBottom;
                 var _props4 = this.props,
                     attributes = _props4.attributes,
                     clientId = _props4.clientId;
                 var sliderView = attributes.sliderView,
-                    columns = attributes.columns;
+                    columns = attributes.columns,
+                    avatarBottom = attributes.avatarBottom,
+                    nextArrow = attributes.nextArrow,
+                    prevArrow = attributes.prevArrow;
 
 
-                if (sliderView !== prevView || columns !== prevColumns) {
+                if (sliderView !== prevView || columns !== prevColumns || avatarBottom !== prevAvaPos || prevState.refresh !== this.state.refresh) {
                     if (sliderView) {
+                        var num = avatarBottom ? 1 : 3;
                         jQuery('#block-' + clientId + ' .advgb-testimonial.slider-view').slick({
                             infinite: true,
-                            centerMode: true,
+                            centerMode: !avatarBottom,
                             centerPadding: '40px',
-                            slidesToShow: 3
+                            slidesToShow: num,
+                            nextArrow: !!nextArrow ? nextArrow : undefined,
+                            prevArrow: !!prevArrow ? prevArrow : undefined
                         });
                     }
                 }
@@ -12208,7 +12226,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function render() {
                 var _this2 = this;
 
-                var currentEdit = this.state.currentEdit;
+                var _state = this.state,
+                    currentEdit = _state.currentEdit,
+                    refresh = _state.refresh;
                 var _props6 = this.props,
                     attributes = _props6.attributes,
                     setAttributes = _props6.setAttributes,
@@ -12223,10 +12243,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     nameColor = attributes.nameColor,
                     positionColor = attributes.positionColor,
                     descColor = attributes.descColor,
-                    columns = attributes.columns;
+                    columns = attributes.columns,
+                    avatarBottom = attributes.avatarBottom,
+                    prevArrow = attributes.prevArrow,
+                    nextArrow = attributes.nextArrow;
 
 
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view'].filter(Boolean).join(' ');
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
 
                 var maxCols = sliderView ? 10 : 3;
                 var minCols = sliderView ? 4 : 1;
@@ -12263,6 +12286,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ sliderView: !sliderView });
                                 }
                             }),
+                            React.createElement(ToggleControl, {
+                                label: __('Avatar at the bottom'),
+                                checked: avatarBottom,
+                                onChange: function onChange() {
+                                    return setAttributes({ avatarBottom: !avatarBottom });
+                                }
+                            }),
                             React.createElement(RangeControl, {
                                 label: __('Columns'),
                                 help: __('Columns range in Normal view is 1-3, and in Slider view is 4-10.'),
@@ -12273,6 +12303,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ columns: value });
                                 }
                             }),
+                            sliderView && React.createElement(
+                                PanelBody,
+                                { title: __('Custom Prev/Next Arrow'), initialOpen: false },
+                                React.createElement(TextControl, {
+                                    label: __('Prev Arrow HTML'),
+                                    value: prevArrow,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ prevArrow: value });
+                                    }
+                                }),
+                                React.createElement(TextControl, {
+                                    label: __('Next Arrow HTML'),
+                                    value: nextArrow,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ nextArrow: value });
+                                    }
+                                }),
+                                React.createElement(
+                                    Button,
+                                    { isPrimary: true, onClick: function onClick() {
+                                            return _this2.setState({ refresh: !refresh });
+                                        } },
+                                    __('Apply')
+                                )
+                            ),
                             React.createElement(
                                 PanelBody,
                                 { title: __('Avatar'), initialOpen: false },
@@ -12355,6 +12410,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             return React.createElement(
                                 'div',
                                 { className: 'advgb-testimonial-item', key: idx },
+                                avatarBottom && React.createElement(RichText, {
+                                    tagName: 'p',
+                                    className: 'advgb-testimonial-desc',
+                                    value: item.desc,
+                                    isSelected: isSelected && currentEdit === 'desc' + idx,
+                                    unstableOnFocus: function unstableOnFocus() {
+                                        return _this2.setState({ currentEdit: 'desc' + idx });
+                                    },
+                                    onChange: function onChange(value) {
+                                        return _this2.updateItems(idx, { desc: value });
+                                    },
+                                    style: { color: descColor },
+                                    placeholder: __('Text…')
+                                }),
                                 React.createElement(MediaUpload, {
                                     allowedTypes: ["image"],
                                     onSelect: function onSelect(media) {
@@ -12425,7 +12494,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     style: { color: positionColor },
                                     placeholder: __('Text…')
                                 }),
-                                React.createElement(RichText, {
+                                !avatarBottom && React.createElement(RichText, {
                                     tagName: 'p',
                                     className: 'advgb-testimonial-desc',
                                     value: item.desc,
@@ -12745,6 +12814,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             sliderView: {
                 type: 'boolean',
                 default: false
+            },
+            avatarBottom: {
+                type: 'boolean',
+                default: false
+            },
+            prevArrow: {
+                type: 'string'
+            },
+            nextArrow: {
+                type: 'string'
             }
         }),
         edit: AdvTestimonial,
@@ -12760,10 +12839,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 nameColor = attributes.nameColor,
                 positionColor = attributes.positionColor,
                 descColor = attributes.descColor,
-                columns = attributes.columns;
+                columns = attributes.columns,
+                avatarBottom = attributes.avatarBottom,
+                prevArrow = attributes.prevArrow,
+                nextArrow = attributes.nextArrow;
 
 
-            var blockClass = ['advgb-testimonial', sliderView && 'slider-view'].filter(Boolean).join(' ');
+            var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
 
             var i = 0;
             var validCols = columns;
@@ -12779,13 +12861,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             return React.createElement(
                 'div',
-                { className: blockClass },
+                { className: blockClass,
+                    'data-prev-arrow': prevArrow ? encodeURIComponent(prevArrow) : undefined,
+                    'data-next-arrow': nextArrow ? encodeURIComponent(nextArrow) : undefined
+                },
                 items.map(function (item, idx) {
                     i++;
                     if (i > validCols) return false;
                     return React.createElement(
                         'div',
                         { className: 'advgb-testimonial-item', key: idx },
+                        avatarBottom && React.createElement(
+                            'p',
+                            { className: 'advgb-testimonial-desc',
+                                style: { color: descColor }
+                            },
+                            item.desc
+                        ),
                         React.createElement(
                             'div',
                             { className: 'advgb-testimonial-avatar-group' },
@@ -12815,7 +12907,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             },
                             item.position
                         ),
-                        React.createElement(
+                        !avatarBottom && React.createElement(
                             'p',
                             { className: 'advgb-testimonial-desc',
                                 style: { color: descColor }
