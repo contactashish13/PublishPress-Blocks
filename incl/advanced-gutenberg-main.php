@@ -373,6 +373,9 @@ float: left;'
         $recaptcha_config   = $recaptcha_config !== false ? $recaptcha_config : array('recaptcha_enable' => 0);
         $blocks_icon_color  = isset($saved_settings['blocks_icon_color']) ? $saved_settings['blocks_icon_color'] : '';
         $rp_default_thumb   = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
+        $icons              = array();
+        $icons['material']  = file_get_contents(plugins_url('assets/css/fonts/codepoints.json', ADVANCED_GUTENBERG_PLUGIN));
+        $icons['material']  = json_decode($icons['material'], true);
 
         wp_localize_script('wp-blocks', 'advgbBlocks', array(
             'color' => $blocks_icon_color,
@@ -380,7 +383,8 @@ float: left;'
             'avatarHolder' => $avatarHolder,
             'config_url' => admin_url('admin.php?page=advgb_main'),
             'customStyles' => !$custom_styles_data ? array() : $custom_styles_data,
-            'captchaEnabled' => $recaptcha_config['recaptcha_enable']
+            'captchaEnabled' => $recaptcha_config['recaptcha_enable'],
+            'iconList' => $icons
         ));
 
         // Setup default config data for blocks
