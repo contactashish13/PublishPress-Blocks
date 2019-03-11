@@ -8,6 +8,9 @@
     class AdvButton extends Component {
         constructor() {
             super( ...arguments );
+            this.state = {
+                searchedText: '',
+            }
         }
 
         componentWillMount() {
@@ -64,7 +67,6 @@
                 align,
                 url,
                 urlOpenNewTab,
-                title,
                 text,
                 bgColor,
                 textColor,
@@ -85,7 +87,10 @@
                 hoverShadowBlur,
                 hoverShadowSpread,
                 transitionSpeed,
+                buttonIconType,
+                buttonIcon,
             } = attributes;
+            const { searchedText } = this.state;
 
             return (
                 <Fragment>
@@ -130,177 +135,227 @@
                     }`}
                     </style>
                     <InspectorControls>
-                        <PanelBody title={ __( 'Button link' ) }>
-                            <TextControl
-                                label={ [
-                                    __( 'Link URL' ),
-                                    (url && <a href={ url || '#' } key="link_url" target="_blank" style={ { float: 'right' } }>
-                                        { __( 'Preview' ) }
-                                    </a>)
-                                ] }
-                                value={ url || '' }
-                                placeholder={ __( 'Enter URL…' ) }
-                                onChange={ ( text ) => setAttributes( { url: text } ) }
-                            />
-                            <ToggleControl
-                                label={ __( 'Open in new tab' ) }
-                                checked={ !!urlOpenNewTab }
-                                onChange={ () => setAttributes( { urlOpenNewTab: !attributes.urlOpenNewTab } ) }
-                            />
-                        </PanelBody>
-                        <PanelBody title={ __( 'Text/Color' ) }>
-                            <RangeControl
-                                label={ __( 'Text size' ) }
-                                value={ textSize || '' }
-                                onChange={ ( size ) => setAttributes( { textSize: size } ) }
-                                min={ 10 }
-                                max={ 100 }
-                                beforeIcon="editor-textcolor"
-                                allowReset
-                            />
-                            <PanelColorSettings
-                                title={ __( 'Color Settings' ) }
-                                initialOpen={ false }
-                                colorSettings={ [
-                                    {
-                                        label: __( 'Background Color' ),
-                                        value: bgColor,
-                                        onChange: ( value ) => setAttributes( { bgColor: value === undefined ? '#2196f3' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Text Color' ),
-                                        value: textColor,
-                                        onChange: ( value ) => setAttributes( { textColor: value === undefined ? '#fff' : value } ),
-                                    },
-                                ] }
-                            />
-                        </PanelBody>
-                        <PanelBody title={ __( 'Border' ) } initialOpen={ false } >
-                            <RangeControl
-                                label={ __( 'Border radius' ) }
-                                value={ borderRadius || '' }
-                                onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
-                                min={ 0 }
-                                max={ 100 }
-                            />
-                            <SelectControl
-                                label={ __( 'Border style' ) }
-                                value={ borderStyle }
-                                options={ listBorderStyles }
-                                onChange={ ( value ) => setAttributes( { borderStyle: value } ) }
-                            />
-                            {borderStyle !== 'none' && (
-                                <Fragment>
-                                    <PanelColorSettings
-                                        title={ __( 'Border Color' ) }
-                                        initialOpen={ false }
-                                        colorSettings={ [
-                                            {
-                                                label: __( 'Border Color' ),
-                                                value: borderColor,
-                                                onChange: ( value ) => setAttributes( { borderColor: value === undefined ? '#2196f3' : value } ),
-                                            },
-                                        ] }
-                                    />
-                                    <RangeControl
-                                        label={ __( 'Border width' ) }
-                                        value={ borderWidth || '' }
-                                        onChange={ ( value ) => setAttributes( { borderWidth: value } ) }
-                                        min={ 0 }
-                                        max={ 100 }
-                                    />
-                                </Fragment>
-                            ) }
-                        </PanelBody>
-                        <PanelBody title={ __( 'Padding' ) } initialOpen={ false } >
-                            <RangeControl
-                                label={ __( 'Padding top' ) }
-                                value={ paddingTop || '' }
-                                onChange={ ( value ) => setAttributes( { paddingTop: value } ) }
-                                min={ 0 }
-                                max={ 100 }
-                            />
-                            <RangeControl
-                                label={ __( 'Padding right' ) }
-                                value={ paddingRight || '' }
-                                onChange={ ( value ) => setAttributes( { paddingRight: value } ) }
-                                min={ 0 }
-                                max={ 100 }
-                            />
-                            <RangeControl
-                                label={ __( 'Padding bottom' ) }
-                                value={ paddingBottom || '' }
-                                onChange={ ( value ) => setAttributes( { paddingBottom: value } ) }
-                                min={ 0 }
-                                max={ 100 }
-                            />
-                            <RangeControl
-                                label={ __( 'Padding left' ) }
-                                value={ paddingLeft || '' }
-                                onChange={ ( value ) => setAttributes( { paddingLeft: value } ) }
-                                min={ 0 }
-                                max={ 100 }
-                            />
-                        </PanelBody>
-                        <PanelBody title={ __( 'Hover' ) } initialOpen={ false } >
-                            <PanelColorSettings
-                                title={ __( 'Color Settings' ) }
-                                initialOpen={ false }
-                                colorSettings={ [
-                                    {
-                                        label: __( 'Background Color' ),
-                                        value: hoverBgColor,
-                                        onChange: ( value ) => setAttributes( { hoverBgColor: value === undefined ? '#2196f3' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Text Color' ),
-                                        value: hoverTextColor,
-                                        onChange: ( value ) => setAttributes( { hoverTextColor: value === undefined ? '#fff' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Shadow Color' ),
-                                        value: hoverShadowColor,
-                                        onChange: ( value ) => setAttributes( { hoverShadowColor: value === undefined ? '#ccc' : value } ),
-                                    },
-                                ] }
-                            />
-                            <PanelBody title={ __( 'Shadow' ) } initialOpen={ false }  >
-                                <RangeControl
-                                    label={ __( 'Shadow H offset' ) }
-                                    value={ hoverShadowH || '' }
-                                    onChange={ ( value ) => setAttributes( { hoverShadowH: value } ) }
-                                    min={ -50 }
-                                    max={ 50 }
+                        <PanelBody title={ __( 'Button Settings' ) }>
+                            <PanelBody title={ __( 'Button link' ) }>
+                                <TextControl
+                                    label={ [
+                                        __( 'Link URL' ),
+                                        (url && <a href={ url || '#' } key="link_url" target="_blank" style={ { float: 'right' } }>
+                                            { __( 'Preview' ) }
+                                        </a>)
+                                    ] }
+                                    value={ url || '' }
+                                    placeholder={ __( 'Enter URL…' ) }
+                                    onChange={ ( text ) => setAttributes( { url: text } ) }
                                 />
-                                <RangeControl
-                                    label={ __( 'Shadow V offset' ) }
-                                    value={ hoverShadowV || '' }
-                                    onChange={ ( value ) => setAttributes( { hoverShadowV: value } ) }
-                                    min={ -50 }
-                                    max={ 50 }
-                                />
-                                <RangeControl
-                                    label={ __( 'Shadow blur' ) }
-                                    value={ hoverShadowBlur || '' }
-                                    onChange={ ( value ) => setAttributes( { hoverShadowBlur: value } ) }
-                                    min={ 0 }
-                                    max={ 50 }
-                                />
-                                <RangeControl
-                                    label={ __( 'Shadow spread' ) }
-                                    value={ hoverShadowSpread || '' }
-                                    onChange={ ( value ) => setAttributes( { hoverShadowSpread: value } ) }
-                                    min={ 0 }
-                                    max={ 50 }
+                                <ToggleControl
+                                    label={ __( 'Open in new tab' ) }
+                                    checked={ !!urlOpenNewTab }
+                                    onChange={ () => setAttributes( { urlOpenNewTab: !attributes.urlOpenNewTab } ) }
                                 />
                             </PanelBody>
-                            <RangeControl
-                                label={ __('Transition speed') }
-                                value={ transitionSpeed || '' }
-                                onChange={ ( value ) => setAttributes( { transitionSpeed: value } ) }
-                                min={ 0 }
-                                max={ 3 }
-                            />
+                            <PanelBody title={ __( 'Text/Color' ) }>
+                                <RangeControl
+                                    label={ __( 'Text size' ) }
+                                    value={ textSize || '' }
+                                    onChange={ ( size ) => setAttributes( { textSize: size } ) }
+                                    min={ 10 }
+                                    max={ 100 }
+                                    beforeIcon="editor-textcolor"
+                                    allowReset
+                                />
+                                <PanelColorSettings
+                                    title={ __( 'Color Settings' ) }
+                                    initialOpen={ false }
+                                    colorSettings={ [
+                                        {
+                                            label: __( 'Background Color' ),
+                                            value: bgColor,
+                                            onChange: ( value ) => setAttributes( { bgColor: value === undefined ? '#2196f3' : value } ),
+                                        },
+                                        {
+                                            label: __( 'Text Color' ),
+                                            value: textColor,
+                                            onChange: ( value ) => setAttributes( { textColor: value === undefined ? '#fff' : value } ),
+                                        },
+                                    ] }
+                                />
+                            </PanelBody>
+                            <PanelBody title={ __( 'Button Icon' ) }>
+                                <SelectControl
+                                    label={ __( 'Icon Library' ) }
+                                    value={ buttonIconType }
+                                    onChange={ (value) => setAttributes( { buttonIconType: value } ) }
+                                    options={ [
+                                        { label: __( 'No Icon' ), value: '' },
+                                        { label: __( 'Material Icon' ), value: 'material' },
+                                        { label: __( 'Font Awesome' ), value: 'fawesome' },
+                                    ] }
+                                />
+                                {!!buttonIconType && (
+                                    buttonIconType === 'fawesome' ?
+                                        <p>{ __( 'This library will be added soon ;)' ) }</p>
+                                        :
+                                        <Fragment>
+                                            <TextControl
+                                                placeholder={ __( 'Search icons (at least 3 characters)' ) }
+                                                value={ searchedText }
+                                                onChange={ (value) => this.setState( { searchedText: value } ) }
+                                            />
+                                            {searchedText.trim().length > 2 && !!advgbBlocks.iconList[buttonIconType] && (
+                                                <div className="advgb-icon-items-wrapper button-icons-list" style={ {maxHeight: 300, overflow: 'auto'} }>
+                                                    {Object.keys(advgbBlocks.iconList[buttonIconType])
+                                                        .filter((icon) => icon.indexOf(searchedText.trim().split(' ').join('_')) > -1)
+                                                        .map( (icon, index) => {
+                                                            const iconName = icon.replace(/_/g, '-');
+                                                            const iconClass = [
+                                                                buttonIconType === 'material' && 'mi mi-',
+                                                                icon.replace(/_/g, '-'),
+                                                            ].filter( Boolean ).join('');
+
+                                                            return (
+                                                                <div className="advgb-icon-item" key={ index }>
+                                                                    <span onClick={ () => setAttributes( { buttonIcon: iconName } ) }
+                                                                          className={ iconName === buttonIcon && 'active' }
+                                                                          title={ iconClass.split(' ').pop() }
+                                                                    >
+                                                                        <i className={ iconClass } />
+                                                                    </span>
+                                                                </div>
+                                                            )
+                                                    } ) }
+                                                </div>
+                                            ) }
+                                        </Fragment>
+                                ) }
+                            </PanelBody>
+                            <PanelBody title={ __( 'Border' ) } initialOpen={ false } >
+                                <RangeControl
+                                    label={ __( 'Border radius' ) }
+                                    value={ borderRadius || '' }
+                                    onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
+                                    min={ 0 }
+                                    max={ 100 }
+                                />
+                                <SelectControl
+                                    label={ __( 'Border style' ) }
+                                    value={ borderStyle }
+                                    options={ listBorderStyles }
+                                    onChange={ ( value ) => setAttributes( { borderStyle: value } ) }
+                                />
+                                {borderStyle !== 'none' && (
+                                    <Fragment>
+                                        <PanelColorSettings
+                                            title={ __( 'Border Color' ) }
+                                            initialOpen={ false }
+                                            colorSettings={ [
+                                                {
+                                                    label: __( 'Border Color' ),
+                                                    value: borderColor,
+                                                    onChange: ( value ) => setAttributes( { borderColor: value === undefined ? '#2196f3' : value } ),
+                                                },
+                                            ] }
+                                        />
+                                        <RangeControl
+                                            label={ __( 'Border width' ) }
+                                            value={ borderWidth || '' }
+                                            onChange={ ( value ) => setAttributes( { borderWidth: value } ) }
+                                            min={ 0 }
+                                            max={ 100 }
+                                        />
+                                    </Fragment>
+                                ) }
+                            </PanelBody>
+                            <PanelBody title={ __( 'Padding' ) } initialOpen={ false } >
+                                <RangeControl
+                                    label={ __( 'Padding top' ) }
+                                    value={ paddingTop || '' }
+                                    onChange={ ( value ) => setAttributes( { paddingTop: value } ) }
+                                    min={ 0 }
+                                    max={ 100 }
+                                />
+                                <RangeControl
+                                    label={ __( 'Padding right' ) }
+                                    value={ paddingRight || '' }
+                                    onChange={ ( value ) => setAttributes( { paddingRight: value } ) }
+                                    min={ 0 }
+                                    max={ 100 }
+                                />
+                                <RangeControl
+                                    label={ __( 'Padding bottom' ) }
+                                    value={ paddingBottom || '' }
+                                    onChange={ ( value ) => setAttributes( { paddingBottom: value } ) }
+                                    min={ 0 }
+                                    max={ 100 }
+                                />
+                                <RangeControl
+                                    label={ __( 'Padding left' ) }
+                                    value={ paddingLeft || '' }
+                                    onChange={ ( value ) => setAttributes( { paddingLeft: value } ) }
+                                    min={ 0 }
+                                    max={ 100 }
+                                />
+                            </PanelBody>
+                            <PanelBody title={ __( 'Hover' ) } initialOpen={ false } >
+                                <PanelColorSettings
+                                    title={ __( 'Color Settings' ) }
+                                    initialOpen={ false }
+                                    colorSettings={ [
+                                        {
+                                            label: __( 'Background Color' ),
+                                            value: hoverBgColor,
+                                            onChange: ( value ) => setAttributes( { hoverBgColor: value === undefined ? '#2196f3' : value } ),
+                                        },
+                                        {
+                                            label: __( 'Text Color' ),
+                                            value: hoverTextColor,
+                                            onChange: ( value ) => setAttributes( { hoverTextColor: value === undefined ? '#fff' : value } ),
+                                        },
+                                        {
+                                            label: __( 'Shadow Color' ),
+                                            value: hoverShadowColor,
+                                            onChange: ( value ) => setAttributes( { hoverShadowColor: value === undefined ? '#ccc' : value } ),
+                                        },
+                                    ] }
+                                />
+                                <PanelBody title={ __( 'Shadow' ) } initialOpen={ false }  >
+                                    <RangeControl
+                                        label={ __( 'Shadow H offset' ) }
+                                        value={ hoverShadowH || '' }
+                                        onChange={ ( value ) => setAttributes( { hoverShadowH: value } ) }
+                                        min={ -50 }
+                                        max={ 50 }
+                                    />
+                                    <RangeControl
+                                        label={ __( 'Shadow V offset' ) }
+                                        value={ hoverShadowV || '' }
+                                        onChange={ ( value ) => setAttributes( { hoverShadowV: value } ) }
+                                        min={ -50 }
+                                        max={ 50 }
+                                    />
+                                    <RangeControl
+                                        label={ __( 'Shadow blur' ) }
+                                        value={ hoverShadowBlur || '' }
+                                        onChange={ ( value ) => setAttributes( { hoverShadowBlur: value } ) }
+                                        min={ 0 }
+                                        max={ 50 }
+                                    />
+                                    <RangeControl
+                                        label={ __( 'Shadow spread' ) }
+                                        value={ hoverShadowSpread || '' }
+                                        onChange={ ( value ) => setAttributes( { hoverShadowSpread: value } ) }
+                                        min={ 0 }
+                                        max={ 50 }
+                                    />
+                                </PanelBody>
+                                <RangeControl
+                                    label={ __('Transition speed') }
+                                    value={ transitionSpeed || '' }
+                                    onChange={ ( value ) => setAttributes( { transitionSpeed: value } ) }
+                                    min={ 0 }
+                                    max={ 3 }
+                                />
+                            </PanelBody>
                         </PanelBody>
                     </InspectorControls>
                 </Fragment>
@@ -331,6 +386,13 @@
         text: {
             source: 'children',
             selector: 'a',
+        },
+        buttonIconType: {
+            type: 'string',
+            default: '',
+        },
+        buttonIcon: {
+            type: 'string',
         },
         bgColor: {
             type: 'string',

@@ -347,6 +347,7 @@ float: left;'
         wp_enqueue_script('slick_js');
 
         // Include needed CSS styles
+        wp_enqueue_style('material_icon_font');
         wp_enqueue_style('slick_style');
         wp_enqueue_style('slick_theme_style');
 
