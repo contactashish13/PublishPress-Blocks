@@ -11089,7 +11089,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         MediaUpload = wpEditor.MediaUpload;
     var RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
-        TextControl = wpComponents.TextControl,
+        BaseControl = wpComponents.BaseControl,
         PanelBody = wpComponents.PanelBody,
         Tooltip = wpComponents.Tooltip,
         Button = wpComponents.Button;
@@ -11313,18 +11313,72 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             sliderView && React.createElement(
                                 PanelBody,
                                 { title: __('Custom Prev/Next Arrow'), initialOpen: false },
-                                React.createElement(TextControl, {
-                                    label: __('Prev Arrow HTML'),
-                                    value: prevArrow,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ prevArrow: value });
+                                React.createElement(MediaUpload, {
+                                    allowedTypes: ["image"],
+                                    onSelect: function onSelect(media) {
+                                        return setAttributes({ prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
+                                    },
+                                    value: null,
+                                    render: function render(_ref) {
+                                        var open = _ref.open;
+                                        return React.createElement(
+                                            BaseControl,
+                                            { label: [__('Prev Arrow'), prevArrow && React.createElement(
+                                                    'a',
+                                                    { key: 'marker-icon-remove',
+                                                        style: { marginLeft: '10px', cursor: 'pointer' },
+                                                        onClick: function onClick() {
+                                                            return setAttributes({ prevArrow: undefined });
+                                                        }
+                                                    },
+                                                    __('Remove')
+                                                )]
+                                            },
+                                            React.createElement(
+                                                Button,
+                                                { className: 'button button-large',
+                                                    onClick: open
+                                                },
+                                                __('Choose icon')
+                                            ),
+                                            !!prevArrow && React.createElement('img', { style: { maxHeight: '30px', marginLeft: '10px' },
+                                                src: prevArrow,
+                                                alt: __('Prev Arrow') })
+                                        );
                                     }
                                 }),
-                                React.createElement(TextControl, {
-                                    label: __('Next Arrow HTML'),
-                                    value: nextArrow,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ nextArrow: value });
+                                React.createElement(MediaUpload, {
+                                    allowedTypes: ["image"],
+                                    onSelect: function onSelect(media) {
+                                        return setAttributes({ nextArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
+                                    },
+                                    value: null,
+                                    render: function render(_ref2) {
+                                        var open = _ref2.open;
+                                        return React.createElement(
+                                            BaseControl,
+                                            { label: [__('Next Arrow'), nextArrow && React.createElement(
+                                                    'a',
+                                                    { key: 'marker-icon-remove',
+                                                        style: { marginLeft: '10px', cursor: 'pointer' },
+                                                        onClick: function onClick() {
+                                                            return setAttributes({ nextArrow: undefined });
+                                                        }
+                                                    },
+                                                    __('Remove')
+                                                )]
+                                            },
+                                            React.createElement(
+                                                Button,
+                                                { className: 'button button-large',
+                                                    onClick: open
+                                                },
+                                                __('Choose icon')
+                                            ),
+                                            !!nextArrow && React.createElement('img', { style: { maxHeight: '30px', marginLeft: '10px' },
+                                                src: nextArrow,
+                                                alt: __('Prev Arrow') })
+                                        );
                                     }
                                 }),
                                 React.createElement(
@@ -11440,8 +11494,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         });
                                     },
                                     value: item.avatarID,
-                                    render: function render(_ref) {
-                                        var open = _ref.open;
+                                    render: function render(_ref3) {
+                                        var open = _ref3.open;
                                         return React.createElement(
                                             'div',
                                             { className: 'advgb-testimonial-avatar-group' },
@@ -11525,8 +11579,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         return AdvTestimonial;
     }(Component);
 
-    function AdvTestimonialSave(_ref2) {
-        var attributes = _ref2.attributes;
+    function AdvTestimonialSave(_ref4) {
+        var attributes = _ref4.attributes;
         var avatarUrl = attributes.avatarUrl,
             avatarUrl2 = attributes.avatarUrl2,
             avatarUrl3 = attributes.avatarUrl3,
@@ -11834,8 +11888,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }),
         edit: AdvTestimonial,
-        save: function save(_ref3) {
-            var attributes = _ref3.attributes;
+        save: function save(_ref5) {
+            var attributes = _ref5.attributes;
             var items = attributes.items,
                 sliderView = attributes.sliderView,
                 avatarColor = attributes.avatarColor,

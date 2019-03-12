@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, RichText, PanelColorSettings, MediaUpload } = wpEditor;
-    const { RangeControl, ToggleControl, TextControl, PanelBody, Tooltip, Button } = wpComponents;
+    const { RangeControl, ToggleControl, BaseControl, PanelBody, Tooltip, Button } = wpComponents;
     const { times } = lodash;
 
     class AdvTestimonial extends Component {
@@ -177,15 +177,65 @@
                             />
                             {sliderView && (
                                 <PanelBody title={ __( 'Custom Prev/Next Arrow' ) } initialOpen={ false }>
-                                    <TextControl
-                                        label={ __( 'Prev Arrow HTML' ) }
-                                        value={ prevArrow }
-                                        onChange={ (value) => setAttributes( { prevArrow: value } ) }
+                                    <MediaUpload
+                                        allowedTypes={ ["image"] }
+                                        onSelect={ (media) => setAttributes( { prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url } ) }
+                                        value={ null }
+                                        render={ ( { open } ) => (
+                                            <BaseControl label={ [
+                                                __( 'Prev Arrow' ),
+                                                prevArrow && (
+                                                    <a key="marker-icon-remove"
+                                                       style={ { marginLeft: '10px', cursor: 'pointer' } }
+                                                       onClick={ () => setAttributes( { prevArrow: undefined } ) }
+                                                    >
+                                                        { __( 'Remove' ) }
+                                                    </a>
+                                                )
+                                            ] }
+                                            >
+                                                <Button className="button button-large"
+                                                        onClick={ open }
+                                                >
+                                                    { __( 'Choose icon' ) }
+                                                </Button>
+                                                {!!prevArrow &&
+                                                <img style={ { maxHeight: '30px', marginLeft: '10px' } }
+                                                     src={ prevArrow }
+                                                     alt={ __( 'Prev Arrow' ) }/>
+                                                }
+                                            </BaseControl>
+                                        ) }
                                     />
-                                    <TextControl
-                                        label={ __( 'Next Arrow HTML' ) }
-                                        value={ nextArrow }
-                                        onChange={ (value) => setAttributes( { nextArrow: value } ) }
+                                    <MediaUpload
+                                        allowedTypes={ ["image"] }
+                                        onSelect={ (media) => setAttributes( { nextArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url } ) }
+                                        value={ null }
+                                        render={ ( { open } ) => (
+                                            <BaseControl label={ [
+                                                __( 'Next Arrow' ),
+                                                nextArrow && (
+                                                    <a key="marker-icon-remove"
+                                                       style={ { marginLeft: '10px', cursor: 'pointer' } }
+                                                       onClick={ () => setAttributes( { nextArrow: undefined } ) }
+                                                    >
+                                                        { __( 'Remove' ) }
+                                                    </a>
+                                                )
+                                            ] }
+                                            >
+                                                <Button className="button button-large"
+                                                        onClick={ open }
+                                                >
+                                                    { __( 'Choose icon' ) }
+                                                </Button>
+                                                {!!nextArrow &&
+                                                <img style={ { maxHeight: '30px', marginLeft: '10px' } }
+                                                     src={ nextArrow }
+                                                     alt={ __( 'Prev Arrow' ) }/>
+                                                }
+                                            </BaseControl>
+                                        ) }
                                     />
                                     <Button isPrimary={ true } onClick={ () => this.setState( { refresh: !refresh } ) }>
                                         { __( 'Apply' ) }
