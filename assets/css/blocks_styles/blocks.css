@@ -776,6 +776,7 @@ button.advgb-testimonial-preview {
 
 .advgb-arrow:hover {
     opacity: 1;
+    background-color: transparent;
 }
 
 .advgb-arrow.slick-arrow img, .advgb-arrow.slick-arrow svg {

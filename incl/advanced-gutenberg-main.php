@@ -3276,10 +3276,10 @@ float: left;'
             wp_enqueue_script('slick_js');
             wp_add_inline_script('slick_js', 'jQuery(document).ready(function($){
                 $(".advgb-testimonial.slider-view:not(.slick-initialized):not(.avatar-bottom)").each(function(){
-                    var prevArrow = decodeURIComponent($(this).data("prev-arrow"));
-                    var nextArrow = decodeURIComponent($(this).data("next-arrow"));
-                    prevArrow = prevArrow != "undefined" ? prevArrow : undefined;
-                    nextArrow = nextArrow != "undefined" ? nextArrow : undefined;
+                    var prevArrow = $(this).data("prev-arrow");
+                    var nextArrow = $(this).data("next-arrow");
+                    prevArrow = prevArrow != "undefined" ? \'<button class="advgb-arrow advgb-prev"><img src="\'+prevArrow+\'" alt="Next" /></button>\' : undefined;
+                    nextArrow = nextArrow != "undefined" ? \'<button class="advgb-arrow advgb-next"><img src="\'+nextArrow+\'" alt="Next" /></button>\' : undefined;
                     $(this).slick({
                         infinite: true,
                         centerMode: true,
@@ -3293,10 +3293,10 @@ float: left;'
                     })
                 })
                 $(".advgb-testimonial.slider-view.avatar-bottom:not(.slick-initialized)").each(function(){
-                    var prevArrow = decodeURIComponent($(this).data("prev-arrow"));
-                    var nextArrow = decodeURIComponent($(this).data("next-arrow"));
-                    prevArrow = prevArrow != "undefined" ? prevArrow : undefined;
-                    nextArrow = nextArrow != "undefined" ? nextArrow : undefined;
+                    var prevArrow = $(this).data("prev-arrow");
+                    var nextArrow = $(this).data("next-arrow");
+                    pprevArrow = prevArrow != "undefined" ? \'<button class="advgb-arrow advgb-prev"><img src="\'+prevArrow+\'" alt="Next" /></button>\' : undefined;
+                    nextArrow = nextArrow != "undefined" ? \'<button class="advgb-arrow advgb-next"><img src="\'+nextArrow+\'" alt="Next" /></button>\' : undefined;
                     $(this).slick({
                         slidesToShow: 1,
                         prevArrow: prevArrow,
