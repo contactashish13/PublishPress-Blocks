@@ -11923,8 +11923,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             return React.createElement(
                 'div',
                 { className: blockClass,
-                    'data-prev-arrow': prevArrow ? encodeURIComponent(prevArrow) : undefined,
-                    'data-next-arrow': nextArrow ? encodeURIComponent(nextArrow) : undefined
+                    'data-prev-arrow': prevArrow ? prevArrow : undefined,
+                    'data-next-arrow': nextArrow ? nextArrow : undefined
                 },
                 items.map(function (item, idx) {
                     i++;
