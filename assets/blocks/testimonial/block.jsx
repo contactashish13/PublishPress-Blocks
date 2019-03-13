@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, RichText, PanelColorSettings, MediaUpload } = wpEditor;
-    const { RangeControl, ToggleControl, TextControl, PanelBody, Tooltip, Button } = wpComponents;
+    const { RangeControl, ToggleControl, BaseControl, PanelBody, Tooltip, Button } = wpComponents;
     const { times } = lodash;
 
     class AdvTestimonial extends Component {
@@ -47,8 +47,8 @@
                     centerMode: !avatarBottom,
                     centerPadding: '40px',
                     slidesToShow: num,
-                    nextArrow: !!nextArrow ? nextArrow : undefined, //<div class="slick-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
-                    prevArrow: !!prevArrow ? prevArrow : undefined, //<div class="slick-prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></div>
+                    nextArrow: !!nextArrow ? `<button class="advgb-arrow advgb-next"><img src="${nextArrow}" alt="Next" /></button>` : undefined, //<div class="slick-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
+                    prevArrow: !!prevArrow ? `<button class="advgb-arrow advgb-prev"><img src="${prevArrow}" alt="Prev" /></button>` : undefined, //<div class="slick-prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></div>
                 });
             }
         }
@@ -90,8 +90,8 @@
                         centerMode: !avatarBottom,
                         centerPadding: '40px',
                         slidesToShow: num,
-                        nextArrow: !!nextArrow ? nextArrow : undefined,
-                        prevArrow: !!prevArrow ? prevArrow : undefined,
+                        nextArrow: !!nextArrow ? `<button class="advgb-arrow advgb-next"><img src="${nextArrow}" alt="Next" /></button>` : undefined,
+                        prevArrow: !!prevArrow ? `<button class="advgb-arrow advgb-prev"><img src="${prevArrow}" alt="Prev" /></button>` : undefined,
                     });
                 }
             }
@@ -179,15 +179,65 @@
                             />
                             {sliderView && (
                                 <PanelBody title={ __( 'Custom Prev/Next Arrow' ) } initialOpen={ false }>
-                                    <TextControl
-                                        label={ __( 'Prev Arrow HTML' ) }
-                                        value={ prevArrow }
-                                        onChange={ (value) => setAttributes( { prevArrow: value } ) }
+                                    <MediaUpload
+                                        allowedTypes={ ["image"] }
+                                        onSelect={ (media) => setAttributes( { prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url } ) }
+                                        value={ null }
+                                        render={ ( { open } ) => (
+                                            <BaseControl label={ [
+                                                __( 'Prev Arrow' ),
+                                                prevArrow && (
+                                                    <a key="marker-icon-remove"
+                                                       style={ { marginLeft: '10px', cursor: 'pointer' } }
+                                                       onClick={ () => setAttributes( { prevArrow: undefined } ) }
+                                                    >
+                                                        { __( 'Remove' ) }
+                                                    </a>
+                                                )
+                                            ] }
+                                            >
+                                                <Button className="button button-large"
+                                                        onClick={ open }
+                                                >
+                                                    { __( 'Choose icon' ) }
+                                                </Button>
+                                                {!!prevArrow &&
+                                                <img style={ { maxHeight: '30px', marginLeft: '10px' } }
+                                                     src={ prevArrow }
+                                                     alt={ __( 'Prev Arrow' ) }/>
+                                                }
+                                            </BaseControl>
+                                        ) }
                                     />
-                                    <TextControl
-                                        label={ __( 'Next Arrow HTML' ) }
-                                        value={ nextArrow }
-                                        onChange={ (value) => setAttributes( { nextArrow: value } ) }
+                                    <MediaUpload
+                                        allowedTypes={ ["image"] }
+                                        onSelect={ (media) => setAttributes( { nextArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url } ) }
+                                        value={ null }
+                                        render={ ( { open } ) => (
+                                            <BaseControl label={ [
+                                                __( 'Next Arrow' ),
+                                                nextArrow && (
+                                                    <a key="marker-icon-remove"
+                                                       style={ { marginLeft: '10px', cursor: 'pointer' } }
+                                                       onClick={ () => setAttributes( { nextArrow: undefined } ) }
+                                                    >
+                                                        { __( 'Remove' ) }
+                                                    </a>
+                                                )
+                                            ] }
+                                            >
+                                                <Button className="button button-large"
+                                                        onClick={ open }
+                                                >
+                                                    { __( 'Choose icon' ) }
+                                                </Button>
+                                                {!!nextArrow &&
+                                                <img style={ { maxHeight: '30px', marginLeft: '10px' } }
+                                                     src={ nextArrow }
+                                                     alt={ __( 'Prev Arrow' ) }/>
+                                                }
+                                            </BaseControl>
+                                        ) }
                                     />
                                     <Button isPrimary={ true } onClick={ () => this.setState( { refresh: !refresh } ) }>
                                         { __( 'Apply' ) }
@@ -663,8 +713,8 @@
 
             return (
                 <div className={ blockClass }
-                     data-prev-arrow={ prevArrow ? encodeURIComponent(prevArrow) : undefined }
-                     data-next-arrow={ nextArrow ? encodeURIComponent(nextArrow) : undefined }
+                     data-prev-arrow={ prevArrow ? prevArrow : undefined }
+                     data-next-arrow={ nextArrow ? nextArrow : undefined }
                 >
                     {items.map( (item, idx) => {
                         i++;
