@@ -1234,21 +1234,46 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 url = attributes.url,
                 urlOpenNewTab = attributes.urlOpenNewTab,
                 title = attributes.title,
-                text = attributes.text;
+                text = attributes.text,
+                paddingTop = attributes.paddingTop,
+                paddingRight = attributes.paddingRight,
+                paddingBottom = attributes.paddingBottom,
+                paddingLeft = attributes.paddingLeft,
+                borderRadius = attributes.borderRadius,
+                buttonIconType = attributes.buttonIconType,
+                buttonIcon = attributes.buttonIcon,
+                buttonIconColor = attributes.buttonIconColor,
+                buttonIconBgColor = attributes.buttonIconBgColor,
+                buttonIconBorderColor = attributes.buttonIconBorderColor,
+                buttonAfter = attributes.buttonAfter;
 
+            var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
+            var iconStyle = {
+                marginTop: -paddingTop,
+                marginBottom: -paddingBottom,
+                marginRight: !buttonAfter ? 5 : -paddingRight,
+                marginLeft: buttonAfter ? 5 : -paddingLeft,
+                borderRadius: borderRadius,
+                color: buttonIconColor,
+                backgroundColor: buttonIconBgColor,
+                borderColor: buttonIconBorderColor
+            };
 
             return React.createElement(
                 'div',
                 { className: 'align' + align },
-                React.createElement(RichText.Content, {
-                    tagName: 'a',
-                    className: 'wp-block-advgb-button_link ' + id,
-                    href: url || '#',
-                    title: title,
-                    target: !urlOpenNewTab ? '_self' : '_blank',
-                    value: text,
-                    rel: 'noopener noreferrer'
-                })
+                React.createElement(
+                    'a',
+                    { href: url || '#',
+                        className: 'wp-block-advgb-button_link ' + id,
+                        title: title,
+                        target: !urlOpenNewTab ? '_self' : '_blank',
+                        rel: 'noopener noreferrer'
+                    },
+                    !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
+                    text,
+                    !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
+                )
             );
         },
         getEditWrapperProps: function getEditWrapperProps(attributes) {

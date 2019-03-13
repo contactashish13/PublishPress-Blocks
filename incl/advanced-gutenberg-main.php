@@ -1404,6 +1404,10 @@ float: left;'
             'slick_theme_style',
             plugins_url('assets/css/slick-theme.css', dirname(__FILE__))
         );
+        wp_register_style(
+            'material_icon_font',
+            plugins_url('assets/css/fonts/material-icons.min.css', dirname(__FILE__))
+        );
 
         wp_register_script(
             'colorbox_js',
@@ -3353,6 +3357,8 @@ float: left;'
                                 $style_html .= '}';
                             }
                         } elseif ($matches[2][$key] === 'button') {
+                            wp_enqueue_style('material_icon_font');
+
                             $block_class    = $style_data_array['id'];
                             $font_size      = isset($style_data_array['textSize']) ? intval($style_data_array['textSize']) : 18;
                             $color          = isset($style_data_array['textColor']) ? $style_data_array['textColor'] : '#fff';

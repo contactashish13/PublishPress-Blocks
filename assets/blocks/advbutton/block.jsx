@@ -591,19 +591,49 @@
                 urlOpenNewTab,
                 title,
                 text,
+                paddingTop,
+                paddingRight,
+                paddingBottom,
+                paddingLeft,
+                borderRadius,
+                buttonIconType,
+                buttonIcon,
+                buttonIconColor,
+                buttonIconBgColor,
+                buttonIconBorderColor,
+                buttonAfter,
             } = attributes;
+            const iconClass = [
+                buttonIconType === 'material' && 'mi mi-',
+                buttonIcon,
+            ].filter( Boolean ).join('');
+            const iconStyle = {
+                marginTop: -paddingTop,
+                marginBottom: -paddingBottom,
+                marginRight: !buttonAfter ? 5 : -paddingRight,
+                marginLeft: buttonAfter ? 5 : -paddingLeft,
+                borderRadius: borderRadius,
+                color: buttonIconColor,
+                backgroundColor: buttonIconBgColor,
+                borderColor: buttonIconBorderColor,
+            };
 
             return (
                 <div className={ `align${align}` }>
-                    <RichText.Content
-                        tagName="a"
-                        className={ `wp-block-advgb-button_link ${id}` }
-                        href={ url || '#' }
-                        title={ title }
-                        target={ !urlOpenNewTab ? '_self' : '_blank' }
-                        value={ text }
-                        rel="noopener noreferrer"
-                    />
+                    <a href={ url || '#' }
+                       className={ `wp-block-advgb-button_link ${id}` }
+                       title={ title }
+                       target={ !urlOpenNewTab ? '_self' : '_blank' }
+                       rel="noopener noreferrer"
+                    >
+                        {!!buttonIconType && !!buttonIcon && !buttonAfter && (
+                            <i className={ iconClass } style={ iconStyle } />
+                        ) }
+                        {text}
+                        {!!buttonIconType && !!buttonIcon && buttonAfter && (
+                            <i className={ iconClass } style={ iconStyle } />
+                        ) }
+                    </a>
                 </div>
             );
         },
