@@ -3295,7 +3295,7 @@ float: left;'
                 $(".advgb-testimonial.slider-view.avatar-bottom:not(.slick-initialized)").each(function(){
                     var prevArrow = $(this).data("prev-arrow");
                     var nextArrow = $(this).data("next-arrow");
-                    pprevArrow = prevArrow != "undefined" ? \'<button class="advgb-arrow advgb-prev"><img src="\'+prevArrow+\'" alt="Next" /></button>\' : undefined;
+                    prevArrow = prevArrow != "undefined" ? \'<button class="advgb-arrow advgb-prev"><img src="\'+prevArrow+\'" alt="Next" /></button>\' : undefined;
                     nextArrow = nextArrow != "undefined" ? \'<button class="advgb-arrow advgb-next"><img src="\'+nextArrow+\'" alt="Next" /></button>\' : undefined;
                     $(this).slick({
                         slidesToShow: 1,
