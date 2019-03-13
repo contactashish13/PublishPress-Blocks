@@ -755,6 +755,41 @@ button.advgb-testimonial-preview {
     transform: scale(1.3);
 }
 
+.advgb-arrow {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    z-index: 9;
+    padding: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: transparent;
+    border: none;
+    outline: none;
+    background: transparent;
+    opacity: 0.7;
+}
+
+.advgb-arrow:hover {
+    opacity: 1;
+}
+
+.advgb-arrow.slick-arrow img, .advgb-arrow.slick-arrow svg {
+    height: 30px;
+}
+
+.advgb-prev {
+    left: 0;
+}
+
+.advgb-next {
+    right: 0;
+}
+
 /*Separator styles*/
 hr.wp-block-separator {
     background-color: transparent;
