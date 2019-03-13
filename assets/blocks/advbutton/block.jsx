@@ -89,8 +89,20 @@
                 transitionSpeed,
                 buttonIconType,
                 buttonIcon,
+                buttonAfter,
             } = attributes;
             const { searchedText } = this.state;
+            const iconClass = [
+                buttonIconType === 'material' && 'mi mi-',
+                buttonIcon,
+            ].filter( Boolean ).join('');
+            const iconStyle = {
+                marginTop: -paddingTop,
+                marginBottom: -paddingBottom,
+                marginRight: !buttonAfter ? 5 : -paddingRight,
+                marginLeft: buttonAfter ? 5 : -paddingLeft,
+                borderRadius: borderRadius,
+            };
 
             return (
                 <Fragment>
@@ -105,16 +117,21 @@
                             />
                         </Toolbar>
                     </BlockControls>
-                    <span style={ { display: 'inline-block' } } >
+                    <span className={ `wp-block-advgb-button_link ${id}` }>
+                        {!!buttonIconType && !!buttonIcon && !buttonAfter && (
+                            <i className={ iconClass } style={ iconStyle } />
+                        ) }
                         <RichText
                             placeholder={ __( 'Add text…' ) }
                             value={ text }
                             onChange={ ( value ) => setAttributes( { text: value } ) }
                             formattingControls={ [ 'bold', 'italic', 'strikethrough' ] }
                             isSelected={ isSelected }
-                            className={ `wp-block-advgb-button_link ${id}` }
                             keepPlaceholderOnFocus
                         />
+                        {!!buttonIconType && !!buttonIcon && buttonAfter && (
+                            <i className={ iconClass } style={ iconStyle } />
+                        ) }
                     </span>
                     <style>
                         {`.${id} {
@@ -182,6 +199,11 @@
                                 />
                             </PanelBody>
                             <PanelBody title={ __( 'Button Icon' ) }>
+                                <ToggleControl
+                                    label={ __( 'Icon show after text' ) }
+                                    value={ buttonAfter }
+                                    onChange={ () => setAttributes( { buttonAfter: !buttonAfter } ) }
+                                />
                                 <SelectControl
                                     label={ __( 'Icon Library' ) }
                                     value={ buttonIconType }
@@ -393,6 +415,10 @@
         },
         buttonIcon: {
             type: 'string',
+        },
+        buttonAfter: {
+            type: 'boolean',
+            default: false,
         },
         bgColor: {
             type: 'string',

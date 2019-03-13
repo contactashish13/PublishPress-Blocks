@@ -687,9 +687,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     hoverShadowSpread = attributes.hoverShadowSpread,
                     transitionSpeed = attributes.transitionSpeed,
                     buttonIconType = attributes.buttonIconType,
-                    buttonIcon = attributes.buttonIcon;
+                    buttonIcon = attributes.buttonIcon,
+                    buttonAfter = attributes.buttonAfter;
                 var searchedText = this.state.searchedText;
 
+                var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
+                var iconStyle = {
+                    marginTop: -paddingTop,
+                    marginBottom: -paddingBottom,
+                    marginRight: !buttonAfter ? 5 : -paddingRight,
+                    marginLeft: buttonAfter ? 5 : -paddingLeft,
+                    borderRadius: borderRadius
+                };
 
                 return React.createElement(
                     Fragment,
@@ -715,7 +724,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     React.createElement(
                         'span',
-                        { style: { display: 'inline-block' } },
+                        { className: 'wp-block-advgb-button_link ' + id },
+                        !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
                         React.createElement(RichText, {
                             placeholder: __('Add text…'),
                             value: text,
@@ -724,9 +734,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             },
                             formattingControls: ['bold', 'italic', 'strikethrough'],
                             isSelected: isSelected,
-                            className: 'wp-block-advgb-button_link ' + id,
                             keepPlaceholderOnFocus: true
-                        })
+                        }),
+                        !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
                     ),
                     React.createElement(
                         'style',
@@ -797,6 +807,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             React.createElement(
                                 PanelBody,
                                 { title: __('Button Icon') },
+                                React.createElement(ToggleControl, {
+                                    label: __('Icon show after text'),
+                                    value: buttonAfter,
+                                    onChange: function onChange() {
+                                        return setAttributes({ buttonAfter: !buttonAfter });
+                                    }
+                                }),
                                 React.createElement(SelectControl, {
                                     label: __('Icon Library'),
                                     value: buttonIconType,
@@ -1046,6 +1063,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         buttonIcon: {
             type: 'string'
+        },
+        buttonAfter: {
+            type: 'boolean',
+            default: false
         },
         bgColor: {
             type: 'string',
