@@ -688,6 +688,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     transitionSpeed = attributes.transitionSpeed,
                     buttonIconType = attributes.buttonIconType,
                     buttonIcon = attributes.buttonIcon,
+                    buttonIconColor = attributes.buttonIconColor,
+                    buttonIconBgColor = attributes.buttonIconBgColor,
+                    buttonIconBorderColor = attributes.buttonIconBorderColor,
                     buttonAfter = attributes.buttonAfter;
                 var searchedText = this.state.searchedText;
 
@@ -697,7 +700,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     marginBottom: -paddingBottom,
                     marginRight: !buttonAfter ? 5 : -paddingRight,
                     marginLeft: buttonAfter ? 5 : -paddingLeft,
-                    borderRadius: borderRadius
+                    borderRadius: borderRadius,
+                    color: buttonIconColor,
+                    backgroundColor: buttonIconBgColor,
+                    borderColor: buttonIconBorderColor
                 };
 
                 return React.createElement(
@@ -809,7 +815,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 { title: __('Button Icon') },
                                 React.createElement(ToggleControl, {
                                     label: __('Icon show after text'),
-                                    value: buttonAfter,
+                                    checked: buttonAfter,
                                     onChange: function onChange() {
                                         return setAttributes({ buttonAfter: !buttonAfter });
                                     }
@@ -861,7 +867,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             );
                                         })
                                     )
-                                ))
+                                )),
+                                buttonIconType && buttonIcon && React.createElement(
+                                    Fragment,
+                                    null,
+                                    React.createElement(PanelColorSettings, {
+                                        title: __('Icon Color Settings'),
+                                        initialOpen: false,
+                                        colorSettings: [{
+                                            label: __('Icon Color'),
+                                            value: buttonIconColor,
+                                            onChange: function onChange(value) {
+                                                return setAttributes({ buttonIconColor: value });
+                                            }
+                                        }, {
+                                            label: __('Background Color'),
+                                            value: buttonIconBgColor,
+                                            onChange: function onChange(value) {
+                                                return setAttributes({ buttonIconBgColor: value });
+                                            }
+                                        }, {
+                                            label: __('Border Color'),
+                                            value: buttonIconBorderColor,
+                                            onChange: function onChange(value) {
+                                                return setAttributes({ buttonIconBorderColor: value });
+                                            }
+                                        }]
+                                    })
+                                )
                             ),
                             React.createElement(
                                 PanelBody,
@@ -1062,6 +1095,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             default: ''
         },
         buttonIcon: {
+            type: 'string'
+        },
+        buttonIconColor: {
+            type: 'string'
+        },
+        buttonIconBgColor: {
+            type: 'string'
+        },
+        buttonIconBorderColor: {
             type: 'string'
         },
         buttonAfter: {

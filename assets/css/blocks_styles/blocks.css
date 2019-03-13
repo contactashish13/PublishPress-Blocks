@@ -125,7 +125,7 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     padding: 10px;
     background-color: #fff;
     font-size: 24px;
-    border: 1px solid #ccc;
+    border: 1px solid transparent;
 }
 
 /*Advanced Image block styles*/

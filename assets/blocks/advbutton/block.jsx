@@ -89,6 +89,9 @@
                 transitionSpeed,
                 buttonIconType,
                 buttonIcon,
+                buttonIconColor,
+                buttonIconBgColor,
+                buttonIconBorderColor,
                 buttonAfter,
             } = attributes;
             const { searchedText } = this.state;
@@ -102,6 +105,9 @@
                 marginRight: !buttonAfter ? 5 : -paddingRight,
                 marginLeft: buttonAfter ? 5 : -paddingLeft,
                 borderRadius: borderRadius,
+                color: buttonIconColor,
+                backgroundColor: buttonIconBgColor,
+                borderColor: buttonIconBorderColor,
             };
 
             return (
@@ -201,7 +207,7 @@
                             <PanelBody title={ __( 'Button Icon' ) }>
                                 <ToggleControl
                                     label={ __( 'Icon show after text' ) }
-                                    value={ buttonAfter }
+                                    checked={ buttonAfter }
                                     onChange={ () => setAttributes( { buttonAfter: !buttonAfter } ) }
                                 />
                                 <SelectControl
@@ -249,6 +255,31 @@
                                                 </div>
                                             ) }
                                         </Fragment>
+                                ) }
+                                {buttonIconType && buttonIcon && (
+                                    <Fragment>
+                                        <PanelColorSettings
+                                            title={ __( 'Icon Color Settings' ) }
+                                            initialOpen={ false }
+                                            colorSettings={ [
+                                                {
+                                                    label: __( 'Icon Color' ),
+                                                    value: buttonIconColor,
+                                                    onChange: ( value ) => setAttributes( { buttonIconColor: value } ),
+                                                },
+                                                {
+                                                    label: __( 'Background Color' ),
+                                                    value: buttonIconBgColor,
+                                                    onChange: ( value ) => setAttributes( { buttonIconBgColor: value } ),
+                                                },
+                                                {
+                                                    label: __( 'Border Color' ),
+                                                    value: buttonIconBorderColor,
+                                                    onChange: ( value ) => setAttributes( { buttonIconBorderColor: value } ),
+                                                },
+                                            ] }
+                                        />
+                                    </Fragment>
                                 ) }
                             </PanelBody>
                             <PanelBody title={ __( 'Border' ) } initialOpen={ false } >
@@ -414,6 +445,15 @@
             default: '',
         },
         buttonIcon: {
+            type: 'string',
+        },
+        buttonIconColor: {
+            type: 'string',
+        },
+        buttonIconBgColor: {
+            type: 'string',
+        },
+        buttonIconBorderColor: {
             type: 'string',
         },
         buttonAfter: {
