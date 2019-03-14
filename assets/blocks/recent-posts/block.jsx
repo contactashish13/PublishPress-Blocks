@@ -155,6 +155,7 @@
                 displayFeaturedImage,
                 displayAuthor,
                 displayDate,
+                displayCategory,
                 displayExcerpt,
                 postTextAsExcerpt,
                 postTextExcerptLength,
@@ -198,6 +199,11 @@
                             label={ __( 'Display Post Date' ) }
                             checked={ displayDate }
                             onChange={ () => setAttributes( { displayDate: !displayDate } ) }
+                        />
+                        <ToggleControl
+                            label={ __( 'Display Category' ) }
+                            checked={ displayCategory }
+                            onChange={ () => setAttributes( { displayCategory: !displayCategory } ) }
                         />
                         <ToggleControl
                             label={ __( 'Display Read More Link' ) }
@@ -319,6 +325,27 @@
                                             <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
                                         </h2>
                                         <div className="advgb-post-info">
+                                            {displayCategory && (
+                                                <div className="advgb-post-categories">
+                                                    {post.categories.length && post.categories.map( (catID, index) => {
+                                                        if (index > 5) return null;
+
+                                                        if (index === 5) {
+                                                            return (
+                                                                <span className="advgb-post-category-more">
+                                                                    +{post.categories.length - index}
+                                                                </span>
+                                                            )
+                                                        }
+
+                                                        const idx = categoriesList.findIndex((cat) => cat.id === catID);
+                                                        let catName = '';
+                                                        if (idx > -1) catName = categoriesList[idx].name;
+
+                                                        return <span className="advgb-post-category">{catName}</span>
+                                                    } ) }
+                                                </div>
+                                            ) }
                                             {displayAuthor && (
                                                 <a href={ post.author_meta.author_link }
                                                    target="_blank"
@@ -328,9 +355,9 @@
                                                 </a>
                                             ) }
                                             {displayDate && (
-                                            <span className="advgb-post-date" >
-                                                { dateI18n( dateFormat, post.date_gmt ) }
-                                            </span>
+                                                <span className="advgb-post-date" >
+                                                    { dateI18n( dateFormat, post.date_gmt ) }
+                                                </span>
                                             ) }
                                         </div>
                                         <div className="advgb-post-content">

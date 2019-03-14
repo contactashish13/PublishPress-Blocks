@@ -239,6 +239,10 @@ function advgbRegisterBlockRecentPosts()
                 'type' => 'boolean',
                 'default' => false,
             ),
+            'displayCategory' => array(
+                'type' => 'boolean',
+                'default' => false,
+            ),
             'displayExcerpt' => array(
                 'type' => 'boolean',
                 'default' => true,
