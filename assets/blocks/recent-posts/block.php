@@ -111,6 +111,25 @@ function advgbRenderBlockRecentPosts($attributes)
 
         $postHtml .= '<div class="advgb-post-info">';
 
+        if (isset($attributes['displayCategory']) && $attributes['displayCategory']) {
+            $postCategories = get_the_category($post->ID);
+            if (count($postCategories)) {
+                $int = 0;
+                $postHtml .= '<div class="advgb-post-categories">';
+                foreach ($postCategories as $postCategory) {
+                    $int++;
+                    if ($int === 6) {
+                        $remainCats = count($postCategories) - $int + 1;
+                        $postHtml .= '<span class="advgb-post-category-more">'.$remainCats.'</span>';
+                        break;
+                    }
+
+                    $postHtml .= '<span class="advgb-post-category">'.$postCategory->name.'</span>';
+                }
+                $postHtml .= '</div>';
+            }
+        }
+
         if (isset($attributes['displayAuthor']) && $attributes['displayAuthor']) {
             $postHtml .= sprintf(
                 '<a href="%1$s" class="advgb-post-author" target="_blank">%2$s</a>',

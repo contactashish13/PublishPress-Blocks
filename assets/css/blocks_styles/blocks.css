@@ -833,6 +833,7 @@ hr.wp-block-separator {
     margin-right: 5px;
     padding: 2px 8px;
     display: inline-block;
+    vertical-align: middle;
 }
 
 .advgb-recent-post .advgb-post-category-more {
