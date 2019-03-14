@@ -875,6 +875,21 @@ hr.wp-block-separator {
     margin-top: 10px;
 }
 
+.advgb-recent-post .advgb-post-category,
+.advgb-recent-post .advgb-post-category-more {
+    color: #fff;
+    background-color: #999;
+    font-size: 16px;
+    margin-right: 5px;
+    padding: 2px 8px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.advgb-recent-post .advgb-post-category-more {
+    background-color: #555;
+}
+
 .advgb-post-wrapper > * {
     margin: 10px 0;
 }

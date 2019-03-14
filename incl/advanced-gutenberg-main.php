@@ -180,7 +180,8 @@ float: left;'
             add_action('wp_ajax_advgb_block_config_save', array($this, 'saveBlockConfig'));
         } else {
             // Front-end
-            add_filter('the_content', array($this, 'addFrontendContentAssets'), 5);
+            add_filter('the_content', array($this, 'contentPreRender'), 5);
+            add_filter('the_content', array($this, 'addFrontendContentAssets'), 9);
         }
     }
 
@@ -3153,7 +3154,28 @@ float: left;'
     }
 
     /**
-     * Function to load assets for post/page on front-end
+     * Function to load assets for post/page on front-end before gutenberg rendering
+     *
+     * @param string $content Post content
+     *
+     * @return string
+     */
+    public function contentPreRender($content)
+    {
+        // Search for Button and List blocks then add styles to it
+        preg_match_all(
+            '/(<!-- wp:advgb\/(list|button)).*?(\/wp:advgb\/(list|button) -->)/mis',
+            $content,
+            $matches
+        );
+
+        $content .= $this->addBlocksStyles($matches);
+
+        return $content;
+    }
+
+    /**
+     * Function to load assets for post/page on front-end after gutenberg rendering
      *
      * @param string $content Post content
      *
@@ -3263,7 +3285,7 @@ float: left;'
             });');
         }
 
-        if (strpos($content, 'wp:advgb/recent-posts') !== false) {
+        if (strpos($content, 'advgb-recent-posts-block slider-view') !== false) {
             wp_enqueue_style('slick_style');
             wp_enqueue_style('slick_theme_style');
             wp_enqueue_script('slick_js');
@@ -3374,15 +3396,6 @@ float: left;'
                 $content
             );
         }
-
-        // Search for Button and List blocks then add styles to it
-        preg_match_all(
-            '/(<!-- wp:advgb\/(list|button)).*?(\/wp:advgb\/(list|button) -->)/mis',
-            $content,
-            $matches
-        );
-
-        $content .= $this->addBlocksStyles($matches);
 
         return $content;
     }

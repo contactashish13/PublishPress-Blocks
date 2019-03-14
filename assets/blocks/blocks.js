@@ -10069,6 +10069,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayFeaturedImage = attributes.displayFeaturedImage,
                     displayAuthor = attributes.displayAuthor,
                     displayDate = attributes.displayDate,
+                    displayCategory = attributes.displayCategory,
                     displayExcerpt = attributes.displayExcerpt,
                     postTextAsExcerpt = attributes.postTextAsExcerpt,
                     postTextExcerptLength = attributes.postTextExcerptLength,
@@ -10127,6 +10128,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             checked: displayDate,
                             onChange: function onChange() {
                                 return setAttributes({ displayDate: !displayDate });
+                            }
+                        }),
+                        React.createElement(ToggleControl, {
+                            label: __('Display Category'),
+                            checked: displayCategory,
+                            onChange: function onChange() {
+                                return setAttributes({ displayCategory: !displayCategory });
                             }
                         }),
                         React.createElement(ToggleControl, {
@@ -10271,6 +10279,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         React.createElement(
                                             "div",
                                             { className: "advgb-post-info" },
+                                            displayCategory && React.createElement(
+                                                "div",
+                                                { className: "advgb-post-categories" },
+                                                post.categories.length && post.categories.map(function (catID, index) {
+                                                    if (index > 5) return null;
+
+                                                    if (index === 5) {
+                                                        return React.createElement(
+                                                            "span",
+                                                            { className: "advgb-post-category-more" },
+                                                            "+",
+                                                            post.categories.length - index
+                                                        );
+                                                    }
+
+                                                    var idx = categoriesList.findIndex(function (cat) {
+                                                        return cat.id === catID;
+                                                    });
+                                                    var catName = '';
+                                                    if (idx > -1) catName = categoriesList[idx].name;
+
+                                                    return React.createElement(
+                                                        "span",
+                                                        { className: "advgb-post-category" },
+                                                        catName
+                                                    );
+                                                })
+                                            ),
                                             displayAuthor && React.createElement(
                                                 "a",
                                                 { href: post.author_meta.author_link,
@@ -12559,7 +12595,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 } else if (columns > 10) {
                     validCols = 10;
                     setAttributes({ columns: 10 });
-                } else {
+                } else if (columns === '' || !columns) {
                     validCols = sliderView ? 4 : 1;
                 }
 
