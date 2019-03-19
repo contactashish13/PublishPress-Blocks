@@ -2124,7 +2124,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string'
         },
         text: {
-            source: 'children',
+            source: 'text',
             selector: 'a'
         },
         buttonIconType: {

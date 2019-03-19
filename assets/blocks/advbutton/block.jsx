@@ -437,7 +437,7 @@
             type: 'string',
         },
         text: {
-            source: 'children',
+            source: 'text',
             selector: 'a',
         },
         buttonIconType: {
@@ -626,11 +626,11 @@
                        target={ !urlOpenNewTab ? '_self' : '_blank' }
                        rel="noopener noreferrer"
                     >
-                        {!!buttonIconType && !!buttonIcon && !buttonAfter && (
+                        {(!!buttonIconType && !!buttonIcon && !buttonAfter) && (
                             <i className={ iconClass } style={ iconStyle } />
                         ) }
                         {text}
-                        {!!buttonIconType && !!buttonIcon && buttonAfter && (
+                        {(!!buttonIconType && !!buttonIcon && buttonAfter) && (
                             <i className={ iconClass } style={ iconStyle } />
                         ) }
                     </a>

@@ -121,13 +121,13 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
 }
 
 .wp-block-advgb-button_link,
-.wp-block-advgb-button_link > i,
-.wp-block-advgb-button_link > div {
+.wp-block-advgb-button_link i,
+.wp-block-advgb-button_link div {
     display: inline-block;
     vertical-align: middle;
 }
 
-.wp-block-advgb-button_link > i {
+.wp-block-advgb-button_link i {
     padding: 10px;
     background-color: #fff;
     font-size: 24px;
