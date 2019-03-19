@@ -7525,6 +7525,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     zoom = _props$attributes2.zoom,
                     markerTitle = _props$attributes2.markerTitle,
                     markerIcon = _props$attributes2.markerIcon,
+                    markerSize = _props$attributes2.markerSize,
                     markerDesc = _props$attributes2.markerDesc,
                     mapStyle = _props$attributes2.mapStyle,
                     mapStyleCustom = _props$attributes2.mapStyleCustom;
@@ -7561,13 +7562,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 if (!infoWindow) {
                     infoWindow = new google.maps.InfoWindow({
-                        content: "<div class=\"advgbmap-wrapper\">\n                    <h2 class=\"advgbmap-title\">" + markerTitle + "</h2>\n                    <p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p>\n                </div>",
+                        content: "<div class=\"advgbmap-wrapper\"><h2 class=\"advgbmap-title\">" + markerTitle + "</h2><p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p></div>",
                         maxWidth: 500
                     });
                     this.setState({ currentInfo: infoWindow });
                 }
 
-                infoWindow.setContent("<div class=\"advgbmap-wrapper\">\n                <h2 class=\"advgbmap-title\">" + markerTitle + "</h2>\n                <p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p>\n            </div>");
+                infoWindow.setContent("<div class=\"advgbmap-wrapper\"><h2 class=\"advgbmap-title\">" + markerTitle + "</h2><p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p></div>");
 
                 if (!marker) {
                     marker = new google.maps.Marker({
@@ -7604,6 +7605,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     that.props.setAttributes({ lat: newLat, lng: newLng });
                 });
+
+                if (markerIcon && markerSize) {
+                    var realWidth = 0,
+                        realHeight = 0,
+                        img = new Image();
+
+                    img.src = markerIcon;
+                    img.onload = function (ev) {
+                        realWidth = ev.target.width;
+                        realHeight = ev.target.height;
+                        var iconSize = markerSize / 100;
+
+                        marker.setIcon({
+                            url: markerIcon || DEFAULT_MARKER,
+                            scaledSize: new google.maps.Size(realWidth * iconSize, realHeight * iconSize)
+                        });
+                    };
+                }
             }
         }, {
             key: "fetchLocation",
@@ -7663,6 +7682,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     height = attributes.height,
                     markerIcon = attributes.markerIcon,
                     markerIconID = attributes.markerIconID,
+                    markerSize = attributes.markerSize,
                     markerTitle = attributes.markerTitle,
                     markerDesc = attributes.markerDesc,
                     mapStyle = attributes.mapStyle,
@@ -7817,6 +7837,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 }
                             }),
+                            markerIcon && React.createElement(RangeControl, {
+                                label: __('Marker Size (%)'),
+                                value: markerSize,
+                                min: 1,
+                                max: 200,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ markerSize: value });
+                                }
+                            }),
                             React.createElement(TextControl, {
                                 label: __('Marker Title'),
                                 value: markerTitle,
@@ -7960,6 +7989,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             },
             mapStyleCustom: {
                 type: 'string'
+            },
+            markerSize: {
+                type: 'number'
             }
         }),
         edit: AdvMap,
@@ -7971,6 +8003,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 zoom = attributes.zoom,
                 height = attributes.height,
                 markerIcon = attributes.markerIcon,
+                markerSize = attributes.markerSize,
                 markerTitle = attributes.markerTitle,
                 markerDesc = attributes.markerDesc,
                 mapStyle = attributes.mapStyle,
@@ -8007,6 +8040,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     "data-zoom": zoom,
                     "data-title": formattedTitle,
                     "data-icon": markerIcon,
+                    "data-isize": markerSize,
                     "data-info": encodeURIComponent(infoWindowHtml),
                     "data-style": encodeURIComponent(mapStyleApply)
                 })

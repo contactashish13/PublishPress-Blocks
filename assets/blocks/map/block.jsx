@@ -1036,7 +1036,7 @@
 
             const DEFAULT_MARKER = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png';
             const { currentMap, currentMarker, currentInfo, invalidStyle } = this.state;
-            const { mapID, lat, lng, zoom, markerTitle, markerIcon, markerDesc, mapStyle, mapStyleCustom } = this.props.attributes;
+            const { mapID, lat, lng, zoom, markerTitle, markerIcon, markerSize, markerDesc, mapStyle, mapStyleCustom } = this.props.attributes;
             const location = { lat: parseFloat(lat), lng: parseFloat(lng) };
             const that = this;
             const formattedDesc = markerDesc.replace(/\n/g, '<br/>');
@@ -1069,20 +1069,14 @@
 
             if (!infoWindow) {
                 infoWindow = new google.maps.InfoWindow( {
-                    content: `<div class="advgbmap-wrapper">
-                    <h2 class="advgbmap-title">${markerTitle}</h2>
-                    <p class="advgbmap-desc">${formattedDesc || ''}</p>
-                </div>`,
+                    content: `<div class="advgbmap-wrapper"><h2 class="advgbmap-title">${markerTitle}</h2><p class="advgbmap-desc">${formattedDesc || ''}</p></div>`,
                     maxWidth: 500,
                 } );
                 this.setState( { currentInfo: infoWindow } );
             }
 
             infoWindow.setContent(
-                `<div class="advgbmap-wrapper">
-                <h2 class="advgbmap-title">${markerTitle}</h2>
-                <p class="advgbmap-desc">${formattedDesc || ''}</p>
-            </div>`
+                `<div class="advgbmap-wrapper"><h2 class="advgbmap-title">${markerTitle}</h2><p class="advgbmap-desc">${formattedDesc || ''}</p></div>`
             );
 
             if (!marker) {
@@ -1120,6 +1114,24 @@
 
                 that.props.setAttributes( { lat: newLat, lng: newLng } );
             } );
+
+            if (markerIcon && markerSize) {
+                var realWidth = 0,
+                    realHeight = 0,
+                    img = new Image();
+
+                img.src = markerIcon;
+                img.onload = function (ev) {
+                    realWidth = ev.target.width;
+                    realHeight = ev.target.height;
+                    const iconSize = markerSize/100;
+
+                    marker.setIcon({
+                        url: markerIcon || DEFAULT_MARKER,
+                        scaledSize: new google.maps.Size(realWidth*iconSize, realHeight*iconSize)
+                    })
+                };
+            }
         }
 
         fetchLocation() {
@@ -1168,6 +1180,7 @@
                 height,
                 markerIcon,
                 markerIconID,
+                markerSize,
                 markerTitle,
                 markerDesc,
                 mapStyle,
@@ -1288,6 +1301,15 @@
                                     )
                                 } }
                             />
+                            {markerIcon && (
+                                <RangeControl
+                                    label={ __( 'Marker Size (%)' ) }
+                                    value={ markerSize }
+                                    min={ 1 }
+                                    max={ 200 }
+                                    onChange={ (value) => setAttributes( { markerSize: value } ) }
+                                />
+                            ) }
                             <TextControl
                                 label={ __( 'Marker Title' ) }
                                 value={ markerTitle }
@@ -1429,6 +1451,9 @@
             },
             mapStyleCustom: {
                 type: 'string',
+            },
+            markerSize: {
+                type: 'number',
             }
         },
         edit: AdvMap,
@@ -1440,6 +1465,7 @@
                 zoom,
                 height,
                 markerIcon,
+                markerSize,
                 markerTitle,
                 markerDesc,
                 mapStyle,
@@ -1479,6 +1505,7 @@
                          data-zoom={ zoom }
                          data-title={ formattedTitle }
                          data-icon={ markerIcon }
+                         data-isize={ markerSize }
                          data-info={ encodeURIComponent(infoWindowHtml) }
                          data-style={ encodeURIComponent(mapStyleApply) }
                     />
