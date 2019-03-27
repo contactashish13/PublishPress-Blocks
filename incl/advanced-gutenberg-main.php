@@ -384,10 +384,6 @@ float: left;'
             'captchaEnabled' => $recaptcha_config['recaptcha_enable']
         ));
 
-        wp_localize_script('wp-blocks', 'advgbRPL', array(
-
-        ));
-
         // Setup default config data for blocks
         $blocks_config_saved = get_option('advgb_blocks_default_config');
         $blocks_config_saved = $blocks_config_saved !== false ? $blocks_config_saved : array();
