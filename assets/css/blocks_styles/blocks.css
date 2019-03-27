@@ -885,6 +885,8 @@ hr.wp-block-separator {
     display: flex;
     flex: auto;
     flex-wrap: wrap;
+    max-height: 400px;
+    overflow: auto;
 }
 
 .advgb-recent-post-layout {
