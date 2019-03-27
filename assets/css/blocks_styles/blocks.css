@@ -881,6 +881,41 @@ hr.wp-block-separator {
     width: auto;
 }
 
+.advgb-recent-post-layouts {
+    display: flex;
+    flex: auto;
+    flex-wrap: wrap;
+}
+
+.advgb-recent-post-layout {
+    width: calc(50% - 20px);
+    margin: 10px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.advgb-recent-post-layout:hover,
+.advgb-recent-post-layout.activated {
+    background-color: #eaeaea;
+}
+
+.advgb-recent-post-layout .no-layout {
+    border: 1px solid #ddd;
+    height: 80px;
+    line-height: 80px;
+}
+
+.advgb-recent-post-layout img {
+    display: block;
+    height: 80px;
+    width: auto;
+    margin: 0 auto 3px;
+}
+
 /*Woo Products styles*/
 .advgb-products-block {
     padding-bottom: 1px;

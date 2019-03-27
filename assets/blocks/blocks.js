@@ -8877,7 +8877,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     postTextAsExcerpt = attributes.postTextAsExcerpt,
                     postTextExcerptLength = attributes.postTextExcerptLength,
                     displayReadMore = attributes.displayReadMore,
-                    readMoreLbl = attributes.readMoreLbl;
+                    readMoreLbl = attributes.readMoreLbl,
+                    layout = attributes.layout;
 
 
                 var inspectorControls = React.createElement(
@@ -8886,6 +8887,46 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     React.createElement(
                         PanelBody,
                         { title: __('Block Settings') },
+                        !!advgbRPL && !!Object.keys(advgbRPL).length && React.createElement(
+                            PanelBody,
+                            { title: __('Preset Layout'), initialOpen: false },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-recent-post-layouts" },
+                                React.createElement(
+                                    "div",
+                                    { className: !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout',
+                                        onClick: function onClick() {
+                                            return setAttributes({ layout: undefined });
+                                        }
+                                    },
+                                    React.createElement(
+                                        "div",
+                                        { className: "no-layout" },
+                                        "NONE"
+                                    )
+                                ),
+                                Object.keys(advgbRPL).map(function (clayout, index) {
+                                    return React.createElement(
+                                        "div",
+                                        { className: clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout',
+                                            key: index,
+                                            onClick: function onClick() {
+                                                return setAttributes({ layout: clayout });
+                                            }
+                                        },
+                                        React.createElement("img", { src: advgbRPL[clayout].preview,
+                                            alt: advgbRPL[clayout].title
+                                        }),
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-recent-post-layout-title" },
+                                            advgbRPL[clayout].title
+                                        )
+                                    );
+                                })
+                            )
+                        ),
                         React.createElement(QueryControls, _extends({ order: order, orderBy: orderBy }, {
                             categoriesList: categoriesList,
                             selectedCategoryId: category,

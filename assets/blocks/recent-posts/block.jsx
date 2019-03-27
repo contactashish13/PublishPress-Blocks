@@ -161,11 +161,38 @@
                 postTextExcerptLength,
                 displayReadMore,
                 readMoreLbl,
+                layout,
             } = attributes;
 
             const inspectorControls = (
                 <InspectorControls>
                     <PanelBody title={ __( 'Block Settings' ) }>
+                        {!!advgbRPL && !!Object.keys(advgbRPL).length && (
+                            <PanelBody title={ __( 'Preset Layout' ) } initialOpen={ false }>
+                                <div className="advgb-recent-post-layouts">
+                                    <div className={ !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
+                                         onClick={ () => setAttributes( { layout: undefined } ) }
+                                    >
+                                        <div className="no-layout">
+                                            NONE
+                                        </div>
+                                    </div>
+                                    {Object.keys(advgbRPL).map((clayout, index) => (
+                                        <div className={ clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
+                                             key={ index }
+                                             onClick={ () => setAttributes( { layout: clayout } ) }
+                                        >
+                                            <img src={ advgbRPL[clayout].preview }
+                                                 alt={ advgbRPL[clayout].title }
+                                            />
+                                            <div className="advgb-recent-post-layout-title">
+                                                {advgbRPL[clayout].title}
+                                            </div>
+                                        </div>
+                                    ) ) }
+                                </div>
+                            </PanelBody>
+                        ) }
                         <QueryControls
                             { ...{ order, orderBy } }
                             categoriesList={ categoriesList }
