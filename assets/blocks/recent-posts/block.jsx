@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, BlockControls } = wpEditor;
-    const { PanelBody, RangeControl, ToggleControl, TextControl, QueryControls, Spinner, Toolbar, Placeholder, IconButton } = wpComponents;
+    const { PanelBody, RangeControl, ToggleControl, TextControl, QueryControls, Spinner, Toolbar, Placeholder, IconButton, Button } = wpComponents;
     const { withSelect } = wpData;
     const { pickBy, isUndefined } = lodash;
     const { decodeEntities } = wpHtmlEntities;
@@ -21,6 +21,7 @@
     );
 
     let initSlider = null;
+    if (typeof window.advgbRPL === 'undefined') window.advgbRPL = undefined;
 
     class RecentPostsEdit extends Component {
         constructor() {
@@ -186,7 +187,7 @@
                                                  alt={ advgbRPL[clayout].title }
                                             />
                                             <div className="advgb-recent-post-layout-title">
-                                                {advgbRPL[clayout].title}
+                                                { advgbRPL[clayout].title }
                                             </div>
                                         </div>
                                     ) ) }
@@ -322,11 +323,84 @@
 
             const dateFormat = __experimentalGetSettings().formats.date;
 
+            const recentPostsView = (
+                <div className={ blockClassName }>
+                    {this.state.updating && <div className="advgb-recent-posts-loading" />}
+                    <div className="advgb-recent-posts">
+                        {recentPosts.map( ( post, index ) => (
+                            <article key={ index } className="advgb-recent-post" >
+                                {displayFeaturedImage && (
+                                    <div className="advgb-post-thumbnail">
+                                        <a href={ post.link } target="_blank">
+                                            <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
+                                        </a>
+                                    </div>
+                                ) }
+                                <div className="advgb-post-wrapper">
+                                    <h2 className="advgb-post-title">
+                                        <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
+                                    </h2>
+                                    <div className="advgb-post-info">
+                                        {displayCategory && (
+                                            <div className="advgb-post-categories">
+                                                {post.categories.length && post.categories.map( (catID, index) => {
+                                                    if (index > 5) return null;
+
+                                                    if (index === 5) {
+                                                        return (
+                                                            <span className="advgb-post-category-more">
+                                                                    +{post.categories.length - index}
+                                                                </span>
+                                                        )
+                                                    }
+
+                                                    const idx = categoriesList.findIndex((cat) => cat.id === catID);
+                                                    let catName = '';
+                                                    if (idx > -1) catName = categoriesList[idx].name;
+
+                                                    return <span className="advgb-post-category">{catName}</span>
+                                                } ) }
+                                            </div>
+                                        ) }
+                                        {displayAuthor && (
+                                            <a href={ post.author_meta.author_link }
+                                               target="_blank"
+                                               className="advgb-post-author"
+                                            >
+                                                { post.author_meta.display_name }
+                                            </a>
+                                        ) }
+                                        {displayDate && (
+                                            <span className="advgb-post-date" >
+                                                    { dateI18n( dateFormat, post.date_gmt ) }
+                                                </span>
+                                        ) }
+                                    </div>
+                                    <div className="advgb-post-content">
+                                        {displayExcerpt && (
+                                            <div className="advgb-post-excerpt"
+                                                 dangerouslySetInnerHTML={ {
+                                                     __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
+                                                 } } />
+                                        ) }
+                                        {displayReadMore && (
+                                            <div className="advgb-post-readmore">
+                                                <a href={ post.link } target="_blank">{ readMoreLbl ? readMoreLbl : __( 'Read More' ) }</a>
+                                            </div>
+                                        ) }
+                                    </div>
+                                </div>
+                            </article>
+                        ) ) }
+                    </div>
+                </div>
+            );
+
             return (
                 <Fragment>
                     { inspectorControls }
                     <BlockControls>
-                        <Toolbar controls={ postViewControls } />
+                        {!layout && <Toolbar controls={ postViewControls } />}
                         <Toolbar>
                             <IconButton
                                 label={ __( 'Refresh' ) }
@@ -335,76 +409,37 @@
                             />
                         </Toolbar>
                     </BlockControls>
-                    <div className={ blockClassName }>
-                        {this.state.updating && <div className="advgb-recent-posts-loading" />}
-                        <div className="advgb-recent-posts">
-                            {recentPosts.map( ( post, index ) => (
-                                <article key={ index } className="advgb-recent-post" >
-                                    {displayFeaturedImage && (
-                                        <div className="advgb-post-thumbnail">
-                                            <a href={ post.link } target="_blank">
-                                                <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
-                                            </a>
-                                        </div>
-                                    ) }
-                                    <div className="advgb-post-wrapper">
-                                        <h2 className="advgb-post-title">
-                                            <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
-                                        </h2>
-                                        <div className="advgb-post-info">
-                                            {displayCategory && (
-                                                <div className="advgb-post-categories">
-                                                    {post.categories.length && post.categories.map( (catID, index) => {
-                                                        if (index > 5) return null;
-
-                                                        if (index === 5) {
-                                                            return (
-                                                                <span className="advgb-post-category-more">
-                                                                    +{post.categories.length - index}
-                                                                </span>
-                                                            )
-                                                        }
-
-                                                        const idx = categoriesList.findIndex((cat) => cat.id === catID);
-                                                        let catName = '';
-                                                        if (idx > -1) catName = categoriesList[idx].name;
-
-                                                        return <span className="advgb-post-category">{catName}</span>
-                                                    } ) }
-                                                </div>
-                                            ) }
-                                            {displayAuthor && (
-                                                <a href={ post.author_meta.author_link }
-                                                   target="_blank"
-                                                   className="advgb-post-author"
-                                                >
-                                                    { post.author_meta.display_name }
-                                                </a>
-                                            ) }
-                                            {displayDate && (
-                                                <span className="advgb-post-date" >
-                                                    { dateI18n( dateFormat, post.date_gmt ) }
-                                                </span>
-                                            ) }
-                                        </div>
-                                        <div className="advgb-post-content">
-                                            {displayExcerpt && (
-                                                <div className="advgb-post-excerpt"
-                                                     dangerouslySetInnerHTML={ {
-                                                         __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                                     } } />
-                                            ) }
-                                            {displayReadMore && (
-                                                <div className="advgb-post-readmore">
-                                                    <a href={ post.link } target="_blank">{ readMoreLbl ? readMoreLbl : __( 'Read More' ) }</a>
-                                                </div>
-                                            ) }
-                                        </div>
-                                    </div>
-                                </article>
-                            ) ) }
-                        </div>
-                    </div>
+                    {layout ?
+                        (!advgbRPL || !advgbRPL[layout]) ?
+                            // No layout detected or the layout current loaded is not available anymore
+                            <Placeholder
+                                icon={ advRecentPostsBlockIcon }
+                                label={ __( 'ADVGB Recent Posts Block' ) }
+                                instructions={ __( 'Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.' ) }
+                            >
+                                <p style={ { width: '100%' } }>
+                                    { __( 'Current Activated:' ) }
+                                    <strong style={ { margin: '0 5px' } }>{layout}</strong>
+                                </p>
+                                <Button isPrimary
+                                        onClick={ () => setAttributes( { layout: undefined } ) }
+                                >
+                                    { __( 'Revert to default layout' ) }
+                                </Button>
+                            </Placeholder>
+                            : // Layout found and loaded
+                            <div className="advgb-recent-posts-layout-preview">
+                                <p className="layout-preview-title">
+                                    { __( 'Using preset layout:' ) }
+                                    <strong>{ advgbRPL[layout].title }</strong>
+                                </p>
+                                <div className="layout-preview">
+                                    <img src={ advgbRPL[layout].preview } alt={ advgbRPL[layout].title } />
+                                </div>
+                            </div>
+                        : // Not using layout (default layout)
+                        recentPostsView
+                    }
                 </Fragment>
             )
         }
