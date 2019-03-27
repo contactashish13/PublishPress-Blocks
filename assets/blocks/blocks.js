@@ -8946,7 +8946,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return setAttributes({ numberOfPosts: value });
                             }
                         })),
-                        postView === 'grid' && React.createElement(RangeControl, {
+                        !!layout && React.createElement(
+                            "p",
+                            { className: "components-base-control__help", style: { margin: '-20px auto 20px' } },
+                            __('Some layout required minimum items to display properly.')
+                        ),
+                        postView === 'grid' && !layout && React.createElement(RangeControl, {
                             label: __('Columns'),
                             value: columns,
                             min: 1,

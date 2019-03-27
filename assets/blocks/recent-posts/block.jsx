@@ -204,7 +204,12 @@
                             onCategoryChange={ ( value ) => setAttributes( { category: value !== '' ? value : undefined } ) }
                             onNumberOfItemsChange={ (value) => setAttributes( { numberOfPosts: value } ) }
                         />
-                        {postView === 'grid' &&
+                        {!!layout && (
+                            <p className="components-base-control__help" style={ { margin: '-20px auto 20px' } }>
+                                { __( 'Some layout required minimum items to display properly.' ) }
+                            </p>
+                        ) }
+                        {postView === 'grid' && !layout &&
                         <RangeControl
                             label={ __( 'Columns' ) }
                             value={ columns }
