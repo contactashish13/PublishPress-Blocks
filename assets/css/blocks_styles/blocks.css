@@ -928,8 +928,6 @@ hr.wp-block-separator {
     max-width: 100%;
     margin: auto;
     opacity: 0.8;
-    -webkit-filter: blur(3px); /* Safari 6.0 - 9.0 */
-    filter: blur(3px);
 }
 
 /*Woo Products styles*/
