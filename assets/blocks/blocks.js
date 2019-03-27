@@ -3499,6 +3499,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
     );
 
+    var willSetContent = null;
+    var lastValue = '';
+
     var AdvTable = function (_Component) {
         _inherits(AdvTable, _Component);
 
@@ -4058,17 +4061,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "updateCellContent",
             value: function updateCellContent(content) {
+                var cell = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
                 var selectedCell = this.state.selectedCell;
 
-                if (!selectedCell) {
+                if (!selectedCell && !cell) {
                     return null;
+                }
+
+                var rowIndex = void 0,
+                    colIndex = void 0;
+                if (cell) {
+                    rowIndex = cell.rowIndex;
+                    colIndex = cell.colIndex;
+                } else {
+                    rowIndex = selectedCell.rowIndex;
+                    colIndex = selectedCell.colIndex;
                 }
 
                 var _props10 = this.props,
                     attributes = _props10.attributes,
                     setAttributes = _props10.setAttributes;
-                var rowIndex = selectedCell.rowIndex,
-                    colIndex = selectedCell.colIndex;
                 var body = attributes.body;
 
 
@@ -4432,7 +4444,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }),
                                 React.createElement(RangeControl, {
                                     label: __('Border width'),
-                                    value: this.getCellStyles('borderWidth'),
+                                    value: this.getCellStyles('borderWidth') || 0,
                                     min: 1,
                                     max: 10,
                                     onChange: function onChange(value) {
@@ -4458,6 +4470,46 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         );
                                     })
                                 )
+                            ),
+                            React.createElement(
+                                PanelBody,
+                                { title: __('Padding'), initialOpen: false },
+                                React.createElement(RangeControl, {
+                                    label: __('Padding Top'),
+                                    value: this.getCellStyles('paddingTop') || 0,
+                                    min: 0,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateCellsStyles({ paddingTop: value });
+                                    }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: __('Padding Right'),
+                                    value: this.getCellStyles('paddingRight') || 0,
+                                    min: 0,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateCellsStyles({ paddingRight: value });
+                                    }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: __('Padding Bottom'),
+                                    value: this.getCellStyles('paddingBottom') || 0,
+                                    min: 0,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateCellsStyles({ paddingBottom: value });
+                                    }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: __('Padding Left'),
+                                    value: this.getCellStyles('paddingLeft') || 0,
+                                    min: 0,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateCellsStyles({ paddingLeft: value });
+                                    }
+                                })
                             ),
                             React.createElement(
                                 PanelBody,
@@ -4601,10 +4653,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 className: "wp-block-table__cell-content",
                                                 value: content,
                                                 onChange: function onChange(value) {
-                                                    return _this2.updateCellContent(value);
+                                                    if (willSetContent) clearTimeout(willSetContent);
+                                                    lastValue = value;
+                                                    willSetContent = setTimeout(function () {
+                                                        return _this2.updateCellContent(value, selectedCell);
+                                                    }, 1000);
                                                 },
                                                 unstableOnFocus: function unstableOnFocus() {
-                                                    return _this2.setState({ selectedCell: cell });
+                                                    if (willSetContent) {
+                                                        _this2.updateCellContent(lastValue, selectedCell);
+                                                        clearTimeout(willSetContent);
+                                                        willSetContent = null;
+                                                    }
+                                                    _this2.setState({ selectedCell: cell });
                                                 }
                                             })
                                         );
