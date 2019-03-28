@@ -42,7 +42,11 @@
             )
         },
         save: function ( props ) {
-            return <InnerBlocks.Content />
+            return (
+                <div className="advgb-recent-posts-container">
+                    <InnerBlocks.Content />
+                </div>
+            )
         },
     } );
 })( wp.i18n, wp.blocks, wp.editor );

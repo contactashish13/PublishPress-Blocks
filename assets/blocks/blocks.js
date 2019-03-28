@@ -10032,7 +10032,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             });
         },
         save: function save(props) {
-            return React.createElement(InnerBlocks.Content, null);
+            return React.createElement(
+                "div",
+                { className: "advgb-recent-posts-container" },
+                React.createElement(InnerBlocks.Content, null)
+            );
         }
     });
 })(wp.i18n, wp.blocks, wp.editor);
