@@ -1728,7 +1728,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     buttonIconColor = attributes.buttonIconColor,
                     buttonIconBgColor = attributes.buttonIconBgColor,
                     buttonIconBorderColor = attributes.buttonIconBorderColor,
-                    buttonAfter = attributes.buttonAfter;
+                    buttonAfter = attributes.buttonAfter,
+                    disableLink = attributes.disableLink;
                 var searchedText = this.state.searchedText;
 
                 var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
@@ -1792,7 +1793,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         React.createElement(
                             PanelBody,
                             { title: __('Button Settings') },
-                            React.createElement(
+                            !disableLink && React.createElement(
                                 PanelBody,
                                 { title: __('Button link') },
                                 React.createElement(TextControl, {
@@ -2222,6 +2223,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         transitionSpeed: {
             type: 'number',
             default: 0.2
+        },
+        disableLink: {
+            type: 'boolean',
+            default: false
         },
         align: {
             type: 'string',
@@ -10026,7 +10031,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 template: [['advgb/recent-posts', { disableSliderView: true }], ['advgb/button', {
                     className: 'advgb-load-more',
                     text: 'Load More',
-                    align: 'center'
+                    align: 'center',
+                    disableLink: true
                 }]],
                 templateLock: true
             });

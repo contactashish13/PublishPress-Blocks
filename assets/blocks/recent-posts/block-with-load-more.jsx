@@ -35,6 +35,7 @@
                             className: 'advgb-load-more',
                             text: 'Load More',
                             align: 'center',
+                            disableLink: true,
                         } ]
                     ] }
                     templateLock={ true }
