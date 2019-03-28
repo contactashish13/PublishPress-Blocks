@@ -147,6 +147,10 @@ function advgbRegisterBlockRecentPosts()
             'layout' => array(
                 'type' => 'string',
             ),
+            'disableSliderView' => array(
+                'type' => 'boolean',
+                'default' => false,
+            ),
         ),
         'render_callback' => 'advgbRenderBlockRecentPosts',
     ));

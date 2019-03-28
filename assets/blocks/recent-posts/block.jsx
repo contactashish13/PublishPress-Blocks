@@ -163,6 +163,7 @@
                 displayReadMore,
                 readMoreLbl,
                 layout,
+                disableSliderView,
             } = attributes;
 
             const inspectorControls = (
@@ -314,6 +315,7 @@
                     title: __( 'Slider View' ),
                     onClick: () => setAttributes( { postView: 'slider' } ),
                     isActive: postView === 'slider',
+                    isDisabled: !!disableSliderView,
                 },
             ];
 
