@@ -10,6 +10,7 @@ window.addEventListener('load', function () {
             zoom = parseFloat(elm.dataset.zoom),
             defaultMarker = elm.dataset.default,
             icon = elm.dataset.icon,
+            iconSize = parseInt(elm.dataset.isize) || 0,
             title = elm.dataset.title,
             info = decodeURIComponent(elm.dataset.info),
             mapStyle = decodeURIComponent(elm.dataset.style);
@@ -40,6 +41,24 @@ window.addEventListener('load', function () {
         });
         marker.addListener('click', function () {
             infoWindow.open(map, marker);
-        })
+        });
+
+        if (icon && iconSize) {
+            var realWidth = 0,
+                realHeight = 0,
+                img = new Image();
+
+            img.src = icon;
+            img.onload = function (ev) {
+                realWidth = ev.target.width;
+                realHeight = ev.target.height;
+                iconSize = iconSize/100;
+
+                marker.setIcon({
+                    url: icon || defaultMarker,
+                    scaledSize: new google.maps.Size(realWidth*iconSize, realHeight*iconSize)
+                })
+            };
+        }
     });
 });

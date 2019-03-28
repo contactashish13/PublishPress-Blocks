@@ -308,8 +308,9 @@ float: left;'
         }
 
         $current_screen = get_current_screen();
-        if (method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor() && !defined('GUTENBERG_VERSION')) {
-            // WP 5 fires enqueue_block_editor_assets before block_editor_settings, Gutenberg plugin do the contrary
+        if (method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor()
+            && (!defined('GUTENBERG_VERSION') || (defined('GUTENBERG_VERSION') && version_compare(GUTENBERG_VERSION, '5.3.0', '>=')))) {
+            // WP 5 and Gutenberg 5.3.0 fires enqueue_block_editor_assets before block_editor_settings, Gutenberg plugin do the contrary
             // Gutenberg WP5 core feature is used and we are in the block editor page, we must enqueue our assets after retrieving editor settings
             $this->addEditorAssets(true);
         }
@@ -327,9 +328,10 @@ float: left;'
     public function addEditorAssets($force_loading = false)
     {
         $current_screen = get_current_screen();
-        if (!$force_loading && method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor() && !defined('GUTENBERG_VERSION')) {
+        if (!$force_loading && method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor()
+            && (!defined('GUTENBERG_VERSION') || (defined('GUTENBERG_VERSION') && version_compare(GUTENBERG_VERSION, '5.3.0', '>=')))) {
             // This function will be called manually in the block_editor_settings filter
-            // WP 5 fires enqueue_block_editor_assets before block_editor_settings, Gutenberg plugin do the contrary
+            // WP 5 and Gutenberg 5.3.0 fires enqueue_block_editor_assets before block_editor_settings, Gutenberg plugin do the contrary
             return;
         }
 
@@ -348,6 +350,7 @@ float: left;'
         wp_enqueue_script('slick_js');
 
         // Include needed CSS styles
+        wp_enqueue_style('material_icon_font');
         wp_enqueue_style('slick_style');
         wp_enqueue_style('slick_theme_style');
 
@@ -374,6 +377,9 @@ float: left;'
         $recaptcha_config   = $recaptcha_config !== false ? $recaptcha_config : array('recaptcha_enable' => 0);
         $blocks_icon_color  = isset($saved_settings['blocks_icon_color']) ? $saved_settings['blocks_icon_color'] : '';
         $rp_default_thumb   = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
+        $icons              = array();
+        $icons['material']  = file_get_contents(plugins_url('assets/css/fonts/codepoints.json', ADVANCED_GUTENBERG_PLUGIN));
+        $icons['material']  = json_decode($icons['material'], true);
 
         wp_localize_script('wp-blocks', 'advgbBlocks', array(
             'color' => $blocks_icon_color,
@@ -381,7 +387,8 @@ float: left;'
             'avatarHolder' => $avatarHolder,
             'config_url' => admin_url('admin.php?page=advgb_main'),
             'customStyles' => !$custom_styles_data ? array() : $custom_styles_data,
-            'captchaEnabled' => $recaptcha_config['recaptcha_enable']
+            'captchaEnabled' => $recaptcha_config['recaptcha_enable'],
+            'iconList' => $icons
         ));
 
         // Add layout to Recent Posts
@@ -1405,6 +1412,10 @@ float: left;'
             'slick_theme_style',
             plugins_url('assets/css/slick-theme.css', dirname(__FILE__))
         );
+        wp_register_style(
+            'material_icon_font',
+            plugins_url('assets/css/fonts/material-icons.min.css', dirname(__FILE__))
+        );
 
         wp_register_script(
             'colorbox_js',
@@ -2026,7 +2037,7 @@ float: left;'
                             'name'  => 'headerTextColor'
                         ),
                         array(
-                            'title'   => __('Header Icon', 'advanced-gutenberg'),
+                            'title'   => __('Expand Icon', 'advanced-gutenberg'),
                             'type'    => 'select',
                             'name'    => 'headerIcon',
                             'options' => array(
@@ -2061,9 +2072,61 @@ float: left;'
                             )
                         ),
                         array(
-                            'title' => __('Header Icon Color', 'advanced-gutenberg'),
+                            'title' => __('Expand Icon Color', 'advanced-gutenberg'),
                             'type'  => 'color',
                             'name'  => 'headerIconColor',
+                        ),
+                        array(
+                            'title'   => __('Collapse Icon', 'advanced-gutenberg'),
+                            'type'    => 'select',
+                            'name'    => 'collapseIcon',
+                            'options' => array(
+                                array(
+                                    'label' => __('Remove', 'advanced-gutenberg'),
+                                    'value' => 'remove',
+                                ),
+                                array(
+                                    'label' => __('Remove Circle', 'advanced-gutenberg'),
+                                    'value' => 'removeCircle',
+                                ),
+                                array(
+                                    'label' => __('Remove Circle Outline', 'advanced-gutenberg'),
+                                    'value' => 'removeCircleOutline',
+                                ),
+                                array(
+                                    'label' => __('Close', 'advanced-gutenberg'),
+                                    'value' => 'close',
+                                ),
+                                array(
+                                    'label' => __('Close Circle', 'advanced-gutenberg'),
+                                    'value' => 'closeCircle',
+                                ),
+                                array(
+                                    'label' => __('Close Circle Outline', 'advanced-gutenberg'),
+                                    'value' => 'closeCircleOutline',
+                                ),
+                                array(
+                                    'label' => __('Close Square Outline', 'advanced-gutenberg'),
+                                    'value' => 'closeBox',
+                                ),
+                                array(
+                                    'label' => __('Unfold Less', 'advanced-gutenberg'),
+                                    'value' => 'unfoldLess',
+                                ),
+                                array(
+                                    'label' => __('Arrow Up', 'advanced-gutenberg'),
+                                    'value' => 'arrowUp',
+                                ),
+                                array(
+                                    'label' => __('Power', 'advanced-gutenberg'),
+                                    'value' => 'power',
+                                ),
+                            )
+                        ),
+                        array(
+                            'title' => __('Collapse Icon Color', 'advanced-gutenberg'),
+                            'type'  => 'color',
+                            'name'  => 'collapseIconColor',
                         ),
                     ),
                 ),
@@ -3127,6 +3190,7 @@ float: left;'
      */
     public function addFrontendContentAssets($content)
     {
+        wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
         if (strpos($content, 'wp-block-gallery') !== false) {
             $saved_settings = get_option('advgb_settings');
 
@@ -3302,15 +3366,34 @@ float: left;'
             wp_enqueue_style('slick_theme_style');
             wp_enqueue_script('slick_js');
             wp_add_inline_script('slick_js', 'jQuery(document).ready(function($){
-                $(".advgb-testimonial.slider-view:not(.slick-initialized)").slick({
-                    infinite: true,
-                    centerMode: true,
-                    centerPadding: "40px",
-                    slidesToShow: 3,
-                    responsive: [
-                        {breakpoint: 480, settings: {slidesToShow: 1}}
-                    ]
+                $(".advgb-testimonial.slider-view:not(.slick-initialized):not(.avatar-bottom)").each(function(){
+                    var prevArrow = $(this).data("prev-arrow");
+                    var nextArrow = $(this).data("next-arrow");
+                    prevArrow = prevArrow != "undefined" ? \'<button class="advgb-arrow advgb-prev"><img src="\'+prevArrow+\'" alt="Next" /></button>\' : undefined;
+                    nextArrow = nextArrow != "undefined" ? \'<button class="advgb-arrow advgb-next"><img src="\'+nextArrow+\'" alt="Next" /></button>\' : undefined;
+                    $(this).slick({
+                        infinite: true,
+                        centerMode: true,
+                        centerPadding: "40px",
+                        slidesToShow: 3,
+                        prevArrow: prevArrow,
+                        nextArrow: nextArrow,
+                        responsive: [
+                            {breakpoint: 480, settings: {slidesToShow: 1}}
+                        ]
+                    })
                 })
+                $(".advgb-testimonial.slider-view.avatar-bottom:not(.slick-initialized)").each(function(){
+                    var prevArrow = $(this).data("prev-arrow");
+                    var nextArrow = $(this).data("next-arrow");
+                    prevArrow = prevArrow != "undefined" ? \'<button class="advgb-arrow advgb-prev"><img src="\'+prevArrow+\'" alt="Next" /></button>\' : undefined;
+                    nextArrow = nextArrow != "undefined" ? \'<button class="advgb-arrow advgb-next"><img src="\'+nextArrow+\'" alt="Next" /></button>\' : undefined;
+                    $(this).slick({
+                        slidesToShow: 1,
+                        prevArrow: prevArrow,
+                        nextArrow: nextArrow,
+                    })
+                });
             });');
         }
 
@@ -3366,6 +3449,8 @@ float: left;'
                                 $style_html .= '}';
                             }
                         } elseif ($matches[2][$key] === 'button') {
+                            wp_enqueue_style('material_icon_font');
+
                             $block_class    = $style_data_array['id'];
                             $font_size      = isset($style_data_array['textSize']) ? intval($style_data_array['textSize']) : 18;
                             $color          = isset($style_data_array['textColor']) ? $style_data_array['textColor'] : '#fff';
