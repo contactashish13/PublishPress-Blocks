@@ -10019,7 +10019,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Spinner = wpComponents.Spinner,
         Toolbar = wpComponents.Toolbar,
         Placeholder = wpComponents.Placeholder,
-        IconButton = wpComponents.IconButton;
+        IconButton = wpComponents.IconButton,
+        Button = wpComponents.Button;
     var withSelect = wpData.withSelect;
     var pickBy = lodash.pickBy,
         isUndefined = lodash.isUndefined;
@@ -10040,6 +10041,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     var initSlider = null;
+    if (typeof window.advgbRPL === 'undefined') window.advgbRPL = undefined;
 
     var RecentPostsEdit = function (_Component) {
         _inherits(RecentPostsEdit, _Component);
@@ -10169,7 +10171,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     postTextAsExcerpt = attributes.postTextAsExcerpt,
                     postTextExcerptLength = attributes.postTextExcerptLength,
                     displayReadMore = attributes.displayReadMore,
-                    readMoreLbl = attributes.readMoreLbl;
+                    readMoreLbl = attributes.readMoreLbl,
+                    layout = attributes.layout;
 
 
                 var inspectorControls = React.createElement(
@@ -10178,6 +10181,46 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     React.createElement(
                         PanelBody,
                         { title: __('Block Settings') },
+                        !!advgbRPL && !!Object.keys(advgbRPL).length && React.createElement(
+                            PanelBody,
+                            { title: __('Preset Layout'), initialOpen: false },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-recent-post-layouts" },
+                                React.createElement(
+                                    "div",
+                                    { className: !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout',
+                                        onClick: function onClick() {
+                                            return setAttributes({ layout: undefined });
+                                        }
+                                    },
+                                    React.createElement(
+                                        "div",
+                                        { className: "no-layout" },
+                                        "NONE"
+                                    )
+                                ),
+                                Object.keys(advgbRPL).map(function (clayout, index) {
+                                    return React.createElement(
+                                        "div",
+                                        { className: clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout',
+                                            key: index,
+                                            onClick: function onClick() {
+                                                return setAttributes({ layout: clayout });
+                                            }
+                                        },
+                                        React.createElement("img", { src: advgbRPL[clayout].preview,
+                                            alt: advgbRPL[clayout].title
+                                        }),
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-recent-post-layout-title" },
+                                            advgbRPL[clayout].title
+                                        )
+                                    );
+                                })
+                            )
+                        ),
                         React.createElement(QueryControls, _extends({ order: order, orderBy: orderBy }, {
                             categoriesList: categoriesList,
                             selectedCategoryId: category,
@@ -10195,7 +10238,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return setAttributes({ numberOfPosts: value });
                             }
                         })),
-                        postView === 'grid' && React.createElement(RangeControl, {
+                        !!layout && React.createElement(
+                            "p",
+                            { className: "components-base-control__help", style: { margin: '-20px auto 20px' } },
+                            __('Some layout required minimum items to display properly.')
+                        ),
+                        postView === 'grid' && !layout && React.createElement(RangeControl, {
                             label: __('Columns'),
                             value: columns,
                             min: 1,
@@ -10319,6 +10367,106 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 var dateFormat = __experimentalGetSettings().formats.date;
 
+                var recentPostsView = React.createElement(
+                    "div",
+                    { className: blockClassName },
+                    this.state.updating && React.createElement("div", { className: "advgb-recent-posts-loading" }),
+                    React.createElement(
+                        "div",
+                        { className: "advgb-recent-posts" },
+                        recentPosts.map(function (post, index) {
+                            return React.createElement(
+                                "article",
+                                { key: index, className: "advgb-recent-post" },
+                                displayFeaturedImage && React.createElement(
+                                    "div",
+                                    { className: "advgb-post-thumbnail" },
+                                    React.createElement(
+                                        "a",
+                                        { href: post.link, target: "_blank" },
+                                        React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image') })
+                                    )
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { className: "advgb-post-wrapper" },
+                                    React.createElement(
+                                        "h2",
+                                        { className: "advgb-post-title" },
+                                        React.createElement(
+                                            "a",
+                                            { href: post.link, target: "_blank" },
+                                            decodeEntities(post.title.rendered)
+                                        )
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-post-info" },
+                                        displayCategory && React.createElement(
+                                            "div",
+                                            { className: "advgb-post-categories" },
+                                            post.categories.length && post.categories.map(function (catID, index) {
+                                                if (index > 5) return null;
+
+                                                if (index === 5) {
+                                                    return React.createElement(
+                                                        "span",
+                                                        { className: "advgb-post-category-more" },
+                                                        "+",
+                                                        post.categories.length - index
+                                                    );
+                                                }
+
+                                                var idx = categoriesList.findIndex(function (cat) {
+                                                    return cat.id === catID;
+                                                });
+                                                var catName = '';
+                                                if (idx > -1) catName = categoriesList[idx].name;
+
+                                                return React.createElement(
+                                                    "span",
+                                                    { className: "advgb-post-category" },
+                                                    catName
+                                                );
+                                            })
+                                        ),
+                                        displayAuthor && React.createElement(
+                                            "a",
+                                            { href: post.author_meta.author_link,
+                                                target: "_blank",
+                                                className: "advgb-post-author"
+                                            },
+                                            post.author_meta.display_name
+                                        ),
+                                        displayDate && React.createElement(
+                                            "span",
+                                            { className: "advgb-post-date" },
+                                            dateI18n(dateFormat, post.date_gmt)
+                                        )
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-post-content" },
+                                        displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
+                                            dangerouslySetInnerHTML: {
+                                                __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
+                                            } }),
+                                        displayReadMore && React.createElement(
+                                            "div",
+                                            { className: "advgb-post-readmore" },
+                                            React.createElement(
+                                                "a",
+                                                { href: post.link, target: "_blank" },
+                                                readMoreLbl ? readMoreLbl : __('Read More')
+                                            )
+                                        )
+                                    )
+                                )
+                            );
+                        })
+                    )
+                );
+
                 return React.createElement(
                     Fragment,
                     null,
@@ -10326,7 +10474,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     React.createElement(
                         BlockControls,
                         null,
-                        React.createElement(Toolbar, { controls: postViewControls }),
+                        !layout && React.createElement(Toolbar, { controls: postViewControls }),
                         React.createElement(
                             Toolbar,
                             null,
@@ -10339,105 +10487,55 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             })
                         )
                     ),
+                    layout ? !advgbRPL || !advgbRPL[layout] ?
+                    // No layout detected or the layout current loaded is not available anymore
+                    React.createElement(
+                        Placeholder,
+                        {
+                            icon: advRecentPostsBlockIcon,
+                            label: __('ADVGB Recent Posts Block'),
+                            instructions: __('Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.')
+                        },
+                        React.createElement(
+                            "p",
+                            { style: { width: '100%' } },
+                            __('Current Activated:'),
+                            React.createElement(
+                                "strong",
+                                { style: { margin: '0 5px' } },
+                                layout
+                            )
+                        ),
+                        React.createElement(
+                            Button,
+                            { isPrimary: true,
+                                onClick: function onClick() {
+                                    return setAttributes({ layout: undefined });
+                                }
+                            },
+                            __('Revert to default layout')
+                        )
+                    ) : // Layout found and loaded
                     React.createElement(
                         "div",
-                        { className: blockClassName },
-                        this.state.updating && React.createElement("div", { className: "advgb-recent-posts-loading" }),
+                        { className: "advgb-recent-posts-layout-preview" },
+                        React.createElement(
+                            "p",
+                            { className: "layout-preview-title" },
+                            __('Using preset layout:'),
+                            React.createElement(
+                                "strong",
+                                null,
+                                advgbRPL[layout].title
+                            )
+                        ),
                         React.createElement(
                             "div",
-                            { className: "advgb-recent-posts" },
-                            recentPosts.map(function (post, index) {
-                                return React.createElement(
-                                    "article",
-                                    { key: index, className: "advgb-recent-post" },
-                                    displayFeaturedImage && React.createElement(
-                                        "div",
-                                        { className: "advgb-post-thumbnail" },
-                                        React.createElement(
-                                            "a",
-                                            { href: post.link, target: "_blank" },
-                                            React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image') })
-                                        )
-                                    ),
-                                    React.createElement(
-                                        "div",
-                                        { className: "advgb-post-wrapper" },
-                                        React.createElement(
-                                            "h2",
-                                            { className: "advgb-post-title" },
-                                            React.createElement(
-                                                "a",
-                                                { href: post.link, target: "_blank" },
-                                                decodeEntities(post.title.rendered)
-                                            )
-                                        ),
-                                        React.createElement(
-                                            "div",
-                                            { className: "advgb-post-info" },
-                                            displayCategory && React.createElement(
-                                                "div",
-                                                { className: "advgb-post-categories" },
-                                                post.categories.length && post.categories.map(function (catID, index) {
-                                                    if (index > 5) return null;
-
-                                                    if (index === 5) {
-                                                        return React.createElement(
-                                                            "span",
-                                                            { className: "advgb-post-category-more" },
-                                                            "+",
-                                                            post.categories.length - index
-                                                        );
-                                                    }
-
-                                                    var idx = categoriesList.findIndex(function (cat) {
-                                                        return cat.id === catID;
-                                                    });
-                                                    var catName = '';
-                                                    if (idx > -1) catName = categoriesList[idx].name;
-
-                                                    return React.createElement(
-                                                        "span",
-                                                        { className: "advgb-post-category" },
-                                                        catName
-                                                    );
-                                                })
-                                            ),
-                                            displayAuthor && React.createElement(
-                                                "a",
-                                                { href: post.author_meta.author_link,
-                                                    target: "_blank",
-                                                    className: "advgb-post-author"
-                                                },
-                                                post.author_meta.display_name
-                                            ),
-                                            displayDate && React.createElement(
-                                                "span",
-                                                { className: "advgb-post-date" },
-                                                dateI18n(dateFormat, post.date_gmt)
-                                            )
-                                        ),
-                                        React.createElement(
-                                            "div",
-                                            { className: "advgb-post-content" },
-                                            displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
-                                                dangerouslySetInnerHTML: {
-                                                    __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                                } }),
-                                            displayReadMore && React.createElement(
-                                                "div",
-                                                { className: "advgb-post-readmore" },
-                                                React.createElement(
-                                                    "a",
-                                                    { href: post.link, target: "_blank" },
-                                                    readMoreLbl ? readMoreLbl : __('Read More')
-                                                )
-                                            )
-                                        )
-                                    )
-                                );
-                            })
+                            { className: "layout-preview" },
+                            React.createElement("img", { src: advgbRPL[layout].preview, alt: advgbRPL[layout].title })
                         )
-                    )
+                    ) : // Not using layout (default layout)
+                    recentPostsView
                 );
             }
         }], [{
