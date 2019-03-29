@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
     $('.advgb-load-more').find('a').click(function (e) {
         e.preventDefault();
+        var self = $(this);
         var postWrapper = $(this).closest('.advgb-recent-posts-container').find('.advgb-recent-posts');
         var postClone = postWrapper.find('.advgb-recent-post:last-child').clone();
         var offset = postWrapper.children().length;
@@ -28,9 +29,17 @@ jQuery(document).ready(function ($) {
                         url: advgbRP.homeUrl + '/index.php/wp-json/wp/v2/posts',
                         type: 'GET',
                         data: requestData,
+                        beforeSend: function () {
+                            self.addClass('no-text').prepend('<div class="advgb-recent-posts-loading"/>');
+                        },
                         success: function ( posts ) {
-                            appendPosts(postWrapper, postClone, posts, cat)
-                        }
+                            appendPosts(postWrapper, postClone, posts, cat);
+                            self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
+                        },
+                        error: function ( xhr, error ) {
+                            alert(error + ' - ' + xhr.responseText);
+                            self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
+                        },
                     })
                 },
                 error: function ( xhr, error ) {
@@ -42,11 +51,16 @@ jQuery(document).ready(function ($) {
                 url: advgbRP.homeUrl + '/index.php/wp-json/wp/v2/posts',
                 type: 'GET',
                 data: requestData,
+                beforeSend: function () {
+                    self.prepend('<div class="advgb-recent-posts-loading"/>');
+                },
                 success: function ( posts ) {
-                    appendPosts(postWrapper, postClone, posts)
+                    appendPosts(postWrapper, postClone, posts);
+                    self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                 },
                 error: function ( xhr, error ) {
                     alert(error + ' - ' + xhr.responseText);
+                    self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                 },
             })
         }

@@ -984,6 +984,19 @@ hr.wp-block-separator {
     opacity: 0.8;
 }
 
+.advgb-load-more a {
+    position: relative;
+}
+
+.advgb-load-more .advgb-recent-posts-loading {
+    background-color: transparent;
+}
+
+.advgb-load-more a.no-text {
+    color: transparent !important;
+    pointer-events: none;
+}
+
 /*Woo Products styles*/
 .advgb-products-block {
     padding-bottom: 1px;
