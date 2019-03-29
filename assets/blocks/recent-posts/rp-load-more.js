@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
 
         if (blockAttributes.displayCategory) {
             $.ajax( {
-                url: advgbRP.homeUrl + '/index.php/wp-json/wp/v2/categories',
+                url: advgbRP.homeUrl + '/index.php?rest_route=/wp/v2/categories',
                 type: 'GET',
                 data: {
                     per_page: 100,
@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
                 },
                 success: function ( cat ) {
                     $.ajax({
-                        url: advgbRP.homeUrl + '/index.php/wp-json/wp/v2/posts',
+                        url: advgbRP.homeUrl + '/index.php?rest_route=/wp/v2/posts',
                         type: 'GET',
                         data: requestData,
                         beforeSend: function () {
@@ -48,11 +48,11 @@ jQuery(document).ready(function ($) {
             } );
         } else {
             $.ajax({
-                url: advgbRP.homeUrl + '/index.php/wp-json/wp/v2/posts',
+                url: advgbRP.homeUrl + '/index.php?rest_route=/wp/v2/posts',
                 type: 'GET',
                 data: requestData,
                 beforeSend: function () {
-                    self.prepend('<div class="advgb-recent-posts-loading"/>');
+                    self.addClass('no-text').prepend('<div class="advgb-recent-posts-loading"/>');
                 },
                 success: function ( posts ) {
                     appendPosts(postWrapper, postClone, posts);
