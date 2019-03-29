@@ -997,6 +997,10 @@ hr.wp-block-separator {
     pointer-events: none;
 }
 
+.no-more-posts {
+    color: red;
+}
+
 /*Woo Products styles*/
 .advgb-products-block {
     padding-bottom: 1px;

@@ -99,7 +99,10 @@ jQuery(document).ready(function ($) {
                 postWrapper.append(clone);
             })
         } else {
-            alert(advgbRP.noPostsFound);
+            postWrapper.parent().next().append('<p class="no-more-posts">'+ advgbRP.noPostsFound +'</p>');
+            setTimeout(function (  ) {
+                postWrapper.parent().next().find('.no-more-posts').remove();
+            }, 2000)
         }
     }
 });
