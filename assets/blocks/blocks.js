@@ -10265,7 +10265,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "div",
                                         { className: "no-layout" },
-                                        "NONE"
+                                        __('NONE')
                                     )
                                 ),
                                 Object.keys(advgbRPL).map(function (clayout, index) {

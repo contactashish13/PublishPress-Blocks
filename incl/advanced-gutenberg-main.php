@@ -3306,6 +3306,7 @@ float: left;'
         }
 
         if (strpos($content, 'advgb-load-more') !== false) {
+            wp_enqueue_script('wp-date');
             wp_enqueue_script(
                 'advgb_load_more',
                 plugins_url('assets/blocks/recent-posts/rp-load-more.js', dirname(__FILE__)),
@@ -3313,7 +3314,15 @@ float: left;'
                 ADVANCED_GUTENBERG_VERSION
             );
 
-            wp_localize_script('advgb_load_more', 'advgbHome', array('url' => home_url()));
+            $saved_settings    = get_option('advgb_settings');
+            $default_thumb     = plugins_url('assets/blocks/recent-posts/recent-post-default.png', ADVANCED_GUTENBERG_PLUGIN);
+            $rp_default_thumb  = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
+
+            wp_localize_script('advgb_load_more', 'advgbRP', array(
+                'homeUrl' => home_url(),
+                'defaultThumb' => $rp_default_thumb['url'],
+                'noPostsFound' => __('No more posts found.', 'advanced-gutenberg'),
+            ));
         }
 
         if (strpos($content, 'advgb-woo-products slider-view') !== false) {
