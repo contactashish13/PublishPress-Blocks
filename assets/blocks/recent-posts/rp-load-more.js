@@ -37,13 +37,13 @@ jQuery(document).ready(function ($) {
                             self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                         },
                         error: function ( xhr, error ) {
-                            alert(error + ' - ' + xhr.responseText);
+                            alert(error + ' - ' + xhr.statusText);
                             self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                         },
                     })
                 },
                 error: function ( xhr, error ) {
-                    alert(error + ' - ' + xhr.responseText);
+                    alert(error + ' - ' + xhr.statusText);
                 },
             } );
         } else {
@@ -59,14 +59,14 @@ jQuery(document).ready(function ($) {
                     self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                 },
                 error: function ( xhr, error ) {
-                    alert(error + ' - ' + xhr.responseText);
+                    alert(error + ' - ' + xhr.statusText);
                     self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                 },
             })
         }
     });
 
-    function appendPosts( postWrapper, postClone, posts, categories = null ) {
+    function appendPosts( postWrapper, postClone, posts, categories ) {
         if (posts.length) {
             posts.forEach(function (post) {
                 var dateFormat = wp.date.__experimentalGetSettings().formats.date;
