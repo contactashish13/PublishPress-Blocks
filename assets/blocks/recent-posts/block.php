@@ -308,9 +308,10 @@ if (!function_exists('advgbRecentPostsFilter')) {
         }
 
         $blockHtml = sprintf(
-            '<div class="advgb-recent-posts-block %2$s"><div class="advgb-recent-posts">%1$s</div></div>',
+            '<div class="advgb-recent-posts-block %2$s"><div class="advgb-recent-posts" data-attributes="%3$s">%1$s</div></div>',
             $postHtml,
-            esc_attr($blockClass)
+            esc_attr($blockClass),
+            base64_encode(json_encode($attributes))
         );
 
         return $blockHtml;

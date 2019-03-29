@@ -855,6 +855,10 @@ hr.wp-block-separator {
     position: relative;
 }
 
+.advgb-recent-posts .advgb-recent-post .advgb-post-thumbnail {
+    text-align: center;
+}
+
 .advgb-recent-posts .advgb-recent-post .advgb-post-thumbnail a {
     display: inline-block;
 }

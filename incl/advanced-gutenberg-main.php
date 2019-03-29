@@ -3305,6 +3305,17 @@ float: left;'
             });');
         }
 
+        if (strpos($content, 'advgb-load-more') !== false) {
+            wp_enqueue_script(
+                'advgb_load_more',
+                plugins_url('assets/blocks/recent-posts/rp-load-more.js', dirname(__FILE__)),
+                array(),
+                ADVANCED_GUTENBERG_VERSION
+            );
+
+            wp_localize_script('advgb_load_more', 'advgbHome', array('url' => home_url()));
+        }
+
         if (strpos($content, 'advgb-woo-products slider-view') !== false) {
             wp_enqueue_style('slick_style');
             wp_enqueue_style('slick_theme_style');
