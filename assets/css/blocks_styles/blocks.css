@@ -855,6 +855,10 @@ hr.wp-block-separator {
     position: relative;
 }
 
+.advgb-recent-posts .advgb-recent-post .advgb-post-thumbnail {
+    text-align: center;
+}
+
 .advgb-recent-posts .advgb-recent-post .advgb-post-thumbnail a {
     display: inline-block;
 }
@@ -978,6 +982,23 @@ hr.wp-block-separator {
     max-width: 100%;
     margin: auto;
     opacity: 0.8;
+}
+
+.advgb-load-more a {
+    position: relative;
+}
+
+.advgb-load-more .advgb-recent-posts-loading {
+    background-color: transparent;
+}
+
+.advgb-load-more a.no-text {
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.no-more-posts {
+    color: red;
 }
 
 /*Woo Products styles*/

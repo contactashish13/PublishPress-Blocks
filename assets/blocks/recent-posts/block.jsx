@@ -163,6 +163,7 @@
                 displayReadMore,
                 readMoreLbl,
                 layout,
+                disableSliderView,
             } = attributes;
 
             const inspectorControls = (
@@ -174,9 +175,7 @@
                                     <div className={ !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
                                          onClick={ () => setAttributes( { layout: undefined } ) }
                                     >
-                                        <div className="no-layout">
-                                            NONE
-                                        </div>
+                                        <div className="no-layout">{ __( 'NONE' ) }</div>
                                     </div>
                                     {Object.keys(advgbRPL).map((clayout, index) => (
                                         <div className={ clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
@@ -314,6 +313,7 @@
                     title: __( 'Slider View' ),
                     onClick: () => setAttributes( { postView: 'slider' } ),
                     isActive: postView === 'slider',
+                    isDisabled: !!disableSliderView,
                 },
             ];
 
@@ -354,8 +354,8 @@
                                                     if (index === 5) {
                                                         return (
                                                             <span className="advgb-post-category-more">
-                                                                    +{post.categories.length - index}
-                                                                </span>
+                                                                +{post.categories.length - index}
+                                                            </span>
                                                         )
                                                     }
 
@@ -377,8 +377,8 @@
                                         ) }
                                         {displayDate && (
                                             <span className="advgb-post-date" >
-                                                    { dateI18n( dateFormat, post.date_gmt ) }
-                                                </span>
+                                                { dateI18n( dateFormat, post.date_gmt ) }
+                                            </span>
                                         ) }
                                     </div>
                                     <div className="advgb-post-content">
