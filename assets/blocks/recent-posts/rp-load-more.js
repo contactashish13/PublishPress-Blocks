@@ -88,7 +88,7 @@ jQuery(document).ready(function ($) {
                         }
 
                         var catID = parseInt(post.categories[i]);
-                        var idx = categories.findIndex((cat) => cat.id === catID);
+                        var idx = categories.findIndex(function(cat) { return cat.id === catID });
                         var catName = idx > -1 ? categories[idx].name : '';
 
                         categoryHTML += '<span class="advgb-post-category">'+ catName +'</span>'
@@ -100,7 +100,7 @@ jQuery(document).ready(function ($) {
             })
         } else {
             postWrapper.parent().next().append('<p class="no-more-posts">'+ advgbRP.noPostsFound +'</p>');
-            setTimeout(function (  ) {
+            setTimeout(function () {
                 postWrapper.parent().next().find('.no-more-posts').remove();
             }, 2000)
         }
