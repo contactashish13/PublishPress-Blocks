@@ -1233,6 +1233,143 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 
+/***/ "./assets/blocks/advgallery/block.jsx":
+/*!********************************************!*\
+  !*** ./assets/blocks/advgallery/block.jsx ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls,
+        PanelColorSettings = wpEditor.PanelColorSettings,
+        MediaUpload = wpEditor.MediaUpload,
+        MediaPlaceholder = wpEditor.MediaPlaceholder,
+        BlockControls = wpEditor.BlockControls;
+    var SVG = wpComponents.SVG,
+        Path = wpComponents.Path,
+        Toolbar = wpComponents.Toolbar,
+        PanelBody = wpComponents.PanelBody,
+        RangeControl = wpComponents.RangeControl,
+        ToggleControl = wpComponents.ToggleControl,
+        SelectControl = wpComponents.SelectControl,
+        IconButton = wpComponents.IconButton,
+        Button = wpComponents.Button,
+        Tooltip = wpComponents.Tooltip;
+
+
+    var advGalleryBlockIcon = React.createElement(
+        SVG,
+        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement(Path, { d: "M0 0h24v24H0z", fill: "none" }),
+        React.createElement(Path, { d: "M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" })
+    );
+
+    var AdvGallery = function (_Component) {
+        _inherits(AdvGallery, _Component);
+
+        function AdvGallery() {
+            _classCallCheck(this, AdvGallery);
+
+            return _possibleConstructorReturn(this, (AdvGallery.__proto__ || Object.getPrototypeOf(AdvGallery)).apply(this, arguments));
+        }
+
+        _createClass(AdvGallery, [{
+            key: "render",
+            value: function render() {
+                return React.createElement(
+                    "div",
+                    null,
+                    "123"
+                );
+            }
+        }]);
+
+        return AdvGallery;
+    }(Component);
+
+    var blockAttrs = {
+        images: {
+            type: 'array',
+            default: [],
+            source: 'query',
+            selector: 'div.advgb-gallery .advgb-gallery-item',
+            query: {
+                url: {
+                    source: 'attribute',
+                    selector: 'img',
+                    attribute: 'src'
+                },
+                id: {
+                    source: 'attribute',
+                    selector: 'img',
+                    attribute: 'data-id'
+                },
+                alt: {
+                    source: 'attribute',
+                    selector: 'img',
+                    attribute: 'alt',
+                    default: ''
+                },
+                caption: {
+                    type: 'string',
+                    source: 'html',
+                    selector: 'figcaption'
+                }
+            }
+        },
+        columns: {
+            type: 'number'
+        },
+        layout: {
+            type: 'string'
+        },
+        itemsToShow: {
+            type: 'number',
+            default: 0
+        },
+        changed: {
+            type: 'boolean',
+            default: false
+        }
+    };
+
+    registerBlockType('advgb/gallery', {
+        title: __('Adv Gallery'),
+        description: __('Advanced gallery with enhanced functions.'),
+        icon: {
+            src: advGalleryBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('slide'), __('gallery'), __('photos')],
+        attributes: blockAttrs,
+        edit: AdvGallery,
+        save: function save(_ref) {
+            var attributes = _ref.attributes;
+
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+
 /***/ "./assets/blocks/advimage/block.jsx":
 /*!******************************************!*\
   !*** ./assets/blocks/advimage/block.jsx ***!
@@ -12657,14 +12794,15 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
 /***/ }),
 
 /***/ 0:
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/custom-columns/columns.jsx ./assets/blocks/custom-separator/separator.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advgallery/block.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/custom-columns/columns.jsx ./assets/blocks/custom-separator/separator.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! ./assets/blocks/accordion/block.jsx */"./assets/blocks/accordion/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advbutton/block.jsx */"./assets/blocks/advbutton/block.jsx");
+__webpack_require__(/*! ./assets/blocks/advgallery/block.jsx */"./assets/blocks/advgallery/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advimage/block.jsx */"./assets/blocks/advimage/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advlist/block.jsx */"./assets/blocks/advlist/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advtable/block.jsx */"./assets/blocks/advtable/block.jsx");
