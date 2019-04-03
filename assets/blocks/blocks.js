@@ -1305,11 +1305,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 // unselect the caption so when the user selects other image and comeback
                 // the caption is not immediately selected
 
-                if (this.state.selectedCaption && !isSelected && prevProps.isSelected) {
+                if (!isSelected && prevProps.isSelected) {
                     this.setState({
-                        selectedCaption: null
+                        selectedCaption: null,
+                        selectedImage: null
                     });
                 }
+            }
+        }, {
+            key: "addImages",
+            value: function addImages(images) {
+                var columns = this.props.attributes.columns;
+
+                this.props.setAttributes({
+                    images: images.map(function (image) {
+                        return {
+                            url: image.url,
+                            id: image.id,
+                            alt: image.alt,
+                            caption: image.caption
+                        };
+                    }),
+                    columns: columns ? Math.min(images.length, columns) : columns
+                });
             }
         }, {
             key: "render",
@@ -1323,6 +1341,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var images = attributes.images,
                     columns = attributes.columns,
                     layout = attributes.layout,
+                    enableLoadMore = attributes.enableLoadMore,
                     itemsToShow = attributes.itemsToShow;
                 var _state = this.state,
                     selectedImage = _state.selectedImage,
@@ -1343,7 +1362,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return img.id;
                             }),
                             onSelect: function onSelect(imgs) {
-                                return console.log(imgs);
+                                return _this2.addImages(imgs);
                             },
                             render: function render(_ref) {
                                 var open = _ref.open;
@@ -1367,8 +1386,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         title: !images.length && __('Advanced Gallery'),
                         instructions: !images.length && __('Drag images, upload new ones or select from your library.')
                     },
-                    onSelect: function onSelect() {
-                        return null;
+                    onSelect: function onSelect(imgs) {
+                        return _this2.addImages(imgs);
                     },
                     accept: "image/*",
                     allowedTypes: ['image'],
@@ -1435,7 +1454,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 React.createElement(
                                     "figure",
                                     { className: selectedImage === index && 'is-selected' },
-                                    selectedImage && React.createElement(
+                                    selectedImage === index && React.createElement(
                                         "div",
                                         { className: "advgb-gallery-item-remove" },
                                         React.createElement(IconButton, {
@@ -1448,9 +1467,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement("img", { src: img.url,
                                         alt: img.alt,
                                         "data-id": img.id,
-                                        onClick: null
+                                        onClick: function onClick() {
+                                            return _this2.setState({ selectedImage: index });
+                                        }
                                     }),
-                                    (!RichText.isEmpty(caption) || isSelected) && React.createElement(RichText, {
+                                    (!RichText.isEmpty(img.caption) || isSelected) && React.createElement(RichText, {
                                         tagName: "figcaption",
                                         placeholder: __('Write caption…'),
                                         value: img.caption,

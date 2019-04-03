@@ -20,23 +20,37 @@
             this.state = {
                 selectedImage: null,
                 selectedCaption: null,
-            }
+            };
         }
 
         componentDidUpdate( prevProps ) {
             const { isSelected } = this.props;
             // unselect the caption so when the user selects other image and comeback
             // the caption is not immediately selected
-            if ( this.state.selectedCaption && !isSelected && prevProps.isSelected ) {
+            if ( !isSelected && prevProps.isSelected ) {
                 this.setState( {
                     selectedCaption: null,
+                    selectedImage: null,
                 } );
             }
         }
 
+        addImages( images ) {
+            const { columns } = this.props.attributes;
+            this.props.setAttributes( {
+                images: images.map( (image) => ( {
+                    url: image.url,
+                    id: image.id,
+                    alt: image.alt,
+                    caption: image.caption,
+                } ) ),
+                columns: columns ? Math.min( images.length, columns ) : columns,
+            } )
+        }
+
         render() {
             const { attributes, setAttributes, isSelected } = this.props;
-            const { images, columns, layout, itemsToShow } = attributes;
+            const { images, columns, layout, enableLoadMore, itemsToShow } = attributes;
             const { selectedImage, selectedCaption } = this.state;
 
             const controls = (
@@ -47,8 +61,8 @@
                                 allowedTypes={ [ 'image' ] }
                                 multiple
                                 gallery
-                                value={ images.map( (img) => img.id ) }
-                                onSelect={ (imgs) => console.log(imgs) }
+                                value={ images.map( ( img ) => img.id ) }
+                                onSelect={ ( imgs ) => this.addImages( imgs ) }
                                 render={ ( { open } ) => (
                                     <IconButton
                                         className="components-toolbar__control"
@@ -73,7 +87,7 @@
                         title: !images.length && __( 'Advanced Gallery' ),
                         instructions: !images.length && __( 'Drag images, upload new ones or select from your library.' ),
                     } }
-                    onSelect={ () => null }
+                    onSelect={ ( imgs ) => this.addImages( imgs ) }
                     accept="image/*"
                     allowedTypes={ [ 'image' ] }
                     multiple
@@ -129,7 +143,7 @@
                             return (
                                 <div className="advgb-gallery-items" key={ index }>
                                     <figure className={ selectedImage === index && 'is-selected' }>
-                                        {selectedImage && (
+                                        {selectedImage === index && (
                                             <div className="advgb-gallery-item-remove">
                                                 <IconButton
                                                     icon="no-alt"
@@ -142,9 +156,9 @@
                                         <img src={ img.url }
                                              alt={ img.alt }
                                              data-id={ img.id }
-                                             onClick={ null }
+                                             onClick={ () => this.setState( { selectedImage: index } ) }
                                         />
-                                        { (!RichText.isEmpty(caption) || isSelected) && (
+                                        { (!RichText.isEmpty(img.caption) || isSelected) && (
                                             <RichText
                                                 tagName="figcaption"
                                                 placeholder={ __( 'Write caption…' ) }
