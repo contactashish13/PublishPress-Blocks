@@ -1257,10 +1257,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
     var InspectorControls = wpEditor.InspectorControls,
-        PanelColorSettings = wpEditor.PanelColorSettings,
+        RichText = wpEditor.RichText,
         MediaUpload = wpEditor.MediaUpload,
         MediaPlaceholder = wpEditor.MediaPlaceholder,
-        BlockControls = wpEditor.BlockControls;
+        BlockControls = wpEditor.BlockControls,
+        BlockIcon = wpEditor.BlockIcon;
     var SVG = wpComponents.SVG,
         Path = wpComponents.Path,
         Toolbar = wpComponents.Toolbar,
@@ -1280,22 +1281,190 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         React.createElement(Path, { d: "M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" })
     );
 
+    var MAX_COLUMNS = 8;
+
     var AdvGallery = function (_Component) {
         _inherits(AdvGallery, _Component);
 
         function AdvGallery() {
             _classCallCheck(this, AdvGallery);
 
-            return _possibleConstructorReturn(this, (AdvGallery.__proto__ || Object.getPrototypeOf(AdvGallery)).apply(this, arguments));
+            var _this = _possibleConstructorReturn(this, (AdvGallery.__proto__ || Object.getPrototypeOf(AdvGallery)).apply(this, arguments));
+
+            _this.state = {
+                selectedImage: null,
+                selectedCaption: null
+            };
+            return _this;
         }
 
         _createClass(AdvGallery, [{
+            key: "componentDidUpdate",
+            value: function componentDidUpdate(prevProps) {
+                var isSelected = this.props.isSelected;
+                // unselect the caption so when the user selects other image and comeback
+                // the caption is not immediately selected
+
+                if (this.state.selectedCaption && !isSelected && prevProps.isSelected) {
+                    this.setState({
+                        selectedCaption: null
+                    });
+                }
+            }
+        }, {
             key: "render",
             value: function render() {
-                return React.createElement(
-                    "div",
+                var _this2 = this;
+
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes,
+                    isSelected = _props.isSelected;
+                var images = attributes.images,
+                    columns = attributes.columns,
+                    layout = attributes.layout,
+                    itemsToShow = attributes.itemsToShow;
+                var _state = this.state,
+                    selectedImage = _state.selectedImage,
+                    selectedCaption = _state.selectedCaption;
+
+
+                var controls = React.createElement(
+                    BlockControls,
                     null,
-                    "123"
+                    !!images.length && React.createElement(
+                        Toolbar,
+                        null,
+                        React.createElement(MediaUpload, {
+                            allowedTypes: ['image'],
+                            multiple: true,
+                            gallery: true,
+                            value: images.map(function (img) {
+                                return img.id;
+                            }),
+                            onSelect: function onSelect(imgs) {
+                                return console.log(imgs);
+                            },
+                            render: function render(_ref) {
+                                var open = _ref.open;
+                                return React.createElement(IconButton, {
+                                    className: "components-toolbar__control",
+                                    label: __('Edit gallery'),
+                                    icon: "edit",
+                                    onClick: open
+                                });
+                            }
+                        })
+                    )
+                );
+
+                var mediaHolder = React.createElement(MediaPlaceholder, {
+                    addToGallery: !!images.length,
+                    isAppender: !!images.length,
+                    dropZoneUIOnly: !!images.length && !isSelected,
+                    icon: !images.length && React.createElement(BlockIcon, { icon: advGalleryBlockIcon }),
+                    labels: {
+                        title: !images.length && __('Advanced Gallery'),
+                        instructions: !images.length && __('Drag images, upload new ones or select from your library.')
+                    },
+                    onSelect: function onSelect() {
+                        return null;
+                    },
+                    accept: "image/*",
+                    allowedTypes: ['image'],
+                    multiple: true,
+                    value: !!images.length ? images : undefined
+                });
+
+                if (!images.length) {
+                    return React.createElement(
+                        Fragment,
+                        null,
+                        controls,
+                        mediaHolder
+                    );
+                }
+
+                return React.createElement(
+                    Fragment,
+                    null,
+                    controls,
+                    React.createElement(
+                        InspectorControls,
+                        null,
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Gallery Settings') },
+                            React.createElement(SelectControl, {
+                                label: __('Layout'),
+                                value: layout,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ layout: value });
+                                },
+                                options: [{ label: __('Default'), value: '' }, { label: __('Masonry'), value: 'masonry' }]
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Columns'),
+                                value: columns,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ columns: value });
+                                },
+                                min: 1,
+                                max: Math.min(MAX_COLUMNS, images.length),
+                                required: true
+                            }),
+                            enableLoadMore && React.createElement(RangeControl, {
+                                label: __('Items to show'),
+                                help: __('Number of items will be show on first load, also the number of items will be fetched with load more button.'),
+                                value: itemsToShow,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ itemsToShow: value });
+                                },
+                                min: 1,
+                                max: images.length
+                            })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "advgb-gallery" },
+                        images.map(function (img, index) {
+                            return React.createElement(
+                                "div",
+                                { className: "advgb-gallery-items", key: index },
+                                React.createElement(
+                                    "figure",
+                                    { className: selectedImage === index && 'is-selected' },
+                                    selectedImage && React.createElement(
+                                        "div",
+                                        { className: "advgb-gallery-item-remove" },
+                                        React.createElement(IconButton, {
+                                            icon: "no-alt",
+                                            onClick: null,
+                                            className: "item-remove-icon",
+                                            label: __('Remove Image')
+                                        })
+                                    ),
+                                    React.createElement("img", { src: img.url,
+                                        alt: img.alt,
+                                        "data-id": img.id,
+                                        onClick: null
+                                    }),
+                                    (!RichText.isEmpty(caption) || isSelected) && React.createElement(RichText, {
+                                        tagName: "figcaption",
+                                        placeholder: __('Write caption…'),
+                                        value: img.caption,
+                                        isSelected: selectedCaption === index,
+                                        onChange: null,
+                                        unstableOnFocus: function unstableOnFocus() {
+                                            return _this2.setState({ selectedCaption: index });
+                                        },
+                                        inlineToolbar: true
+                                    })
+                                )
+                            );
+                        })
+                    )
                 );
             }
         }]);
@@ -1339,9 +1508,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         layout: {
             type: 'string'
         },
+        enableLoadMore: {
+            type: 'boolean',
+            default: false
+        },
         itemsToShow: {
             type: 'number',
-            default: 0
+            default: 6
         },
         changed: {
             type: 'boolean',
@@ -1360,8 +1533,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('slide'), __('gallery'), __('photos')],
         attributes: blockAttrs,
         edit: AdvGallery,
-        save: function save(_ref) {
-            var attributes = _ref.attributes;
+        save: function save(_ref2) {
+            var attributes = _ref2.attributes;
 
             return null;
         }

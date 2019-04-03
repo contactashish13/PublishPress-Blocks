@@ -2,7 +2,7 @@
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
-    const { InspectorControls, PanelColorSettings, MediaUpload, MediaPlaceholder, BlockControls } = wpEditor;
+    const { InspectorControls, RichText, MediaUpload, MediaPlaceholder, BlockControls, BlockIcon } = wpEditor;
     const { SVG, Path, Toolbar, PanelBody, RangeControl, ToggleControl , SelectControl, IconButton, Button, Tooltip } = wpComponents;
 
     const advGalleryBlockIcon = (
@@ -12,14 +12,155 @@
         </SVG>
     );
 
+    const MAX_COLUMNS = 8;
+
     class AdvGallery extends Component {
         constructor() {
             super ( ...arguments );
+            this.state = {
+                selectedImage: null,
+                selectedCaption: null,
+            }
+        }
+
+        componentDidUpdate( prevProps ) {
+            const { isSelected } = this.props;
+            // unselect the caption so when the user selects other image and comeback
+            // the caption is not immediately selected
+            if ( this.state.selectedCaption && !isSelected && prevProps.isSelected ) {
+                this.setState( {
+                    selectedCaption: null,
+                } );
+            }
         }
 
         render() {
+            const { attributes, setAttributes, isSelected } = this.props;
+            const { images, columns, layout, itemsToShow } = attributes;
+            const { selectedImage, selectedCaption } = this.state;
+
+            const controls = (
+                <BlockControls>
+                    {!!images.length && (
+                        <Toolbar>
+                            <MediaUpload
+                                allowedTypes={ [ 'image' ] }
+                                multiple
+                                gallery
+                                value={ images.map( (img) => img.id ) }
+                                onSelect={ (imgs) => console.log(imgs) }
+                                render={ ( { open } ) => (
+                                    <IconButton
+                                        className="components-toolbar__control"
+                                        label={ __( 'Edit gallery' ) }
+                                        icon="edit"
+                                        onClick={ open }
+                                    />
+                                ) }
+                            />
+                        </Toolbar>
+                    ) }
+                </BlockControls>
+            );
+
+            const mediaHolder = (
+                <MediaPlaceholder
+                    addToGallery={ !!images.length }
+                    isAppender={ !!images.length }
+                    dropZoneUIOnly={ !!images.length && !isSelected }
+                    icon={ !images.length && <BlockIcon icon={ advGalleryBlockIcon } /> }
+                    labels={ {
+                        title: !images.length && __( 'Advanced Gallery' ),
+                        instructions: !images.length && __( 'Drag images, upload new ones or select from your library.' ),
+                    } }
+                    onSelect={ () => null }
+                    accept="image/*"
+                    allowedTypes={ [ 'image' ] }
+                    multiple
+                    value={ !!images.length ? images : undefined }
+                />
+            );
+
+            if (!images.length) {
+                return (
+                    <Fragment>
+                        {controls}
+                        {mediaHolder}
+                    </Fragment>
+                )
+            }
+
             return (
-                <div>123</div>
+                <Fragment>
+                    {controls}
+                    <InspectorControls>
+                        <PanelBody title={ __( 'Gallery Settings' ) }>
+                            <SelectControl
+                                label={ __( 'Layout' ) }
+                                value={ layout }
+                                onChange={ (value) => setAttributes( { layout: value } ) }
+                                options={ [
+                                    { label: __( 'Default' ), value: '' },
+                                    { label: __( 'Masonry' ), value: 'masonry' },
+                                ] }
+                            />
+                            <RangeControl
+                                label={ __( 'Columns' ) }
+                                value={ columns }
+                                onChange={ (value) => setAttributes( { columns: value } ) }
+                                min={ 1 }
+                                max={ Math.min( MAX_COLUMNS, images.length ) }
+                                required
+                            />
+                            {enableLoadMore && (
+                                <RangeControl
+                                    label={ __( 'Items to show' ) }
+                                    help={ __( 'Number of items will be show on first load, also the number of items will be fetched with load more button.' ) }
+                                    value={ itemsToShow }
+                                    onChange={ (value) => setAttributes( { itemsToShow: value } ) }
+                                    min={ 1 }
+                                    max={ images.length }
+                                />
+                            ) }
+                        </PanelBody>
+                    </InspectorControls>
+                    <div className="advgb-gallery">
+                        {images.map( (img, index) => {
+                            return (
+                                <div className="advgb-gallery-items" key={ index }>
+                                    <figure className={ selectedImage === index && 'is-selected' }>
+                                        {selectedImage && (
+                                            <div className="advgb-gallery-item-remove">
+                                                <IconButton
+                                                    icon="no-alt"
+                                                    onClick={ null }
+                                                    className="item-remove-icon"
+                                                    label={ __( 'Remove Image' ) }
+                                                />
+                                            </div>
+                                        ) }
+                                        <img src={ img.url }
+                                             alt={ img.alt }
+                                             data-id={ img.id }
+                                             onClick={ null }
+                                        />
+                                        { (!RichText.isEmpty(caption) || isSelected) && (
+                                            <RichText
+                                                tagName="figcaption"
+                                                placeholder={ __( 'Write caption…' ) }
+                                                value={ img.caption }
+                                                isSelected={ selectedCaption === index }
+                                                onChange={ null }
+                                                unstableOnFocus={ () => this.setState( { selectedCaption: index } ) }
+                                                inlineToolbar
+                                            />
+                                        ) }
+                                    </figure>
+                                </div>
+                            )
+                        } ) }
+                    </div>
+                </Fragment>
             )
         }
     }
@@ -60,9 +201,13 @@
         layout: {
             type: 'string',
         },
+        enableLoadMore: {
+            type: 'boolean',
+            default: false,
+        },
         itemsToShow: {
             type: 'number',
-            default: 0,
+            default: 6,
         },
         changed: {
             type: 'boolean',
