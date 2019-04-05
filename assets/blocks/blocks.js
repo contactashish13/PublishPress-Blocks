@@ -1300,7 +1300,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         _createClass(AdvGallery, [{
             key: "componentDidUpdate",
-            value: function componentDidUpdate(prevProps) {
+            value: function componentDidUpdate(prevProps, prevState) {
                 var isSelected = this.props.isSelected;
                 // unselect the caption so when the user selects other image and comeback
                 // the caption is not immediately selected
@@ -1310,6 +1310,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         selectedCaption: null,
                         selectedImage: null
                     });
+                }
+
+                if (this.state.selectedImage !== prevState.selectedImage) {
+                    this.setState({ selectedCaption: null });
                 }
             }
         }, {

@@ -23,7 +23,7 @@
             };
         }
 
-        componentDidUpdate( prevProps ) {
+        componentDidUpdate( prevProps, prevState ) {
             const { isSelected } = this.props;
             // unselect the caption so when the user selects other image and comeback
             // the caption is not immediately selected
@@ -32,6 +32,10 @@
                     selectedCaption: null,
                     selectedImage: null,
                 } );
+            }
+
+            if (this.state.selectedImage !== prevState.selectedImage) {
+                this.setState( { selectedCaption: null } );
             }
         }
 
