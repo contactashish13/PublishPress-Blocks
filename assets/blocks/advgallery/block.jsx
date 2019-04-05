@@ -179,13 +179,24 @@
                                              data-id={ img.id }
                                              onClick={ () => this.setState( { selectedImage: index } ) }
                                         />
-                                        { (!RichText.isEmpty(img.caption) || selectedImage === index) && (
+                                        { (!RichText.isEmpty( img.caption ) || selectedImage === index) && (
                                             <RichText
                                                 tagName="figcaption"
                                                 placeholder={ __( 'Write caption…' ) }
                                                 value={ img.caption }
                                                 isSelected={ selectedCaption === index }
-                                                onChange={ null }
+                                                onChange={ ( value ) => setAttributes( {
+                                                    images: images.map( ( img, idx ) => {
+                                                        if (idx === index) {
+                                                            return {
+                                                                ...img,
+                                                                caption: value,
+                                                            }
+                                                        }
+
+                                                        return img;
+                                                    } )
+                                                } ) }
                                                 unstableOnFocus={ () => this.setState( { selectedCaption: index } ) }
                                                 inlineToolbar
                                             />
