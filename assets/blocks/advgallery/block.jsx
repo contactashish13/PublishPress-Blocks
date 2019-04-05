@@ -48,7 +48,7 @@
                     alt: image.alt,
                     caption: image.caption,
                 } ) ),
-                columns: columns ? Math.min( images.length, columns ) : columns,
+                columns: columns ? Math.min( images.length, columns ) : Math.min( images.length, 3 ),
             } )
         }
 
@@ -99,6 +99,13 @@
                 />
             );
 
+            const blockClass = [
+                'advgb-gallery',
+                !layout && 'default-layout',
+                layout === 'masonry-layout',
+                columns && `columns-${columns}`,
+            ].filter( Boolean ).join( ' ' );
+
             if (!images.length) {
                 return (
                     <Fragment>
@@ -142,16 +149,26 @@
                             ) }
                         </PanelBody>
                     </InspectorControls>
-                    <div className="advgb-gallery">
+                    <div className={ blockClass }>
                         {images.map( (img, index) => {
                             return (
-                                <div className="advgb-gallery-items" key={ index }>
+                                <div className="advgb-gallery-item" key={ index }>
                                     <figure className={ selectedImage === index && 'is-selected' }>
                                         {selectedImage === index && (
                                             <div className="advgb-gallery-item-remove">
                                                 <IconButton
                                                     icon="no-alt"
-                                                    onClick={ null }
+                                                    onClick={ () => {
+                                                        const newImgs = images.filter( (img, idx) => idx !== index );
+                                                        this.setState( {
+                                                            selectedImage: null,
+                                                            selectedCaption: null,
+                                                        } );
+                                                        setAttributes( {
+                                                            images: newImgs,
+                                                            columns: columns ? Math.min( newImgs.length, columns ) : columns,
+                                                        } );
+                                                    } }
                                                     className="item-remove-icon"
                                                     label={ __( 'Remove Image' ) }
                                                 />

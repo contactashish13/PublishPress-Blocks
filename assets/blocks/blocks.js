@@ -1330,7 +1330,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             caption: image.caption
                         };
                     }),
-                    columns: columns ? Math.min(images.length, columns) : columns
+                    columns: columns ? Math.min(images.length, columns) : Math.min(images.length, 3)
                 });
             }
         }, {
@@ -1399,6 +1399,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     value: !!images.length ? images : undefined
                 });
 
+                var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
+
                 if (!images.length) {
                     return React.createElement(
                         Fragment,
@@ -1450,11 +1452,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     React.createElement(
                         "div",
-                        { className: "advgb-gallery" },
+                        { className: blockClass },
                         images.map(function (img, index) {
                             return React.createElement(
                                 "div",
-                                { className: "advgb-gallery-items", key: index },
+                                { className: "advgb-gallery-item", key: index },
                                 React.createElement(
                                     "figure",
                                     { className: selectedImage === index && 'is-selected' },
@@ -1463,7 +1465,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         { className: "advgb-gallery-item-remove" },
                                         React.createElement(IconButton, {
                                             icon: "no-alt",
-                                            onClick: null,
+                                            onClick: function onClick() {
+                                                var newImgs = images.filter(function (img, idx) {
+                                                    return idx !== index;
+                                                });
+                                                _this2.setState({
+                                                    selectedImage: null,
+                                                    selectedCaption: null
+                                                });
+                                                setAttributes({
+                                                    images: newImgs,
+                                                    columns: columns ? Math.min(newImgs.length, columns) : columns
+                                                });
+                                            },
                                             className: "item-remove-icon",
                                             label: __('Remove Image')
                                         })
