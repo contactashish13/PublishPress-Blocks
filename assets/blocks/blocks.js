@@ -1471,7 +1471,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             return _this2.setState({ selectedImage: index });
                                         }
                                     }),
-                                    (!RichText.isEmpty(img.caption) || isSelected) && React.createElement(RichText, {
+                                    (!RichText.isEmpty(img.caption) || selectedImage === index) && React.createElement(RichText, {
                                         tagName: "figcaption",
                                         placeholder: __('Write caption…'),
                                         value: img.caption,

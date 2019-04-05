@@ -158,7 +158,7 @@
                                              data-id={ img.id }
                                              onClick={ () => this.setState( { selectedImage: index } ) }
                                         />
-                                        { (!RichText.isEmpty(img.caption) || isSelected) && (
+                                        { (!RichText.isEmpty(img.caption) || selectedImage === index) && (
                                             <RichText
                                                 tagName="figcaption"
                                                 placeholder={ __( 'Write caption…' ) }
