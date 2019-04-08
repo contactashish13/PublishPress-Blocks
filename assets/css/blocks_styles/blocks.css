@@ -1323,6 +1323,9 @@ form .advgb-grecaptcha > div {
     text-align: center;
     padding: 5px;
     background-color: rgba(20,20,20, 0.5);
+}
+
+.wp-block-advgb-gallery.advgb-gallery .advgb-gallery-item figcaption {
     position: absolute;
     width: 100%;
     font-size: 16px;
