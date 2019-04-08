@@ -1401,7 +1401,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     value: !!images.length ? images : undefined
                 });
 
-                var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
+                var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
 
                 if (!images.length) {
                     return React.createElement(
@@ -1588,8 +1588,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         edit: AdvGallery,
         save: function save(_ref2) {
             var attributes = _ref2.attributes;
+            var images = attributes.images,
+                columns = attributes.columns,
+                layout = attributes.layout,
+                itemsToShow = attributes.itemsToShow;
 
-            return null;
+            var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
+
+            return React.createElement(
+                "div",
+                { className: blockClass },
+                images.map(function (img, index) {
+                    return React.createElement(
+                        "div",
+                        { className: "advgb-gallery-item", key: index },
+                        React.createElement(
+                            "figure",
+                            null,
+                            React.createElement("img", { src: img.url,
+                                alt: img.alt,
+                                "data-id": img.id
+                            }),
+                            !RichText.isEmpty(img.caption) && React.createElement(RichText.Content, {
+                                tagName: "figcaption",
+                                value: img.caption
+                            })
+                        )
+                    );
+                })
+            );
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);

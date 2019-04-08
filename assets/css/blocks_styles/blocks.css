@@ -1323,6 +1323,10 @@ form .advgb-grecaptcha > div {
     text-align: center;
     padding: 5px;
     background-color: rgba(20,20,20, 0.5);
+    position: absolute;
+    width: 100%;
+    font-size: 16px;
+    bottom: 0;
 }
 
 .advgb-gallery .advgb-gallery-item-remove {

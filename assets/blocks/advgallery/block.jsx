@@ -102,7 +102,7 @@
             const blockClass = [
                 'advgb-gallery',
                 !layout && 'default-layout',
-                layout === 'masonry-layout',
+                layout === 'masonry' && 'masonry-layout',
                 columns && `columns-${columns}`,
             ].filter( Boolean ).join( ' ' );
 
@@ -273,7 +273,36 @@
         attributes: blockAttrs,
         edit: AdvGallery,
         save: function ( { attributes } ) {
-            return null;
+            const { images, columns, layout, itemsToShow } = attributes;
+            const blockClass = [
+                'advgb-gallery',
+                !layout && 'default-layout',
+                layout === 'masonry' && 'masonry-layout',
+                columns && `columns-${columns}`,
+            ].filter( Boolean ).join( ' ' );
+
+            return (
+                <div className={ blockClass }>
+                    {images.map( (img, index) => {
+                        return (
+                            <div className="advgb-gallery-item" key={ index }>
+                                <figure>
+                                    <img src={ img.url }
+                                         alt={ img.alt }
+                                         data-id={ img.id }
+                                    />
+                                    { (!RichText.isEmpty( img.caption )) && (
+                                        <RichText.Content
+                                            tagName="figcaption"
+                                            value={ img.caption }
+                                        />
+                                    ) }
+                                </figure>
+                            </div>
+                        )
+                    } ) }
+                </div>
+            );
         },
     } )
 })( wp.i18n, wp.blocks, wp.element, wp.editor, wp.components );
