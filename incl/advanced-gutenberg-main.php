@@ -3321,6 +3321,17 @@ float: left;'
             );
         }
 
+        if (strpos($content, 'advgb-gallery masonry-layout') !== false) {
+            wp_enqueue_script('masonry');
+            wp_add_inline_script('masonry', 'jQuery(document).ready(function($){
+                $(".advgb-gallery.masonry-layout").masonry({
+                    itemSelector: ".advgb-gallery-item",
+                    columnWidth: ".advgb-gallery-item",
+                    percentPosition: true,
+                })
+            });');
+        }
+
         return $content;
     }
 
