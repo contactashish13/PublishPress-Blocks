@@ -20,11 +20,38 @@
             this.state = {
                 selectedImage: null,
                 selectedCaption: null,
+                grid: null,
             };
         }
 
+        componentDidMount() {
+            if (this.props.attributes.layout === 'masonry') {
+                const $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
+                    itemSelector: '.advgb-gallery-item',
+                    columnWidth: '.advgb-gallery-item',
+                    percentPosition: true,
+                });
+
+                $grid.on('click', '.advgb-gallery-item', function() {
+                    $grid.masonry('layout');
+                });
+
+                if (!this.state.grid) {
+                    this.setState( { grid: $grid } );
+                }
+
+                setTimeout(function () {
+                    $grid.masonry('layout');
+                }, 1000)
+            }
+        }
+
         componentDidUpdate( prevProps, prevState ) {
-            const { isSelected } = this.props;
+            const { isSelected, attributes } = this.props;
+            const { grid, selectedImage } = this.state;
+            const { layout } = attributes;
+            const $ = jQuery;
+
             // unselect the caption so when the user selects other image and comeback
             // the caption is not immediately selected
             if ( !isSelected && prevProps.isSelected ) {
@@ -34,8 +61,36 @@
                 } );
             }
 
-            if (this.state.selectedImage !== prevState.selectedImage) {
+            if (selectedImage !== prevState.selectedImage) {
                 this.setState( { selectedCaption: null } );
+            }
+
+            if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
+                const $grid = $('.advgb-gallery.masonry-layout').masonry({
+                    itemSelector: '.advgb-gallery-item',
+                    columnWidth: '.advgb-gallery-item',
+                    percentPosition: true,
+                });
+
+                $grid.on('click', '.advgb-gallery-item', function() {
+                    $grid.masonry('layout');
+                });
+
+                if (!grid) {
+                    this.setState( { grid: $grid } );
+                }
+            }
+
+            if (layout !== 'masonry' && this.state.grid) {
+                grid.masonry('destroy');
+                this.setState( { grid: null } );
+            }
+
+            if (prevProps.attributes.images.length !== attributes.images.length && layout === 'masonry') {
+                grid.masonry('reloadItems');
+                setTimeout(function () {
+                    grid.masonry('layout');
+                }, 1000)
             }
         }
 
@@ -76,6 +131,14 @@
                                     />
                                 ) }
                             />
+                            {layout === 'masonry' && (
+                                <IconButton
+                                    className="components-toolbar__control"
+                                    label={ __( 'Refresh layout' ) }
+                                    icon="update"
+                                    onClick={ () => this.state.grid.masonry( 'layout' ) }
+                                />
+                            ) }
                         </Toolbar>
                     ) }
                 </BlockControls>

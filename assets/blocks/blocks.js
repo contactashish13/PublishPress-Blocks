@@ -1295,18 +1295,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             _this.state = {
                 selectedImage: null,
-                selectedCaption: null
+                selectedCaption: null,
+                grid: null
             };
             return _this;
         }
 
         _createClass(AdvGallery, [{
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                if (this.props.attributes.layout === 'masonry') {
+                    var $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
+                        itemSelector: '.advgb-gallery-item',
+                        columnWidth: '.advgb-gallery-item',
+                        percentPosition: true
+                    });
+
+                    $grid.on('click', '.advgb-gallery-item', function () {
+                        $grid.masonry('layout');
+                    });
+
+                    if (!this.state.grid) {
+                        this.setState({ grid: $grid });
+                    }
+
+                    setTimeout(function () {
+                        $grid.masonry('layout');
+                    }, 1000);
+                }
+            }
+        }, {
             key: "componentDidUpdate",
             value: function componentDidUpdate(prevProps, prevState) {
-                var isSelected = this.props.isSelected;
+                var _props = this.props,
+                    isSelected = _props.isSelected,
+                    attributes = _props.attributes;
+                var _state = this.state,
+                    grid = _state.grid,
+                    selectedImage = _state.selectedImage;
+                var layout = attributes.layout;
+
+                var $ = jQuery;
+
                 // unselect the caption so when the user selects other image and comeback
                 // the caption is not immediately selected
-
                 if (!isSelected && prevProps.isSelected) {
                     this.setState({
                         selectedCaption: null,
@@ -1314,8 +1346,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     });
                 }
 
-                if (this.state.selectedImage !== prevState.selectedImage) {
+                if (selectedImage !== prevState.selectedImage) {
                     this.setState({ selectedCaption: null });
+                }
+
+                if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
+                    var $grid = $('.advgb-gallery.masonry-layout').masonry({
+                        itemSelector: '.advgb-gallery-item',
+                        columnWidth: '.advgb-gallery-item',
+                        percentPosition: true
+                    });
+
+                    $grid.on('click', '.advgb-gallery-item', function () {
+                        $grid.masonry('layout');
+                    });
+
+                    if (!grid) {
+                        this.setState({ grid: $grid });
+                    }
+                }
+
+                if (layout !== 'masonry' && this.state.grid) {
+                    grid.masonry('destroy');
+                    this.setState({ grid: null });
+                }
+
+                if (prevProps.attributes.images.length !== attributes.images.length && layout === 'masonry') {
+                    grid.masonry('reloadItems');
+                    setTimeout(function () {
+                        grid.masonry('layout');
+                    }, 1000);
                 }
             }
         }, {
@@ -1340,18 +1400,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function render() {
                 var _this2 = this;
 
-                var _props = this.props,
-                    attributes = _props.attributes,
-                    setAttributes = _props.setAttributes,
-                    isSelected = _props.isSelected;
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes,
+                    isSelected = _props2.isSelected;
                 var images = attributes.images,
                     columns = attributes.columns,
                     layout = attributes.layout,
                     enableLoadMore = attributes.enableLoadMore,
                     itemsToShow = attributes.itemsToShow;
-                var _state = this.state,
-                    selectedImage = _state.selectedImage,
-                    selectedCaption = _state.selectedCaption;
+                var _state2 = this.state,
+                    selectedImage = _state2.selectedImage,
+                    selectedCaption = _state2.selectedCaption;
 
 
                 var controls = React.createElement(
@@ -1378,6 +1438,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     icon: "edit",
                                     onClick: open
                                 });
+                            }
+                        }),
+                        layout === 'masonry' && React.createElement(IconButton, {
+                            className: "components-toolbar__control",
+                            label: __('Refresh layout'),
+                            icon: "update",
+                            onClick: function onClick() {
+                                return _this2.state.grid.masonry('layout');
                             }
                         })
                     )
