@@ -86,11 +86,16 @@
                 this.setState( { grid: null } );
             }
 
-            if (prevProps.attributes.images.length !== attributes.images.length && layout === 'masonry') {
-                grid.masonry('reloadItems');
-                setTimeout(function () {
+            if (layout === 'masonry') {
+                if (prevProps.attributes.images.length !== attributes.images.length
+                    || prevProps.attributes.columns !== attributes.columns)
+                {
+                    grid.masonry('reloadItems');
                     grid.masonry('layout');
-                }, 1000)
+                    setTimeout(function () {
+                        grid.masonry('layout');
+                    }, 1000)
+                }
             }
         }
 
