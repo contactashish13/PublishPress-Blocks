@@ -36,8 +36,11 @@ jQuery(document).ready(function ($) {
                         } )
                     }
 
+                    var $html = $(html);
                     if (!isMasonry) {
-                        galleryWrapper.append(html);
+                        galleryWrapper.append($html.hide().fadeIn(2000));
+                    } else {
+                        galleryWrapper.append($html).masonry('appended', $html).masonry('layout');
                     }
 
                     self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
