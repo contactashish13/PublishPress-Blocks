@@ -46,7 +46,10 @@ jQuery(document).ready(function ($) {
                     if (!isMasonry) {
                         galleryWrapper.append($html.hide().fadeIn(2000));
                     } else {
-                        galleryWrapper.append($html).masonry('appended', $html).masonry('layout');
+                        galleryWrapper.append($html).masonry('appended', $html);
+                        setTimeout(function () {
+                            galleryWrapper.masonry('layout');
+                        }, 300)
                     }
 
                     self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
