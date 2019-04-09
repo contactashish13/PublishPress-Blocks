@@ -1292,21 +1292,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             _this.state = {
                 selectedImage: null,
-                selectedCaption: null,
-                grid: null
+                selectedCaption: null
             };
-
-            _this.initMasonry = _this.initMasonry.bind(_this);
             return _this;
         }
 
         _createClass(AdvGallery, [{
             key: "componentDidMount",
             value: function componentDidMount() {
+                var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
                 if (this.props.attributes.layout === 'masonry') {
-                    this.initMasonry();
+                    this.initMasonry(grid);
                     setTimeout(function () {
-                        this.state.grid.masonry('layout');
+                        grid.masonry('layout');
                     }, 1000);
                 }
             }
@@ -1316,12 +1314,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props = this.props,
                     isSelected = _props.isSelected,
                     attributes = _props.attributes;
-                var _state = this.state,
-                    grid = _state.grid,
-                    selectedImage = _state.selectedImage;
+                var selectedImage = this.state.selectedImage;
                 var layout = attributes.layout;
 
-                var $ = jQuery;
+                var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
 
                 // unselect the caption so when the user selects other image and comeback
                 // the caption is not immediately selected
@@ -1337,12 +1333,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
 
                 if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
-                    this.initMasonry();
+                    this.initMasonry(grid);
                 }
 
-                if (layout !== 'masonry' && this.state.grid) {
-                    grid.masonry('destroy');
-                    this.setState({ grid: null });
+                if (layout !== 'masonry') {
+                    jQuery('#block-' + this.props.clientId + ' .advgb-gallery').masonry('destroy');
                 }
 
                 if (layout === 'masonry') {
@@ -1377,8 +1372,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }, {
             key: "initMasonry",
-            value: function initMasonry() {
-                var $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
+            value: function initMasonry($grid) {
+                $grid.masonry({
                     itemSelector: '.advgb-gallery-item',
                     columnWidth: '.advgb-gallery-item',
                     percentPosition: true
@@ -1387,10 +1382,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 $grid.on('click', '.advgb-gallery-item', function () {
                     $grid.masonry('layout');
                 });
-
-                if (!this.state.grid) {
-                    this.setState({ grid: $grid });
-                }
             }
         }, {
             key: "render",
@@ -1407,9 +1398,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     enableLoadMore = attributes.enableLoadMore,
                     itemsToShow = attributes.itemsToShow,
                     imageIds = attributes.imageIds;
-                var _state2 = this.state,
-                    selectedImage = _state2.selectedImage,
-                    selectedCaption = _state2.selectedCaption;
+                var _state = this.state,
+                    selectedImage = _state.selectedImage,
+                    selectedCaption = _state.selectedCaption;
 
 
                 var controls = React.createElement(
@@ -1422,9 +1413,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             allowedTypes: ['image'],
                             multiple: true,
                             gallery: true,
-                            value: images.map(function (img) {
-                                return img.id;
-                            }),
+                            value: imageIds,
                             onSelect: function onSelect(imgs) {
                                 return _this2.addImages(imgs);
                             },
@@ -1443,7 +1432,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             label: __('Refresh layout'),
                             icon: "update",
                             onClick: function onClick() {
-                                return _this2.state.grid.masonry('layout');
+                                return jQuery('#block-' + _this2.props.clientId + ' .advgb-gallery.masonry-layout').masonry('layout');
                             }
                         })
                     )
@@ -1531,7 +1520,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 { className: "advgb-gallery-item", key: index },
                                 React.createElement(
                                     "figure",
-                                    { className: selectedImage === index && 'is-selected' },
+                                    { className: selectedImage === index ? 'is-selected' : undefined },
                                     selectedImage === index && React.createElement(
                                         "div",
                                         { className: "advgb-gallery-item-remove" },

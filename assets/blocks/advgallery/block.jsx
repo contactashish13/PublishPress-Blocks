@@ -20,26 +20,24 @@
             this.state = {
                 selectedImage: null,
                 selectedCaption: null,
-                grid: null,
             };
-
-            this.initMasonry = this.initMasonry.bind(this);
         }
 
         componentDidMount() {
+            const grid = jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout');
             if (this.props.attributes.layout === 'masonry') {
-                this.initMasonry();
+                this.initMasonry( grid );
                 setTimeout(function () {
-                    this.state.grid.masonry('layout');
+                    grid.masonry('layout');
                 }, 1000)
             }
         }
 
         componentDidUpdate( prevProps, prevState ) {
             const { isSelected, attributes } = this.props;
-            const { grid, selectedImage } = this.state;
+            const { selectedImage } = this.state;
             const { layout } = attributes;
-            const $ = jQuery;
+            const grid = jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout');
 
             // unselect the caption so when the user selects other image and comeback
             // the caption is not immediately selected
@@ -55,12 +53,11 @@
             }
 
             if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
-                this.initMasonry();
+                this.initMasonry( grid );
             }
 
-            if (layout !== 'masonry' && this.state.grid) {
-                grid.masonry('destroy');
-                this.setState( { grid: null } );
+            if (layout !== 'masonry') {
+                jQuery('#block-'+ this.props.clientId +' .advgb-gallery').masonry('destroy');
             }
 
             if (layout === 'masonry') {
@@ -91,8 +88,8 @@
             } )
         }
 
-        initMasonry() {
-            const $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
+        initMasonry( $grid ) {
+            $grid.masonry({
                 itemSelector: '.advgb-gallery-item',
                 columnWidth: '.advgb-gallery-item',
                 percentPosition: true,
@@ -101,10 +98,6 @@
             $grid.on('click', '.advgb-gallery-item', function() {
                 $grid.masonry('layout');
             });
-
-            if (!this.state.grid) {
-                this.setState( { grid: $grid } );
-            }
         }
 
         render() {
@@ -120,7 +113,7 @@
                                 allowedTypes={ [ 'image' ] }
                                 multiple
                                 gallery
-                                value={ images.map( ( img ) => img.id ) }
+                                value={ imageIds }
                                 onSelect={ ( imgs ) => this.addImages( imgs ) }
                                 render={ ( { open } ) => (
                                     <IconButton
@@ -136,7 +129,7 @@
                                     className="components-toolbar__control"
                                     label={ __( 'Refresh layout' ) }
                                     icon="update"
-                                    onClick={ () => this.state.grid.masonry( 'layout' ) }
+                                    onClick={ () => jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout').masonry( 'layout' ) }
                                 />
                             ) }
                         </Toolbar>
@@ -220,7 +213,7 @@
 
                             return (
                                 <div className="advgb-gallery-item" key={ index }>
-                                    <figure className={ selectedImage === index && 'is-selected' }>
+                                    <figure className={ selectedImage === index ? 'is-selected' : undefined }>
                                         {selectedImage === index && (
                                             <div className="advgb-gallery-item-remove">
                                                 <IconButton
