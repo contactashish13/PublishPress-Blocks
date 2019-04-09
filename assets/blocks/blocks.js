@@ -1298,6 +1298,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
 
         _createClass(AdvGallery, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {}
+        }, {
             key: "componentDidMount",
             value: function componentDidMount() {
                 var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
@@ -1652,6 +1655,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         category: 'advgb-category',
         keywords: [__('masonry'), __('gallery'), __('photos')],
         attributes: blockAttrs,
+        supports: {
+            align: true
+        },
         edit: AdvGallery,
         save: function save(_ref2) {
             var attributes = _ref2.attributes;

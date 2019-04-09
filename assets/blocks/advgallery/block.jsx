@@ -23,6 +23,10 @@
             };
         }
 
+        componentWillMount() {
+
+        }
+
         componentDidMount() {
             const grid = jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout');
             if (this.props.attributes.layout === 'masonry') {
@@ -337,6 +341,9 @@
         category: 'advgb-category',
         keywords: [ __( 'masonry' ), __( 'gallery' ), __( 'photos' ) ],
         attributes: blockAttrs,
+        supports: {
+            align: true,
+        },
         edit: AdvGallery,
         save: function ( { attributes } ) {
             const { images, columns, layout, enableLoadMore, itemsToShow, imageIds } = attributes;
