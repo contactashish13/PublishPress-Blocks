@@ -31,7 +31,13 @@ jQuery(document).ready(function ($) {
                         var html = '';
                         images.forEach(function ( img ) {
                             html += '<div class="advgb-gallery-item">';
-                            html +=    '<figure><img src="'+ img.source_url +'" alt="'+ img.caption.rendered +'" data-id="'+ img.id +'" /></figure>';
+                            html +=    '<figure>';
+                            html +=       '<img src="'+ img.source_url +'" alt="'+ img.caption.rendered +'" data-id="'+ img.id +'" />';
+                            if (img.caption.rendered.length) {
+                                var caption = $(img.caption.rendered).text();
+                                html += '<figcaption>'+ caption +'</figcaption>';
+                            }
+                            html +=    '</figure>';
                             html += '</div>';
                         } )
                     }
