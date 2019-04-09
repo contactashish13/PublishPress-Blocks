@@ -1269,11 +1269,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Toolbar = wpComponents.Toolbar,
         PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
-        ToggleControl = wpComponents.ToggleControl,
         SelectControl = wpComponents.SelectControl,
-        IconButton = wpComponents.IconButton,
-        Button = wpComponents.Button,
-        Tooltip = wpComponents.Tooltip;
+        IconButton = wpComponents.IconButton;
 
 
     var advGalleryBlockIcon = React.createElement(
@@ -1298,6 +1295,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 selectedCaption: null,
                 grid: null
             };
+
+            _this.initMasonry = _this.initMasonry.bind(_this);
             return _this;
         }
 
@@ -1305,22 +1304,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             key: "componentDidMount",
             value: function componentDidMount() {
                 if (this.props.attributes.layout === 'masonry') {
-                    var $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
-                        itemSelector: '.advgb-gallery-item',
-                        columnWidth: '.advgb-gallery-item',
-                        percentPosition: true
-                    });
-
-                    $grid.on('click', '.advgb-gallery-item', function () {
-                        $grid.masonry('layout');
-                    });
-
-                    if (!this.state.grid) {
-                        this.setState({ grid: $grid });
-                    }
-
+                    this.initMasonry();
                     setTimeout(function () {
-                        $grid.masonry('layout');
+                        this.state.grid.masonry('layout');
                     }, 1000);
                 }
             }
@@ -1351,19 +1337,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
 
                 if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
-                    var $grid = $('.advgb-gallery.masonry-layout').masonry({
-                        itemSelector: '.advgb-gallery-item',
-                        columnWidth: '.advgb-gallery-item',
-                        percentPosition: true
-                    });
-
-                    $grid.on('click', '.advgb-gallery-item', function () {
-                        $grid.masonry('layout');
-                    });
-
-                    if (!grid) {
-                        this.setState({ grid: $grid });
-                    }
+                    this.initMasonry();
                 }
 
                 if (layout !== 'masonry' && this.state.grid) {
@@ -1372,7 +1346,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
 
                 if (layout === 'masonry') {
-                    if (prevProps.attributes.images.length !== attributes.images.length || prevProps.attributes.columns !== attributes.columns) {
+                    if (prevProps.attributes.images.length !== attributes.images.length || prevProps.attributes.columns !== attributes.columns || prevProps.attributes.itemsToShow !== attributes.itemsToShow) {
                         grid.masonry('reloadItems');
                         grid.masonry('layout');
                         setTimeout(function () {
@@ -1395,8 +1369,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             caption: image.caption
                         };
                     }),
-                    columns: columns ? Math.min(images.length, columns) : Math.min(images.length, 3)
+                    columns: columns ? Math.min(images.length, columns) : Math.min(images.length, 3),
+                    imageIds: images.map(function (img) {
+                        return img.id;
+                    })
                 });
+            }
+        }, {
+            key: "initMasonry",
+            value: function initMasonry() {
+                var $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
+                    itemSelector: '.advgb-gallery-item',
+                    columnWidth: '.advgb-gallery-item',
+                    percentPosition: true
+                });
+
+                $grid.on('click', '.advgb-gallery-item', function () {
+                    $grid.masonry('layout');
+                });
+
+                if (!this.state.grid) {
+                    this.setState({ grid: $grid });
+                }
             }
         }, {
             key: "render",
@@ -1411,7 +1405,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     columns = attributes.columns,
                     layout = attributes.layout,
                     enableLoadMore = attributes.enableLoadMore,
-                    itemsToShow = attributes.itemsToShow;
+                    itemsToShow = attributes.itemsToShow,
+                    imageIds = attributes.imageIds;
                 var _state2 = this.state,
                     selectedImage = _state2.selectedImage,
                     selectedCaption = _state2.selectedCaption;
@@ -1519,7 +1514,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ itemsToShow: value });
                                 },
                                 min: 1,
-                                max: images.length
+                                max: imageIds.length
                             })
                         )
                     ),
@@ -1527,6 +1522,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         "div",
                         { className: blockClass },
                         images.map(function (img, index) {
+                            if (enableLoadMore && index >= itemsToShow) {
+                                return null;
+                            }
+
                             return React.createElement(
                                 "div",
                                 { className: "advgb-gallery-item", key: index },
@@ -1542,13 +1541,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 var newImgs = images.filter(function (img, idx) {
                                                     return idx !== index;
                                                 });
+                                                var newIds = imageIds.filter(function (img, idx) {
+                                                    return idx !== index;
+                                                });
                                                 _this2.setState({
                                                     selectedImage: null,
                                                     selectedCaption: null
                                                 });
                                                 setAttributes({
                                                     images: newImgs,
-                                                    columns: columns ? Math.min(newImgs.length, columns) : columns
+                                                    columns: columns ? Math.min(newImgs.length, columns) : columns,
+                                                    imageIds: newIds
                                                 });
                                             },
                                             className: "item-remove-icon",
@@ -1626,6 +1629,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
             }
         },
+        imageIds: {
+            type: 'array',
+            default: []
+        },
         columns: {
             type: 'number'
         },
@@ -1654,7 +1661,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
         },
         category: 'advgb-category',
-        keywords: [__('slide'), __('gallery'), __('photos')],
+        keywords: [__('masonry'), __('gallery'), __('photos')],
         attributes: blockAttrs,
         edit: AdvGallery,
         save: function save(_ref2) {
@@ -1662,14 +1669,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var images = attributes.images,
                 columns = attributes.columns,
                 layout = attributes.layout,
-                itemsToShow = attributes.itemsToShow;
+                enableLoadMore = attributes.enableLoadMore,
+                itemsToShow = attributes.itemsToShow,
+                imageIds = attributes.imageIds;
 
             var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
+            var ids = imageIds.join(',');
 
             return React.createElement(
                 "div",
-                { className: blockClass },
+                { className: blockClass,
+                    "data-ids": enableLoadMore ? ids : undefined,
+                    "data-show": enableLoadMore ? itemsToShow : undefined
+                },
                 images.map(function (img, index) {
+                    if (enableLoadMore && index >= itemsToShow) {
+                        return null;
+                    }
+
                     return React.createElement(
                         "div",
                         { className: "advgb-gallery-item", key: index },

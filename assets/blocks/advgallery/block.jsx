@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, RichText, MediaUpload, MediaPlaceholder, BlockControls, BlockIcon } = wpEditor;
-    const { SVG, Path, Toolbar, PanelBody, RangeControl, ToggleControl , SelectControl, IconButton, Button, Tooltip } = wpComponents;
+    const { SVG, Path, Toolbar, PanelBody, RangeControl , SelectControl, IconButton } = wpComponents;
 
     const advGalleryBlockIcon = (
         <SVG xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="2 2 22 22">
@@ -22,26 +22,15 @@
                 selectedCaption: null,
                 grid: null,
             };
+
+            this.initMasonry = this.initMasonry.bind(this);
         }
 
         componentDidMount() {
             if (this.props.attributes.layout === 'masonry') {
-                const $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
-                    itemSelector: '.advgb-gallery-item',
-                    columnWidth: '.advgb-gallery-item',
-                    percentPosition: true,
-                });
-
-                $grid.on('click', '.advgb-gallery-item', function() {
-                    $grid.masonry('layout');
-                });
-
-                if (!this.state.grid) {
-                    this.setState( { grid: $grid } );
-                }
-
+                this.initMasonry();
                 setTimeout(function () {
-                    $grid.masonry('layout');
+                    this.state.grid.masonry('layout');
                 }, 1000)
             }
         }
@@ -66,19 +55,7 @@
             }
 
             if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
-                const $grid = $('.advgb-gallery.masonry-layout').masonry({
-                    itemSelector: '.advgb-gallery-item',
-                    columnWidth: '.advgb-gallery-item',
-                    percentPosition: true,
-                });
-
-                $grid.on('click', '.advgb-gallery-item', function() {
-                    $grid.masonry('layout');
-                });
-
-                if (!grid) {
-                    this.setState( { grid: $grid } );
-                }
+                this.initMasonry();
             }
 
             if (layout !== 'masonry' && this.state.grid) {
@@ -88,8 +65,9 @@
 
             if (layout === 'masonry') {
                 if (prevProps.attributes.images.length !== attributes.images.length
-                    || prevProps.attributes.columns !== attributes.columns)
-                {
+                    || prevProps.attributes.columns !== attributes.columns
+                    || prevProps.attributes.itemsToShow !== attributes.itemsToShow
+                ) {
                     grid.masonry('reloadItems');
                     grid.masonry('layout');
                     setTimeout(function () {
@@ -109,12 +87,29 @@
                     caption: image.caption,
                 } ) ),
                 columns: columns ? Math.min( images.length, columns ) : Math.min( images.length, 3 ),
+                imageIds: images.map( (img) => img.id ),
             } )
+        }
+
+        initMasonry() {
+            const $grid = jQuery('.advgb-gallery.masonry-layout').masonry({
+                itemSelector: '.advgb-gallery-item',
+                columnWidth: '.advgb-gallery-item',
+                percentPosition: true,
+            });
+
+            $grid.on('click', '.advgb-gallery-item', function() {
+                $grid.masonry('layout');
+            });
+
+            if (!this.state.grid) {
+                this.setState( { grid: $grid } );
+            }
         }
 
         render() {
             const { attributes, setAttributes, isSelected } = this.props;
-            const { images, columns, layout, enableLoadMore, itemsToShow } = attributes;
+            const { images, columns, layout, enableLoadMore, itemsToShow, imageIds } = attributes;
             const { selectedImage, selectedCaption } = this.state;
 
             const controls = (
@@ -212,13 +207,17 @@
                                     value={ itemsToShow }
                                     onChange={ (value) => setAttributes( { itemsToShow: value } ) }
                                     min={ 1 }
-                                    max={ images.length }
+                                    max={ imageIds.length }
                                 />
                             ) }
                         </PanelBody>
                     </InspectorControls>
                     <div className={ blockClass }>
                         {images.map( (img, index) => {
+                            if (enableLoadMore && index >= itemsToShow) {
+                                return null;
+                            }
+
                             return (
                                 <div className="advgb-gallery-item" key={ index }>
                                     <figure className={ selectedImage === index && 'is-selected' }>
@@ -228,6 +227,7 @@
                                                     icon="no-alt"
                                                     onClick={ () => {
                                                         const newImgs = images.filter( (img, idx) => idx !== index );
+                                                        const newIds = imageIds.filter( (img, idx) => idx !== index );
                                                         this.setState( {
                                                             selectedImage: null,
                                                             selectedCaption: null,
@@ -235,6 +235,7 @@
                                                         setAttributes( {
                                                             images: newImgs,
                                                             columns: columns ? Math.min( newImgs.length, columns ) : columns,
+                                                            imageIds: newIds,
                                                         } );
                                                     } }
                                                     className="item-remove-icon"
@@ -309,6 +310,10 @@
                 },
             },
         },
+        imageIds: {
+            type: 'array',
+            default: [],
+        },
         columns: {
             type: 'number',
         },
@@ -337,21 +342,29 @@
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,
         },
         category: 'advgb-category',
-        keywords: [ __( 'slide' ), __( 'gallery' ), __( 'photos' ) ],
+        keywords: [ __( 'masonry' ), __( 'gallery' ), __( 'photos' ) ],
         attributes: blockAttrs,
         edit: AdvGallery,
         save: function ( { attributes } ) {
-            const { images, columns, layout, itemsToShow } = attributes;
+            const { images, columns, layout, enableLoadMore, itemsToShow, imageIds } = attributes;
             const blockClass = [
                 'advgb-gallery',
                 !layout && 'default-layout',
                 layout === 'masonry' && 'masonry-layout',
                 columns && `columns-${columns}`,
             ].filter( Boolean ).join( ' ' );
+            const ids = imageIds.join(',');
 
             return (
-                <div className={ blockClass }>
+                <div className={ blockClass }
+                     data-ids={ enableLoadMore ? ids : undefined }
+                     data-show={ enableLoadMore ? itemsToShow : undefined }
+                >
                     {images.map( (img, index) => {
+                        if (enableLoadMore && index >= itemsToShow) {
+                            return null;
+                        }
+
                         return (
                             <div className="advgb-gallery-item" key={ index }>
                                 <figure>

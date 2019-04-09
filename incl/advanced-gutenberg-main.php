@@ -3321,15 +3321,22 @@ float: left;'
             );
         }
 
-        if (strpos($content, 'advgb-gallery masonry-layout') !== false) {
-            wp_enqueue_script('masonry');
-            wp_add_inline_script('masonry', 'jQuery(document).ready(function($){
-                $(".advgb-gallery.masonry-layout").masonry({
-                    itemSelector: ".advgb-gallery-item",
-                    columnWidth: ".advgb-gallery-item",
-                    percentPosition: true,
-                })
-            });');
+        if (strpos($content, 'advgb-gallery') !== false) {
+            wp_enqueue_script(
+                'advgb_gallery_load_more',
+                plugins_url('assets/blocks/advgallery/gallery-loadmore.js', dirname(__FILE__)),
+                array(),
+                ADVANCED_GUTENBERG_VERSION
+            );
+
+            wp_localize_script('advgb_gallery_load_more', 'advgbGL', array(
+                'homeUrl' => home_url(),
+                'noMoreImgs' => __('No more images', 'advanced-gutenberg'),
+            ));
+
+            if (strpos($content, 'advgb-gallery masonry-layout') !== false) {
+                wp_enqueue_script('masonry');
+            }
         }
 
         return $content;
