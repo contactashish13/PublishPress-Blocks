@@ -3,7 +3,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, RichText, PanelColorSettings, InnerBlocks } = wpEditor;
-    const { RangeControl, PanelBody, BaseControl , SelectControl, Tooltip } = wpComponents;
+    const { RangeControl, PanelBody, BaseControl , SelectControl, ToggleControl } = wpComponents;
 
     const HEADER_ICONS = {
         plus: (
@@ -162,6 +162,7 @@
                 borderColor,
                 borderRadius,
                 marginBottom,
+                collapsedAll,
             } = attributes;
 
             return (
@@ -294,6 +295,14 @@
                                 onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
                             />
                         </PanelBody>
+                        <PanelBody title={ __( 'Accordions State' ) } initialOpen={  false }>
+                            <ToggleControl
+                                label={ __( 'Initial Collapsed' ) }
+                                help={ __( 'Make all accordions collapsed by default, enable this setting to apply to all accordions.' ) }
+                                checked={ collapsedAll }
+                                onChange={ () => setAttributes( { collapsedAll: !collapsedAll } ) }
+                            />
+                        </PanelBody>
                     </InspectorControls>
                     <div className="advgb-accordion-block">
                         <div className="advgb-accordion-header"
@@ -316,6 +325,7 @@
                                 value={ header }
                                 onChange={ ( value ) => setAttributes( { header: value } ) }
                                 unstableOnSplit={ () => null }
+                                className="advgb-accordion-header-title"
                                 placeholder={ __( 'Enter header…' ) }
                             />
                         </div>
@@ -399,10 +409,14 @@
             type: 'number',
             default: 15,
         },
+        collapsedAll: {
+            type: 'boolean',
+            default: false,
+        },
         changed: {
             type: 'boolean',
             default: false,
-        }
+        },
     };
 
     registerBlockType( 'advgb/accordion', {
@@ -432,10 +446,11 @@
                 borderColor,
                 borderRadius,
                 marginBottom,
+                collapsedAll,
             } = attributes;
 
             return (
-                <div className="advgb-accordion-block" style={ { marginBottom } }>
+                <div className="advgb-accordion-block" style={ { marginBottom } } data-collapsed={ collapsedAll ? collapsedAll : undefined }>
                     <div className="advgb-accordion-header"
                          style={ {
                              backgroundColor: headerBgColor,
