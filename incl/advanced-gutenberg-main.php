@@ -347,6 +347,7 @@ float: left;'
         wp_enqueue_script('jquery-ui-accordion');
         wp_enqueue_script('jquery-ui-tabs');
         wp_enqueue_script('jquery-ui-sortable');
+        wp_enqueue_script('masonry');
         wp_enqueue_script('slick_js');
 
         // Include needed CSS styles
@@ -3423,6 +3424,24 @@ float: left;'
                 array($this, 'decodeHtmlEntity'),
                 $content
             );
+        }
+
+        if (strpos($content, 'advgb-gallery') !== false) {
+            wp_enqueue_script(
+                'advgb_gallery_load_more',
+                plugins_url('assets/blocks/advgallery/gallery-loadmore.js', dirname(__FILE__)),
+                array(),
+                ADVANCED_GUTENBERG_VERSION
+            );
+
+            wp_localize_script('advgb_gallery_load_more', 'advgbGL', array(
+                'homeUrl' => home_url(),
+                'noMoreImgs' => __('No more images', 'advanced-gutenberg'),
+            ));
+
+            if (strpos($content, 'advgb-gallery masonry-layout') !== false) {
+                wp_enqueue_script('masonry');
+            }
         }
 
         return $content;

@@ -1414,6 +1414,110 @@ form .advgb-grecaptcha > div {
 
 /*Container block*/
 
+/*Adv Gallery block*/
+.advgb-gallery.default-layout {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.advgb-gallery.default-layout .advgb-gallery-item figure {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.advgb-gallery .advgb-gallery-item {
+    margin: 5px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+}
+
+.advgb-gallery.default-layout .advgb-gallery-item figure img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    flex: 1;
+    width: 100%;
+}
+
+.advgb-gallery-item .editor-rich-text {
+    bottom: 0;
+    max-height: 100%;
+    overflow-y: visible;
+    position: absolute;
+    width: 100%;
+}
+
+.advgb-gallery .advgb-gallery-item figcaption {
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    background-color: rgba(20,20,20, 0.5);
+}
+
+.wp-block-advgb-gallery.advgb-gallery .advgb-gallery-item figcaption {
+    position: absolute;
+    width: 100%;
+    font-size: 16px;
+    bottom: 0;
+}
+
+.advgb-gallery .advgb-gallery-item figcaption + figcaption {
+    background-color: transparent;
+    margin: 0;
+}
+
+.advgb-gallery .advgb-gallery-item-remove {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: #2196f3;
+    color: #fff;
+}
+
+.advgb-gallery .advgb-gallery-item-remove button {
+    color: inherit;
+    padding: 0;
+    border: 2px solid #2196f3;
+}
+
+.advgb-gallery .advgb-gallery-item figure.is-selected {
+    outline: 4px solid #2196f3;
+}
+
+.advgb-gallery.columns-2 .advgb-gallery-item {
+    width: calc(50% - 10px);
+}
+
+.advgb-gallery.columns-3 .advgb-gallery-item {
+    width: calc(33.3% - 10px);
+}
+
+.advgb-gallery.columns-4 .advgb-gallery-item {
+    width: calc(25% - 10px);
+}
+
+.advgb-gallery.columns-5 .advgb-gallery-item {
+    width: calc(20% - 10px);
+}
+
+.advgb-gallery.columns-6 .advgb-gallery-item {
+    width: calc(16.6% - 10px);
+}
+
+.advgb-gallery.columns-7 .advgb-gallery-item {
+    width: calc(14.2% - 10px);
+}
+
+.advgb-gallery.columns-8 .advgb-gallery-item {
+    width: calc(12.5% - 10px);
+}
+
 /*--- RESPONSIVE STYLES HERE ---*/
 @media screen and (max-width: 599px) {
     .advgb-count-up {
