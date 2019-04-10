@@ -55,7 +55,7 @@ jQuery(document).ready(function ($) {
                         }, 300)
                     }
 
-                    initGalleryLightbox();
+                    advgbGalleryLightbox();
                     self.removeClass('no-text').find('.advgb-recent-posts-loading').remove();
                 },
                 error: function ( xhr, error ) {

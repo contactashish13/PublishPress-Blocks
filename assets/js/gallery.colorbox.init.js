@@ -1,8 +1,8 @@
 jQuery(document).ready(function ($) {
-    initGalleryLightbox();
+    advgbGalleryLightbox();
 });
 
-function initGalleryLightbox() {
+function advgbGalleryLightbox() {
     var $ = jQuery;
     $('.wp-block-gallery, .advgb-gallery').each(function () {
         // Add lightbox for images
