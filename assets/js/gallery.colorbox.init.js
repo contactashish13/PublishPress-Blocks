@@ -1,11 +1,15 @@
 jQuery(document).ready(function ($) {
-    $('.wp-block-gallery').each(function () {
+    initGalleryLightbox();
+});
+
+function initGalleryLightbox() {
+    var $ = jQuery;
+    $('.wp-block-gallery, .advgb-gallery').each(function () {
         // Add lightbox for images
-        $(this).find('.blocks-gallery-item').colorbox({
+        $(this).find('.blocks-gallery-item, .advgb-gallery-item').colorbox({
             title: function () {
                 if (parseInt(advgb.imageCaption)) {
-                    var imgCap = $(this).find('figcaption').text() || $(this).find('img').attr('alt');
-                    return imgCap;
+                    return $(this).find('figcaption').text() || $(this).find('img').attr('alt');
                 }
 
                 return null;
@@ -25,4 +29,4 @@ jQuery(document).ready(function ($) {
             }
         })
     });
-});
+}
