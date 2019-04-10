@@ -1,9 +1,12 @@
 jQuery(document).ready(function ($) {
-    $('.advgb-gallery.masonry-layout').masonry({
-        itemSelector: '.advgb-gallery-item',
-        columnWidth: '.advgb-gallery-item',
-        percentPosition: true
-    });
+    var $masonryWrapper = $('.advgb-gallery.masonry-layout');
+    if ($masonryWrapper.length) {
+        $masonryWrapper.masonry({
+            itemSelector: '.advgb-gallery-item',
+            columnWidth: '.advgb-gallery-item',
+            percentPosition: true
+        });
+    }
 
     $('.advgb-gallery-container .advgb-load-more').find('a').click(function (e) {
         e.preventDefault();
