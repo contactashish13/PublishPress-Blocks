@@ -23,17 +23,30 @@
             };
         }
 
-        componentWillMount() {
-
-        }
-
         componentDidMount() {
+            const { imageIds, enableLoadMore } = this.props.attributes;
+            const { addQueryArgs } = wp.url;
             const grid = jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout');
+
             if (this.props.attributes.layout === 'masonry') {
                 this.initMasonry( grid );
                 setTimeout(function () {
                     grid.masonry('layout');
                 }, 1000)
+            }
+
+            if (enableLoadMore && imageIds.length) {
+                wp.apiFetch( {
+                    path: addQueryArgs( 'wp/v2/media', { include: imageIds } ),
+                } ).then( ( imgs ) => this.addImages(imgs) )
+            }
+        }
+
+        componentWillUpdate( nextProps ) {
+            if (nextProps.attributes.layout !== 'masonry') {
+                const grid = jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout');
+                grid.masonry('destroy');
+                grid.off( 'click', '.advgb-gallery-item' );
             }
         }
 
@@ -60,10 +73,6 @@
                 this.initMasonry( grid );
             }
 
-            if (layout !== 'masonry') {
-                jQuery('#block-'+ this.props.clientId +' .advgb-gallery').masonry('destroy');
-            }
-
             if (layout === 'masonry') {
                 if (prevProps.attributes.images.length !== attributes.images.length
                     || prevProps.attributes.columns !== attributes.columns
@@ -73,7 +82,7 @@
                     grid.masonry('layout');
                     setTimeout(function () {
                         grid.masonry('layout');
-                    }, 1000)
+                    }, 200)
                 }
             }
         }
@@ -82,10 +91,10 @@
             const { columns } = this.props.attributes;
             this.props.setAttributes( {
                 images: images.map( (image) => ( {
-                    url: image.url,
+                    url: image.url || image.source_url,
                     id: image.id,
                     alt: image.alt,
-                    caption: image.caption,
+                    caption: typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption,
                 } ) ),
                 columns: columns ? Math.min( images.length, columns ) : Math.min( images.length, 3 ),
                 imageIds: images.map( (img) => img.id ),
