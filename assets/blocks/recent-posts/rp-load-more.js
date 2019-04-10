@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    $('.advgb-load-more').find('a').click(function (e) {
+    $('.advgb-recent-posts-container .advgb-load-more').find('a').click(function (e) {
         e.preventDefault();
         var self = $(this);
         var postWrapper = $(this).closest('.advgb-recent-posts-container').find('.advgb-recent-posts');
