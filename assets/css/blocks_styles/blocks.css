@@ -1332,6 +1332,11 @@ form .advgb-grecaptcha > div {
     bottom: 0;
 }
 
+.advgb-gallery .advgb-gallery-item figcaption + figcaption {
+    background-color: transparent;
+    margin: 0;
+}
+
 .advgb-gallery .advgb-gallery-item-remove {
     position: absolute;
     top: -2px;
