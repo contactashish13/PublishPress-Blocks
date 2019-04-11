@@ -1420,7 +1420,7 @@ form .advgb-grecaptcha > div {
     flex-wrap: wrap;
 }
 
-.advgb-gallery.default-layout .advgb-gallery-item figure {
+.advgb-gallery .advgb-gallery-item figure {
     margin: 0;
     height: 100%;
     display: flex;
@@ -1437,7 +1437,7 @@ form .advgb-grecaptcha > div {
     justify-content: center;
 }
 
-.advgb-gallery.default-layout .advgb-gallery-item figure img {
+.advgb-gallery .advgb-gallery-item figure img {
     display: block;
     height: 100%;
     object-fit: cover;
