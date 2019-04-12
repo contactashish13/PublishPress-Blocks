@@ -902,7 +902,7 @@ hr.wp-block-separator {
     margin-top: 10px;
 }
 
-.advgb-recent-post .advgb-post-date:not(:first-child):before {
+.advgb-recent-post .advgb-post-author + .advgb-post-date:before {
     content: "-";
     display: inline-block;
     margin: 0 5px;
