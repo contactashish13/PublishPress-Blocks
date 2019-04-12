@@ -349,8 +349,8 @@
                                         if (index === 5) {
                                             return (
                                                 <span className="advgb-post-category-more">
-                                                                    +{post.categories.length - index}
-                                                                </span>
+                                                    +{post.categories.length - index}
+                                                </span>
                                             )
                                         }
 
@@ -399,7 +399,8 @@
                                                 <div className="advgb-post-excerpt"
                                                      dangerouslySetInnerHTML={ {
                                                          __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                                     } } />
+                                                     } }
+                                                />
                                             ) }
                                             {displayReadMore && (
                                                 <div className="advgb-post-readmore">

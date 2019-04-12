@@ -11102,7 +11102,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
                                             dangerouslySetInnerHTML: {
                                                 __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                            } }),
+                                            }
+                                        }),
                                         displayReadMore && React.createElement(
                                             "div",
                                             { className: "advgb-post-readmore" },
