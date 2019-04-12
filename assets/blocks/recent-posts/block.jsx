@@ -164,6 +164,7 @@
                 readMoreLbl,
                 layout,
                 disableSliderView,
+                categoryAbove,
             } = attributes;
 
             const inspectorControls = (
@@ -233,10 +234,17 @@
                             onChange={ () => setAttributes( { displayDate: !displayDate } ) }
                         />
                         <ToggleControl
-                            label={ __( 'Display Category' ) }
+                            label={ __( 'Display Categories' ) }
                             checked={ displayCategory }
                             onChange={ () => setAttributes( { displayCategory: !displayCategory } ) }
                         />
+                        {displayCategory &&
+                            <ToggleControl
+                                label={ __( 'Categories above post title' ) }
+                                checked={ categoryAbove }
+                                onChange={ () => setAttributes( { categoryAbove: !categoryAbove } ) }
+                            />
+                        }
                         <ToggleControl
                             label={ __( 'Display Read More Link' ) }
                             checked={ displayReadMore }
@@ -332,71 +340,77 @@
                 <div className={ blockClassName }>
                     {this.state.updating && <div className="advgb-recent-posts-loading" />}
                     <div className="advgb-recent-posts">
-                        {recentPosts.map( ( post, index ) => (
-                            <article key={ index } className="advgb-recent-post" >
-                                {displayFeaturedImage && (
-                                    <div className="advgb-post-thumbnail">
-                                        <a href={ post.link } target="_blank">
-                                            <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
-                                        </a>
-                                    </div>
-                                ) }
-                                <div className="advgb-post-wrapper">
-                                    <h2 className="advgb-post-title">
-                                        <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
-                                    </h2>
-                                    <div className="advgb-post-info">
-                                        {displayCategory && (
-                                            <div className="advgb-post-categories">
-                                                {post.categories.length && post.categories.map( (catID, index) => {
-                                                    if (index > 5) return null;
+                        {recentPosts.map( ( post, index ) => {
+                            const catsHtml = displayCategory && (
+                                <div className="advgb-post-categories">
+                                    {post.categories.length && post.categories.map( (catID, index) => {
+                                        if (index > 5) return null;
 
-                                                    if (index === 5) {
-                                                        return (
-                                                            <span className="advgb-post-category-more">
-                                                                +{post.categories.length - index}
-                                                            </span>
-                                                        )
-                                                    }
+                                        if (index === 5) {
+                                            return (
+                                                <span className="advgb-post-category-more">
+                                                                    +{post.categories.length - index}
+                                                                </span>
+                                            )
+                                        }
 
-                                                    const idx = categoriesList.findIndex((cat) => cat.id === catID);
-                                                    let catName = '';
-                                                    if (idx > -1) catName = categoriesList[idx].name;
+                                        const idx = categoriesList.findIndex((cat) => cat.id === catID);
+                                        let catName = '';
+                                        if (idx > -1) catName = categoriesList[idx].name;
 
-                                                    return <span className="advgb-post-category">{catName}</span>
-                                                } ) }
-                                            </div>
-                                        ) }
-                                        {displayAuthor && (
-                                            <a href={ post.author_meta.author_link }
-                                               target="_blank"
-                                               className="advgb-post-author"
-                                            >
-                                                { post.author_meta.display_name }
-                                            </a>
-                                        ) }
-                                        {displayDate && (
-                                            <span className="advgb-post-date" >
-                                                { dateI18n( dateFormat, post.date_gmt ) }
-                                            </span>
-                                        ) }
-                                    </div>
-                                    <div className="advgb-post-content">
-                                        {displayExcerpt && (
-                                            <div className="advgb-post-excerpt"
-                                                 dangerouslySetInnerHTML={ {
-                                                     __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                                 } } />
-                                        ) }
-                                        {displayReadMore && (
-                                            <div className="advgb-post-readmore">
-                                                <a href={ post.link } target="_blank">{ readMoreLbl ? readMoreLbl : __( 'Read More' ) }</a>
-                                            </div>
-                                        ) }
-                                    </div>
+                                        return <span className="advgb-post-category">{catName}</span>
+                                    } ) }
                                 </div>
-                            </article>
-                        ) ) }
+                            );
+
+                            return (
+                                <article key={ index } className="advgb-recent-post" >
+                                    {displayFeaturedImage && (
+                                        <div className="advgb-post-thumbnail">
+                                            <a href={ post.link } target="_blank">
+                                                <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
+                                            </a>
+                                            {categoryAbove && catsHtml}
+                                        </div>
+                                    ) }
+                                    <div className="advgb-post-wrapper">
+                                        {!displayFeaturedImage && categoryAbove && catsHtml}
+                                        <h2 className="advgb-post-title">
+                                            <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
+                                        </h2>
+                                        <div className="advgb-post-info">
+                                            {!categoryAbove && catsHtml}
+                                            {displayAuthor && (
+                                                <a href={ post.author_meta.author_link }
+                                                   target="_blank"
+                                                   className="advgb-post-author"
+                                                >
+                                                    { post.author_meta.display_name }
+                                                </a>
+                                            ) }
+                                            {displayDate && (
+                                                <span className="advgb-post-date" >
+                                                    { dateI18n( dateFormat, post.date_gmt ) }
+                                                </span>
+                                            ) }
+                                        </div>
+                                        <div className="advgb-post-content">
+                                            {displayExcerpt && (
+                                                <div className="advgb-post-excerpt"
+                                                     dangerouslySetInnerHTML={ {
+                                                         __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
+                                                     } } />
+                                            ) }
+                                            {displayReadMore && (
+                                                <div className="advgb-post-readmore">
+                                                    <a href={ post.link } target="_blank">{ readMoreLbl ? readMoreLbl : __( 'Read More' ) }</a>
+                                                </div>
+                                            ) }
+                                        </div>
+                                    </div>
+                                </article>
+                            )
+                        } ) }
                     </div>
                 </div>
             );

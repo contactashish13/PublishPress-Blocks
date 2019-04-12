@@ -10811,7 +10811,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayReadMore = attributes.displayReadMore,
                     readMoreLbl = attributes.readMoreLbl,
                     layout = attributes.layout,
-                    disableSliderView = attributes.disableSliderView;
+                    disableSliderView = attributes.disableSliderView,
+                    categoryAbove = attributes.categoryAbove;
 
 
                 var inspectorControls = React.createElement(
@@ -10913,10 +10914,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             }
                         }),
                         React.createElement(ToggleControl, {
-                            label: __('Display Category'),
+                            label: __('Display Categories'),
                             checked: displayCategory,
                             onChange: function onChange() {
                                 return setAttributes({ displayCategory: !displayCategory });
+                            }
+                        }),
+                        displayCategory && React.createElement(ToggleControl, {
+                            label: __('Categories above post title'),
+                            checked: categoryAbove,
+                            onChange: function onChange() {
+                                return setAttributes({ categoryAbove: !categoryAbove });
                             }
                         }),
                         React.createElement(ToggleControl, {
@@ -11015,6 +11023,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         "div",
                         { className: "advgb-recent-posts" },
                         recentPosts.map(function (post, index) {
+                            var catsHtml = displayCategory && React.createElement(
+                                "div",
+                                { className: "advgb-post-categories" },
+                                post.categories.length && post.categories.map(function (catID, index) {
+                                    if (index > 5) return null;
+
+                                    if (index === 5) {
+                                        return React.createElement(
+                                            "span",
+                                            { className: "advgb-post-category-more" },
+                                            "+",
+                                            post.categories.length - index
+                                        );
+                                    }
+
+                                    var idx = categoriesList.findIndex(function (cat) {
+                                        return cat.id === catID;
+                                    });
+                                    var catName = '';
+                                    if (idx > -1) catName = categoriesList[idx].name;
+
+                                    return React.createElement(
+                                        "span",
+                                        { className: "advgb-post-category" },
+                                        catName
+                                    );
+                                })
+                            );
+
                             return React.createElement(
                                 "article",
                                 { key: index, className: "advgb-recent-post" },
@@ -11025,11 +11062,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         "a",
                                         { href: post.link, target: "_blank" },
                                         React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image') })
-                                    )
+                                    ),
+                                    categoryAbove && catsHtml
                                 ),
                                 React.createElement(
                                     "div",
                                     { className: "advgb-post-wrapper" },
+                                    !displayFeaturedImage && categoryAbove && catsHtml,
                                     React.createElement(
                                         "h2",
                                         { className: "advgb-post-title" },
@@ -11042,34 +11081,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "div",
                                         { className: "advgb-post-info" },
-                                        displayCategory && React.createElement(
-                                            "div",
-                                            { className: "advgb-post-categories" },
-                                            post.categories.length && post.categories.map(function (catID, index) {
-                                                if (index > 5) return null;
-
-                                                if (index === 5) {
-                                                    return React.createElement(
-                                                        "span",
-                                                        { className: "advgb-post-category-more" },
-                                                        "+",
-                                                        post.categories.length - index
-                                                    );
-                                                }
-
-                                                var idx = categoriesList.findIndex(function (cat) {
-                                                    return cat.id === catID;
-                                                });
-                                                var catName = '';
-                                                if (idx > -1) catName = categoriesList[idx].name;
-
-                                                return React.createElement(
-                                                    "span",
-                                                    { className: "advgb-post-category" },
-                                                    catName
-                                                );
-                                            })
-                                        ),
+                                        !categoryAbove && catsHtml,
                                         displayAuthor && React.createElement(
                                             "a",
                                             { href: post.author_meta.author_link,
