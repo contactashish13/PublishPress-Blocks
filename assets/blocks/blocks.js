@@ -11063,12 +11063,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         { href: post.link, target: "_blank" },
                                         React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image') })
                                     ),
-                                    categoryAbove && catsHtml
+                                    categoryAbove && postView !== 'list' && catsHtml
                                 ),
                                 React.createElement(
                                     "div",
                                     { className: "advgb-post-wrapper" },
-                                    !displayFeaturedImage && categoryAbove && catsHtml,
+                                    categoryAbove && (!displayFeaturedImage || postView === 'list') && catsHtml,
                                     React.createElement(
                                         "h2",
                                         { className: "advgb-post-title" },

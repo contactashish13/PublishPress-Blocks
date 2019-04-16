@@ -370,11 +370,11 @@
                                             <a href={ post.link } target="_blank">
                                                 <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
                                             </a>
-                                            {categoryAbove && catsHtml}
+                                            {categoryAbove && postView !== 'list' && catsHtml}
                                         </div>
                                     ) }
                                     <div className="advgb-post-wrapper">
-                                        {!displayFeaturedImage && categoryAbove && catsHtml}
+                                        {categoryAbove && (!displayFeaturedImage || postView === 'list') && catsHtml}
                                         <h2 className="advgb-post-title">
                                             <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
                                         </h2>

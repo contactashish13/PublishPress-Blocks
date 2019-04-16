@@ -228,13 +228,15 @@ if (!function_exists('advgbRecentPostsFilter')) {
                     '<div class="advgb-post-thumbnail"><a href="%1$s">%2$s</a>%3$s</div>',
                     get_permalink($post->ID),
                     $postThumb,
-                    $attributes['categoryAbove'] ? $catsHtml : ''
+                    $attributes['categoryAbove'] && $attributes['postView'] !== 'list' ? $catsHtml : ''
                 );
             }
 
             $postHtml .= '<div class="advgb-post-wrapper">';
-            if (empty($attributes['displayFeaturedImage']) && $attributes['categoryAbove']) {
-                $postHtml .= $catsHtml;
+            if ($attributes['categoryAbove']) {
+                if (empty($attributes['displayFeaturedImage']) || $attributes['postView'] === 'list') {
+                    $postHtml .= $catsHtml;
+                }
             }
 
             $postHtml .= sprintf(
