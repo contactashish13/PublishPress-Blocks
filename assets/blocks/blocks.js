@@ -2539,7 +2539,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 if (enableLoadMore && imageIds.length) {
                     wp.apiFetch({
-                        path: addQueryArgs('wp/v2/media', { include: imageIds })
+                        path: addQueryArgs('wp/v2/media', { include: imageIds, orderby: 'include' })
                     }).then(function (imgs) {
                         return _this2.addImages(imgs);
                     });
