@@ -369,6 +369,7 @@
                      data-ids={ enableLoadMore ? ids : undefined }
                      data-show={ enableLoadMore ? itemsToShow : undefined }
                 >
+                    <div className="advgb-gallery-sizer" />
                     {images.map( (img, index) => {
                         if (enableLoadMore && index >= itemsToShow) {
                             return null;

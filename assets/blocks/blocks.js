@@ -2916,6 +2916,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     "data-ids": enableLoadMore ? ids : undefined,
                     "data-show": enableLoadMore ? itemsToShow : undefined
                 },
+                React.createElement("div", { className: "advgb-gallery-sizer" }),
                 images.map(function (img, index) {
                     if (enableLoadMore && index >= itemsToShow) {
                         return null;

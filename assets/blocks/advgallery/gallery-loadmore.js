@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
     if ($masonryWrapper.length) {
         $masonryWrapper.masonry({
             itemSelector: '.advgb-gallery-item',
-            columnWidth: '.advgb-gallery-item',
+            columnWidth: '.advgb-gallery-sizer',
             percentPosition: true
         });
     }
