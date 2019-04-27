@@ -1431,6 +1431,7 @@ form .advgb-grecaptcha > div {
 
 .advgb-gallery .advgb-gallery-sizer {
     margin: 5px;
+    display: none;
 }
 
 .advgb-gallery .advgb-gallery-item {
