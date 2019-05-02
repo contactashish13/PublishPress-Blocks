@@ -6,6 +6,9 @@ jQuery(document).ready(function ($) {
             columnWidth: '.advgb-gallery-sizer',
             percentPosition: true
         });
+        $masonryWrapper.on('load', function () {
+            $masonryWrapper.masonry('layout');
+        })
     }
 
     $('.advgb-gallery-container .advgb-load-more').find('a').click(function (e) {
