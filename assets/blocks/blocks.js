@@ -6865,12 +6865,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('container'), __('row'), __('box')],
         attributes: {},
         supports: {
-            align: true
+            align: true,
+            className: true
         },
-        edit: function edit() {
+        edit: function edit(props) {
             return React.createElement(
                 "div",
-                { className: "advgb-blocks-container" },
+                { className: "advgb-blocks-container " + props.className },
                 React.createElement(InnerBlocks, null)
             );
         },

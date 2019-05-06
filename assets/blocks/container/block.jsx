@@ -22,10 +22,11 @@
         attributes: {},
         supports: {
             align: true,
+            className: true,
         },
-        edit: function () {
+        edit: function ( props ) {
             return (
-                <div className="advgb-blocks-container">
+                <div className={`advgb-blocks-container ${props.className}`}>
                     <InnerBlocks />
                 </div>
             )
