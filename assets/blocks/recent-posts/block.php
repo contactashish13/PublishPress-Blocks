@@ -191,11 +191,10 @@ if (!function_exists('advgbRecentPostsFilter')) {
 
         $saved_settings    = get_option('advgb_settings');
         $default_thumb     = plugins_url('assets/blocks/recent-posts/recent-post-default.png', ADVANCED_GUTENBERG_PLUGIN);
-        $rp_default_thumb  = isset($saved_settings['rp_default_thumb'])
-            ? $saved_settings['rp_default_thumb']
-            : isset($attributes['defaultThumb'])
-                ? array('url' => $attributes['defaultThumb'], 'id' => 0)
-                : array('url' => $default_thumb, 'id' => 0);
+        $rp_default_thumb  = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
+        if (!empty($attributes['defaultThumb'])) {
+            $rp_default_thumb = array('url' => $attributes['defaultThumb'], 'id' => 0);
+        }
 
         $postHtml = '';
 
