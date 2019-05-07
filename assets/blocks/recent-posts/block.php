@@ -155,6 +155,12 @@ function advgbRegisterBlockRecentPosts()
                 'type' => 'boolean',
                 'default' => false,
             ),
+            'defaultThumb' => array(
+                'type' => 'string'
+            ),
+            'defaultThumbID' => array(
+                'type' => 'number'
+            ),
         ),
         'render_callback' => 'advgbRenderBlockRecentPosts',
     ));

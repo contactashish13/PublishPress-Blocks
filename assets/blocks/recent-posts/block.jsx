@@ -2,8 +2,8 @@
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
-    const { InspectorControls, BlockControls } = wpEditor;
-    const { PanelBody, RangeControl, ToggleControl, TextControl, QueryControls, Spinner, Toolbar, Placeholder, IconButton, Button } = wpComponents;
+    const { InspectorControls, BlockControls, MediaUpload } = wpEditor;
+    const { PanelBody, BaseControl, RangeControl, ToggleControl, TextControl, QueryControls, Spinner, Toolbar, Placeholder, IconButton, Button } = wpComponents;
     const { withSelect } = wpData;
     const { pickBy, isUndefined } = lodash;
     const { decodeEntities } = wpHtmlEntities;
@@ -165,6 +165,8 @@
                 layout,
                 disableSliderView,
                 categoryAbove,
+                defaultThumb,
+                defaultThumbID,
             } = attributes;
 
             const inspectorControls = (
@@ -223,6 +225,48 @@
                             checked={ displayFeaturedImage }
                             onChange={ () => setAttributes( { displayFeaturedImage: !displayFeaturedImage } ) }
                         />
+                        {displayFeaturedImage && (
+                            <MediaUpload
+                                allowedTypes={ ["image"] }
+                                value={ defaultThumbID }
+                                onSelect={ (image) => setAttributes( {
+                                    defaultThumb: image.sizes.full.url,
+                                    defaultThumbID: image.id
+                                } ) }
+                                render={ ( { open } ) => {
+                                    return (
+                                        <BaseControl
+                                            label={ [
+                                                __( 'Default Thumbnail' ),
+                                                defaultThumb && (
+                                                    <a key="thumb-remove"
+                                                       style={ { marginLeft: '10px', cursor: 'pointer' } }
+                                                       onClick={ () => setAttributes( {
+                                                           defaultThumb: undefined,
+                                                           defaultThumbID: undefined,
+                                                       } ) }
+                                                    >
+                                                        { __( 'Remove' ) }
+                                                    </a>
+                                                )
+                                            ] }
+                                            help={ __( 'Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.' ) }
+                                        >
+                                            <Button className="button button-large"
+                                                    onClick={ open }
+                                            >
+                                                { __( 'Choose image' ) }
+                                            </Button>
+                                            {!!defaultThumb &&
+                                            <img style={ { maxHeight: '30px', marginLeft: '10px' } }
+                                                 src={ defaultThumb }
+                                                 alt={ __( 'Post Thumb' ) }/>
+                                            }
+                                        </BaseControl>
+                                    )
+                                } }
+                            />
+                        ) }
                         <ToggleControl
                             label={ __( 'Display Post Author' ) }
                             checked={ displayAuthor }
@@ -368,7 +412,7 @@
                                     {displayFeaturedImage && (
                                         <div className="advgb-post-thumbnail">
                                             <a href={ post.link } target="_blank">
-                                                <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
+                                                <img src={ post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
                                             </a>
                                             {categoryAbove && postView !== 'list' && catsHtml}
                                         </div>

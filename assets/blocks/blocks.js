@@ -10650,8 +10650,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
     var InspectorControls = wpEditor.InspectorControls,
-        BlockControls = wpEditor.BlockControls;
+        BlockControls = wpEditor.BlockControls,
+        MediaUpload = wpEditor.MediaUpload;
     var PanelBody = wpComponents.PanelBody,
+        BaseControl = wpComponents.BaseControl,
         RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
         TextControl = wpComponents.TextControl,
@@ -10814,7 +10816,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     readMoreLbl = attributes.readMoreLbl,
                     layout = attributes.layout,
                     disableSliderView = attributes.disableSliderView,
-                    categoryAbove = attributes.categoryAbove;
+                    categoryAbove = attributes.categoryAbove,
+                    defaultThumb = attributes.defaultThumb,
+                    defaultThumbID = attributes.defaultThumbID;
 
 
                 var inspectorControls = React.createElement(
@@ -10899,6 +10903,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             checked: displayFeaturedImage,
                             onChange: function onChange() {
                                 return setAttributes({ displayFeaturedImage: !displayFeaturedImage });
+                            }
+                        }),
+                        displayFeaturedImage && React.createElement(MediaUpload, {
+                            allowedTypes: ["image"],
+                            value: defaultThumbID,
+                            onSelect: function onSelect(image) {
+                                return setAttributes({
+                                    defaultThumb: image.sizes.full.url,
+                                    defaultThumbID: image.id
+                                });
+                            },
+                            render: function render(_ref) {
+                                var open = _ref.open;
+
+                                return React.createElement(
+                                    BaseControl,
+                                    {
+                                        label: [__('Default Thumbnail'), defaultThumb && React.createElement(
+                                            "a",
+                                            { key: "thumb-remove",
+                                                style: { marginLeft: '10px', cursor: 'pointer' },
+                                                onClick: function onClick() {
+                                                    return setAttributes({
+                                                        defaultThumb: undefined,
+                                                        defaultThumbID: undefined
+                                                    });
+                                                }
+                                            },
+                                            __('Remove')
+                                        )],
+                                        help: __('Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.')
+                                    },
+                                    React.createElement(
+                                        Button,
+                                        { className: "button button-large",
+                                            onClick: open
+                                        },
+                                        __('Choose image')
+                                    ),
+                                    !!defaultThumb && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
+                                        src: defaultThumb,
+                                        alt: __('Post Thumb') })
+                                );
                             }
                         }),
                         React.createElement(ToggleControl, {
@@ -11063,7 +11110,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "a",
                                         { href: post.link, target: "_blank" },
-                                        React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image') })
+                                        React.createElement("img", { src: post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb, alt: __('Post Image') })
                                     ),
                                     categoryAbove && postView !== 'list' && catsHtml
                                 ),
