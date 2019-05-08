@@ -13456,7 +13456,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props6 = this.props,
                     attributes = _props6.attributes,
                     setAttributes = _props6.setAttributes,
-                    isSelected = _props6.isSelected;
+                    isSelected = _props6.isSelected,
+                    className = _props6.className;
                 var items = attributes.items,
                     sliderView = attributes.sliderView,
                     avatarColor = attributes.avatarColor,
@@ -13473,7 +13474,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     nextArrow = attributes.nextArrow;
 
 
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom', className].filter(Boolean).join(' ');
 
                 var maxCols = sliderView ? 10 : 3;
                 var minCols = sliderView ? 4 : 1;

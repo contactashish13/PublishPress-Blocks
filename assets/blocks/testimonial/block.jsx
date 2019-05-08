@@ -112,7 +112,7 @@
 
         render() {
             const { currentEdit, refresh } = this.state;
-            const { attributes, setAttributes, isSelected } = this.props;
+            const { attributes, setAttributes, isSelected, className } = this.props;
             const {
                 items,
                 sliderView,
@@ -134,6 +134,7 @@
                 'advgb-testimonial',
                 sliderView && 'slider-view',
                 avatarBottom && 'avatar-bottom',
+                className,
             ].filter( Boolean ).join( ' ' );
 
             const maxCols  = sliderView ? 10 : 3;
