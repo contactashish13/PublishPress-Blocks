@@ -239,7 +239,7 @@ float: left;'
     {
         return array_merge(
             $styles,
-            array('justify-content', 'align-items')
+            array('justify-content', 'align-items', 'border-radius')
         );
     }
 
@@ -1341,7 +1341,7 @@ float: left;'
                 ADVANCED_GUTENBERG_VERSION
             );
             wp_register_script(
-                'codemirror_js',
+                'advgb_codemirror_js',
                 plugins_url('assets/js/codemirror/lib/codemirror.js', dirname(__FILE__)),
                 array(),
                 ADVANCED_GUTENBERG_VERSION
@@ -1578,6 +1578,12 @@ float: left;'
                 $save_config['enable_blocks_spacing'] = 1;
             } else {
                 $save_config['enable_blocks_spacing'] = 0;
+            }
+
+            if (isset($_POST['disable_wpautop'])) {
+                $save_config['disable_wpautop'] = 1;
+            } else {
+                $save_config['disable_wpautop'] = 0;
             }
 
             $save_config['google_api_key'] = $_POST['google_api_key'];
@@ -3190,9 +3196,23 @@ float: left;'
      */
     public function addFrontendContentAssets($content)
     {
+        // Check to disable autop
+        $saved_settings = false;
+        if (has_filter('the_content', 'wpautop')) {
+            if (!$saved_settings) {
+                $saved_settings = get_option('advgb_settings');
+            }
+
+            if (!empty($saved_settings['disable_wpautop'])) {
+                remove_filter('the_content', 'wpautop');
+            }
+        }
+
         wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
         if (strpos($content, 'wp-block-gallery') !== false) {
-            $saved_settings = get_option('advgb_settings');
+            if (!$saved_settings) {
+                $saved_settings = get_option('advgb_settings');
+            }
 
             if ($saved_settings['gallery_lightbox']) {
                 wp_enqueue_style('colorbox_style');
@@ -3277,10 +3297,13 @@ float: left;'
         if (strpos($content, 'advgb-accordion-block') !== false) {
             wp_enqueue_script('jquery-ui-accordion');
             wp_add_inline_script('jquery-ui-accordion', 'jQuery(document).ready(function($){
-                $(".advgb-accordion-block").parent().accordion({
-                    header: ".advgb-accordion-header",
-                    heightStyle: "content",
-                    collapsible: true,
+                $(".advgb-accordion-block").parent().each(function() {
+                    $(this).accordion({
+                        header: ".advgb-accordion-header",
+                        heightStyle: "content",
+                        collapsible: true,
+                        active: $(this).find(".advgb-accordion-block:first").data("collapsed") ? false : 0,
+                    });
                 });
             });');
         }
