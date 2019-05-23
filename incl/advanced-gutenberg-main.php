@@ -347,6 +347,7 @@ float: left;'
         wp_enqueue_script('jquery-ui-accordion');
         wp_enqueue_script('jquery-ui-tabs');
         wp_enqueue_script('jquery-ui-sortable');
+        wp_enqueue_script('masonry');
         wp_enqueue_script('slick_js');
 
         // Include needed CSS styles
@@ -3209,7 +3210,7 @@ float: left;'
         }
 
         wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
-        if (strpos($content, 'wp-block-gallery') !== false) {
+        if (strpos($content, 'wp-block-gallery') !== false || strpos($content, 'advgb-gallery') !== false) {
             if (!$saved_settings) {
                 $saved_settings = get_option('advgb_settings');
             }
@@ -3328,6 +3329,26 @@ float: left;'
             });');
         }
 
+        if (strpos($content, 'advgb-load-more') !== false) {
+            wp_enqueue_script('wp-date');
+            wp_enqueue_script(
+                'advgb_load_more',
+                plugins_url('assets/blocks/recent-posts/rp-load-more.js', dirname(__FILE__)),
+                array(),
+                ADVANCED_GUTENBERG_VERSION
+            );
+
+            $saved_settings    = get_option('advgb_settings');
+            $default_thumb     = plugins_url('assets/blocks/recent-posts/recent-post-default.png', ADVANCED_GUTENBERG_PLUGIN);
+            $rp_default_thumb  = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
+
+            wp_localize_script('advgb_load_more', 'advgbRP', array(
+                'homeUrl' => home_url(),
+                'defaultThumb' => $rp_default_thumb['url'],
+                'noPostsFound' => __('No more posts found.', 'advanced-gutenberg'),
+            ));
+        }
+
         if (strpos($content, 'advgb-woo-products slider-view') !== false) {
             wp_enqueue_style('slick_style');
             wp_enqueue_style('slick_theme_style');
@@ -3426,6 +3447,24 @@ float: left;'
                 array($this, 'decodeHtmlEntity'),
                 $content
             );
+        }
+
+        if (strpos($content, 'advgb-gallery') !== false) {
+            wp_enqueue_script(
+                'advgb_gallery_load_more',
+                plugins_url('assets/blocks/advgallery/gallery-loadmore.js', dirname(__FILE__)),
+                array(),
+                ADVANCED_GUTENBERG_VERSION
+            );
+
+            wp_localize_script('advgb_gallery_load_more', 'advgbGL', array(
+                'homeUrl' => home_url(),
+                'noMoreImgs' => __('No more images', 'advanced-gutenberg'),
+            ));
+
+            if (strpos($content, 'advgb-gallery masonry-layout') !== false) {
+                wp_enqueue_script('masonry');
+            }
         }
 
         return $content;

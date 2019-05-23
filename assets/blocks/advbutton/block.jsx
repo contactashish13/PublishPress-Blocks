@@ -93,6 +93,7 @@
                 buttonIconBgColor,
                 buttonIconBorderColor,
                 buttonAfter,
+                disableLink,
             } = attributes;
             const { searchedText } = this.state;
             const iconClass = [
@@ -159,24 +160,26 @@
                     </style>
                     <InspectorControls>
                         <PanelBody title={ __( 'Button Settings' ) }>
-                            <PanelBody title={ __( 'Button link' ) }>
-                                <TextControl
-                                    label={ [
-                                        __( 'Link URL' ),
-                                        (url && <a href={ url || '#' } key="link_url" target="_blank" style={ { float: 'right' } }>
-                                            { __( 'Preview' ) }
-                                        </a>)
-                                    ] }
-                                    value={ url || '' }
-                                    placeholder={ __( 'Enter URL…' ) }
-                                    onChange={ ( text ) => setAttributes( { url: text } ) }
-                                />
-                                <ToggleControl
-                                    label={ __( 'Open in new tab' ) }
-                                    checked={ !!urlOpenNewTab }
-                                    onChange={ () => setAttributes( { urlOpenNewTab: !attributes.urlOpenNewTab } ) }
-                                />
-                            </PanelBody>
+                            {!disableLink && (
+                                <PanelBody title={ __( 'Button link' ) }>
+                                    <TextControl
+                                        label={ [
+                                            __( 'Link URL' ),
+                                            (url && <a href={ url || '#' } key="link_url" target="_blank" style={ { float: 'right' } }>
+                                                { __( 'Preview' ) }
+                                            </a>)
+                                        ] }
+                                        value={ url || '' }
+                                        placeholder={ __( 'Enter URL…' ) }
+                                        onChange={ ( text ) => setAttributes( { url: text } ) }
+                                    />
+                                    <ToggleControl
+                                        label={ __( 'Open in new tab' ) }
+                                        checked={ !!urlOpenNewTab }
+                                        onChange={ () => setAttributes( { urlOpenNewTab: !attributes.urlOpenNewTab } ) }
+                                    />
+                                </PanelBody>
+                            ) }
                             <PanelBody title={ __( 'Text/Color' ) }>
                                 <RangeControl
                                     label={ __( 'Text size' ) }
@@ -535,6 +538,10 @@
         transitionSpeed: {
             type: 'number',
             default: 0.2,
+        },
+        disableLink: {
+            type: 'boolean',
+            default: false,
         },
         align: {
             type: 'string',

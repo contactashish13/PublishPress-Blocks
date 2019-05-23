@@ -1747,7 +1747,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     buttonIconColor = attributes.buttonIconColor,
                     buttonIconBgColor = attributes.buttonIconBgColor,
                     buttonIconBorderColor = attributes.buttonIconBorderColor,
-                    buttonAfter = attributes.buttonAfter;
+                    buttonAfter = attributes.buttonAfter,
+                    disableLink = attributes.disableLink;
                 var searchedText = this.state.searchedText;
 
                 var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
@@ -1811,7 +1812,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         React.createElement(
                             PanelBody,
                             { title: __('Button Settings') },
-                            React.createElement(
+                            !disableLink && React.createElement(
                                 PanelBody,
                                 { title: __('Button link') },
                                 React.createElement(TextControl, {
@@ -2242,6 +2243,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 0.2
         },
+        disableLink: {
+            type: 'boolean',
+            default: false
+        },
         align: {
             type: 'string',
             default: 'none'
@@ -2446,6 +2451,559 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }]
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+
+/***/ "./assets/blocks/advgallery/block.jsx":
+/*!********************************************!*\
+  !*** ./assets/blocks/advgallery/block.jsx ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls,
+        RichText = wpEditor.RichText,
+        MediaUpload = wpEditor.MediaUpload,
+        MediaPlaceholder = wpEditor.MediaPlaceholder,
+        BlockControls = wpEditor.BlockControls,
+        BlockIcon = wpEditor.BlockIcon;
+    var SVG = wpComponents.SVG,
+        Path = wpComponents.Path,
+        Toolbar = wpComponents.Toolbar,
+        PanelBody = wpComponents.PanelBody,
+        RangeControl = wpComponents.RangeControl,
+        SelectControl = wpComponents.SelectControl,
+        IconButton = wpComponents.IconButton;
+
+
+    var advGalleryBlockIcon = React.createElement(
+        SVG,
+        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement(Path, { d: "M0 0h24v24H0z", fill: "none" }),
+        React.createElement(Path, { d: "M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" })
+    );
+
+    var MAX_COLUMNS = 8;
+
+    var AdvGallery = function (_Component) {
+        _inherits(AdvGallery, _Component);
+
+        function AdvGallery() {
+            _classCallCheck(this, AdvGallery);
+
+            var _this = _possibleConstructorReturn(this, (AdvGallery.__proto__ || Object.getPrototypeOf(AdvGallery)).apply(this, arguments));
+
+            _this.state = {
+                selectedImage: null,
+                selectedCaption: null
+            };
+            return _this;
+        }
+
+        _createClass(AdvGallery, [{
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                var _this2 = this;
+
+                var _props$attributes = this.props.attributes,
+                    imageIds = _props$attributes.imageIds,
+                    enableLoadMore = _props$attributes.enableLoadMore;
+                var addQueryArgs = wp.url.addQueryArgs;
+
+                var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
+
+                if (this.props.attributes.layout === 'masonry') {
+                    this.initMasonry(grid);
+                    setTimeout(function () {
+                        grid.masonry('layout');
+                    }, 1000);
+                }
+
+                if (enableLoadMore && imageIds.length) {
+                    wp.apiFetch({
+                        path: addQueryArgs('wp/v2/media', { include: imageIds, orderby: 'include' })
+                    }).then(function (imgs) {
+                        return _this2.addImages(imgs);
+                    });
+                }
+            }
+        }, {
+            key: "componentWillUpdate",
+            value: function componentWillUpdate(nextProps) {
+                if (nextProps.attributes.layout !== 'masonry') {
+                    var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
+                    grid.masonry('destroy');
+                    grid.off('click', '.advgb-gallery-item');
+                }
+            }
+        }, {
+            key: "componentDidUpdate",
+            value: function componentDidUpdate(prevProps, prevState) {
+                var _props = this.props,
+                    isSelected = _props.isSelected,
+                    attributes = _props.attributes;
+                var selectedImage = this.state.selectedImage;
+                var layout = attributes.layout;
+
+                var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
+
+                // unselect the caption so when the user selects other image and comeback
+                // the caption is not immediately selected
+                if (!isSelected && prevProps.isSelected) {
+                    this.setState({
+                        selectedCaption: null,
+                        selectedImage: null
+                    });
+                }
+
+                if (selectedImage !== prevState.selectedImage) {
+                    this.setState({ selectedCaption: null });
+                }
+
+                if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
+                    this.initMasonry(grid);
+                }
+
+                if (layout === 'masonry') {
+                    if (prevProps.attributes.images.length !== attributes.images.length || prevProps.attributes.columns !== attributes.columns || prevProps.attributes.itemsToShow !== attributes.itemsToShow) {
+                        grid.masonry('reloadItems');
+                        grid.masonry('layout');
+                        setTimeout(function () {
+                            grid.masonry('layout');
+                        }, 200);
+                    }
+                }
+            }
+        }, {
+            key: "addImages",
+            value: function addImages(images) {
+                var columns = this.props.attributes.columns;
+
+                this.props.setAttributes({
+                    images: images.map(function (image) {
+                        return {
+                            url: image.url || image.source_url,
+                            id: image.id,
+                            alt: image.alt,
+                            caption: typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption
+                        };
+                    }),
+                    columns: columns ? Math.min(images.length, columns) : Math.min(images.length, 3),
+                    imageIds: images.map(function (img) {
+                        return img.id;
+                    })
+                });
+            }
+        }, {
+            key: "initMasonry",
+            value: function initMasonry($grid) {
+                $grid.masonry({
+                    itemSelector: '.advgb-gallery-item',
+                    columnWidth: '.advgb-gallery-item',
+                    percentPosition: true
+                });
+
+                $grid.on('click', '.advgb-gallery-item', function () {
+                    $grid.masonry('layout');
+                });
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _this3 = this;
+
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes,
+                    isSelected = _props2.isSelected;
+                var images = attributes.images,
+                    columns = attributes.columns,
+                    layout = attributes.layout,
+                    enableLoadMore = attributes.enableLoadMore,
+                    itemsToShow = attributes.itemsToShow,
+                    imageIds = attributes.imageIds;
+                var _state = this.state,
+                    selectedImage = _state.selectedImage,
+                    selectedCaption = _state.selectedCaption;
+
+
+                var controls = React.createElement(
+                    BlockControls,
+                    null,
+                    !!images.length && React.createElement(
+                        Toolbar,
+                        null,
+                        React.createElement(MediaUpload, {
+                            allowedTypes: ['image'],
+                            multiple: true,
+                            gallery: true,
+                            value: imageIds,
+                            onSelect: function onSelect(imgs) {
+                                return _this3.addImages(imgs);
+                            },
+                            render: function render(_ref) {
+                                var open = _ref.open;
+                                return React.createElement(IconButton, {
+                                    className: "components-toolbar__control",
+                                    label: __('Edit gallery'),
+                                    icon: "edit",
+                                    onClick: open
+                                });
+                            }
+                        }),
+                        layout === 'masonry' && React.createElement(IconButton, {
+                            className: "components-toolbar__control",
+                            label: __('Refresh layout'),
+                            icon: "update",
+                            onClick: function onClick() {
+                                return jQuery('#block-' + _this3.props.clientId + ' .advgb-gallery.masonry-layout').masonry('layout');
+                            }
+                        })
+                    )
+                );
+
+                var mediaHolder = React.createElement(MediaPlaceholder, {
+                    addToGallery: !!images.length,
+                    isAppender: !!images.length,
+                    dropZoneUIOnly: !!images.length && !isSelected,
+                    icon: !images.length && React.createElement(BlockIcon, { icon: advGalleryBlockIcon }),
+                    labels: {
+                        title: !images.length && __('Advanced Gallery'),
+                        instructions: !images.length && __('Drag images, upload new ones or select from your library.')
+                    },
+                    onSelect: function onSelect(imgs) {
+                        return _this3.addImages(imgs);
+                    },
+                    accept: "image/*",
+                    allowedTypes: ['image'],
+                    multiple: true,
+                    value: !!images.length ? images : undefined
+                });
+
+                var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
+
+                if (!images.length) {
+                    return React.createElement(
+                        Fragment,
+                        null,
+                        controls,
+                        mediaHolder
+                    );
+                }
+
+                return React.createElement(
+                    Fragment,
+                    null,
+                    controls,
+                    React.createElement(
+                        InspectorControls,
+                        null,
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Gallery Settings') },
+                            React.createElement(SelectControl, {
+                                label: __('Layout'),
+                                value: layout,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ layout: value });
+                                },
+                                options: [{ label: __('Default'), value: '' }, { label: __('Masonry'), value: 'masonry' }]
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Columns'),
+                                value: columns,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ columns: value });
+                                },
+                                min: 1,
+                                max: Math.min(MAX_COLUMNS, images.length),
+                                required: true
+                            }),
+                            enableLoadMore && React.createElement(RangeControl, {
+                                label: __('Items to show'),
+                                help: __('Number of items will be show on first load, also the number of items will be fetched with load more button.'),
+                                value: itemsToShow,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ itemsToShow: value });
+                                },
+                                min: 1,
+                                max: imageIds.length
+                            })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: blockClass },
+                        images.map(function (img, index) {
+                            if (enableLoadMore && index >= itemsToShow) {
+                                return null;
+                            }
+
+                            return React.createElement(
+                                "div",
+                                { className: "advgb-gallery-item", key: index },
+                                React.createElement(
+                                    "figure",
+                                    { className: selectedImage === index ? 'is-selected' : undefined },
+                                    selectedImage === index && React.createElement(
+                                        "div",
+                                        { className: "advgb-gallery-item-remove" },
+                                        React.createElement(IconButton, {
+                                            icon: "no-alt",
+                                            onClick: function onClick() {
+                                                var newImgs = images.filter(function (img, idx) {
+                                                    return idx !== index;
+                                                });
+                                                var newIds = imageIds.filter(function (img, idx) {
+                                                    return idx !== index;
+                                                });
+                                                _this3.setState({
+                                                    selectedImage: null,
+                                                    selectedCaption: null
+                                                });
+                                                setAttributes({
+                                                    images: newImgs,
+                                                    columns: columns ? Math.min(newImgs.length, columns) : columns,
+                                                    imageIds: newIds
+                                                });
+                                            },
+                                            className: "item-remove-icon",
+                                            label: __('Remove Image')
+                                        })
+                                    ),
+                                    React.createElement("img", { src: img.url,
+                                        alt: img.alt,
+                                        "data-id": img.id,
+                                        onClick: function onClick() {
+                                            return _this3.setState({ selectedImage: index });
+                                        }
+                                    }),
+                                    (!RichText.isEmpty(img.caption) || selectedImage === index) && React.createElement(RichText, {
+                                        tagName: "figcaption",
+                                        placeholder: __('Write caption…'),
+                                        value: img.caption,
+                                        isSelected: selectedCaption === index,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({
+                                                images: images.map(function (img, idx) {
+                                                    if (idx === index) {
+                                                        return _extends({}, img, {
+                                                            caption: value
+                                                        });
+                                                    }
+
+                                                    return img;
+                                                })
+                                            });
+                                        },
+                                        unstableOnFocus: function unstableOnFocus() {
+                                            return _this3.setState({ selectedCaption: index });
+                                        },
+                                        inlineToolbar: true
+                                    })
+                                )
+                            );
+                        })
+                    )
+                );
+            }
+        }]);
+
+        return AdvGallery;
+    }(Component);
+
+    var blockAttrs = {
+        images: {
+            type: 'array',
+            default: [],
+            source: 'query',
+            selector: 'div.advgb-gallery .advgb-gallery-item',
+            query: {
+                url: {
+                    source: 'attribute',
+                    selector: 'img',
+                    attribute: 'src'
+                },
+                id: {
+                    source: 'attribute',
+                    selector: 'img',
+                    attribute: 'data-id'
+                },
+                alt: {
+                    source: 'attribute',
+                    selector: 'img',
+                    attribute: 'alt',
+                    default: ''
+                },
+                caption: {
+                    type: 'string',
+                    source: 'html',
+                    selector: 'figcaption'
+                }
+            }
+        },
+        imageIds: {
+            type: 'array',
+            default: []
+        },
+        columns: {
+            type: 'number'
+        },
+        layout: {
+            type: 'string'
+        },
+        enableLoadMore: {
+            type: 'boolean',
+            default: false
+        },
+        itemsToShow: {
+            type: 'number',
+            default: 6
+        },
+        changed: {
+            type: 'boolean',
+            default: false
+        }
+    };
+
+    registerBlockType('advgb/gallery', {
+        title: __('Adv Gallery'),
+        description: __('Advanced gallery with enhanced functions.'),
+        icon: {
+            src: advGalleryBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('masonry'), __('gallery'), __('photos')],
+        attributes: blockAttrs,
+        supports: {
+            align: true
+        },
+        edit: AdvGallery,
+        save: function save(_ref2) {
+            var attributes = _ref2.attributes;
+            var images = attributes.images,
+                columns = attributes.columns,
+                layout = attributes.layout,
+                enableLoadMore = attributes.enableLoadMore,
+                itemsToShow = attributes.itemsToShow,
+                imageIds = attributes.imageIds;
+
+            var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
+            var ids = imageIds.join(',');
+
+            return React.createElement(
+                "div",
+                { className: blockClass,
+                    "data-ids": enableLoadMore ? ids : undefined,
+                    "data-show": enableLoadMore ? itemsToShow : undefined
+                },
+                React.createElement("div", { className: "advgb-gallery-sizer" }),
+                images.map(function (img, index) {
+                    if (enableLoadMore && index >= itemsToShow) {
+                        return null;
+                    }
+
+                    return React.createElement(
+                        "div",
+                        { className: "advgb-gallery-item", key: index },
+                        React.createElement(
+                            "figure",
+                            null,
+                            React.createElement("img", { src: img.url,
+                                alt: img.alt,
+                                "data-id": img.id
+                            }),
+                            !RichText.isEmpty(img.caption) && React.createElement(RichText.Content, {
+                                tagName: "figcaption",
+                                value: img.caption
+                            })
+                        )
+                    );
+                })
+            );
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+
+/***/ "./assets/blocks/advgallery/gallery-load-more.jsx":
+/*!********************************************************!*\
+  !*** ./assets/blocks/advgallery/gallery-load-more.jsx ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function (wpI18n, wpBlocks, wpEditor) {
+    var __ = wpI18n.__;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InnerBlocks = wpEditor.InnerBlocks;
+    var _wp$components = wp.components,
+        SVG = _wp$components.SVG,
+        Path = _wp$components.Path;
+
+
+    var advGalleryBlockIcon = React.createElement(
+        SVG,
+        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement(Path, { d: "M0 0h24v24H0z", fill: "none" }),
+        React.createElement(Path, { d: "M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" })
+    );
+
+    registerBlockType('advgb/gallery-loadmore', {
+        title: __('Adv.Gallery with load more'),
+        icon: {
+            src: advGalleryBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('gallery'), __('photos'), __('masonry')],
+        attributes: {},
+        supports: {
+            align: true
+        },
+        edit: function edit(props) {
+            return React.createElement(InnerBlocks, {
+                template: [['advgb/gallery', { enableLoadMore: true }], ['advgb/button', {
+                    className: 'advgb-load-more',
+                    text: 'Load More',
+                    align: 'center',
+                    disableLink: true
+                }]],
+                templateLock: true
+            });
+        },
+        save: function save(props) {
+            return React.createElement(
+                "div",
+                { className: "advgb-gallery-container" },
+                React.createElement(InnerBlocks.Content, null)
+            );
+        }
+    });
+})(wp.i18n, wp.blocks, wp.editor);
 
 /***/ }),
 
@@ -6739,12 +7297,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('container'), __('row'), __('box')],
         attributes: {},
         supports: {
-            align: true
+            align: true,
+            className: true
         },
-        edit: function edit() {
+        edit: function edit(props) {
             return React.createElement(
                 "div",
-                { className: "advgb-blocks-container" },
+                { className: "advgb-blocks-container " + props.className },
                 React.createElement(InnerBlocks, null)
             );
         },
@@ -10440,6 +10999,68 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 
+/***/ "./assets/blocks/recent-posts/block-with-load-more.jsx":
+/*!*************************************************************!*\
+  !*** ./assets/blocks/recent-posts/block-with-load-more.jsx ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function (wpI18n, wpBlocks, wpEditor) {
+    var __ = wpI18n.__;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InnerBlocks = wpEditor.InnerBlocks;
+
+
+    var advRecentPostsBlockIcon = React.createElement(
+        "svg",
+        { width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement("path", { fill: "none", d: "M0,0h24v24H0V0z" }),
+        React.createElement("rect", { x: "13", y: "7.5", width: "5", height: "2" }),
+        React.createElement("rect", { x: "13", y: "14.5", width: "5", height: "2" }),
+        React.createElement("path", { d: "M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V5h14V19z" }),
+        React.createElement("path", { d: "M11,6H6v5h5V6z M10,10H7V7h3V10z" }),
+        React.createElement("path", { d: "M11,13H6v5h5V13z M10,17H7v-3h3V17z" })
+    );
+
+    registerBlockType('advgb/rp-loadmore', {
+        title: __('Recent Posts with load more'),
+        icon: {
+            src: advRecentPostsBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('latest posts'), __('articles'), __('layout')],
+        attributes: {},
+        supports: {
+            align: true
+        },
+        edit: function edit(props) {
+            return React.createElement(InnerBlocks, {
+                template: [['advgb/recent-posts', { disableSliderView: true }], ['advgb/button', {
+                    className: 'advgb-load-more',
+                    text: 'Load More',
+                    align: 'center',
+                    disableLink: true
+                }]],
+                templateLock: true
+            });
+        },
+        save: function save(props) {
+            return React.createElement(
+                "div",
+                { className: "advgb-recent-posts-container" },
+                React.createElement(InnerBlocks.Content, null)
+            );
+        }
+    });
+})(wp.i18n, wp.blocks, wp.editor);
+
+/***/ }),
+
 /***/ "./assets/blocks/recent-posts/block.jsx":
 /*!**********************************************!*\
   !*** ./assets/blocks/recent-posts/block.jsx ***!
@@ -10468,8 +11089,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
     var InspectorControls = wpEditor.InspectorControls,
-        BlockControls = wpEditor.BlockControls;
+        BlockControls = wpEditor.BlockControls,
+        MediaUpload = wpEditor.MediaUpload;
     var PanelBody = wpComponents.PanelBody,
+        BaseControl = wpComponents.BaseControl,
         RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
         TextControl = wpComponents.TextControl,
@@ -10630,7 +11253,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     postTextExcerptLength = attributes.postTextExcerptLength,
                     displayReadMore = attributes.displayReadMore,
                     readMoreLbl = attributes.readMoreLbl,
-                    layout = attributes.layout;
+                    layout = attributes.layout,
+                    disableSliderView = attributes.disableSliderView,
+                    categoryAbove = attributes.categoryAbove,
+                    defaultThumb = attributes.defaultThumb,
+                    defaultThumbID = attributes.defaultThumbID;
 
 
                 var inspectorControls = React.createElement(
@@ -10655,7 +11282,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "div",
                                         { className: "no-layout" },
-                                        "NONE"
+                                        __('NONE')
                                     )
                                 ),
                                 Object.keys(advgbRPL).map(function (clayout, index) {
@@ -10717,6 +11344,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return setAttributes({ displayFeaturedImage: !displayFeaturedImage });
                             }
                         }),
+                        displayFeaturedImage && React.createElement(MediaUpload, {
+                            allowedTypes: ["image"],
+                            value: defaultThumbID,
+                            onSelect: function onSelect(image) {
+                                return setAttributes({
+                                    defaultThumb: image.sizes.full.url,
+                                    defaultThumbID: image.id
+                                });
+                            },
+                            render: function render(_ref) {
+                                var open = _ref.open;
+
+                                return React.createElement(
+                                    BaseControl,
+                                    {
+                                        label: [__('Default Thumbnail'), defaultThumb && React.createElement(
+                                            "a",
+                                            { key: "thumb-remove",
+                                                style: { marginLeft: '10px', cursor: 'pointer' },
+                                                onClick: function onClick() {
+                                                    return setAttributes({
+                                                        defaultThumb: undefined,
+                                                        defaultThumbID: undefined
+                                                    });
+                                                }
+                                            },
+                                            __('Remove')
+                                        )],
+                                        help: __('Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.')
+                                    },
+                                    React.createElement(
+                                        Button,
+                                        { className: "button button-large",
+                                            onClick: open
+                                        },
+                                        __('Choose image')
+                                    ),
+                                    !!defaultThumb && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
+                                        src: defaultThumb,
+                                        alt: __('Post Thumb') })
+                                );
+                            }
+                        }),
                         React.createElement(ToggleControl, {
                             label: __('Display Post Author'),
                             checked: displayAuthor,
@@ -10732,10 +11402,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             }
                         }),
                         React.createElement(ToggleControl, {
-                            label: __('Display Category'),
+                            label: __('Display Categories'),
                             checked: displayCategory,
                             onChange: function onChange() {
                                 return setAttributes({ displayCategory: !displayCategory });
+                            }
+                        }),
+                        displayCategory && React.createElement(ToggleControl, {
+                            label: __('Categories above post title'),
+                            checked: categoryAbove,
+                            onChange: function onChange() {
+                                return setAttributes({ categoryAbove: !categoryAbove });
                             }
                         }),
                         React.createElement(ToggleControl, {
@@ -10818,7 +11495,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     onClick: function onClick() {
                         return setAttributes({ postView: 'slider' });
                     },
-                    isActive: postView === 'slider'
+                    isActive: postView === 'slider',
+                    isDisabled: !!disableSliderView
                 }];
 
                 var blockClassName = ['advgb-recent-posts-block', this.state.updating && 'loading', postView === 'grid' && 'columns-' + columns, postView === 'grid' && 'grid-view', postView === 'list' && 'list-view', postView === 'slider' && 'slider-view'].filter(Boolean).join(' ');
@@ -10833,6 +11511,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         "div",
                         { className: "advgb-recent-posts" },
                         recentPosts.map(function (post, index) {
+                            var catsHtml = displayCategory && React.createElement(
+                                "div",
+                                { className: "advgb-post-categories" },
+                                post.categories.length && post.categories.map(function (catID, index) {
+                                    if (index > 5) return null;
+
+                                    if (index === 5) {
+                                        return React.createElement(
+                                            "span",
+                                            { className: "advgb-post-category-more" },
+                                            "+",
+                                            post.categories.length - index
+                                        );
+                                    }
+
+                                    var idx = categoriesList.findIndex(function (cat) {
+                                        return cat.id === catID;
+                                    });
+                                    var catName = '';
+                                    if (idx > -1) catName = categoriesList[idx].name;
+
+                                    return React.createElement(
+                                        "span",
+                                        { className: "advgb-post-category" },
+                                        catName
+                                    );
+                                })
+                            );
+
                             return React.createElement(
                                 "article",
                                 { key: index, className: "advgb-recent-post" },
@@ -10842,12 +11549,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "a",
                                         { href: post.link, target: "_blank" },
-                                        React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image') })
-                                    )
+                                        React.createElement("img", { src: post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb, alt: __('Post Image') })
+                                    ),
+                                    categoryAbove && postView !== 'list' && catsHtml
                                 ),
                                 React.createElement(
                                     "div",
                                     { className: "advgb-post-wrapper" },
+                                    categoryAbove && (!displayFeaturedImage || postView === 'list') && catsHtml,
                                     React.createElement(
                                         "h2",
                                         { className: "advgb-post-title" },
@@ -10860,34 +11569,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "div",
                                         { className: "advgb-post-info" },
-                                        displayCategory && React.createElement(
-                                            "div",
-                                            { className: "advgb-post-categories" },
-                                            post.categories.length && post.categories.map(function (catID, index) {
-                                                if (index > 5) return null;
-
-                                                if (index === 5) {
-                                                    return React.createElement(
-                                                        "span",
-                                                        { className: "advgb-post-category-more" },
-                                                        "+",
-                                                        post.categories.length - index
-                                                    );
-                                                }
-
-                                                var idx = categoriesList.findIndex(function (cat) {
-                                                    return cat.id === catID;
-                                                });
-                                                var catName = '';
-                                                if (idx > -1) catName = categoriesList[idx].name;
-
-                                                return React.createElement(
-                                                    "span",
-                                                    { className: "advgb-post-category" },
-                                                    catName
-                                                );
-                                            })
-                                        ),
+                                        !categoryAbove && catsHtml,
                                         displayAuthor && React.createElement(
                                             "a",
                                             { href: post.author_meta.author_link,
@@ -10908,7 +11590,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
                                             dangerouslySetInnerHTML: {
                                                 __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                            } }),
+                                            }
+                                        }),
                                         displayReadMore && React.createElement(
                                             "div",
                                             { className: "advgb-post-readmore" },
@@ -13212,7 +13895,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props6 = this.props,
                     attributes = _props6.attributes,
                     setAttributes = _props6.setAttributes,
-                    isSelected = _props6.isSelected;
+                    isSelected = _props6.isSelected,
+                    className = _props6.className;
                 var items = attributes.items,
                     sliderView = attributes.sliderView,
                     avatarColor = attributes.avatarColor,
@@ -13229,7 +13913,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     nextArrow = attributes.nextArrow;
 
 
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom', className].filter(Boolean).join(' ');
 
                 var maxCols = sliderView ? 10 : 3;
                 var minCols = sliderView ? 4 : 1;
@@ -14626,15 +15310,17 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./assets/blocks/1-custom-block-options/custom-block.jsx ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/custom-columns/columns.jsx ./assets/blocks/custom-separator/separator.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./assets/blocks/1-custom-block-options/custom-block.jsx ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advgallery/block.jsx ./assets/blocks/advgallery/gallery-load-more.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/custom-columns/columns.jsx ./assets/blocks/custom-separator/separator.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block-with-load-more.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! ./assets/blocks/1-custom-block-options/custom-block.jsx */"./assets/blocks/1-custom-block-options/custom-block.jsx");
 __webpack_require__(/*! ./assets/blocks/accordion/block.jsx */"./assets/blocks/accordion/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advbutton/block.jsx */"./assets/blocks/advbutton/block.jsx");
+__webpack_require__(/*! ./assets/blocks/advgallery/block.jsx */"./assets/blocks/advgallery/block.jsx");
+__webpack_require__(/*! ./assets/blocks/advgallery/gallery-load-more.jsx */"./assets/blocks/advgallery/gallery-load-more.jsx");
 __webpack_require__(/*! ./assets/blocks/advimage/block.jsx */"./assets/blocks/advimage/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advlist/block.jsx */"./assets/blocks/advlist/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advtable/block.jsx */"./assets/blocks/advtable/block.jsx");
@@ -14648,6 +15334,7 @@ __webpack_require__(/*! ./assets/blocks/customstyles/custom-styles.jsx */"./asse
 __webpack_require__(/*! ./assets/blocks/images-slider/block.jsx */"./assets/blocks/images-slider/block.jsx");
 __webpack_require__(/*! ./assets/blocks/map/block.jsx */"./assets/blocks/map/block.jsx");
 __webpack_require__(/*! ./assets/blocks/newsletter/block.jsx */"./assets/blocks/newsletter/block.jsx");
+__webpack_require__(/*! ./assets/blocks/recent-posts/block-with-load-more.jsx */"./assets/blocks/recent-posts/block-with-load-more.jsx");
 __webpack_require__(/*! ./assets/blocks/recent-posts/block.jsx */"./assets/blocks/recent-posts/block.jsx");
 __webpack_require__(/*! ./assets/blocks/social-links/block.jsx */"./assets/blocks/social-links/block.jsx");
 __webpack_require__(/*! ./assets/blocks/summary/block.jsx */"./assets/blocks/summary/block.jsx");

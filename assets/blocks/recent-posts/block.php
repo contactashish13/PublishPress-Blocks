@@ -147,6 +147,20 @@ function advgbRegisterBlockRecentPosts()
             'layout' => array(
                 'type' => 'string',
             ),
+            'disableSliderView' => array(
+                'type' => 'boolean',
+                'default' => false,
+            ),
+            'categoryAbove' => array(
+                'type' => 'boolean',
+                'default' => false,
+            ),
+            'defaultThumb' => array(
+                'type' => 'string'
+            ),
+            'defaultThumbID' => array(
+                'type' => 'number'
+            ),
         ),
         'render_callback' => 'advgbRenderBlockRecentPosts',
     ));
@@ -178,6 +192,9 @@ if (!function_exists('advgbRecentPostsFilter')) {
         $saved_settings    = get_option('advgb_settings');
         $default_thumb     = plugins_url('assets/blocks/recent-posts/recent-post-default.png', ADVANCED_GUTENBERG_PLUGIN);
         $rp_default_thumb  = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
+        if (!empty($attributes['defaultThumb'])) {
+            $rp_default_thumb = array('url' => $attributes['defaultThumb'], 'id' => 0);
+        }
 
         $postHtml = '';
 
@@ -185,6 +202,26 @@ if (!function_exists('advgbRecentPostsFilter')) {
             $postThumbID = get_post_thumbnail_id($post->ID);
 
             $postHtml .= '<article class="advgb-recent-post">';
+
+            $catsHtml = '';
+            if (isset($attributes['displayCategory']) && $attributes['displayCategory']) {
+                $postCategories = get_the_category($post->ID);
+                if (count($postCategories)) {
+                    $int = 0;
+                    $catsHtml .= '<div class="advgb-post-categories">';
+                    foreach ($postCategories as $postCategory) {
+                        $int++;
+                        if ($int === 6) {
+                            $remainCats = count($postCategories) - $int + 1;
+                            $catsHtml .= '<span class="advgb-post-category-more">'.$remainCats.'</span>';
+                            break;
+                        }
+
+                        $catsHtml .= '<span class="advgb-post-category">'.$postCategory->name.'</span>';
+                    }
+                    $catsHtml .= '</div>';
+                }
+            }
 
             if (isset($attributes['displayFeaturedImage']) && $attributes['displayFeaturedImage']) {
                 $postThumb = '<img src="'.$rp_default_thumb['url'].'" />';
@@ -197,13 +234,19 @@ if (!function_exists('advgbRecentPostsFilter')) {
                 }
 
                 $postHtml .= sprintf(
-                    '<div class="advgb-post-thumbnail"><a href="%1$s">%2$s</a></div>',
+                    '<div class="advgb-post-thumbnail"><a href="%1$s">%2$s</a>%3$s</div>',
                     get_permalink($post->ID),
-                    $postThumb
+                    $postThumb,
+                    $attributes['categoryAbove'] && $attributes['postView'] !== 'list' ? $catsHtml : ''
                 );
             }
 
             $postHtml .= '<div class="advgb-post-wrapper">';
+            if ($attributes['categoryAbove']) {
+                if (empty($attributes['displayFeaturedImage']) || $attributes['postView'] === 'list') {
+                    $postHtml .= $catsHtml;
+                }
+            }
 
             $postHtml .= sprintf(
                 '<h2 class="advgb-post-title"><a href="%1$s">%2$s</a></h2>',
@@ -213,23 +256,8 @@ if (!function_exists('advgbRecentPostsFilter')) {
 
             $postHtml .= '<div class="advgb-post-info">';
 
-            if (isset($attributes['displayCategory']) && $attributes['displayCategory']) {
-                $postCategories = get_the_category($post->ID);
-                if (count($postCategories)) {
-                    $int = 0;
-                    $postHtml .= '<div class="advgb-post-categories">';
-                    foreach ($postCategories as $postCategory) {
-                        $int++;
-                        if ($int === 6) {
-                            $remainCats = count($postCategories) - $int + 1;
-                            $postHtml .= '<span class="advgb-post-category-more">'.$remainCats.'</span>';
-                            break;
-                        }
-
-                        $postHtml .= '<span class="advgb-post-category">'.$postCategory->name.'</span>';
-                    }
-                    $postHtml .= '</div>';
-                }
+            if (!$attributes['categoryAbove']) {
+                $postHtml .= $catsHtml;
             }
 
             if (isset($attributes['displayAuthor']) && $attributes['displayAuthor']) {
@@ -304,9 +332,10 @@ if (!function_exists('advgbRecentPostsFilter')) {
         }
 
         $blockHtml = sprintf(
-            '<div class="advgb-recent-posts-block %2$s"><div class="advgb-recent-posts">%1$s</div></div>',
+            '<div class="advgb-recent-posts-block %2$s"><div class="advgb-recent-posts" data-attributes="%3$s">%1$s</div></div>',
             $postHtml,
-            esc_attr($blockClass)
+            esc_attr($blockClass),
+            base64_encode(json_encode($attributes))
         );
 
         return $blockHtml;

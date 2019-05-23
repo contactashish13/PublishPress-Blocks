@@ -2,8 +2,8 @@
     const { __ } = wpI18n;
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
-    const { InspectorControls, BlockControls } = wpEditor;
-    const { PanelBody, RangeControl, ToggleControl, TextControl, QueryControls, Spinner, Toolbar, Placeholder, IconButton, Button } = wpComponents;
+    const { InspectorControls, BlockControls, MediaUpload } = wpEditor;
+    const { PanelBody, BaseControl, RangeControl, ToggleControl, TextControl, QueryControls, Spinner, Toolbar, Placeholder, IconButton, Button } = wpComponents;
     const { withSelect } = wpData;
     const { pickBy, isUndefined } = lodash;
     const { decodeEntities } = wpHtmlEntities;
@@ -163,6 +163,10 @@
                 displayReadMore,
                 readMoreLbl,
                 layout,
+                disableSliderView,
+                categoryAbove,
+                defaultThumb,
+                defaultThumbID,
             } = attributes;
 
             const inspectorControls = (
@@ -174,9 +178,7 @@
                                     <div className={ !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
                                          onClick={ () => setAttributes( { layout: undefined } ) }
                                     >
-                                        <div className="no-layout">
-                                            NONE
-                                        </div>
+                                        <div className="no-layout">{ __( 'NONE' ) }</div>
                                     </div>
                                     {Object.keys(advgbRPL).map((clayout, index) => (
                                         <div className={ clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
@@ -223,6 +225,48 @@
                             checked={ displayFeaturedImage }
                             onChange={ () => setAttributes( { displayFeaturedImage: !displayFeaturedImage } ) }
                         />
+                        {displayFeaturedImage && (
+                            <MediaUpload
+                                allowedTypes={ ["image"] }
+                                value={ defaultThumbID }
+                                onSelect={ (image) => setAttributes( {
+                                    defaultThumb: image.sizes.full.url,
+                                    defaultThumbID: image.id
+                                } ) }
+                                render={ ( { open } ) => {
+                                    return (
+                                        <BaseControl
+                                            label={ [
+                                                __( 'Default Thumbnail' ),
+                                                defaultThumb && (
+                                                    <a key="thumb-remove"
+                                                       style={ { marginLeft: '10px', cursor: 'pointer' } }
+                                                       onClick={ () => setAttributes( {
+                                                           defaultThumb: undefined,
+                                                           defaultThumbID: undefined,
+                                                       } ) }
+                                                    >
+                                                        { __( 'Remove' ) }
+                                                    </a>
+                                                )
+                                            ] }
+                                            help={ __( 'Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.' ) }
+                                        >
+                                            <Button className="button button-large"
+                                                    onClick={ open }
+                                            >
+                                                { __( 'Choose image' ) }
+                                            </Button>
+                                            {!!defaultThumb &&
+                                            <img style={ { maxHeight: '30px', marginLeft: '10px' } }
+                                                 src={ defaultThumb }
+                                                 alt={ __( 'Post Thumb' ) }/>
+                                            }
+                                        </BaseControl>
+                                    )
+                                } }
+                            />
+                        ) }
                         <ToggleControl
                             label={ __( 'Display Post Author' ) }
                             checked={ displayAuthor }
@@ -234,10 +278,17 @@
                             onChange={ () => setAttributes( { displayDate: !displayDate } ) }
                         />
                         <ToggleControl
-                            label={ __( 'Display Category' ) }
+                            label={ __( 'Display Categories' ) }
                             checked={ displayCategory }
                             onChange={ () => setAttributes( { displayCategory: !displayCategory } ) }
                         />
+                        {displayCategory &&
+                            <ToggleControl
+                                label={ __( 'Categories above post title' ) }
+                                checked={ categoryAbove }
+                                onChange={ () => setAttributes( { categoryAbove: !categoryAbove } ) }
+                            />
+                        }
                         <ToggleControl
                             label={ __( 'Display Read More Link' ) }
                             checked={ displayReadMore }
@@ -314,6 +365,7 @@
                     title: __( 'Slider View' ),
                     onClick: () => setAttributes( { postView: 'slider' } ),
                     isActive: postView === 'slider',
+                    isDisabled: !!disableSliderView,
                 },
             ];
 
@@ -332,71 +384,78 @@
                 <div className={ blockClassName }>
                     {this.state.updating && <div className="advgb-recent-posts-loading" />}
                     <div className="advgb-recent-posts">
-                        {recentPosts.map( ( post, index ) => (
-                            <article key={ index } className="advgb-recent-post" >
-                                {displayFeaturedImage && (
-                                    <div className="advgb-post-thumbnail">
-                                        <a href={ post.link } target="_blank">
-                                            <img src={ post.featured_img ? post.featured_img : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
-                                        </a>
-                                    </div>
-                                ) }
-                                <div className="advgb-post-wrapper">
-                                    <h2 className="advgb-post-title">
-                                        <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
-                                    </h2>
-                                    <div className="advgb-post-info">
-                                        {displayCategory && (
-                                            <div className="advgb-post-categories">
-                                                {post.categories.length && post.categories.map( (catID, index) => {
-                                                    if (index > 5) return null;
+                        {recentPosts.map( ( post, index ) => {
+                            const catsHtml = displayCategory && (
+                                <div className="advgb-post-categories">
+                                    {post.categories.length && post.categories.map( (catID, index) => {
+                                        if (index > 5) return null;
 
-                                                    if (index === 5) {
-                                                        return (
-                                                            <span className="advgb-post-category-more">
-                                                                    +{post.categories.length - index}
-                                                                </span>
-                                                        )
-                                                    }
+                                        if (index === 5) {
+                                            return (
+                                                <span className="advgb-post-category-more">
+                                                    +{post.categories.length - index}
+                                                </span>
+                                            )
+                                        }
 
-                                                    const idx = categoriesList.findIndex((cat) => cat.id === catID);
-                                                    let catName = '';
-                                                    if (idx > -1) catName = categoriesList[idx].name;
+                                        const idx = categoriesList.findIndex((cat) => cat.id === catID);
+                                        let catName = '';
+                                        if (idx > -1) catName = categoriesList[idx].name;
 
-                                                    return <span className="advgb-post-category">{catName}</span>
-                                                } ) }
-                                            </div>
-                                        ) }
-                                        {displayAuthor && (
-                                            <a href={ post.author_meta.author_link }
-                                               target="_blank"
-                                               className="advgb-post-author"
-                                            >
-                                                { post.author_meta.display_name }
+                                        return <span className="advgb-post-category">{catName}</span>
+                                    } ) }
+                                </div>
+                            );
+
+                            return (
+                                <article key={ index } className="advgb-recent-post" >
+                                    {displayFeaturedImage && (
+                                        <div className="advgb-post-thumbnail">
+                                            <a href={ post.link } target="_blank">
+                                                <img src={ post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb } alt={ __( 'Post Image' ) } />
                                             </a>
-                                        ) }
-                                        {displayDate && (
-                                            <span className="advgb-post-date" >
+                                            {categoryAbove && postView !== 'list' && catsHtml}
+                                        </div>
+                                    ) }
+                                    <div className="advgb-post-wrapper">
+                                        {categoryAbove && (!displayFeaturedImage || postView === 'list') && catsHtml}
+                                        <h2 className="advgb-post-title">
+                                            <a href={ post.link } target="_blank">{ decodeEntities( post.title.rendered ) }</a>
+                                        </h2>
+                                        <div className="advgb-post-info">
+                                            {!categoryAbove && catsHtml}
+                                            {displayAuthor && (
+                                                <a href={ post.author_meta.author_link }
+                                                   target="_blank"
+                                                   className="advgb-post-author"
+                                                >
+                                                    { post.author_meta.display_name }
+                                                </a>
+                                            ) }
+                                            {displayDate && (
+                                                <span className="advgb-post-date" >
                                                     { dateI18n( dateFormat, post.date_gmt ) }
                                                 </span>
-                                        ) }
+                                            ) }
+                                        </div>
+                                        <div className="advgb-post-content">
+                                            {displayExcerpt && (
+                                                <div className="advgb-post-excerpt"
+                                                     dangerouslySetInnerHTML={ {
+                                                         __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
+                                                     } }
+                                                />
+                                            ) }
+                                            {displayReadMore && (
+                                                <div className="advgb-post-readmore">
+                                                    <a href={ post.link } target="_blank">{ readMoreLbl ? readMoreLbl : __( 'Read More' ) }</a>
+                                                </div>
+                                            ) }
+                                        </div>
                                     </div>
-                                    <div className="advgb-post-content">
-                                        {displayExcerpt && (
-                                            <div className="advgb-post-excerpt"
-                                                 dangerouslySetInnerHTML={ {
-                                                     __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                                 } } />
-                                        ) }
-                                        {displayReadMore && (
-                                            <div className="advgb-post-readmore">
-                                                <a href={ post.link } target="_blank">{ readMoreLbl ? readMoreLbl : __( 'Read More' ) }</a>
-                                            </div>
-                                        ) }
-                                    </div>
-                                </div>
-                            </article>
-                        ) ) }
+                                </article>
+                            )
+                        } ) }
                     </div>
                 </div>
             );
