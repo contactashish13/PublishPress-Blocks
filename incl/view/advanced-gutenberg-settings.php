@@ -51,6 +51,7 @@ usort($advgb_blocks, sortBy('title'));
 
 $gallery_lightbox_checked         = $saved_settings['gallery_lightbox'] ? 'checked' : '';
 $gallery_lightbox_caption_checked = $saved_settings['gallery_lightbox_caption'] ? 'checked' : '';
+$disable_wpautop_checked          = !empty($saved_settings['disable_wpautop']) ? 'checked' : '';
 $google_api_key_saved             = isset($saved_settings['google_api_key']) ? $saved_settings['google_api_key'] : '';
 $enable_blocks_spacing            = isset($saved_settings['enable_blocks_spacing']) && $saved_settings['enable_blocks_spacing'] ? 'checked' : '';
 $blocks_spacing                   = isset($saved_settings['blocks_spacing']) ? $saved_settings['blocks_spacing'] : 0;
@@ -112,7 +113,7 @@ $rp_default_thumb                 = isset($saved_settings['rp_default_thumb']) ?
                         </div>
                     </div>
                 </li>
-                <li class="ju-settings-option hidden-item clearfix" id="gallery_lightbox_caption_wrapper">
+                <li class="ju-settings-option clearfix" id="gallery_lightbox_caption_wrapper">
                     <div class="settings-option-wrapper clearfix">
                         <label for="gallery_lightbox_caption"
                                class="ju-setting-label advgb_qtip"
@@ -135,11 +136,34 @@ $rp_default_thumb                 = isset($saved_settings['rp_default_thumb']) ?
                         </div>
                     </div>
                 </li>
+                <li class="ju-settings-option clearfix">
+                    <div class="settings-option-wrapper clearfix">
+                        <label for="ag_disable_wpautop"
+                               class="ju-setting-label advgb_qtip"
+                               data-qtip="<?php esc_attr_e(
+                                   'Remove the WordPress function autop, used to prevent unwanted paragraph to be added in some blocks',
+                                   'advanced-gutenberg'
+                               ) ?>"
+                        >
+                            <?php esc_html_e('Remove Autop', 'advanced-gutenberg') ?>
+                        </label>
+                        <div class="ju-switch-button">
+                            <label class="switch">
+                                <input type="checkbox" name="disable_wpautop"
+                                       id="ag_disable_wpautop"
+                                       value="1"
+                                    <?php echo esc_attr($disable_wpautop_checked) ?>
+                                />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
                 <li class="ju-settings-option full-width clearfix">
                     <div class="settings-option-wrapper clearfix">
                         <label for="google_api_key"
                                class="ju-setting-label advgb_qtip"
-                               style="float: none; margin-bottom: 10px"
+                               style="float: none; margin-bottom: 10px;"
                                data-qtip="<?php esc_attr_e(
                                    'A Google API key is required to use the Map block without any warning.',
                                    'advanced-gutenberg'
@@ -157,7 +181,7 @@ $rp_default_thumb                 = isset($saved_settings['rp_default_thumb']) ?
                             >
                             <a target="_blank"
                                href="https://developers.google.com/maps/documentation/javascript/get-api-key"
-                               style="display: inline-block; margin: 15px; margin-left: 10px; color: #ff8726;">
+                               style="display: inline-block; margin: 15px; margin-left: 10px; color: #ff8726; line-height: 1;">
                                 <?php esc_html_e('How to create a Google API Key', 'advanced-gutenberg') ?>
                             </a>
                         </span>
@@ -193,7 +217,7 @@ $rp_default_thumb                 = isset($saved_settings['rp_default_thumb']) ?
                         </div>
                     </div>
                 </li>
-                <li class="ju-settings-option clearfix hidden-item" id="blocks_spacing_wrapper">
+                <li class="ju-settings-option clearfix" id="blocks_spacing_wrapper">
                     <div class="settings-option-wrapper clearfix">
                         <label for="blocks_spacing"
                                class="ju-setting-label advgb_qtip"
@@ -311,7 +335,7 @@ $rp_default_thumb                 = isset($saved_settings['rp_default_thumb']) ?
                 if (isset($block['iconColor'])) :
                     $iconColor = 'style=color:' . $block['iconColor'];
                 endif; ?>
-            <li class="block-config-item ju-settings-option">
+            <li class="block-config-item ju-settings-option" title="<?php echo esc_attr($block['title']); ?>">
                 <span class="block-icon" <?php echo esc_attr($iconColor) ?>>
                     <?php echo html_entity_decode(html_entity_decode(stripslashes($block['icon']))); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped ?>
                 </span>
