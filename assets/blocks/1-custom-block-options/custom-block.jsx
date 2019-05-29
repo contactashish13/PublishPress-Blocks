@@ -804,9 +804,13 @@
             );
             const bottomDividerString = blockBottomDivider ? renderToString( bottomDividerElm ).replace( /preserveaspectratio/g, 'preserveAspectRatio' ).replace( /viewbox/g, 'viewBox' ) : '';
             const bottomDividerURI = bottomDividerString ? `data:image/svg+xml;base64,${window.btoa( bottomDividerString )}` : '';
+            const wrapperClasses = [
+                'advgb-block-wrapper',
+                attributes.className,
+            ].filter(Boolean).join(' ');
 
             return (
-                <div className="advgb-block-container" style={{ position: 'relative', zIndex: 5 }}>
+                <div className={ wrapperClasses } style={{ position: 'relative', zIndex: 5 }}>
                     {blockTopDivider && (
                         <div className="advgb-block-top-divider"
                              style={{

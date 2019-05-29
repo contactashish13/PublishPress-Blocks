@@ -954,10 +954,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             );
             var bottomDividerString = blockBottomDivider ? renderToString(bottomDividerElm).replace(/preserveaspectratio/g, 'preserveAspectRatio').replace(/viewbox/g, 'viewBox') : '';
             var bottomDividerURI = bottomDividerString ? "data:image/svg+xml;base64," + window.btoa(bottomDividerString) : '';
+            var wrapperClasses = ['advgb-block-wrapper', attributes.className].filter(Boolean).join(' ');
 
             return React.createElement(
                 "div",
-                { className: "advgb-block-container", style: { position: 'relative', zIndex: 5 } },
+                { className: wrapperClasses, style: { position: 'relative', zIndex: 5 } },
                 blockTopDivider && React.createElement("div", { className: "advgb-block-top-divider",
                     style: {
                         backgroundImage: "url(" + topDividerURI + ")",
