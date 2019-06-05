@@ -3095,7 +3095,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var _props2 = this.props,
                     attributes = _props2.attributes,
                     setAttributes = _props2.setAttributes,
-                    isSelected = _props2.isSelected;
+                    isSelected = _props2.isSelected,
+                    className = _props2.className;
                 var openOnClick = attributes.openOnClick,
                     openUrl = attributes.openUrl,
                     linkInNewTab = attributes.linkInNewTab,
@@ -3112,7 +3113,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     vAlign = attributes.vAlign,
                     hAlign = attributes.hAlign;
 
-                var blockClassName = ['advgb-image-block', fullWidth && 'full-width'].filter(Boolean).join(' ');
+                var blockClassName = ['advgb-image-block', fullWidth && 'full-width', className].filter(Boolean).join(' ');
 
                 return React.createElement(
                     Fragment,

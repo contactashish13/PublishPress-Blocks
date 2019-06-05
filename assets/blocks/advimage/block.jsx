@@ -36,7 +36,7 @@
 
         render() {
             const { currentEdit } = this.state;
-            const { attributes, setAttributes, isSelected } = this.props;
+            const { attributes, setAttributes, isSelected, className } = this.props;
             const {
                 openOnClick,
                 openUrl,
@@ -57,6 +57,7 @@
             const blockClassName = [
                 'advgb-image-block',
                 fullWidth && 'full-width',
+                className,
             ].filter( Boolean ).join( ' ' );
 
             return (
