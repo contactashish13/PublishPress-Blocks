@@ -13,8 +13,18 @@ window.addEventListener('load', function () {
             icon = elm.dataset.icon,
             iconSize = parseInt(elm.dataset.isize) || 0,
             title = elm.dataset.title,
-            info = decodeURIComponent(elm.dataset.info),
+            desc = elm.dataset.desc,
+            info = '',
             mapStyle = decodeURIComponent(elm.dataset.style);
+
+        if (!elm.dataset.info) {
+            info = '<div class="advgbmap-wrapper">' +
+                '<h3 class="advgbmap-title">' + title + '</h3>' +
+                '<p class="advgbmap-desc">'+ desc +'</p>' +
+            '</div>';
+        } else {
+            info = decodeURIComponent(elm.dataset.info);
+        }
 
         var location = {
             lat: lat,
