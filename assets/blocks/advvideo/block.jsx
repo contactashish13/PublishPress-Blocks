@@ -148,6 +148,7 @@
                 videoWidth,
                 videoHeight,
                 playButtonIcon,
+                playIconID,
                 playButtonSize,
                 playButtonColor,
                 overlayColor,
@@ -273,7 +274,11 @@
                                             {Object.keys( PLAY_BUTTON_STYLE ).map( ( key, index ) => (
                                                 <div className="advgb-icon-item" key={ index }>
                                                     <span className={ key === playButtonIcon ? 'active' : '' }
-                                                          onClick={ () => setAttributes( { playButtonIcon: key } ) }>
+                                                          onClick={ () => setAttributes( {
+                                                              playButtonIcon: key,
+                                                              playIconID: undefined,
+                                                          } ) }
+                                                    >
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                             { PLAY_BUTTON_STYLE[key] }
                                                         </svg>
@@ -281,6 +286,28 @@
                                                 </div>
                                             ) ) }
                                         </div>
+                                    </BaseControl>
+                                    <BaseControl label={ __( 'Custom icon' ) }
+                                                 help={ __( 'Color settings cannot be applied to custom icon.' ) }
+                                    >
+                                        <MediaUpload
+                                            allowedTypes={ ["image"] }
+                                            value={ playIconID }
+                                            onSelect={ (media) => {
+                                                setAttributes( {
+                                                    playButtonIcon: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
+                                                    playIconID: media.id,
+                                                } )
+                                            } }
+                                            render={ ( { open } ) => (
+                                                <Button
+                                                    className="button button-large"
+                                                    onClick={ open }
+                                                >
+                                                    { __( 'Upload/Choose' ) }
+                                                </Button>
+                                            ) }
+                                        />
                                     </BaseControl>
                                     <RangeControl
                                         label={ __( 'Play Button Size' ) }
@@ -315,13 +342,23 @@
                                 />
                                 }
                                 <div className="advgb-play-button" style={ { color: playButtonColor } }>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width={ playButtonSize }
-                                         height={ playButtonSize }
-                                         viewBox="0 0 24 24"
-                                    >
-                                        {PLAY_BUTTON_STYLE[playButtonIcon]}
-                                    </svg>
+                                    {!playIconID
+                                        ? (
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 width={ playButtonSize }
+                                                 height={ playButtonSize }
+                                                 viewBox="0 0 24 24"
+                                            >
+                                                {PLAY_BUTTON_STYLE[playButtonIcon]}
+                                            </svg>
+                                        ) : (
+                                            <img src={playButtonIcon}
+                                                 alt={ __( 'Play button' ) }
+                                                 style={ { width: playButtonSize } }
+                                                 className="advgb-custom-play-button"
+                                            />
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -446,6 +483,9 @@
             type: 'string',
             default: 'normal'
         },
+        playIconID: {
+            type: 'number',
+        },
         playButtonSize: {
             type: 'number',
             default: 80,
@@ -494,6 +534,7 @@
                 videoWidth,
                 videoHeight,
                 playButtonIcon,
+                playIconID,
                 playButtonSize,
                 playButtonColor,
                 overlayColor,
@@ -547,13 +588,23 @@
                         <div className="advgb-video-poster" style={ { backgroundImage: `url(${poster})` } }/>
                         <div className="advgb-button-wrapper" style={ { height: videoHeight } }>
                             <div className="advgb-play-button" style={ { color: playButtonColor } }>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     width={ playButtonSize }
-                                     height={ playButtonSize }
-                                     viewBox="0 0 24 24"
-                                >
-                                    {PLAY_BUTTON_STYLE[playButtonIcon]}
-                                </svg>
+                                {!playIconID
+                                    ? (
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             width={ playButtonSize }
+                                             height={ playButtonSize }
+                                             viewBox="0 0 24 24"
+                                        >
+                                            {PLAY_BUTTON_STYLE[playButtonIcon]}
+                                        </svg>
+                                    ) : (
+                                        <img src={playButtonIcon}
+                                             alt={ __( 'Play button' ) }
+                                             style={ { width: playButtonSize } }
+                                             className="advgb-custom-play-button"
+                                        />
+                                    )
+                                }
                             </div>
                         </div>
                     </div>

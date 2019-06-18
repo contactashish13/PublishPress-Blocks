@@ -6011,6 +6011,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     videoWidth = attributes.videoWidth,
                     videoHeight = attributes.videoHeight,
                     playButtonIcon = attributes.playButtonIcon,
+                    playIconID = attributes.playIconID,
                     playButtonSize = attributes.playButtonSize,
                     playButtonColor = attributes.playButtonColor,
                     overlayColor = attributes.overlayColor,
@@ -6166,8 +6167,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                         "span",
                                                         { className: key === playButtonIcon ? 'active' : '',
                                                             onClick: function onClick() {
-                                                                return setAttributes({ playButtonIcon: key });
-                                                            } },
+                                                                return setAttributes({
+                                                                    playButtonIcon: key,
+                                                                    playIconID: undefined
+                                                                });
+                                                            }
+                                                        },
                                                         React.createElement(
                                                             "svg",
                                                             { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
@@ -6177,6 +6182,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 );
                                             })
                                         )
+                                    ),
+                                    React.createElement(
+                                        BaseControl,
+                                        { label: __('Custom icon'),
+                                            help: __('Color settings cannot be applied to custom icon.')
+                                        },
+                                        React.createElement(MediaUpload, {
+                                            allowedTypes: ["image"],
+                                            value: playIconID,
+                                            onSelect: function onSelect(media) {
+                                                setAttributes({
+                                                    playButtonIcon: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
+                                                    playIconID: media.id
+                                                });
+                                            },
+                                            render: function render(_ref2) {
+                                                var open = _ref2.open;
+                                                return React.createElement(
+                                                    Button,
+                                                    {
+                                                        className: "button button-large",
+                                                        onClick: open
+                                                    },
+                                                    __('Upload/Choose')
+                                                );
+                                            }
+                                        })
                                     ),
                                     React.createElement(RangeControl, {
                                         label: __('Play Button Size'),
@@ -6207,8 +6239,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return setAttributes({ poster: media.url, posterID: media.id });
                                     },
                                     value: posterID,
-                                    render: function render(_ref2) {
-                                        var open = _ref2.open;
+                                    render: function render(_ref3) {
+                                        var open = _ref3.open;
                                         return React.createElement(
                                             Button,
                                             {
@@ -6222,7 +6254,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 React.createElement(
                                     "div",
                                     { className: "advgb-play-button", style: { color: playButtonColor } },
-                                    React.createElement(
+                                    !playIconID ? React.createElement(
                                         "svg",
                                         { xmlns: "http://www.w3.org/2000/svg",
                                             width: playButtonSize,
@@ -6230,7 +6262,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             viewBox: "0 0 24 24"
                                         },
                                         PLAY_BUTTON_STYLE[playButtonIcon]
-                                    )
+                                    ) : React.createElement("img", { src: playButtonIcon,
+                                        alt: __('Play button'),
+                                        style: { width: playButtonSize },
+                                        className: "advgb-custom-play-button"
+                                    })
                                 )
                             )
                         ),
@@ -6287,8 +6323,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onSelect: function onSelect(video) {
                                         return setAttributes({ videoURL: video.url, videoID: video.id, videoTitle: video.title, videoSourceType: 'local' });
                                     },
-                                    render: function render(_ref3) {
-                                        var open = _ref3.open;
+                                    render: function render(_ref4) {
+                                        var open = _ref4.open;
                                         return React.createElement(
                                             Button,
                                             {
@@ -6376,6 +6412,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: 'normal'
         },
+        playIconID: {
+            type: 'number'
+        },
         playButtonSize: {
             type: 'number',
             default: 80
@@ -6415,8 +6454,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('video'), __('embed'), __('media')],
         attributes: blockAttrs,
         edit: AdvVideo,
-        save: function save(_ref4) {
-            var attributes = _ref4.attributes;
+        save: function save(_ref5) {
+            var attributes = _ref5.attributes;
             var videoURL = attributes.videoURL,
                 videoSourceType = attributes.videoSourceType,
                 videoTitle = attributes.videoTitle,
@@ -6424,6 +6463,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 videoWidth = attributes.videoWidth,
                 videoHeight = attributes.videoHeight,
                 playButtonIcon = attributes.playButtonIcon,
+                playIconID = attributes.playIconID,
                 playButtonSize = attributes.playButtonSize,
                 playButtonColor = attributes.playButtonColor,
                 overlayColor = attributes.overlayColor,
@@ -6471,7 +6511,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         React.createElement(
                             "div",
                             { className: "advgb-play-button", style: { color: playButtonColor } },
-                            React.createElement(
+                            !playIconID ? React.createElement(
                                 "svg",
                                 { xmlns: "http://www.w3.org/2000/svg",
                                     width: playButtonSize,
@@ -6479,7 +6519,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     viewBox: "0 0 24 24"
                                 },
                                 PLAY_BUTTON_STYLE[playButtonIcon]
-                            )
+                            ) : React.createElement("img", { src: playButtonIcon,
+                                alt: __('Play button'),
+                                style: { width: playButtonSize },
+                                className: "advgb-custom-play-button"
+                            })
                         )
                     )
                 )
@@ -6487,8 +6531,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         deprecated: [{
             attributes: blockAttrs,
-            save: function save(_ref5) {
-                var attributes = _ref5.attributes;
+            save: function save(_ref6) {
+                var attributes = _ref6.attributes;
                 var videoURL = attributes.videoURL,
                     videoSourceType = attributes.videoSourceType,
                     videoTitle = attributes.videoTitle,
