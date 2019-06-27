@@ -6493,356 +6493,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 if (prevLayout !== columnsLayout || prevLayoutT !== columnsLayoutT || prevLayoutM !== columnsLayoutM) {
                     shouldUpdate = true;
-                    switch (columnsLayout) {
-                        case '12-12':
-                        case '13-13-13':
-                        case '14-14-14-14':
-                        case 'five':
-                        case 'six':
-                            for (var i = 0; i < columns; i++) {
-                                classes[i].push('is-default-desktop');
-                            }
-                            break;
-                        case '23-13':
-                            classes[0].push('is-two-thirds' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            break;
-                        case '13-23':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-two-thirds' + extraClassD);
-                            break;
-                        case '34-14':
-                            classes[0].push('is-three-quarters' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            break;
-                        case '14-34':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-three-quarters' + extraClassD);
-                            break;
-                        case '45-15':
-                            classes[0].push('is-four-fifths' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            break;
-                        case '15-45':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-four-fifths' + extraClassD);
-                            break;
-                        case '12-14-14':
-                            classes[0].push('is-half' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '14-14-12':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-half' + extraClassD);
-                            break;
-                        case '14-12-14':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-half' + extraClassD);
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '15-35-15':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-three-fifths' + extraClassD);
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '35-15-15':
-                            classes[0].push('is-three-fifths' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '15-15-35':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-three-fifths' + extraClassD);
-                            break;
-                        case '16-46-16':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-8' + extraClassD);
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '36-16-16-16':
-                            classes[0].push('is-half' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-default-desktop');
-                            classes[3].push('is-default-desktop');
-                            break;
-                        case '16-16-16-36':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-default-desktop');
-                            classes[3].push('is-half' + extraClassD);
-                            break;
-                        case '25-15-15-15':
-                            classes[0].push('is-two-fifths' + extraClassD);
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-default-desktop');
-                            classes[3].push('is-default-desktop');
-                            break;
-                        case '15-15-15-25':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-default-desktop');
-                            classes[2].push('is-default-desktop');
-                            classes[3].push('is-two-fifths' + extraClassD);
-                            break;
-                        default:
-                            break;
-                    }
-
-                    switch (columnsLayoutT) {
-                        case '12-12':
-                        case '13-13-13':
-                        case '14-14-14-14':
-                        case 'five':
-                        case 'six':
-                            for (var _i = 0; _i < columns; _i++) {
-                                classes[_i].push('is-default-tablet');
-                            }
-                            break;
-                        case '23-13':
-                            classes[0].push('is-two-thirds' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            break;
-                        case '13-23':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-two-thirds' + extraClassT);
-                            break;
-                        case '34-14':
-                            classes[0].push('is-three-quarters' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            break;
-                        case '14-34':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-three-quarters' + extraClassT);
-                            break;
-                        case '45-15':
-                            classes[0].push('is-four-fifths' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            break;
-                        case '15-45':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-four-fifths' + extraClassT);
-                            break;
-                        case '12-14-14':
-                            classes[0].push('is-half' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-default-tablet');
-                            break;
-                        case '14-14-12':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-half' + extraClassT);
-                            break;
-                        case '14-12-14':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-half' + extraClassT);
-                            classes[2].push('is-default-tablet');
-                            break;
-                        case '15-35-15':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-three-fifths' + extraClassT);
-                            classes[2].push('is-default-tablet');
-                            break;
-                        case '35-15-15':
-                            classes[0].push('is-three-fifths' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-default-tablet');
-                            break;
-                        case '15-15-35':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-three-fifths' + extraClassT);
-                            break;
-                        case '16-46-16':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-8' + extraClassT);
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '1-12-12':
-                            classes[0].push('is-full' + extraClassT);
-                            classes[1].push('is-half' + extraClassT);
-                            classes[2].push('is-half' + extraClassT);
-                            break;
-                        case '12-12-1':
-                            classes[0].push('is-half' + extraClassT);
-                            classes[1].push('is-half' + extraClassT);
-                            classes[2].push('is-full' + extraClassT);
-                            break;
-                        case '36-16-16-16':
-                            classes[0].push('is-half' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-default-tablet');
-                            classes[3].push('is-default-tablet');
-                            break;
-                        case '16-16-16-36':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-default-tablet');
-                            classes[3].push('is-half' + extraClassT);
-                            break;
-                        case '25-15-15-15':
-                            classes[0].push('is-two-fifths' + extraClassT);
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-default-tablet');
-                            classes[3].push('is-default-tablet');
-                            break;
-                        case '15-15-15-25':
-                            classes[0].push('is-default-tablet');
-                            classes[1].push('is-default-tablet');
-                            classes[2].push('is-default-tablet');
-                            classes[3].push('is-two-fifths' + extraClassT);
-                            break;
-                        case '12x4':
-                            for (var _i2 = 0; _i2 < columns; _i2++) {
-                                classes[_i2].push('is-half' + extraClassT);
-                            }
-                            break;
-                        case '12x6':
-                            for (var _i3 = 0; _i3 < columns; _i3++) {
-                                classes[_i3].push('is-half' + extraClassT);
-                            }
-                            break;
-                        case '13x6':
-                            for (var _i4 = 0; _i4 < columns; _i4++) {
-                                classes[_i4].push('is-one-third' + extraClassT);
-                            }
-                            break;
-                        case 'stacked':
-                            for (var _i5 = 0; _i5 < columns; _i5++) {
-                                classes[_i5].push('is-full' + extraClassT);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-
-                    switch (columnsLayoutM) {
-                        case '12-12':
-                        case '13-13-13':
-                        case '14-14-14-14':
-                        case 'five':
-                        case 'six':
-                            for (var _i6 = 0; _i6 < columns; _i6++) {
-                                classes[_i6].push('is-default-mobile');
-                            }
-                            break;
-                        case '23-13':
-                            classes[0].push('is-two-thirds' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            break;
-                        case '13-23':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-two-thirds' + extraClassM);
-                            break;
-                        case '34-14':
-                            classes[0].push('is-three-quarters' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            break;
-                        case '14-34':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-three-quarters' + extraClassM);
-                            break;
-                        case '45-15':
-                            classes[0].push('is-four-fifths' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            break;
-                        case '15-45':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-four-fifths' + extraClassM);
-                            break;
-                        case '12-14-14':
-                            classes[0].push('is-half' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-default-mobile');
-                            break;
-                        case '14-14-12':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-half' + extraClassM);
-                            break;
-                        case '14-12-14':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-half' + extraClassM);
-                            classes[2].push('is-default-mobile');
-                            break;
-                        case '15-35-15':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-three-fifths' + extraClassM);
-                            classes[2].push('is-default-mobile');
-                            break;
-                        case '35-15-15':
-                            classes[0].push('is-three-fifths' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-default-mobile');
-                            break;
-                        case '15-15-35':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-three-fifths' + extraClassM);
-                            break;
-                        case '16-46-16':
-                            classes[0].push('is-default-desktop');
-                            classes[1].push('is-8' + extraClassM);
-                            classes[2].push('is-default-desktop');
-                            break;
-                        case '1-12-12':
-                            classes[0].push('is-full' + extraClassM);
-                            classes[1].push('is-half' + extraClassM);
-                            classes[2].push('is-half' + extraClassM);
-                            break;
-                        case '12-12-1':
-                            classes[0].push('is-half' + extraClassM);
-                            classes[1].push('is-half' + extraClassM);
-                            classes[2].push('is-full' + extraClassM);
-                            break;
-                        case '36-16-16-16':
-                            classes[0].push('is-half' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-default-mobile');
-                            classes[3].push('is-default-mobile');
-                            break;
-                        case '16-16-16-36':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-default-mobile');
-                            classes[3].push('is-half' + extraClassM);
-                            break;
-                        case '25-15-15-15':
-                            classes[0].push('is-two-fifths' + extraClassM);
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-default-mobile');
-                            classes[3].push('is-default-mobile');
-                            break;
-                        case '15-15-15-25':
-                            classes[0].push('is-default-mobile');
-                            classes[1].push('is-default-mobile');
-                            classes[2].push('is-default-mobile');
-                            classes[3].push('is-two-fifths' + extraClassM);
-                            break;
-                        case '12x4':
-                            for (var _i7 = 0; _i7 < columns; _i7++) {
-                                classes[_i7].push('is-half' + extraClassM);
-                            }
-                            break;
-                        case '12x6':
-                            for (var _i8 = 0; _i8 < columns; _i8++) {
-                                classes[_i8].push('is-half' + extraClassM);
-                            }
-                            break;
-                        case '13x6':
-                            for (var _i9 = 0; _i9 < columns; _i9++) {
-                                classes[_i9].push('is-one-third' + extraClassM);
-                            }
-                            break;
-                        case 'stacked':
-                            for (var _i10 = 0; _i10 < columns; _i10++) {
-                                classes[_i10].push('is-full' + extraClassM);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    classes = AdvColumnsEdit.prepareColumnClass(columnsLayout, extraClassD, classes);
+                    classes = AdvColumnsEdit.prepareColumnClass(columnsLayoutT, extraClassT, classes);
+                    classes = AdvColumnsEdit.prepareColumnClass(columnsLayoutM, extraClassM, classes);
                 }
 
                 if (shouldUpdate) {
@@ -7267,6 +6920,154 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 );
             }
         }], [{
+            key: 'prepareColumnClass',
+            value: function prepareColumnClass(layout, extraClass, classObj) {
+                switch (layout) {
+                    case '12-12':
+                        for (var i = 0; i < 2; i++) {
+                            classObj[i].push('is-half' + extraClass);
+                        }
+                        break;
+                    case '13-13-13':
+                        for (var _i = 0; _i < 3; _i++) {
+                            classObj[_i].push('is-one-third' + extraClass);
+                        }
+                        break;
+                    case '14-14-14-14':
+                        for (var _i2 = 0; _i2 < 4; _i2++) {
+                            classObj[_i2].push('is-one-quarter' + extraClass);
+                        }
+                        break;
+                    case 'five':
+                        for (var _i3 = 0; _i3 < 5; _i3++) {
+                            classObj[_i3].push('is-one-fifth' + extraClass);
+                        }
+                        break;
+                    case 'six':
+                        for (var _i4 = 0; _i4 < 6; _i4++) {
+                            classObj[_i4].push('is-2' + extraClass);
+                        }
+                        break;
+                    case '23-13':
+                        classObj[0].push('is-two-thirds' + extraClass);
+                        classObj[1].push('is-one-third' + extraClass);
+                        break;
+                    case '13-23':
+                        classObj[0].push('is-one-third' + extraClass);
+                        classObj[1].push('is-two-thirds' + extraClass);
+                        break;
+                    case '34-14':
+                        classObj[0].push('is-three-quarters' + extraClass);
+                        classObj[1].push('is-one-quarter' + extraClass);
+                        break;
+                    case '14-34':
+                        classObj[0].push('is-one-quarter' + extraClass);
+                        classObj[1].push('is-three-quarters' + extraClass);
+                        break;
+                    case '45-15':
+                        classObj[0].push('is-four-fifths' + extraClass);
+                        classObj[1].push('is-one-fifth' + extraClass);
+                        break;
+                    case '15-45':
+                        classObj[0].push('is-one-fifth' + extraClass);
+                        classObj[1].push('is-four-fifths' + extraClass);
+                        break;
+                    case '12-14-14':
+                        classObj[0].push('is-half' + extraClass);
+                        classObj[1].push('is-one-quarter' + extraClass);
+                        classObj[2].push('is-one-quarter' + extraClass);
+                        break;
+                    case '14-14-12':
+                        classObj[0].push('is-one-quarter' + extraClass);
+                        classObj[1].push('is-one-quarter' + extraClass);
+                        classObj[2].push('is-half' + extraClass);
+                        break;
+                    case '14-12-14':
+                        classObj[0].push('is-one-quarter' + extraClass);
+                        classObj[1].push('is-half' + extraClass);
+                        classObj[2].push('is-one-quarter' + extraClass);
+                        break;
+                    case '15-35-15':
+                        classObj[0].push('is-one-fifth' + extraClass);
+                        classObj[1].push('is-three-fifths' + extraClass);
+                        classObj[2].push('is-one-fifth' + extraClass);
+                        break;
+                    case '35-15-15':
+                        classObj[0].push('is-three-fifths' + extraClass);
+                        classObj[1].push('is-one-fifth' + extraClass);
+                        classObj[2].push('is-one-fifth' + extraClass);
+                        break;
+                    case '15-15-35':
+                        classObj[0].push('is-one-fifth' + extraClass);
+                        classObj[1].push('is-one-fifth' + extraClass);
+                        classObj[2].push('is-three-fifths' + extraClass);
+                        break;
+                    case '16-46-16':
+                        classObj[0].push('is-2' + extraClass);
+                        classObj[1].push('is-8' + extraClass);
+                        classObj[2].push('is-2' + extraClass);
+                        break;
+                    case '1-12-12':
+                        classObj[0].push('is-full' + extraClass);
+                        classObj[1].push('is-half' + extraClass);
+                        classObj[2].push('is-half' + extraClass);
+                        break;
+                    case '12-12-1':
+                        classObj[0].push('is-half' + extraClass);
+                        classObj[1].push('is-half' + extraClass);
+                        classObj[2].push('is-full' + extraClass);
+                        break;
+                    case '36-16-16-16':
+                        classObj[0].push('is-half' + extraClass);
+                        classObj[1].push('is-2' + extraClass);
+                        classObj[2].push('is-2' + extraClass);
+                        classObj[3].push('is-2' + extraClass);
+                        break;
+                    case '16-16-16-36':
+                        classObj[0].push('is-2' + extraClass);
+                        classObj[1].push('is-2' + extraClass);
+                        classObj[2].push('is-2' + extraClass);
+                        classObj[3].push('is-half' + extraClass);
+                        break;
+                    case '25-15-15-15':
+                        classObj[0].push('is-two-fifths' + extraClass);
+                        classObj[1].push('is-one-fifth' + extraClass);
+                        classObj[2].push('is-one-fifth' + extraClass);
+                        classObj[3].push('is-one-fifth' + extraClass);
+                        break;
+                    case '15-15-15-25':
+                        classObj[0].push('is-one-fifth' + extraClass);
+                        classObj[1].push('is-one-fifth' + extraClass);
+                        classObj[2].push('is-one-fifth' + extraClass);
+                        classObj[3].push('is-two-fifths' + extraClass);
+                        break;
+                    case '12x4':
+                        for (var _i5 = 0; _i5 < 4; _i5++) {
+                            classObj[_i5].push('is-half' + extraClass);
+                        }
+                        break;
+                    case '12x6':
+                        for (var _i6 = 0; _i6 < 6; _i6++) {
+                            classObj[_i6].push('is-half' + extraClass);
+                        }
+                        break;
+                    case '13x6':
+                        for (var _i7 = 0; _i7 < 6; _i7++) {
+                            classObj[_i7].push('is-one-third' + extraClass);
+                        }
+                        break;
+                    case 'stacked':
+                        for (var _i8 = 0; _i8 < 6; _i8++) {
+                            classObj[_i8].push('is-full' + extraClass);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                return classObj;
+            }
+        }, {
             key: 'jsUcfirst',
             value: function jsUcfirst(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -8453,62 +8254,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
-
-/***/ }),
-
-/***/ "./assets/blocks/container/block.jsx":
-/*!*******************************************!*\
-  !*** ./assets/blocks/container/block.jsx ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-(function (wpI18n, wpBlocks, wpBlockEditor) {
-    var __ = wpI18n.__;
-    var registerBlockType = wpBlocks.registerBlockType;
-    var InnerBlocks = wpBlockEditor.InnerBlocks;
-
-
-    var containerBlockIcon = React.createElement(
-        "svg",
-        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
-        React.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" }),
-        React.createElement("path", { d: "M3 5v14h19V5H3zm2 2h15v4H5V7zm0 10v-4h4v4H5zm6 0v-4h9v4h-9z" })
-    );
-
-    registerBlockType('advgb/container', {
-        title: __('Container'),
-        description: __('Block for containing other blocks.'),
-        icon: {
-            src: containerBlockIcon,
-            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
-        },
-        category: 'advgb-category',
-        keywords: [__('container'), __('row'), __('box')],
-        attributes: {},
-        supports: {
-            align: true,
-            className: true
-        },
-        edit: function edit(props) {
-            return React.createElement(
-                "div",
-                { className: "advgb-blocks-container " + props.className },
-                React.createElement(InnerBlocks, null)
-            );
-        },
-        save: function save() {
-            return React.createElement(
-                "div",
-                { className: "advgb-blocks-container" },
-                React.createElement(InnerBlocks.Content, null)
-            );
-        }
-    });
-})(wp.i18n, wp.blocks, wp.blockEditor);
 
 /***/ }),
 
@@ -9808,6 +9553,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                     _this3.setState({ imageLoaded: true });
                                                 }
                                             }
+                                        },
+                                        onError: function onError() {
+                                            if (index === 0) {
+                                                if (_this3.state.imageLoaded === false) {
+                                                    _this3.setState({ imageLoaded: true });
+                                                }
+                                            }
                                         }
                                     }),
                                     React.createElement(
@@ -9905,7 +9657,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         ),
                                         React.createElement("img", { src: image.url,
                                             className: "advgb-image-slider-image-list-img",
-                                            alt: __('Remove'),
+                                            alt: __('Image'),
                                             onClick: function onClick() {
                                                 $("#block-" + clientId + " .advgb-images-slider").slick('slickGoTo', index, false);
                                                 _this3.setState({ currentSelected: index });
@@ -15939,9 +15691,9 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
 /***/ }),
 
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./assets/blocks/1-custom-block-options/custom-block.jsx ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advgallery/block.jsx ./assets/blocks/advgallery/gallery-load-more.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/columns/block.jsx ./assets/blocks/columns/column.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/editor-sidebar/sidebar.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block-with-load-more.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/columns/block.jsx ./assets/blocks/columns/column.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/editor-sidebar/sidebar.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15957,7 +15709,6 @@ __webpack_require__(/*! ./assets/blocks/advvideo/block.jsx */"./assets/blocks/ad
 __webpack_require__(/*! ./assets/blocks/columns/block.jsx */"./assets/blocks/columns/block.jsx");
 __webpack_require__(/*! ./assets/blocks/columns/column.jsx */"./assets/blocks/columns/column.jsx");
 __webpack_require__(/*! ./assets/blocks/contact-form/block.jsx */"./assets/blocks/contact-form/block.jsx");
-__webpack_require__(/*! ./assets/blocks/container/block.jsx */"./assets/blocks/container/block.jsx");
 __webpack_require__(/*! ./assets/blocks/count-up/block.jsx */"./assets/blocks/count-up/block.jsx");
 __webpack_require__(/*! ./assets/blocks/customstyles/custom-styles.jsx */"./assets/blocks/customstyles/custom-styles.jsx");
 __webpack_require__(/*! ./assets/blocks/editor-sidebar/sidebar.jsx */"./assets/blocks/editor-sidebar/sidebar.jsx");
