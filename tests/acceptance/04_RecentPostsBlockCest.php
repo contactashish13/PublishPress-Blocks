@@ -17,14 +17,8 @@ class RecentPostsBlockCest
 
         $I->amOnPage('/wp-admin/post-new.php');
 
-        // Click on + button
-        $I->click('.edit-post-header-toolbar .editor-inserter button');
-
-        // Search for Recent Posts block
-        $I->fillField(['xpath'=>'//input[contains(@id, \'editor-inserter__search-\')]'], 'Recent Posts');
-
-        $I->waitForText('Recent Posts');
-        $I->click('Recent Posts');
+        // Insert block
+        $I->insertBlock('Recent Posts');
 
         $I->waitForElement('//label[text()="Category"]/following-sibling::node()/option[text()="Recent posts"]');
         $I->selectOption('//label[text()="Category"]/following-sibling::node()', array('text' => 'Recent posts'));
@@ -37,9 +31,10 @@ class RecentPostsBlockCest
         $I->click('Publish');
         $I->waitForText('Post published.');
 
-        $I->click('View Post');
+        $I->click('//div[@class="post-publish-panel__postpublish-buttons"]/a[text()="View Post"]');
 
-        $I->seeNumberOfElements('.advgb-recent-post', 8);
+        $I->waitForElement('body.single');
+        $I->seeNumberOfElements('.single .advgb-recent-post', 8);
     }
 
     public function changeNumberOfItems(AcceptanceTester $I)
@@ -60,9 +55,9 @@ class RecentPostsBlockCest
         $I->click('Update');
         $I->waitForText('Post updated.');
 
-        $I->click('View Post');
+        $I->clickViewPost();
 
-        $I->seeNumberOfElements('.advgb-recent-post', 5);
-
+        $I->waitForElement('body.single');
+        $I->seeNumberOfElements('.single .advgb-recent-post', 5);
     }
 }

@@ -28,6 +28,8 @@ class DetectNewBlocksCest
         $I->click('.edit-post-header-toolbar .editor-inserter button');
 
         // Search for Test
+        $I->waitForElement('.editor-inserter__search');
+        $I->wait(0.2); // wait the animation done
         $I->fillField(['xpath'=>'//input[contains(@id, \'editor-inserter__search-\')]'], 'Test');
 
         $I->dontSee("Test block");
@@ -37,6 +39,8 @@ class DetectNewBlocksCest
         // Go to new post page
         $I->amOnPage('/wp-admin/post-new.php');
         $I->click('.edit-post-header-toolbar .editor-inserter button');
+        $I->waitForElement('.editor-inserter__search');
+        $I->wait(0.2); // wait the animation done
         $I->fillField(['xpath'=>'//input[contains(@id, \'editor-inserter__search-\')]'], 'Test');
 
         $I->see("Test block");

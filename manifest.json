@@ -2,7 +2,7 @@
   "slug": "advanced-gutenberg",
   "name": "Advanced Gutenberg",
   "uri": "https://www.joomunited.com/wordpress-products/advanced-gutenberg",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "platform": "wordpress",
   "wp_version": "5.2.2",
   "text_domain": "advanced-gutenberg",
@@ -38,10 +38,48 @@
     ]
   },
   "changelog": {
+    "2.0.3": [
+      {
+        "type": "fix",
+        "title": "Add back Container block and allow to convert it to Columns Manager block"
+      },
+      {
+        "type": "fix",
+        "title": "juTranslation duplicate slash in language url"
+      }
+    ],
+    "2.0.2": [
+      {
+        "type": "fix",
+        "title": "Blocks not loaded on WP version < 5.2 without Gutenberg plugin"
+      }
+    ],
+    "2.0.1": [
+      {
+        "type": "fix",
+        "title": "Remove empty inline style tags"
+      },
+      {
+        "type": "fix",
+        "title": "Remove unneeded styles to avoid conflict with theme styles"
+      }
+    ],
     "2.0.0": [
       {
         "type": "feature",
-        "title": "New block: Columns Manager"
+        "title": "New block: Columns Manager with predifined sizes"
+      },
+      {
+        "type": "feature",
+        "title": "Multiple responsive options on the column manager"
+      },
+      {
+        "type": "feature",
+        "title": "New editor menu to choose editor width"
+      },
+      {
+        "type": "feature",
+        "title": "New editor menu to display/hide column visual guides"
       },
       {
         "type": "feature",
@@ -49,19 +87,15 @@
       },
       {
         "type": "feature",
-        "title": "New editor sidebar settings"
-      },
-      {
-        "type": "feature",
         "title": "Drop support for PHP version < 5.6.20"
       },
       {
         "type": "feature",
-        "title": "Remove Container block"
+        "title": "Remove Container block (replced by column manager)"
       },
       {
         "type": "feature",
-        "title": "Completely remove custom columns and custom separator block settings"
+        "title": "Remove custom columns and custom separator block settings"
       },
       {
         "type": "fix",
@@ -73,7 +107,7 @@
       },
       {
         "type": "fix",
-        "title": "Remove empty html element on Map block, Image Slider block, Adv Image block"
+        "title": "Remove empty HTML element on Map block, Image Slider block, Adv Image block"
       }
     ],
     "1.10.12": [

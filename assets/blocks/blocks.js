@@ -1012,14 +1012,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        InnerBlocks = wpBlockEditor.InnerBlocks;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        InnerBlocks = _wpBlockEditor.InnerBlocks;
     var RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
         BaseControl = wpComponents.BaseControl,
@@ -1637,16 +1639,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType,
         createBlock = wpBlocks.createBlock;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
-        BlockAlignmentToolbar = wpBlockEditor.BlockAlignmentToolbar,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        BlockAlignmentToolbar = _wpBlockEditor.BlockAlignmentToolbar,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
         TextControl = wpComponents.TextControl,
@@ -2928,15 +2932,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        MediaUpload = wpBlockEditor.MediaUpload;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        MediaUpload = _wpBlockEditor.MediaUpload;
     var RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
         ToggleControl = wpComponents.ToggleControl,
@@ -3449,15 +3455,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType,
         createBlock = wpBlocks.createBlock;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        RichText = wpBlockEditor.RichText,
-        ColorPalette = wpBlockEditor.ColorPalette,
-        BlockControls = wpBlockEditor.BlockControls;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        RichText = _wpBlockEditor.RichText,
+        ColorPalette = _wpBlockEditor.ColorPalette,
+        BlockControls = _wpBlockEditor.BlockControls;
     var BaseControl = wpComponents.BaseControl,
         RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
@@ -3871,15 +3879,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType,
         createBlock = wpBlocks.createBlock;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var PanelBody = wpComponents.PanelBody,
         BaseControl = wpComponents.BaseControl,
         RangeControl = wpComponents.RangeControl,
@@ -5670,14 +5680,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        MediaUpload = wpBlockEditor.MediaUpload;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        MediaUpload = _wpBlockEditor.MediaUpload;
     var RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
         ToggleControl = wpComponents.ToggleControl,
@@ -6380,14 +6392,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        InnerBlocks = wpBlockEditor.InnerBlocks;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        InnerBlocks = _wpBlockEditor.InnerBlocks;
     var PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
         SelectControl = wpComponents.SelectControl,
@@ -7293,19 +7307,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        AlignmentToolbar = wpBlockEditor.AlignmentToolbar;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        AlignmentToolbar = _wpBlockEditor.AlignmentToolbar,
+        InnerBlocks = _wpBlockEditor.InnerBlocks;
     var PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
         BaseControl = wpComponents.BaseControl,
         SelectControl = wpComponents.SelectControl;
     var select = wp.data.select;
-    var InnerBlocks = wp.blockEditor.InnerBlocks;
 
 
     var columnsBlockIcon = React.createElement(
@@ -7766,12 +7782,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
         SelectControl = wpComponents.SelectControl,
@@ -8257,6 +8275,98 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 
+/***/ "./assets/blocks/container/block.jsx":
+/*!*******************************************!*\
+  !*** ./assets/blocks/container/block.jsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function (wpI18n, wpBlocks, wpBlockEditor) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
+    var __ = wpI18n.__;
+    var Fragment = wp.element.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType,
+        createBlock = wpBlocks.createBlock;
+    var _wpBlockEditor = wpBlockEditor,
+        InnerBlocks = _wpBlockEditor.InnerBlocks,
+        InspectorControls = _wpBlockEditor.InspectorControls;
+
+
+    var containerBlockIcon = React.createElement(
+        "svg",
+        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" }),
+        React.createElement("path", { d: "M3 5v14h19V5H3zm2 2h15v4H5V7zm0 10v-4h4v4H5zm6 0v-4h9v4h-9z" })
+    );
+
+    registerBlockType('advgb/container', {
+        title: __('Container'),
+        description: __('Block for containing other blocks.'),
+        icon: {
+            src: containerBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('container'), __('row'), __('box')],
+        attributes: {},
+        supports: {
+            align: true,
+            inserter: false
+        },
+        transforms: {
+            to: [{
+                type: 'block',
+                blocks: ['advgb/columns'],
+                transform: function transform(attributes, innerBlocks) {
+                    var columnBlock = createBlock('advgb/column', {}, innerBlocks);
+
+                    return createBlock('advgb/columns', { columns: 1 }, [columnBlock]);
+                }
+            }]
+        },
+        edit: function edit() {
+            return React.createElement(
+                Fragment,
+                null,
+                React.createElement(
+                    InspectorControls,
+                    null,
+                    React.createElement(
+                        "div",
+                        { style: {
+                                color: '#ff0000',
+                                fontStyle: 'italic',
+                                marginTop: 20,
+                                padding: 10,
+                                borderTop: '1px solid #ccc'
+                            }
+                        },
+                        __('We will remove this block in the future release. ' + 'Please convert it to Columns Manager block to avoid unwanted error. ' + 'Columns Manager block has a lot of styles and improvements.')
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "advgb-blocks-container" },
+                    React.createElement(InnerBlocks, null)
+                )
+            );
+        },
+        save: function save() {
+            return React.createElement(
+                "div",
+                { className: "advgb-blocks-container" },
+                React.createElement(InnerBlocks.Content, null)
+            );
+        }
+    });
+})(wp.i18n, wp.blocks, wp.blockEditor);
+
+/***/ }),
+
 /***/ "./assets/blocks/count-up/block.jsx":
 /*!******************************************!*\
   !*** ./assets/blocks/count-up/block.jsx ***!
@@ -8278,13 +8388,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
         TextControl = wpComponents.TextControl,
@@ -8854,10 +8966,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 (function (wpI18n, wpHooks, wpBlocks, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var addFilter = wpHooks.addFilter;
     var __ = wpI18n.__;
     var hasBlockSupport = wpBlocks.hasBlockSupport;
-    var InspectorControls = wpBlockEditor.InspectorControls;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls;
     var SelectControl = wpComponents.SelectControl;
 
     // Register custom styles to blocks attributes
@@ -9186,13 +9300,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        MediaUpload = wpBlockEditor.MediaUpload;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        MediaUpload = _wpBlockEditor.MediaUpload;
     var PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
@@ -9970,12 +10086,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        MediaUpload = wpBlockEditor.MediaUpload;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        MediaUpload = _wpBlockEditor.MediaUpload;
     var PanelBody = wpComponents.PanelBody,
         TextControl = wpComponents.TextControl,
         TextareaControl = wpComponents.TextareaControl,
@@ -11329,12 +11447,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var PanelBody = wpComponents.PanelBody,
         RangeControl = wpComponents.RangeControl,
         SelectControl = wpComponents.SelectControl,
@@ -11983,12 +12103,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents, wpData, lodash, wpHtmlEntities, wpDate) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
         MediaUpload = wpBlockEditor.MediaUpload;
     var PanelBody = wpComponents.PanelBody,
         BaseControl = wpComponents.BaseControl,
@@ -12687,15 +12809,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls,
-        MediaUpload = wpBlockEditor.MediaUpload,
-        AlignmentToolbar = wpBlockEditor.AlignmentToolbar,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        MediaUpload = _wpBlockEditor.MediaUpload,
+        AlignmentToolbar = _wpBlockEditor.AlignmentToolbar,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var RangeControl = wpComponents.RangeControl,
         BaseControl = wpComponents.BaseControl,
         PanelBody = wpComponents.PanelBody,
@@ -13316,17 +13440,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents, wpData, wpHooks) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType,
         getBlockContent = wpBlocks.getBlockContent,
         createBlock = wpBlocks.createBlock;
-    var BlockControls = wpBlockEditor.BlockControls,
-        InspectorControls = wpBlockEditor.InspectorControls,
-        InspectorAdvancedControls = wpBlockEditor.InspectorAdvancedControls,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        BlockAlignmentToolbar = wpBlockEditor.BlockAlignmentToolbar;
+    var _wpBlockEditor = wpBlockEditor,
+        BlockControls = _wpBlockEditor.BlockControls,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        InspectorAdvancedControls = _wpBlockEditor.InspectorAdvancedControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        BlockAlignmentToolbar = _wpBlockEditor.BlockAlignmentToolbar;
     var IconButton = wpComponents.IconButton,
         Placeholder = wpComponents.Placeholder,
         Button = wpComponents.Button,
@@ -13779,13 +13905,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
     var Dashicon = wpComponents.Dashicon,
         Tooltip = wpComponents.Tooltip,
         PanelBody = wpComponents.PanelBody,
@@ -14306,14 +14434,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        RichText = wpBlockEditor.RichText,
-        PanelColorSettings = wpBlockEditor.PanelColorSettings,
-        MediaUpload = wpBlockEditor.MediaUpload;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        MediaUpload = _wpBlockEditor.MediaUpload;
     var RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
         BaseControl = wpComponents.BaseControl,
@@ -15086,12 +15216,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
     var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpBlockEditor.InspectorControls,
-        BlockControls = wpBlockEditor.BlockControls;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls;
     var RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
         CheckboxControl = wpComponents.CheckboxControl,
@@ -15691,9 +15823,9 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
 /***/ }),
 
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./assets/blocks/1-custom-block-options/custom-block.jsx ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advgallery/block.jsx ./assets/blocks/advgallery/gallery-load-more.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/columns/block.jsx ./assets/blocks/columns/column.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/editor-sidebar/sidebar.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block-with-load-more.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./assets/blocks/accordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/columns/block.jsx ./assets/blocks/columns/column.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/editor-sidebar/sidebar.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15709,6 +15841,7 @@ __webpack_require__(/*! ./assets/blocks/advvideo/block.jsx */"./assets/blocks/ad
 __webpack_require__(/*! ./assets/blocks/columns/block.jsx */"./assets/blocks/columns/block.jsx");
 __webpack_require__(/*! ./assets/blocks/columns/column.jsx */"./assets/blocks/columns/column.jsx");
 __webpack_require__(/*! ./assets/blocks/contact-form/block.jsx */"./assets/blocks/contact-form/block.jsx");
+__webpack_require__(/*! ./assets/blocks/container/block.jsx */"./assets/blocks/container/block.jsx");
 __webpack_require__(/*! ./assets/blocks/count-up/block.jsx */"./assets/blocks/count-up/block.jsx");
 __webpack_require__(/*! ./assets/blocks/customstyles/custom-styles.jsx */"./assets/blocks/customstyles/custom-styles.jsx");
 __webpack_require__(/*! ./assets/blocks/editor-sidebar/sidebar.jsx */"./assets/blocks/editor-sidebar/sidebar.jsx");

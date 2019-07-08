@@ -29,14 +29,8 @@ class AdvancedTableBlockCest
 
         $I->fillField('.editor-post-title__input', 'Advanced Table Block');
 
-        // Click on + button
-        $I->click('.edit-post-header-toolbar .editor-inserter button');
-
-        // Search for Adv Table block
-        $I->fillField(['xpath'=>'//input[contains(@id, \'editor-inserter__search-\')]'], 'Advanced Table');
-
-        $I->waitForText('Advanced Table');
-        $I->click('Advanced Table');
+        // Insert block
+        $I->insertBlock('Advanced Table');
 
         $I->waitForElement('//*[@class="advgb-init-table"]//label[text()="Column Count"]/following-sibling::node()');
         $I->fillField('//*[@class="advgb-init-table"]//label[text()="Column Count"]/following-sibling::node()', 4);
@@ -62,7 +56,7 @@ class AdvancedTableBlockCest
         $I->click('Publish');
         $I->waitForText('Post published.');
 
-        $I->click('View Post');
+        $I->click('//div[@class="post-publish-panel__postpublish-buttons"]/a[text()="View Post"]');
 
         $I->seeElement('.wp-block-advgb-table.advgb-table-frontend');
         $I->seeNumberOfElements('.advgb-table-frontend td', 16);
@@ -99,7 +93,7 @@ class AdvancedTableBlockCest
         $I->click('Update');
         $I->waitForText('Post updated.');
 
-        $I->click('View Post');
+        $I->clickViewPost();
 
         $I->waitForElement('.advgb-table-frontend');
 
@@ -142,7 +136,7 @@ class AdvancedTableBlockCest
 
         // Change background color to custom
         $I->clickWithLeftButton('//*[@class="wp-block-advgb-table"]//tr[1]/td[5]');
-        $I->clickAndWait('//span[text()="Background Color"]/following-sibling::node()//div[last()]//*[1]');
+        $I->clickAndWait('//span[text()="Background Color"]/following-sibling::node()/div[last()]/*[1]');
         $I->clickAndWait('.components-color-picker__inputs-wrapper input');
         $I->selectCurrentElementText();
         $I->pressKeys('#ff006a');
@@ -154,7 +148,7 @@ class AdvancedTableBlockCest
 
         // Change text color to custom
         $I->clickWithLeftButton('//*[@class="wp-block-advgb-table"]//tr[3]/td[5]');
-        $I->clickAndWait('//span[text()="Text Color"]/following-sibling::node()//div[last()]//*[1]');
+        $I->clickAndWait('//span[text()="Text Color"]/following-sibling::node()/div[last()]/*[1]');
         $I->clickAndWait('.components-color-picker__inputs-wrapper input');
         $I->selectCurrentElementText();
         $I->pressKeys('#335e77');
@@ -167,7 +161,7 @@ class AdvancedTableBlockCest
         $I->click('Update');
         $I->waitForText('Post updated.');
 
-        $I->click('View Post');
+        $I->clickViewPost();
 
         $I->waitForElementVisible('.advgb-table-frontend', 5);
         $I->seeElement('//table[contains(@class,"advgb-table-frontend")]//tr[1]//td[3 and contains(@style, "background-color:'.$colors[0].'")]');
@@ -205,7 +199,7 @@ class AdvancedTableBlockCest
         $I->click('Update');
         $I->waitForText('Post updated.');
 
-        $I->click('View Post');
+        $I->clickViewPost();
 
         $I->seeNumberOfElements('.advgb-table-frontend td', 16);
 
@@ -229,7 +223,7 @@ class AdvancedTableBlockCest
         $I->click('Update');
         $I->waitForText('Post updated.');
 
-        $I->click('View Post');
+        $I->clickViewPost();
 
         // Check the actual width
         $width = $I->getElementWidth('//*[contains(@class,"advgb-table-frontend")]');
