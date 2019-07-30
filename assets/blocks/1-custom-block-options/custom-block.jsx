@@ -528,11 +528,10 @@
                                 <PanelBody title={__( 'Top Divider' )} initialOpen={false}>
                                     <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
                                         <div className="advgb-styles-select-wrapper">
-                                            <div className="advgb-styles-item"
+                                            <div className="advgb-styles-item no-divider"
                                                  onClick={() => setAttributes( { blockTopDivider: undefined } )}
-                                                 style={{ textAlign: 'center' }}
                                             >
-                                                <span style={{ verticalAlign: 'middle' }}>{__( 'None' )}</span>
+                                                <span>{__( 'No divider' )}</span>
                                             </div>
                                             {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
                                                 <div
@@ -602,11 +601,10 @@
                                 <PanelBody title={__( 'Bottom Divider' )} initialOpen={false}>
                                     <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
                                         <div className="advgb-styles-select-wrapper">
-                                            <div className="advgb-styles-item"
+                                            <div className="advgb-styles-item no-divider"
                                                  onClick={() => setAttributes( { blockBottomDivider: undefined } )}
-                                                 style={{ textAlign: 'center' }}
                                             >
-                                                <span style={{ verticalAlign: 'middle' }}>{__( 'None' )}</span>
+                                                <span>{__( 'No divider' )}</span>
                                             </div>
                                             {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
                                                 <div

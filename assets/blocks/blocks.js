@@ -651,16 +651,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     { className: "advgb-styles-select-wrapper" },
                                     React.createElement(
                                         "div",
-                                        { className: "advgb-styles-item",
+                                        { className: "advgb-styles-item no-divider",
                                             onClick: function onClick() {
                                                 return setAttributes({ blockTopDivider: undefined });
-                                            },
-                                            style: { textAlign: 'center' }
+                                            }
                                         },
                                         React.createElement(
                                             "span",
-                                            { style: { verticalAlign: 'middle' } },
-                                            __('None')
+                                            null,
+                                            __('No divider')
                                         )
                                     ),
                                     Object.keys(DIVIDER_STYLES).map(function (key, index) {
@@ -758,16 +757,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     { className: "advgb-styles-select-wrapper" },
                                     React.createElement(
                                         "div",
-                                        { className: "advgb-styles-item",
+                                        { className: "advgb-styles-item no-divider",
                                             onClick: function onClick() {
                                                 return setAttributes({ blockBottomDivider: undefined });
-                                            },
-                                            style: { textAlign: 'center' }
+                                            }
                                         },
                                         React.createElement(
                                             "span",
-                                            { style: { verticalAlign: 'middle' } },
-                                            __('None')
+                                            null,
+                                            __('No divider')
                                         )
                                     ),
                                     Object.keys(DIVIDER_STYLES).map(function (key, index) {

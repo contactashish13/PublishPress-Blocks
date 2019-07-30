@@ -1409,6 +1409,13 @@ hr.wp-block-separator {
     border-bottom-color: #2196f3;
 }
 
+#editor .advgb-styles-item.no-divider {
+    text-transform: uppercase;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
 #editor div[data-block] > * {
     /*position: relative;*/
     /*z-index: 3;*/
