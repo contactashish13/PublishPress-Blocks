@@ -1398,11 +1398,11 @@ hr.wp-block-separator {
     padding: 3px;
     margin-bottom: 3px;
     min-height: 30px;
-    border-bottom: 3px solid transparent;
+    border: 3px solid transparent;
 }
 
 #editor .advgb-styles-item.selected {
-    background-color: #a3d6ff;
+    border-color: #2196f3;
 }
 
 #editor .advgb-styles-item:hover {
