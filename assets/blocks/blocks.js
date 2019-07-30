@@ -98,14 +98,17 @@
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-(function (wpI18n, wpHooks, wpEditor, wpComponents, wpElement) {
+(function (wpI18n, wpHooks, wpBlockEditor, wpComponents, wpElement) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     var addFilter = wpHooks.addFilter;
     var __ = wpI18n.__;
     var Fragment = wpElement.Fragment,
         renderToString = wpElement.renderToString;
-    var InspectorControls = wpEditor.InspectorControls,
-        PanelColorSettings = wpEditor.PanelColorSettings,
-        MediaUpload = wpEditor.MediaUpload;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        MediaUpload = _wpBlockEditor.MediaUpload,
+        ColorPalette = _wpBlockEditor.ColorPalette;
     var PanelBody = wpComponents.PanelBody,
         BaseControl = wpComponents.BaseControl,
         SelectControl = wpComponents.SelectControl,
@@ -639,218 +642,212 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     ),
                     React.createElement(
                         PanelBody,
-                        { title: __('Block Dividers'), initialOpen: false },
+                        { title: __('Top Divider'), initialOpen: false },
                         React.createElement(
                             PanelBody,
-                            { title: __('Top Divider'), initialOpen: false },
+                            { title: __('Divider Type'), initialOpen: false },
                             React.createElement(
-                                PanelBody,
-                                { title: __('Divider Styles'), initialOpen: false },
+                                "div",
+                                { className: "advgb-styles-select-wrapper" },
                                 React.createElement(
                                     "div",
-                                    { className: "advgb-styles-select-wrapper" },
+                                    { className: "advgb-styles-item no-divider",
+                                        onClick: function onClick() {
+                                            return setAttributes({ blockTopDivider: undefined });
+                                        }
+                                    },
                                     React.createElement(
+                                        "span",
+                                        null,
+                                        __('No divider')
+                                    )
+                                ),
+                                Object.keys(DIVIDER_STYLES).map(function (key, index) {
+                                    return React.createElement(
                                         "div",
-                                        { className: "advgb-styles-item no-divider",
+                                        {
+                                            className: "advgb-styles-item " + (blockTopDivider === key && 'selected'),
                                             onClick: function onClick() {
-                                                return setAttributes({ blockTopDivider: undefined });
-                                            }
+                                                return setAttributes({ blockTopDivider: key });
+                                            },
+                                            key: index
                                         },
                                         React.createElement(
-                                            "span",
-                                            null,
-                                            __('No divider')
-                                        )
-                                    ),
-                                    Object.keys(DIVIDER_STYLES).map(function (key, index) {
-                                        return React.createElement(
-                                            "div",
-                                            {
-                                                className: "advgb-styles-item " + (blockTopDivider === key && 'selected'),
-                                                onClick: function onClick() {
-                                                    return setAttributes({ blockTopDivider: key });
-                                                },
-                                                key: index
-                                            },
+                                            "svg",
+                                            { width: "100%", height: "30px", viewBox: "0 0 1280 140",
+                                                preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" },
                                             React.createElement(
-                                                "svg",
-                                                { width: "100%", height: "30px", viewBox: "0 0 1280 140",
-                                                    preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" },
-                                                React.createElement(
-                                                    "g",
-                                                    { fill: "#333" },
-                                                    DIVIDER_STYLES[key]
-                                                )
+                                                "g",
+                                                { fill: "#333" },
+                                                DIVIDER_STYLES[key]
                                             )
-                                        );
-                                    })
-                                )
-                            ),
-                            React.createElement(
-                                PanelBody,
-                                { title: __('Divider Modification'), initialOpen: false },
-                                blockTopDivider ? React.createElement(
-                                    Fragment,
-                                    null,
-                                    React.createElement(PanelColorSettings, {
-                                        title: __('Divider Color'),
-                                        initialOpen: false,
-                                        colorSettings: [{
-                                            label: __('Color'),
-                                            value: blockTopDividerColor,
-                                            onChange: function onChange(value) {
-                                                return setAttributes({ blockTopDividerColor: value });
-                                            }
-                                        }]
-                                    }),
-                                    React.createElement(RangeControl, {
-                                        label: __('Divider height(px)'),
-                                        value: blockTopDividerHeight,
-                                        min: 20,
-                                        max: 500,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ blockTopDividerHeight: value });
-                                        }
-                                    }),
-                                    React.createElement(RangeControl, {
-                                        label: __('Divider position'),
-                                        value: blockTopDividerPosition,
-                                        min: -100,
-                                        max: 100,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ blockTopDividerPosition: value });
-                                        }
-                                    }),
-                                    React.createElement(ToggleControl, {
-                                        label: __('Flip Horizontal'),
-                                        checked: blockTopDividerRotateX,
-                                        onChange: function onChange() {
-                                            return setAttributes({ blockTopDividerRotateX: !blockTopDividerRotateX });
-                                        }
-                                    }),
-                                    React.createElement(ToggleControl, {
-                                        label: __('Flip Vertical'),
-                                        checked: blockTopDividerRotateY,
-                                        onChange: function onChange() {
-                                            return setAttributes({ blockTopDividerRotateY: !blockTopDividerRotateY });
-                                        }
-                                    }),
-                                    React.createElement(ToggleControl, {
-                                        label: __('Divider on top'),
-                                        help: __('Show divider on top of text'),
-                                        checked: blockTopDividerOnTop,
-                                        onChange: function onChange() {
-                                            return setAttributes({ blockTopDividerOnTop: !blockTopDividerOnTop });
-                                        }
-                                    })
-                                ) : __(' Choose styles first')
+                                        )
+                                    );
+                                })
                             )
                         ),
                         React.createElement(
                             PanelBody,
-                            { title: __('Bottom Divider'), initialOpen: false },
+                            { title: __('Divider Styles'), initialOpen: false },
+                            blockTopDivider ? React.createElement(
+                                Fragment,
+                                null,
+                                React.createElement(
+                                    BaseControl,
+                                    { label: __('Divider Color') },
+                                    React.createElement(ColorPalette, {
+                                        value: blockTopDividerColor,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ blockTopDividerColor: value });
+                                        }
+                                    })
+                                ),
+                                React.createElement(RangeControl, {
+                                    label: __('Divider height(px)'),
+                                    value: blockTopDividerHeight,
+                                    min: 20,
+                                    max: 500,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ blockTopDividerHeight: value });
+                                    }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: __('Divider position'),
+                                    value: blockTopDividerPosition,
+                                    min: -100,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ blockTopDividerPosition: value });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Flip Horizontal'),
+                                    checked: blockTopDividerRotateX,
+                                    onChange: function onChange() {
+                                        return setAttributes({ blockTopDividerRotateX: !blockTopDividerRotateX });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Flip Vertical'),
+                                    checked: blockTopDividerRotateY,
+                                    onChange: function onChange() {
+                                        return setAttributes({ blockTopDividerRotateY: !blockTopDividerRotateY });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Divider on top'),
+                                    help: __('Show divider on top of text'),
+                                    checked: blockTopDividerOnTop,
+                                    onChange: function onChange() {
+                                        return setAttributes({ blockTopDividerOnTop: !blockTopDividerOnTop });
+                                    }
+                                })
+                            ) : __(' Choose styles first')
+                        )
+                    ),
+                    React.createElement(
+                        PanelBody,
+                        { title: __('Bottom Divider'), initialOpen: false },
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Divider Type'), initialOpen: false },
                             React.createElement(
-                                PanelBody,
-                                { title: __('Divider Styles'), initialOpen: false },
+                                "div",
+                                { className: "advgb-styles-select-wrapper" },
                                 React.createElement(
                                     "div",
-                                    { className: "advgb-styles-select-wrapper" },
+                                    { className: "advgb-styles-item no-divider",
+                                        onClick: function onClick() {
+                                            return setAttributes({ blockBottomDivider: undefined });
+                                        }
+                                    },
                                     React.createElement(
+                                        "span",
+                                        null,
+                                        __('No divider')
+                                    )
+                                ),
+                                Object.keys(DIVIDER_STYLES).map(function (key, index) {
+                                    return React.createElement(
                                         "div",
-                                        { className: "advgb-styles-item no-divider",
+                                        {
+                                            className: "advgb-styles-item " + (blockBottomDivider === key && 'selected'),
                                             onClick: function onClick() {
-                                                return setAttributes({ blockBottomDivider: undefined });
-                                            }
+                                                return setAttributes({ blockBottomDivider: key });
+                                            },
+                                            key: index
                                         },
                                         React.createElement(
-                                            "span",
-                                            null,
-                                            __('No divider')
-                                        )
-                                    ),
-                                    Object.keys(DIVIDER_STYLES).map(function (key, index) {
-                                        return React.createElement(
-                                            "div",
-                                            {
-                                                className: "advgb-styles-item " + (blockBottomDivider === key && 'selected'),
-                                                onClick: function onClick() {
-                                                    return setAttributes({ blockBottomDivider: key });
-                                                },
-                                                key: index
-                                            },
+                                            "svg",
+                                            { width: "100%", height: "30px", viewBox: "0 0 1280 140",
+                                                preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" },
                                             React.createElement(
-                                                "svg",
-                                                { width: "100%", height: "30px", viewBox: "0 0 1280 140",
-                                                    preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" },
-                                                React.createElement(
-                                                    "g",
-                                                    { fill: "#333" },
-                                                    DIVIDER_STYLES[key]
-                                                )
+                                                "g",
+                                                { fill: "#333" },
+                                                DIVIDER_STYLES[key]
                                             )
-                                        );
-                                    })
-                                )
-                            ),
-                            React.createElement(
-                                PanelBody,
-                                { title: __('Divider Modification'), initialOpen: false },
-                                blockBottomDivider ? React.createElement(
-                                    Fragment,
-                                    null,
-                                    React.createElement(PanelColorSettings, {
-                                        title: __('Divider Color'),
-                                        initialOpen: false,
-                                        colorSettings: [{
-                                            label: __('Color'),
-                                            value: blockBottomDividerColor,
-                                            onChange: function onChange(value) {
-                                                return setAttributes({ blockBottomDividerColor: value });
-                                            }
-                                        }]
-                                    }),
-                                    React.createElement(RangeControl, {
-                                        label: __('Divider height(px)'),
-                                        value: blockBottomDividerHeight,
-                                        min: 20,
-                                        max: 500,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ blockBottomDividerHeight: value });
-                                        }
-                                    }),
-                                    React.createElement(RangeControl, {
-                                        label: __('Divider position'),
-                                        value: blockBottomDividerPosition,
-                                        min: -100,
-                                        max: 100,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ blockBottomDividerPosition: value });
-                                        }
-                                    }),
-                                    React.createElement(ToggleControl, {
-                                        label: __('Flip Horizontal'),
-                                        checked: blockBottomDividerRotateX,
-                                        onChange: function onChange() {
-                                            return setAttributes({ blockBottomDividerRotateX: !blockBottomDividerRotateX });
-                                        }
-                                    }),
-                                    React.createElement(ToggleControl, {
-                                        label: __('Flip Vertical'),
-                                        checked: blockBottomDividerRotateY,
-                                        onChange: function onChange() {
-                                            return setAttributes({ blockBottomDividerRotateY: !blockBottomDividerRotateY });
-                                        }
-                                    }),
-                                    React.createElement(ToggleControl, {
-                                        label: __('Divider on top'),
-                                        help: __('Show divider on top of text'),
-                                        checked: blockBottomDividerOnTop,
-                                        onChange: function onChange() {
-                                            return setAttributes({ blockBottomDividerOnTop: !blockBottomDividerOnTop });
-                                        }
-                                    })
-                                ) : __(' Choose styles first')
+                                        )
+                                    );
+                                })
                             )
+                        ),
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Divider Styles'), initialOpen: false },
+                            blockBottomDivider ? React.createElement(
+                                Fragment,
+                                null,
+                                React.createElement(
+                                    BaseControl,
+                                    { label: __('Divider Color') },
+                                    React.createElement(ColorPalette, {
+                                        value: blockBottomDividerColor,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ blockBottomDividerColor: value });
+                                        }
+                                    })
+                                ),
+                                React.createElement(RangeControl, {
+                                    label: __('Divider height(px)'),
+                                    value: blockBottomDividerHeight,
+                                    min: 20,
+                                    max: 500,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ blockBottomDividerHeight: value });
+                                    }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: __('Divider position'),
+                                    value: blockBottomDividerPosition,
+                                    min: -100,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ blockBottomDividerPosition: value });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Flip Horizontal'),
+                                    checked: blockBottomDividerRotateX,
+                                    onChange: function onChange() {
+                                        return setAttributes({ blockBottomDividerRotateX: !blockBottomDividerRotateX });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Flip Vertical'),
+                                    checked: blockBottomDividerRotateY,
+                                    onChange: function onChange() {
+                                        return setAttributes({ blockBottomDividerRotateY: !blockBottomDividerRotateY });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Divider on top'),
+                                    help: __('Show divider on top of text'),
+                                    checked: blockBottomDividerOnTop,
+                                    onChange: function onChange() {
+                                        return setAttributes({ blockBottomDividerOnTop: !blockBottomDividerOnTop });
+                                    }
+                                })
+                            ) : __(' Choose styles first')
                         )
                     )
                 ),
@@ -985,7 +982,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
         return SaveElem;
     });
-})(wp.i18n, wp.hooks, wp.editor, wp.components, wp.element);
+})(wp.i18n, wp.hooks, wp.blockEditor, wp.components, wp.element);
 
 /***/ }),
 

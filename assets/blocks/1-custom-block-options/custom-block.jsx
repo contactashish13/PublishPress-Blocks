@@ -1,8 +1,9 @@
-( function ( wpI18n, wpHooks, wpEditor, wpComponents, wpElement ) {
+( function ( wpI18n, wpHooks, wpBlockEditor, wpComponents, wpElement ) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
     const { addFilter } = wpHooks;
     const { __ } = wpI18n;
     const { Fragment, renderToString } = wpElement;
-    const { InspectorControls, PanelColorSettings, MediaUpload } = wpEditor;
+    const { InspectorControls, PanelColorSettings, MediaUpload, ColorPalette } = wpBlockEditor;
     const { PanelBody, BaseControl, SelectControl, RangeControl, ToggleControl, Button } = wpComponents;
 
     const DIVIDER_STYLES = {
@@ -524,152 +525,140 @@
                                     </PanelBody>
                                 </PanelBody>
                             )}
-                            <PanelBody title={__( 'Block Dividers' )} initialOpen={false}>
-                                <PanelBody title={__( 'Top Divider' )} initialOpen={false}>
-                                    <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
-                                        <div className="advgb-styles-select-wrapper">
-                                            <div className="advgb-styles-item no-divider"
-                                                 onClick={() => setAttributes( { blockTopDivider: undefined } )}
-                                            >
-                                                <span>{__( 'No divider' )}</span>
-                                            </div>
-                                            {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
-                                                <div
-                                                    className={`advgb-styles-item ${blockTopDivider === key && 'selected'}`}
-                                                    onClick={() => setAttributes( { blockTopDivider: key } )}
-                                                    key={index}
-                                                >
-                                                    <svg width="100%" height="30px" viewBox="0 0 1280 140"
-                                                         preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g fill="#333">
-                                                            {DIVIDER_STYLES[ key ]}
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                            ) )}
+                            <PanelBody title={__( 'Top Divider' )} initialOpen={false}>
+                                <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
+                                    <div className="advgb-styles-select-wrapper">
+                                        <div className="advgb-styles-item no-divider"
+                                             onClick={() => setAttributes( { blockTopDivider: undefined } )}
+                                        >
+                                            <span>{__( 'No divider' )}</span>
                                         </div>
-                                    </PanelBody>
-                                    <PanelBody title={__( 'Divider Modification' )} initialOpen={false}>
-                                        {blockTopDivider ?
-                                            <Fragment>
-                                                <PanelColorSettings
-                                                    title={__( 'Divider Color' )}
-                                                    initialOpen={false}
-                                                    colorSettings={[
-                                                        {
-                                                            label: __( 'Color' ),
-                                                            value: blockTopDividerColor,
-                                                            onChange: ( value ) => setAttributes( { blockTopDividerColor: value } ),
-                                                        },
-                                                    ]}
-                                                />
-                                                <RangeControl
-                                                    label={__( 'Divider height(px)' )}
-                                                    value={blockTopDividerHeight}
-                                                    min={20}
-                                                    max={500}
-                                                    onChange={( value ) => setAttributes( { blockTopDividerHeight: value } )}
-                                                />
-                                                <RangeControl
-                                                    label={__( 'Divider position' )}
-                                                    value={blockTopDividerPosition}
-                                                    min={-100}
-                                                    max={100}
-                                                    onChange={( value ) => setAttributes( { blockTopDividerPosition: value } )}
-                                                />
-                                                <ToggleControl
-                                                    label={__( 'Flip Horizontal' )}
-                                                    checked={blockTopDividerRotateX}
-                                                    onChange={() => setAttributes( { blockTopDividerRotateX: !blockTopDividerRotateX } )}
-                                                />
-                                                <ToggleControl
-                                                    label={__( 'Flip Vertical' )}
-                                                    checked={blockTopDividerRotateY}
-                                                    onChange={() => setAttributes( { blockTopDividerRotateY: !blockTopDividerRotateY } )}
-                                                />
-                                                <ToggleControl
-                                                    label={__( 'Divider on top' )}
-                                                    help={__( 'Show divider on top of text' )}
-                                                    checked={blockTopDividerOnTop}
-                                                    onChange={() => setAttributes( { blockTopDividerOnTop: !blockTopDividerOnTop } )}
-                                                />
-                                            </Fragment>
-                                            : __( ' Choose styles first' )
-                                        }
-                                    </PanelBody>
+                                        {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
+                                            <div
+                                                className={`advgb-styles-item ${blockTopDivider === key && 'selected'}`}
+                                                onClick={() => setAttributes( { blockTopDivider: key } )}
+                                                key={index}
+                                            >
+                                                <svg width="100%" height="30px" viewBox="0 0 1280 140"
+                                                     preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g fill="#333">
+                                                        {DIVIDER_STYLES[ key ]}
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        ) )}
+                                    </div>
                                 </PanelBody>
-                                <PanelBody title={__( 'Bottom Divider' )} initialOpen={false}>
-                                    <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
-                                        <div className="advgb-styles-select-wrapper">
-                                            <div className="advgb-styles-item no-divider"
-                                                 onClick={() => setAttributes( { blockBottomDivider: undefined } )}
-                                            >
-                                                <span>{__( 'No divider' )}</span>
-                                            </div>
-                                            {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
-                                                <div
-                                                    className={`advgb-styles-item ${blockBottomDivider === key && 'selected'}`}
-                                                    onClick={() => setAttributes( { blockBottomDivider: key } )}
-                                                    key={index}
-                                                >
-                                                    <svg width="100%" height="30px" viewBox="0 0 1280 140"
-                                                         preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g fill="#333">
-                                                            {DIVIDER_STYLES[ key ]}
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                            ) )}
+                                <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
+                                    {blockTopDivider ?
+                                        <Fragment>
+                                            <BaseControl label={ __( 'Divider Color' ) }>
+                                                <ColorPalette
+                                                    value={ blockTopDividerColor }
+                                                    onChange={ ( value ) => setAttributes( { blockTopDividerColor: value } ) }
+                                                />
+                                            </BaseControl>
+                                            <RangeControl
+                                                label={__( 'Divider height(px)' )}
+                                                value={blockTopDividerHeight}
+                                                min={20}
+                                                max={500}
+                                                onChange={( value ) => setAttributes( { blockTopDividerHeight: value } )}
+                                            />
+                                            <RangeControl
+                                                label={__( 'Divider position' )}
+                                                value={blockTopDividerPosition}
+                                                min={-100}
+                                                max={100}
+                                                onChange={( value ) => setAttributes( { blockTopDividerPosition: value } )}
+                                            />
+                                            <ToggleControl
+                                                label={__( 'Flip Horizontal' )}
+                                                checked={blockTopDividerRotateX}
+                                                onChange={() => setAttributes( { blockTopDividerRotateX: !blockTopDividerRotateX } )}
+                                            />
+                                            <ToggleControl
+                                                label={__( 'Flip Vertical' )}
+                                                checked={blockTopDividerRotateY}
+                                                onChange={() => setAttributes( { blockTopDividerRotateY: !blockTopDividerRotateY } )}
+                                            />
+                                            <ToggleControl
+                                                label={__( 'Divider on top' )}
+                                                help={__( 'Show divider on top of text' )}
+                                                checked={blockTopDividerOnTop}
+                                                onChange={() => setAttributes( { blockTopDividerOnTop: !blockTopDividerOnTop } )}
+                                            />
+                                        </Fragment>
+                                        : __( ' Choose styles first' )
+                                    }
+                                </PanelBody>
+                            </PanelBody>
+                            <PanelBody title={__( 'Bottom Divider' )} initialOpen={false}>
+                                <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
+                                    <div className="advgb-styles-select-wrapper">
+                                        <div className="advgb-styles-item no-divider"
+                                             onClick={() => setAttributes( { blockBottomDivider: undefined } )}
+                                        >
+                                            <span>{__( 'No divider' )}</span>
                                         </div>
-                                    </PanelBody>
-                                    <PanelBody title={__( 'Divider Modification' )} initialOpen={false}>
-                                        {blockBottomDivider ?
-                                            <Fragment>
-                                                <PanelColorSettings
-                                                    title={__( 'Divider Color' )}
-                                                    initialOpen={false}
-                                                    colorSettings={[
-                                                        {
-                                                            label: __( 'Color' ),
-                                                            value: blockBottomDividerColor,
-                                                            onChange: ( value ) => setAttributes( { blockBottomDividerColor: value } ),
-                                                        },
-                                                    ]}
+                                        {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
+                                            <div
+                                                className={`advgb-styles-item ${blockBottomDivider === key && 'selected'}`}
+                                                onClick={() => setAttributes( { blockBottomDivider: key } )}
+                                                key={index}
+                                            >
+                                                <svg width="100%" height="30px" viewBox="0 0 1280 140"
+                                                     preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g fill="#333">
+                                                        {DIVIDER_STYLES[ key ]}
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        ) )}
+                                    </div>
+                                </PanelBody>
+                                <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
+                                    {blockBottomDivider ?
+                                        <Fragment>
+                                            <BaseControl label={ __( 'Divider Color' ) }>
+                                                <ColorPalette
+                                                    value={ blockBottomDividerColor }
+                                                    onChange={ ( value ) => setAttributes( { blockBottomDividerColor: value } ) }
                                                 />
-                                                <RangeControl
-                                                    label={__( 'Divider height(px)' )}
-                                                    value={blockBottomDividerHeight}
-                                                    min={20}
-                                                    max={500}
-                                                    onChange={( value ) => setAttributes( { blockBottomDividerHeight: value } )}
-                                                />
-                                                <RangeControl
-                                                    label={__( 'Divider position' )}
-                                                    value={blockBottomDividerPosition}
-                                                    min={-100}
-                                                    max={100}
-                                                    onChange={( value ) => setAttributes( { blockBottomDividerPosition: value } )}
-                                                />
-                                                <ToggleControl
-                                                    label={__( 'Flip Horizontal' )}
-                                                    checked={blockBottomDividerRotateX}
-                                                    onChange={() => setAttributes( { blockBottomDividerRotateX: !blockBottomDividerRotateX } )}
-                                                />
-                                                <ToggleControl
-                                                    label={__( 'Flip Vertical' )}
-                                                    checked={blockBottomDividerRotateY}
-                                                    onChange={() => setAttributes( { blockBottomDividerRotateY: !blockBottomDividerRotateY } )}
-                                                />
-                                                <ToggleControl
-                                                    label={__( 'Divider on top' )}
-                                                    help={__( 'Show divider on top of text' )}
-                                                    checked={blockBottomDividerOnTop}
-                                                    onChange={() => setAttributes( { blockBottomDividerOnTop: !blockBottomDividerOnTop } )}
-                                                />
-                                            </Fragment>
-                                            : __( ' Choose styles first' )
-                                        }
-                                    </PanelBody>
+                                            </BaseControl>
+                                            <RangeControl
+                                                label={__( 'Divider height(px)' )}
+                                                value={blockBottomDividerHeight}
+                                                min={20}
+                                                max={500}
+                                                onChange={( value ) => setAttributes( { blockBottomDividerHeight: value } )}
+                                            />
+                                            <RangeControl
+                                                label={__( 'Divider position' )}
+                                                value={blockBottomDividerPosition}
+                                                min={-100}
+                                                max={100}
+                                                onChange={( value ) => setAttributes( { blockBottomDividerPosition: value } )}
+                                            />
+                                            <ToggleControl
+                                                label={__( 'Flip Horizontal' )}
+                                                checked={blockBottomDividerRotateX}
+                                                onChange={() => setAttributes( { blockBottomDividerRotateX: !blockBottomDividerRotateX } )}
+                                            />
+                                            <ToggleControl
+                                                label={__( 'Flip Vertical' )}
+                                                checked={blockBottomDividerRotateY}
+                                                onChange={() => setAttributes( { blockBottomDividerRotateY: !blockBottomDividerRotateY } )}
+                                            />
+                                            <ToggleControl
+                                                label={__( 'Divider on top' )}
+                                                help={__( 'Show divider on top of text' )}
+                                                checked={blockBottomDividerOnTop}
+                                                onChange={() => setAttributes( { blockBottomDividerOnTop: !blockBottomDividerOnTop } )}
+                                            />
+                                        </Fragment>
+                                        : __( ' Choose styles first' )
+                                    }
                                 </PanelBody>
                             </PanelBody>
                         </InspectorControls>
@@ -849,4 +838,4 @@
 
         return SaveElem;
     } )
-} )( wp.i18n, wp.hooks, wp.editor, wp.components, wp.element );
+} )( wp.i18n, wp.hooks, wp.blockEditor, wp.components, wp.element );
