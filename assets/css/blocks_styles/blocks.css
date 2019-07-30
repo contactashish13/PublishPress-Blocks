@@ -1817,6 +1817,7 @@ body.block-editor-page .advgb-columns-wrapper .advgb-columns .wp-block {
 
 .advgb-column.column {
     z-index: unset;
+    width: 100%;
 }
 
     /*Backend columns*/
