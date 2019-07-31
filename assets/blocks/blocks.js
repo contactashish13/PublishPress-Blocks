@@ -502,10 +502,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 Fragment,
                 null,
                 React.createElement(BlockEdit, props),
-                typeof agTheme !== 'undefined' && !!agTheme.activated && React.createElement(
+                typeof agTheme !== 'undefined' && !!agTheme.activated && props.name === 'advgb/columns' && React.createElement(
                     InspectorControls,
                     null,
-                    props.name !== 'advgb/image' && React.createElement(
+                    React.createElement(
                         PanelBody,
                         { title: __('Blocks Settings') },
                         React.createElement(RangeControl, {

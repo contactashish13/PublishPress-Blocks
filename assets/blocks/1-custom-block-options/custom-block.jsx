@@ -391,140 +391,138 @@
             return (
                 <Fragment>
                     <BlockEdit {...props} />
-                    {typeof agTheme !== 'undefined' && !!agTheme.activated && (
+                    {typeof agTheme !== 'undefined' && !!agTheme.activated && props.name === 'advgb/columns' && (
                         <InspectorControls>
-                            {props.name !== 'advgb/image' && (
-                                <PanelBody title={__( 'Blocks Settings' )}>
-                                    <RangeControl
-                                        label={__( 'Block width (%)' )}
-                                        value={blockWidth}
-                                        min={10}
-                                        max={100}
-                                        onChange={( value ) => setAttributes( { blockWidth: value } )}
-                                        allowReset
-                                    />
-                                    <PanelColorSettings
-                                        title={__( 'Block Color' )}
-                                        initialOpen={false}
-                                        colorSettings={[
-                                            {
-                                                label: __( 'Background color' ),
-                                                value: blockBgColor,
-                                                onChange: ( value ) => setAttributes( { blockBgColor: value } ),
+                            <PanelBody title={__( 'Blocks Settings' )}>
+                                <RangeControl
+                                    label={__( 'Block width (%)' )}
+                                    value={blockWidth}
+                                    min={10}
+                                    max={100}
+                                    onChange={( value ) => setAttributes( { blockWidth: value } )}
+                                    allowReset
+                                />
+                                <PanelColorSettings
+                                    title={__( 'Block Color' )}
+                                    initialOpen={false}
+                                    colorSettings={[
+                                        {
+                                            label: __( 'Background color' ),
+                                            value: blockBgColor,
+                                            onChange: ( value ) => setAttributes( { blockBgColor: value } ),
+                                        },
+                                        {
+                                            label: __( 'Overlay color' ),
+                                            value: blockOverlayColor,
+                                            onChange: ( value ) => {
+                                                if (!blockID) setAttributes( { blockID: 'advgb-block-' + clientId } );
+                                                if (!value) setAttributes( { blockID: undefined } );
+                                                return setAttributes( { blockOverlayColor: value } );
                                             },
-                                            {
-                                                label: __( 'Overlay color' ),
-                                                value: blockOverlayColor,
-                                                onChange: ( value ) => {
-                                                    if (!blockID) setAttributes( { blockID: 'advgb-block-' + clientId } );
-                                                    if (!value) setAttributes( { blockID: undefined } );
-                                                    return setAttributes( { blockOverlayColor: value } );
-                                                },
-                                            },
-                                        ]}
+                                        },
+                                    ]}
+                                />
+                                {blockOverlayColor && (
+                                    <PanelBody title={__( 'Overlay settings' )}>
+                                        <RangeControl
+                                            label={__( 'Overlay opacity (%)' )}
+                                            value={blockOverlayOpacity}
+                                            min={10}
+                                            max={90}
+                                            onChange={( value ) => setAttributes( { blockOverlayOpacity: value } )}
+                                        />
+                                        <ToggleControl
+                                            label={__( 'Always show overlay' )}
+                                            checked={blockOverlayDisplay}
+                                            onChange={() => setAttributes( { blockOverlayDisplay: !blockOverlayDisplay } )}
+                                        />
+                                    </PanelBody>
+                                )}
+                                <PanelBody title={__( 'Block Background' )} initialOpen={false}>
+                                    <MediaUpload
+                                        allowedTypes={[ "image" ]}
+                                        value={blockBgImageID}
+                                        onSelect={( image ) => setAttributes( {
+                                            blockBgImage: image.url,
+                                            blockBgImageID: image.id
+                                        } )}
+                                        render={( { open } ) => {
+                                            return (
+                                                <BaseControl label={[
+                                                    __( 'Background Image' ),
+                                                    blockBgImage && (
+                                                        <a key="icon-remove"
+                                                           style={{ marginLeft: '10px', cursor: 'pointer' }}
+                                                           onClick={() => setAttributes( {
+                                                               blockBgImage: undefined,
+                                                               blockBgImageID: undefined,
+                                                           } )}
+                                                        >
+                                                            {__( 'Remove' )}
+                                                        </a>
+                                                    )
+                                                ]}
+                                                >
+                                                    <Button className={'button button-large'}
+                                                            onClick={open}
+                                                    >
+                                                        {__( 'Choose' )}
+                                                    </Button>
+                                                    {!!blockBgImage &&
+                                                    <img style={{ maxHeight: '30px', marginLeft: '10px' }}
+                                                         src={blockBgImage}
+                                                         alt={__( 'Background image' )}/>
+                                                    }
+                                                </BaseControl>
+                                            )
+                                        }}
                                     />
-                                    {blockOverlayColor && (
-                                        <PanelBody title={__( 'Overlay settings' )}>
-                                            <RangeControl
-                                                label={__( 'Overlay opacity (%)' )}
-                                                value={blockOverlayOpacity}
-                                                min={10}
-                                                max={90}
-                                                onChange={( value ) => setAttributes( { blockOverlayOpacity: value } )}
+                                    {!!blockBgImage && (
+                                        <PanelBody title={__( 'Background Image Options' )}>
+                                            <SelectControl
+                                                label={__( 'Image Size' )}
+                                                value={blockBgImageSize}
+                                                options={[
+                                                    { label: __( 'Auto' ), value: 'auto' },
+                                                    { label: __( 'Fit height' ), value: 'contain' },
+                                                    { label: __( 'Fit width' ), value: 'cover' },
+                                                    { label: __( 'Custom' ), value: 'custom' },
+                                                ]}
+                                                onChange={( value ) => setAttributes( { blockBgImageSize: value } )}
                                             />
-                                            <ToggleControl
-                                                label={__( 'Always show overlay' )}
-                                                checked={blockOverlayDisplay}
-                                                onChange={() => setAttributes( { blockOverlayDisplay: !blockOverlayDisplay } )}
+                                            {blockBgImageSize === 'custom' && (
+                                                <RangeControl
+                                                    label={__( 'Image size (%)' )}
+                                                    value={blockBgImageSizeCustom}
+                                                    min={1}
+                                                    max={100}
+                                                    onChange={( value ) => setAttributes( { blockBgImageSizeCustom: value } )}
+                                                />
+                                            )}
+                                            <SelectControl
+                                                label={__( 'Horizontal Align' )}
+                                                value={blockBgImageAlignH}
+                                                options={[
+                                                    { label: __( 'Left' ), value: 'left' },
+                                                    { label: __( 'Center' ), value: 'center' },
+                                                    { label: __( 'Right' ), value: 'right' },
+                                                ]}
+                                                onChange={( value ) => setAttributes( { blockBgImageAlignH: value } )}
+                                            />
+                                            <SelectControl
+                                                label={__( 'Vertical Align' )}
+                                                value={blockBgImageAlignV}
+                                                options={[
+                                                    { label: __( 'Top' ), value: 'top' },
+                                                    { label: __( 'Center' ), value: 'center' },
+                                                    { label: __( 'Bottom' ), value: 'bottom' },
+                                                ]}
+                                                onChange={( value ) => setAttributes( { blockBgImageAlignV: value } )}
                                             />
                                         </PanelBody>
                                     )}
-                                    <PanelBody title={__( 'Block Background' )} initialOpen={false}>
-                                        <MediaUpload
-                                            allowedTypes={[ "image" ]}
-                                            value={blockBgImageID}
-                                            onSelect={( image ) => setAttributes( {
-                                                blockBgImage: image.url,
-                                                blockBgImageID: image.id
-                                            } )}
-                                            render={( { open } ) => {
-                                                return (
-                                                    <BaseControl label={[
-                                                        __( 'Background Image' ),
-                                                        blockBgImage && (
-                                                            <a key="icon-remove"
-                                                               style={{ marginLeft: '10px', cursor: 'pointer' }}
-                                                               onClick={() => setAttributes( {
-                                                                   blockBgImage: undefined,
-                                                                   blockBgImageID: undefined,
-                                                               } )}
-                                                            >
-                                                                {__( 'Remove' )}
-                                                            </a>
-                                                        )
-                                                    ]}
-                                                    >
-                                                        <Button className={'button button-large'}
-                                                                onClick={open}
-                                                        >
-                                                            {__( 'Choose' )}
-                                                        </Button>
-                                                        {!!blockBgImage &&
-                                                        <img style={{ maxHeight: '30px', marginLeft: '10px' }}
-                                                             src={blockBgImage}
-                                                             alt={__( 'Background image' )}/>
-                                                        }
-                                                    </BaseControl>
-                                                )
-                                            }}
-                                        />
-                                        {!!blockBgImage && (
-                                            <PanelBody title={__( 'Background Image Options' )}>
-                                                <SelectControl
-                                                    label={__( 'Image Size' )}
-                                                    value={blockBgImageSize}
-                                                    options={[
-                                                        { label: __( 'Auto' ), value: 'auto' },
-                                                        { label: __( 'Fit height' ), value: 'contain' },
-                                                        { label: __( 'Fit width' ), value: 'cover' },
-                                                        { label: __( 'Custom' ), value: 'custom' },
-                                                    ]}
-                                                    onChange={( value ) => setAttributes( { blockBgImageSize: value } )}
-                                                />
-                                                {blockBgImageSize === 'custom' && (
-                                                    <RangeControl
-                                                        label={__( 'Image size (%)' )}
-                                                        value={blockBgImageSizeCustom}
-                                                        min={1}
-                                                        max={100}
-                                                        onChange={( value ) => setAttributes( { blockBgImageSizeCustom: value } )}
-                                                    />
-                                                )}
-                                                <SelectControl
-                                                    label={__( 'Horizontal Align' )}
-                                                    value={blockBgImageAlignH}
-                                                    options={[
-                                                        { label: __( 'Left' ), value: 'left' },
-                                                        { label: __( 'Center' ), value: 'center' },
-                                                        { label: __( 'Right' ), value: 'right' },
-                                                    ]}
-                                                    onChange={( value ) => setAttributes( { blockBgImageAlignH: value } )}
-                                                />
-                                                <SelectControl
-                                                    label={__( 'Vertical Align' )}
-                                                    value={blockBgImageAlignV}
-                                                    options={[
-                                                        { label: __( 'Top' ), value: 'top' },
-                                                        { label: __( 'Center' ), value: 'center' },
-                                                        { label: __( 'Bottom' ), value: 'bottom' },
-                                                    ]}
-                                                    onChange={( value ) => setAttributes( { blockBgImageAlignV: value } )}
-                                                />
-                                            </PanelBody>
-                                        )}
-                                    </PanelBody>
                                 </PanelBody>
-                            )}
+                            </PanelBody>
                             <PanelBody title={__( 'Top Divider' )} initialOpen={false}>
                                 <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
                                     <div className="advgb-styles-select-wrapper">
