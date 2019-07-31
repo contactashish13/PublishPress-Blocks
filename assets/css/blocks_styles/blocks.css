@@ -793,6 +793,7 @@ div.advgb-tab-body {
     flex: auto;
     margin: 0 10px;
     text-align: center;
+    pointer-events: all;
 }
 
 .advgb-testimonial.avatar-bottom .advgb-testimonial-item {
