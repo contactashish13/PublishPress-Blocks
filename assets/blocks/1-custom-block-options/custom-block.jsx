@@ -526,7 +526,7 @@
                             <PanelBody title={__( 'Top Divider' )} initialOpen={false}>
                                 <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
                                     <div className="advgb-styles-select-wrapper">
-                                        <div className="advgb-styles-item no-divider"
+                                        <div className={`advgb-styles-item no-divider ${!blockTopDivider && 'selected'}`}
                                              onClick={() => setAttributes( { blockTopDivider: undefined } )}
                                         >
                                             <span>{__( 'No divider' )}</span>
@@ -594,7 +594,7 @@
                             <PanelBody title={__( 'Bottom Divider' )} initialOpen={false}>
                                 <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
                                     <div className="advgb-styles-select-wrapper">
-                                        <div className="advgb-styles-item no-divider"
+                                        <div className={`advgb-styles-item no-divider ${!blockBottomDivider && 'selected'}`}
                                              onClick={() => setAttributes( { blockBottomDivider: undefined } )}
                                         >
                                             <span>{__( 'No divider' )}</span>

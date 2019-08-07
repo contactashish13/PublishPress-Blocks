@@ -651,7 +651,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                 { className: "advgb-styles-select-wrapper" },
                                 React.createElement(
                                     "div",
-                                    { className: "advgb-styles-item no-divider",
+                                    { className: "advgb-styles-item no-divider " + (!blockTopDivider && 'selected'),
                                         onClick: function onClick() {
                                             return setAttributes({ blockTopDivider: undefined });
                                         }
@@ -756,7 +756,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                 { className: "advgb-styles-select-wrapper" },
                                 React.createElement(
                                     "div",
-                                    { className: "advgb-styles-item no-divider",
+                                    { className: "advgb-styles-item no-divider " + (!blockBottomDivider && 'selected'),
                                         onClick: function onClick() {
                                             return setAttributes({ blockBottomDivider: undefined });
                                         }
