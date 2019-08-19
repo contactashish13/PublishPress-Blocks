@@ -249,6 +249,14 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     z-index: 2;
 }
 
+#editor .advgb-image-block .advgb-image-overlay {
+    pointer-events: none;
+}
+
+#editor .advgb-image-block .editor-rich-text.block-editor-rich-text {
+    z-index: 3;
+}
+
 .advgb-image-title, .advgb-image-subtitle {
     z-index: 3;
     margin: 0;
