@@ -48,6 +48,11 @@ function sortBy($key)
 }
 
 usort($advgb_blocks, sortBy('title'));
+$excluded_blocks_config = array(
+    'advgb/container',
+    'advgb/accordion-item',
+    'advgb/accordion',
+);
 
 $gallery_lightbox_checked         = $saved_settings['gallery_lightbox'] ? 'checked' : '';
 $gallery_lightbox_caption_checked = $saved_settings['gallery_lightbox_caption'] ? 'checked' : '';
@@ -60,6 +65,9 @@ $editor_width                     = isset($saved_settings['editor_width']) ? $sa
 $default_thumb                    = plugins_url('assets/blocks/recent-posts/recent-post-default.png', ADVANCED_GUTENBERG_PLUGIN);
 $rp_default_thumb                 = isset($saved_settings['rp_default_thumb']) ? $saved_settings['rp_default_thumb'] : array('url' => $default_thumb, 'id' => 0);
 $enable_columns_visual_guide      = isset($saved_settings['enable_columns_visual_guide']) && $saved_settings['enable_columns_visual_guide'] ? 'checked' : '';
+if (!isset($saved_settings['enable_columns_visual_guide'])) {
+    $enable_columns_visual_guide = 'checked';
+}
 ?>
 
 <div id="advgb-settings-container">
@@ -356,6 +364,9 @@ $enable_columns_visual_guide      = isset($saved_settings['enable_columns_visual
         <ul class="blocks-config-list clearfix">
             <?php foreach ($advgb_blocks as $block) : ?>
                 <?php $iconColor = '';
+                if (in_array($block['name'], $excluded_blocks_config)) {
+                    continue;
+                }
                 if (isset($block['iconColor'])) :
                     $iconColor = 'style=color:' . $block['iconColor'];
                 endif; ?>
