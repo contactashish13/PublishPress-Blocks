@@ -203,7 +203,7 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                                     <URLInput
                                         value={url}
                                         onChange={ (value) => setAttributes( { url: value } ) }
-                                        isFullWidth
+                                        autoFocus={false}isFullWidth
                                         hasBorder
                                     />
                                 </BaseControl>
