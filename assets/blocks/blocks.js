@@ -556,9 +556,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     null,
                     React.createElement(
                         PanelBody,
-                        { title: __('Blocks Settings') },
+                        { title: __('Blocks Settings', 'advanced-gutenberg') },
                         React.createElement(RangeControl, {
-                            label: __('Block width (%)'),
+                            label: __('Block width (%)', 'advanced-gutenberg'),
                             value: blockWidth,
                             min: 10,
                             max: 100,
@@ -568,16 +568,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                             allowReset: true
                         }),
                         React.createElement(PanelColorSettings, {
-                            title: __('Block Color'),
+                            title: __('Block Color', 'advanced-gutenberg'),
                             initialOpen: false,
                             colorSettings: [{
-                                label: __('Background color'),
+                                label: __('Background color', 'advanced-gutenberg'),
                                 value: blockBgColor,
                                 onChange: function onChange(value) {
                                     return setAttributes({ blockBgColor: value });
                                 }
                             }, {
-                                label: __('Overlay color'),
+                                label: __('Overlay color', 'advanced-gutenberg'),
                                 value: blockOverlayColor,
                                 onChange: function onChange(value) {
                                     if (!blockID) setAttributes({ blockID: 'advgb-block-' + clientId });
@@ -588,9 +588,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         }),
                         blockOverlayColor && React.createElement(
                             PanelBody,
-                            { title: __('Overlay settings') },
+                            { title: __('Overlay settings', 'advanced-gutenberg') },
                             React.createElement(RangeControl, {
-                                label: __('Overlay opacity (%)'),
+                                label: __('Overlay opacity (%)', 'advanced-gutenberg'),
                                 value: blockOverlayOpacity,
                                 min: 10,
                                 max: 90,
@@ -599,7 +599,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                 }
                             }),
                             React.createElement(ToggleControl, {
-                                label: __('Always show overlay'),
+                                label: __('Always show overlay', 'advanced-gutenberg'),
                                 checked: blockOverlayDisplay,
                                 onChange: function onChange() {
                                     return setAttributes({ blockOverlayDisplay: !blockOverlayDisplay });
@@ -608,7 +608,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         ),
                         React.createElement(
                             PanelBody,
-                            { title: __('Block Background'), initialOpen: false },
+                            { title: __('Block Background', 'advanced-gutenberg'), initialOpen: false },
                             React.createElement(MediaUpload, {
                                 allowedTypes: ["image"],
                                 value: blockBgImageID,
@@ -623,7 +623,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
                                     return React.createElement(
                                         BaseControl,
-                                        { label: [__('Background Image'), blockBgImage && React.createElement(
+                                        { label: [__('Background Image', 'advanced-gutenberg'), blockBgImage && React.createElement(
                                                 "a",
                                                 { key: "icon-remove",
                                                     style: { marginLeft: '10px', cursor: 'pointer' },
@@ -634,7 +634,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                                         });
                                                     }
                                                 },
-                                                __('Remove')
+                                                __('Remove', 'advanced-gutenberg')
                                             )]
                                         },
                                         React.createElement(
@@ -642,27 +642,27 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                             { className: 'button button-large',
                                                 onClick: open
                                             },
-                                            __('Choose')
+                                            __('Choose', 'advanced-gutenberg')
                                         ),
                                         !!blockBgImage && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
                                             src: blockBgImage,
-                                            alt: __('Background image') })
+                                            alt: __('Background image', 'advanced-gutenberg') })
                                     );
                                 }
                             }),
                             !!blockBgImage && React.createElement(
                                 PanelBody,
-                                { title: __('Background Image Options') },
+                                { title: __('Background Image Options', 'advanced-gutenberg') },
                                 React.createElement(SelectControl, {
-                                    label: __('Image Size'),
+                                    label: __('Image Size', 'advanced-gutenberg'),
                                     value: blockBgImageSize,
-                                    options: [{ label: __('Auto'), value: 'auto' }, { label: __('Fit height'), value: 'contain' }, { label: __('Fit width'), value: 'cover' }, { label: __('Custom'), value: 'custom' }],
+                                    options: [{ label: __('Auto', 'advanced-gutenberg'), value: 'auto' }, { label: __('Fit height', 'advanced-gutenberg'), value: 'contain' }, { label: __('Fit width', 'advanced-gutenberg'), value: 'cover' }, { label: __('Custom', 'advanced-gutenberg'), value: 'custom' }],
                                     onChange: function onChange(value) {
                                         return setAttributes({ blockBgImageSize: value });
                                     }
                                 }),
                                 blockBgImageSize === 'custom' && React.createElement(RangeControl, {
-                                    label: __('Image size (%)'),
+                                    label: __('Image size (%)', 'advanced-gutenberg'),
                                     value: blockBgImageSizeCustom,
                                     min: 1,
                                     max: 100,
@@ -671,17 +671,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     }
                                 }),
                                 React.createElement(SelectControl, {
-                                    label: __('Horizontal Align'),
+                                    label: __('Horizontal Align', 'advanced-gutenberg'),
                                     value: blockBgImageAlignH,
-                                    options: [{ label: __('Left'), value: 'left' }, { label: __('Center'), value: 'center' }, { label: __('Right'), value: 'right' }],
+                                    options: [{ label: __('Left', 'advanced-gutenberg'), value: 'left' }, { label: __('Center', 'advanced-gutenberg'), value: 'center' }, { label: __('Right', 'advanced-gutenberg'), value: 'right' }],
                                     onChange: function onChange(value) {
                                         return setAttributes({ blockBgImageAlignH: value });
                                     }
                                 }),
                                 React.createElement(SelectControl, {
-                                    label: __('Vertical Align'),
+                                    label: __('Vertical Align', 'advanced-gutenberg'),
                                     value: blockBgImageAlignV,
-                                    options: [{ label: __('Top'), value: 'top' }, { label: __('Center'), value: 'center' }, { label: __('Bottom'), value: 'bottom' }],
+                                    options: [{ label: __('Top', 'advanced-gutenberg'), value: 'top' }, { label: __('Center', 'advanced-gutenberg'), value: 'center' }, { label: __('Bottom', 'advanced-gutenberg'), value: 'bottom' }],
                                     onChange: function onChange(value) {
                                         return setAttributes({ blockBgImageAlignV: value });
                                     }
@@ -691,10 +691,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     ),
                     React.createElement(
                         PanelBody,
-                        { title: __('Top Divider'), initialOpen: false },
+                        { title: __('Top Divider', 'advanced-gutenberg'), initialOpen: false },
                         React.createElement(
                             PanelBody,
-                            { title: __('Divider Type'), initialOpen: false },
+                            { title: __('Divider Type', 'advanced-gutenberg'), initialOpen: false },
                             React.createElement(
                                 "div",
                                 { className: "advgb-styles-select-wrapper" },
@@ -708,7 +708,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     React.createElement(
                                         "span",
                                         null,
-                                        __('No divider')
+                                        __('No divider', 'advanced-gutenberg')
                                     )
                                 ),
                                 Object.keys(DIVIDER_STYLES).map(function (key, index) {
@@ -737,13 +737,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         ),
                         React.createElement(
                             PanelBody,
-                            { title: __('Divider Styles'), initialOpen: false },
+                            { title: __('Divider Styles', 'advanced-gutenberg'), initialOpen: false },
                             blockTopDivider ? React.createElement(
                                 Fragment,
                                 null,
                                 React.createElement(
                                     BaseControl,
-                                    { label: __('Divider Color') },
+                                    { label: __('Divider Color', 'advanced-gutenberg') },
                                     React.createElement(ColorPalette, {
                                         value: blockTopDividerColor,
                                         onChange: function onChange(value) {
@@ -752,7 +752,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     })
                                 ),
                                 React.createElement(RangeControl, {
-                                    label: __('Divider height(px)'),
+                                    label: __('Divider height(px)', 'advanced-gutenberg'),
                                     value: blockTopDividerHeight,
                                     min: 20,
                                     max: 500,
@@ -761,7 +761,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     }
                                 }),
                                 React.createElement(RangeControl, {
-                                    label: __('Divider position'),
+                                    label: __('Divider position', 'advanced-gutenberg'),
                                     value: blockTopDividerPosition,
                                     min: -100,
                                     max: 100,
@@ -770,36 +770,36 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     }
                                 }),
                                 React.createElement(ToggleControl, {
-                                    label: __('Flip Horizontal'),
+                                    label: __('Flip Horizontal', 'advanced-gutenberg'),
                                     checked: blockTopDividerRotateX,
                                     onChange: function onChange() {
                                         return setAttributes({ blockTopDividerRotateX: !blockTopDividerRotateX });
                                     }
                                 }),
                                 React.createElement(ToggleControl, {
-                                    label: __('Flip Vertical'),
+                                    label: __('Flip Vertical', 'advanced-gutenberg'),
                                     checked: blockTopDividerRotateY,
                                     onChange: function onChange() {
                                         return setAttributes({ blockTopDividerRotateY: !blockTopDividerRotateY });
                                     }
                                 }),
                                 React.createElement(ToggleControl, {
-                                    label: __('Divider on top'),
-                                    help: __('Show divider on top of text'),
+                                    label: __('Divider on top', 'advanced-gutenberg'),
+                                    help: __('Show divider on top of text', 'advanced-gutenberg'),
                                     checked: blockTopDividerOnTop,
                                     onChange: function onChange() {
                                         return setAttributes({ blockTopDividerOnTop: !blockTopDividerOnTop });
                                     }
                                 })
-                            ) : __(' Choose styles first')
+                            ) : __(' Choose styles first', 'advanced-gutenberg')
                         )
                     ),
                     React.createElement(
                         PanelBody,
-                        { title: __('Bottom Divider'), initialOpen: false },
+                        { title: __('Bottom Divider', 'advanced-gutenberg'), initialOpen: false },
                         React.createElement(
                             PanelBody,
-                            { title: __('Divider Type'), initialOpen: false },
+                            { title: __('Divider Type', 'advanced-gutenberg'), initialOpen: false },
                             React.createElement(
                                 "div",
                                 { className: "advgb-styles-select-wrapper" },
@@ -813,7 +813,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     React.createElement(
                                         "span",
                                         null,
-                                        __('No divider')
+                                        __('No divider', 'advanced-gutenberg')
                                     )
                                 ),
                                 Object.keys(DIVIDER_STYLES).map(function (key, index) {
@@ -842,13 +842,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         ),
                         React.createElement(
                             PanelBody,
-                            { title: __('Divider Styles'), initialOpen: false },
+                            { title: __('Divider Styles', 'advanced-gutenberg'), initialOpen: false },
                             blockBottomDivider ? React.createElement(
                                 Fragment,
                                 null,
                                 React.createElement(
                                     BaseControl,
-                                    { label: __('Divider Color') },
+                                    { label: __('Divider Color', 'advanced-gutenberg') },
                                     React.createElement(ColorPalette, {
                                         value: blockBottomDividerColor,
                                         onChange: function onChange(value) {
@@ -857,7 +857,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     })
                                 ),
                                 React.createElement(RangeControl, {
-                                    label: __('Divider height(px)'),
+                                    label: __('Divider height(px)', 'advanced-gutenberg'),
                                     value: blockBottomDividerHeight,
                                     min: 20,
                                     max: 500,
@@ -866,7 +866,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     }
                                 }),
                                 React.createElement(RangeControl, {
-                                    label: __('Divider position'),
+                                    label: __('Divider position', 'advanced-gutenberg'),
                                     value: blockBottomDividerPosition,
                                     min: -100,
                                     max: 100,
@@ -875,28 +875,28 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     }
                                 }),
                                 React.createElement(ToggleControl, {
-                                    label: __('Flip Horizontal'),
+                                    label: __('Flip Horizontal', 'advanced-gutenberg'),
                                     checked: blockBottomDividerRotateX,
                                     onChange: function onChange() {
                                         return setAttributes({ blockBottomDividerRotateX: !blockBottomDividerRotateX });
                                     }
                                 }),
                                 React.createElement(ToggleControl, {
-                                    label: __('Flip Vertical'),
+                                    label: __('Flip Vertical', 'advanced-gutenberg'),
                                     checked: blockBottomDividerRotateY,
                                     onChange: function onChange() {
                                         return setAttributes({ blockBottomDividerRotateY: !blockBottomDividerRotateY });
                                     }
                                 }),
                                 React.createElement(ToggleControl, {
-                                    label: __('Divider on top'),
-                                    help: __('Show divider on top of text'),
+                                    label: __('Divider on top', 'advanced-gutenberg'),
+                                    help: __('Show divider on top of text', 'advanced-gutenberg'),
                                     checked: blockBottomDividerOnTop,
                                     onChange: function onChange() {
                                         return setAttributes({ blockBottomDividerOnTop: !blockBottomDividerOnTop });
                                     }
                                 })
-                            ) : __(' Choose styles first')
+                            ) : __(' Choose styles first', 'advanced-gutenberg')
                         )
                     )
                 ),
@@ -2728,8 +2728,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onChange: function onChange(value) {
                                         return setAttributes({ url: value });
                                     },
-                                    autoFocus: false,
-                                    isFullWidth: true,
+                                    autoFocus: false, isFullWidth: true,
                                     hasBorder: true
                                 })
                             ),
@@ -3495,7 +3494,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 var open = _ref.open;
                                 return React.createElement(IconButton, {
                                     className: "components-toolbar__control",
-                                    label: __('Edit gallery'),
+                                    label: __('Edit gallery', 'advanced-gutenberg'),
                                     icon: "edit",
                                     onClick: open
                                 });
@@ -3503,7 +3502,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }),
                         layout === 'masonry' && React.createElement(IconButton, {
                             className: "components-toolbar__control",
-                            label: __('Refresh layout'),
+                            label: __('Refresh layout', 'advanced-gutenberg'),
                             icon: "update",
                             onClick: function onClick() {
                                 return jQuery('#block-' + _this3.props.clientId + ' .advgb-gallery.masonry-layout').masonry('layout');
@@ -3518,8 +3517,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     dropZoneUIOnly: !!images.length && !isSelected,
                     icon: !images.length && React.createElement(BlockIcon, { icon: advGalleryBlockIcon }),
                     labels: {
-                        title: !images.length && __('Advanced Gallery'),
-                        instructions: !images.length && __('Drag images, upload new ones or select from your library.')
+                        title: !images.length && __('Advanced Gallery', 'advanced-gutenberg'),
+                        instructions: !images.length && __('Drag images, upload new ones or select from your library.', 'advanced-gutenberg')
                     },
                     onSelect: function onSelect(imgs) {
                         return _this3.addImages(imgs);
@@ -3550,17 +3549,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         null,
                         React.createElement(
                             PanelBody,
-                            { title: __('Gallery Settings') },
+                            { title: __('Gallery Settings', 'advanced-gutenberg') },
                             React.createElement(SelectControl, {
-                                label: __('Layout'),
+                                label: __('Layout', 'advanced-gutenberg'),
                                 value: layout,
                                 onChange: function onChange(value) {
                                     return setAttributes({ layout: value });
                                 },
-                                options: [{ label: __('Default'), value: '' }, { label: __('Masonry'), value: 'masonry' }]
+                                options: [{ label: __('Default', 'advanced-gutenberg'), value: '' }, { label: __('Masonry', 'advanced-gutenberg'), value: 'masonry' }]
                             }),
                             React.createElement(RangeControl, {
-                                label: __('Columns'),
+                                label: __('Columns', 'advanced-gutenberg'),
                                 value: columns,
                                 onChange: function onChange(value) {
                                     return setAttributes({ columns: value });
@@ -3570,8 +3569,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 required: true
                             }),
                             enableLoadMore && React.createElement(RangeControl, {
-                                label: __('Items to show'),
-                                help: __('Number of items will be show on first load, also the number of items will be fetched with load more button.'),
+                                label: __('Items to show', 'advanced-gutenberg'),
+                                help: __('Number of items will be show on first load, also the number of items will be fetched with load more button.', 'advanced-gutenberg'),
                                 value: itemsToShow,
                                 onChange: function onChange(value) {
                                     return setAttributes({ itemsToShow: value });
@@ -3618,7 +3617,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 });
                                             },
                                             className: "item-remove-icon",
-                                            label: __('Remove Image')
+                                            label: __('Remove Image', 'advanced-gutenberg')
                                         })
                                     ),
                                     React.createElement("img", { src: img.url,
@@ -3630,7 +3629,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     }),
                                     (!RichText.isEmpty(img.caption) || selectedImage === index) && React.createElement(RichText, {
                                         tagName: "figcaption",
-                                        placeholder: __('Write caption…'),
+                                        placeholder: __('Write caption…', 'advanced-gutenberg'),
                                         value: img.caption,
                                         isSelected: selectedCaption === index,
                                         onChange: function onChange(value) {
@@ -3717,14 +3716,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     };
 
     registerBlockType('advgb/gallery', {
-        title: __('Adv Gallery'),
-        description: __('Advanced gallery with enhanced functions.'),
+        title: __('Adv Gallery', 'advanced-gutenberg'),
+        description: __('Advanced gallery with enhanced functions.', 'advanced-gutenberg'),
         icon: {
             src: advGalleryBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
         },
         category: 'advgb-category',
-        keywords: [__('masonry'), __('gallery'), __('photos')],
+        keywords: [__('masonry', 'advanced-gutenberg'), __('gallery', 'advanced-gutenberg'), __('photos', 'advanced-gutenberg')],
         attributes: blockAttrs,
         supports: {
             align: true
@@ -15362,7 +15361,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         "a",
                                         { href: post.link, target: "_blank" },
-                                        React.createElement("img", { src: post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb, alt: __('Post Image') })
+                                        React.createElement("img", { src: post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb, alt: __('Post Image', 'advanced-gutenberg') })
                                     ),
                                     categoryAbove && postView !== 'list' && catsHtml
                                 ),

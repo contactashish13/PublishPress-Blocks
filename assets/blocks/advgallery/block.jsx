@@ -131,7 +131,7 @@
                                 render={ ( { open } ) => (
                                     <IconButton
                                         className="components-toolbar__control"
-                                        label={ __( 'Edit gallery' ) }
+                                        label={ __( 'Edit gallery', 'advanced-gutenberg' ) }
                                         icon="edit"
                                         onClick={ open }
                                     />
@@ -140,7 +140,7 @@
                             {layout === 'masonry' && (
                                 <IconButton
                                     className="components-toolbar__control"
-                                    label={ __( 'Refresh layout' ) }
+                                    label={ __( 'Refresh layout', 'advanced-gutenberg' ) }
                                     icon="update"
                                     onClick={ () => jQuery('#block-'+ this.props.clientId +' .advgb-gallery.masonry-layout').masonry( 'layout' ) }
                                 />
@@ -157,8 +157,8 @@
                     dropZoneUIOnly={ !!images.length && !isSelected }
                     icon={ !images.length && <BlockIcon icon={ advGalleryBlockIcon } /> }
                     labels={ {
-                        title: !images.length && __( 'Advanced Gallery' ),
-                        instructions: !images.length && __( 'Drag images, upload new ones or select from your library.' ),
+                        title: !images.length && __( 'Advanced Gallery', 'advanced-gutenberg' ),
+                        instructions: !images.length && __( 'Drag images, upload new ones or select from your library.', 'advanced-gutenberg' ),
                     } }
                     onSelect={ ( imgs ) => this.addImages( imgs ) }
                     accept="image/*"
@@ -188,18 +188,18 @@
                 <Fragment>
                     {controls}
                     <InspectorControls>
-                        <PanelBody title={ __( 'Gallery Settings' ) }>
+                        <PanelBody title={ __( 'Gallery Settings', 'advanced-gutenberg' ) }>
                             <SelectControl
-                                label={ __( 'Layout' ) }
+                                label={ __( 'Layout', 'advanced-gutenberg' ) }
                                 value={ layout }
                                 onChange={ (value) => setAttributes( { layout: value } ) }
                                 options={ [
-                                    { label: __( 'Default' ), value: '' },
-                                    { label: __( 'Masonry' ), value: 'masonry' },
+                                    { label: __( 'Default', 'advanced-gutenberg' ), value: '' },
+                                    { label: __( 'Masonry', 'advanced-gutenberg' ), value: 'masonry' },
                                 ] }
                             />
                             <RangeControl
-                                label={ __( 'Columns' ) }
+                                label={ __( 'Columns', 'advanced-gutenberg' ) }
                                 value={ columns }
                                 onChange={ (value) => setAttributes( { columns: value } ) }
                                 min={ 1 }
@@ -208,8 +208,8 @@
                             />
                             {enableLoadMore && (
                                 <RangeControl
-                                    label={ __( 'Items to show' ) }
-                                    help={ __( 'Number of items will be show on first load, also the number of items will be fetched with load more button.' ) }
+                                    label={ __( 'Items to show', 'advanced-gutenberg' ) }
+                                    help={ __( 'Number of items will be show on first load, also the number of items will be fetched with load more button.', 'advanced-gutenberg' ) }
                                     value={ itemsToShow }
                                     onChange={ (value) => setAttributes( { itemsToShow: value } ) }
                                     min={ 1 }
@@ -245,7 +245,7 @@
                                                         } );
                                                     } }
                                                     className="item-remove-icon"
-                                                    label={ __( 'Remove Image' ) }
+                                                    label={ __( 'Remove Image', 'advanced-gutenberg' ) }
                                                 />
                                             </div>
                                         ) }
@@ -257,7 +257,7 @@
                                         { (!RichText.isEmpty( img.caption ) || selectedImage === index) && (
                                             <RichText
                                                 tagName="figcaption"
-                                                placeholder={ __( 'Write caption…' ) }
+                                                placeholder={ __( 'Write caption…', 'advanced-gutenberg' ) }
                                                 value={ img.caption }
                                                 isSelected={ selectedCaption === index }
                                                 onChange={ ( value ) => setAttributes( {
@@ -341,14 +341,14 @@
     };
 
     registerBlockType( 'advgb/gallery', {
-        title: __( 'Adv Gallery' ),
-        description: __( 'Advanced gallery with enhanced functions.' ),
+        title: __( 'Adv Gallery', 'advanced-gutenberg' ),
+        description: __( 'Advanced gallery with enhanced functions.', 'advanced-gutenberg' ),
         icon: {
             src: advGalleryBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,
         },
         category: 'advgb-category',
-        keywords: [ __( 'masonry' ), __( 'gallery' ), __( 'photos' ) ],
+        keywords: [ __( 'masonry', 'advanced-gutenberg' ), __( 'gallery', 'advanced-gutenberg' ), __( 'photos', 'advanced-gutenberg' ) ],
         attributes: blockAttrs,
         supports: {
             align: true,

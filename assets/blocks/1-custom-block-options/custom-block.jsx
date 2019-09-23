@@ -393,9 +393,9 @@
                     <BlockEdit {...props} />
                     {typeof agTheme !== 'undefined' && !!agTheme.activated && props.name === 'advgb/columns' && (
                         <InspectorControls>
-                            <PanelBody title={__( 'Blocks Settings' )}>
+                            <PanelBody title={__( 'Blocks Settings', 'advanced-gutenberg' )}>
                                 <RangeControl
-                                    label={__( 'Block width (%)' )}
+                                    label={__( 'Block width (%)', 'advanced-gutenberg' )}
                                     value={blockWidth}
                                     min={10}
                                     max={100}
@@ -403,16 +403,16 @@
                                     allowReset
                                 />
                                 <PanelColorSettings
-                                    title={__( 'Block Color' )}
+                                    title={__( 'Block Color', 'advanced-gutenberg' )}
                                     initialOpen={false}
                                     colorSettings={[
                                         {
-                                            label: __( 'Background color' ),
+                                            label: __( 'Background color', 'advanced-gutenberg' ),
                                             value: blockBgColor,
                                             onChange: ( value ) => setAttributes( { blockBgColor: value } ),
                                         },
                                         {
-                                            label: __( 'Overlay color' ),
+                                            label: __( 'Overlay color', 'advanced-gutenberg' ),
                                             value: blockOverlayColor,
                                             onChange: ( value ) => {
                                                 if (!blockID) setAttributes( { blockID: 'advgb-block-' + clientId } );
@@ -423,22 +423,22 @@
                                     ]}
                                 />
                                 {blockOverlayColor && (
-                                    <PanelBody title={__( 'Overlay settings' )}>
+                                    <PanelBody title={__( 'Overlay settings', 'advanced-gutenberg' )}>
                                         <RangeControl
-                                            label={__( 'Overlay opacity (%)' )}
+                                            label={__( 'Overlay opacity (%)', 'advanced-gutenberg' )}
                                             value={blockOverlayOpacity}
                                             min={10}
                                             max={90}
                                             onChange={( value ) => setAttributes( { blockOverlayOpacity: value } )}
                                         />
                                         <ToggleControl
-                                            label={__( 'Always show overlay' )}
+                                            label={__( 'Always show overlay', 'advanced-gutenberg' )}
                                             checked={blockOverlayDisplay}
                                             onChange={() => setAttributes( { blockOverlayDisplay: !blockOverlayDisplay } )}
                                         />
                                     </PanelBody>
                                 )}
-                                <PanelBody title={__( 'Block Background' )} initialOpen={false}>
+                                <PanelBody title={__( 'Block Background', 'advanced-gutenberg' )} initialOpen={false}>
                                     <MediaUpload
                                         allowedTypes={[ "image" ]}
                                         value={blockBgImageID}
@@ -449,7 +449,7 @@
                                         render={( { open } ) => {
                                             return (
                                                 <BaseControl label={[
-                                                    __( 'Background Image' ),
+                                                    __( 'Background Image', 'advanced-gutenberg' ),
                                                     blockBgImage && (
                                                         <a key="icon-remove"
                                                            style={{ marginLeft: '10px', cursor: 'pointer' }}
@@ -458,7 +458,7 @@
                                                                blockBgImageID: undefined,
                                                            } )}
                                                         >
-                                                            {__( 'Remove' )}
+                                                            {__( 'Remove', 'advanced-gutenberg' )}
                                                         </a>
                                                     )
                                                 ]}
@@ -466,33 +466,33 @@
                                                     <Button className={'button button-large'}
                                                             onClick={open}
                                                     >
-                                                        {__( 'Choose' )}
+                                                        {__( 'Choose', 'advanced-gutenberg' )}
                                                     </Button>
                                                     {!!blockBgImage &&
                                                     <img style={{ maxHeight: '30px', marginLeft: '10px' }}
                                                          src={blockBgImage}
-                                                         alt={__( 'Background image' )}/>
+                                                         alt={__( 'Background image', 'advanced-gutenberg' )}/>
                                                     }
                                                 </BaseControl>
                                             )
                                         }}
                                     />
                                     {!!blockBgImage && (
-                                        <PanelBody title={__( 'Background Image Options' )}>
+                                        <PanelBody title={__( 'Background Image Options', 'advanced-gutenberg' )}>
                                             <SelectControl
-                                                label={__( 'Image Size' )}
+                                                label={__( 'Image Size', 'advanced-gutenberg' )}
                                                 value={blockBgImageSize}
                                                 options={[
-                                                    { label: __( 'Auto' ), value: 'auto' },
-                                                    { label: __( 'Fit height' ), value: 'contain' },
-                                                    { label: __( 'Fit width' ), value: 'cover' },
-                                                    { label: __( 'Custom' ), value: 'custom' },
+                                                    { label: __( 'Auto', 'advanced-gutenberg' ), value: 'auto' },
+                                                    { label: __( 'Fit height', 'advanced-gutenberg' ), value: 'contain' },
+                                                    { label: __( 'Fit width', 'advanced-gutenberg' ), value: 'cover' },
+                                                    { label: __( 'Custom', 'advanced-gutenberg' ), value: 'custom' },
                                                 ]}
                                                 onChange={( value ) => setAttributes( { blockBgImageSize: value } )}
                                             />
                                             {blockBgImageSize === 'custom' && (
                                                 <RangeControl
-                                                    label={__( 'Image size (%)' )}
+                                                    label={__( 'Image size (%)', 'advanced-gutenberg' )}
                                                     value={blockBgImageSizeCustom}
                                                     min={1}
                                                     max={100}
@@ -500,22 +500,22 @@
                                                 />
                                             )}
                                             <SelectControl
-                                                label={__( 'Horizontal Align' )}
+                                                label={__( 'Horizontal Align', 'advanced-gutenberg' )}
                                                 value={blockBgImageAlignH}
                                                 options={[
-                                                    { label: __( 'Left' ), value: 'left' },
-                                                    { label: __( 'Center' ), value: 'center' },
-                                                    { label: __( 'Right' ), value: 'right' },
+                                                    { label: __( 'Left', 'advanced-gutenberg' ), value: 'left' },
+                                                    { label: __( 'Center', 'advanced-gutenberg' ), value: 'center' },
+                                                    { label: __( 'Right', 'advanced-gutenberg' ), value: 'right' },
                                                 ]}
                                                 onChange={( value ) => setAttributes( { blockBgImageAlignH: value } )}
                                             />
                                             <SelectControl
-                                                label={__( 'Vertical Align' )}
+                                                label={__( 'Vertical Align', 'advanced-gutenberg' )}
                                                 value={blockBgImageAlignV}
                                                 options={[
-                                                    { label: __( 'Top' ), value: 'top' },
-                                                    { label: __( 'Center' ), value: 'center' },
-                                                    { label: __( 'Bottom' ), value: 'bottom' },
+                                                    { label: __( 'Top', 'advanced-gutenberg' ), value: 'top' },
+                                                    { label: __( 'Center', 'advanced-gutenberg' ), value: 'center' },
+                                                    { label: __( 'Bottom', 'advanced-gutenberg' ), value: 'bottom' },
                                                 ]}
                                                 onChange={( value ) => setAttributes( { blockBgImageAlignV: value } )}
                                             />
@@ -523,13 +523,13 @@
                                     )}
                                 </PanelBody>
                             </PanelBody>
-                            <PanelBody title={__( 'Top Divider' )} initialOpen={false}>
-                                <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
+                            <PanelBody title={__( 'Top Divider', 'advanced-gutenberg' )} initialOpen={false}>
+                                <PanelBody title={__( 'Divider Type', 'advanced-gutenberg' )} initialOpen={false}>
                                     <div className="advgb-styles-select-wrapper">
                                         <div className={`advgb-styles-item no-divider ${!blockTopDivider && 'selected'}`}
                                              onClick={() => setAttributes( { blockTopDivider: undefined } )}
                                         >
-                                            <span>{__( 'No divider' )}</span>
+                                            <span>{__( 'No divider', 'advanced-gutenberg' )}</span>
                                         </div>
                                         {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
                                             <div
@@ -547,57 +547,57 @@
                                         ) )}
                                     </div>
                                 </PanelBody>
-                                <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
+                                <PanelBody title={__( 'Divider Styles', 'advanced-gutenberg' )} initialOpen={false}>
                                     {blockTopDivider ?
                                         <Fragment>
-                                            <BaseControl label={ __( 'Divider Color' ) }>
+                                            <BaseControl label={ __( 'Divider Color', 'advanced-gutenberg' ) }>
                                                 <ColorPalette
                                                     value={ blockTopDividerColor }
                                                     onChange={ ( value ) => setAttributes( { blockTopDividerColor: value } ) }
                                                 />
                                             </BaseControl>
                                             <RangeControl
-                                                label={__( 'Divider height(px)' )}
+                                                label={__( 'Divider height(px)', 'advanced-gutenberg' )}
                                                 value={blockTopDividerHeight}
                                                 min={20}
                                                 max={500}
                                                 onChange={( value ) => setAttributes( { blockTopDividerHeight: value } )}
                                             />
                                             <RangeControl
-                                                label={__( 'Divider position' )}
+                                                label={__( 'Divider position', 'advanced-gutenberg' )}
                                                 value={blockTopDividerPosition}
                                                 min={-100}
                                                 max={100}
                                                 onChange={( value ) => setAttributes( { blockTopDividerPosition: value } )}
                                             />
                                             <ToggleControl
-                                                label={__( 'Flip Horizontal' )}
+                                                label={__( 'Flip Horizontal', 'advanced-gutenberg' )}
                                                 checked={blockTopDividerRotateX}
                                                 onChange={() => setAttributes( { blockTopDividerRotateX: !blockTopDividerRotateX } )}
                                             />
                                             <ToggleControl
-                                                label={__( 'Flip Vertical' )}
+                                                label={__( 'Flip Vertical', 'advanced-gutenberg' )}
                                                 checked={blockTopDividerRotateY}
                                                 onChange={() => setAttributes( { blockTopDividerRotateY: !blockTopDividerRotateY } )}
                                             />
                                             <ToggleControl
-                                                label={__( 'Divider on top' )}
-                                                help={__( 'Show divider on top of text' )}
+                                                label={__( 'Divider on top', 'advanced-gutenberg' )}
+                                                help={__( 'Show divider on top of text', 'advanced-gutenberg' )}
                                                 checked={blockTopDividerOnTop}
                                                 onChange={() => setAttributes( { blockTopDividerOnTop: !blockTopDividerOnTop } )}
                                             />
                                         </Fragment>
-                                        : __( ' Choose styles first' )
+                                        : __( ' Choose styles first', 'advanced-gutenberg' )
                                     }
                                 </PanelBody>
                             </PanelBody>
-                            <PanelBody title={__( 'Bottom Divider' )} initialOpen={false}>
-                                <PanelBody title={__( 'Divider Type' )} initialOpen={false}>
+                            <PanelBody title={__( 'Bottom Divider', 'advanced-gutenberg' )} initialOpen={false}>
+                                <PanelBody title={__( 'Divider Type', 'advanced-gutenberg' )} initialOpen={false}>
                                     <div className="advgb-styles-select-wrapper">
                                         <div className={`advgb-styles-item no-divider ${!blockBottomDivider && 'selected'}`}
                                              onClick={() => setAttributes( { blockBottomDivider: undefined } )}
                                         >
-                                            <span>{__( 'No divider' )}</span>
+                                            <span>{__( 'No divider', 'advanced-gutenberg' )}</span>
                                         </div>
                                         {Object.keys( DIVIDER_STYLES ).map( ( key, index ) => (
                                             <div
@@ -615,47 +615,47 @@
                                         ) )}
                                     </div>
                                 </PanelBody>
-                                <PanelBody title={__( 'Divider Styles' )} initialOpen={false}>
+                                <PanelBody title={__( 'Divider Styles', 'advanced-gutenberg' )} initialOpen={false}>
                                     {blockBottomDivider ?
                                         <Fragment>
-                                            <BaseControl label={ __( 'Divider Color' ) }>
+                                            <BaseControl label={ __( 'Divider Color', 'advanced-gutenberg' ) }>
                                                 <ColorPalette
                                                     value={ blockBottomDividerColor }
                                                     onChange={ ( value ) => setAttributes( { blockBottomDividerColor: value } ) }
                                                 />
                                             </BaseControl>
                                             <RangeControl
-                                                label={__( 'Divider height(px)' )}
+                                                label={__( 'Divider height(px)', 'advanced-gutenberg' )}
                                                 value={blockBottomDividerHeight}
                                                 min={20}
                                                 max={500}
                                                 onChange={( value ) => setAttributes( { blockBottomDividerHeight: value } )}
                                             />
                                             <RangeControl
-                                                label={__( 'Divider position' )}
+                                                label={__( 'Divider position', 'advanced-gutenberg' )}
                                                 value={blockBottomDividerPosition}
                                                 min={-100}
                                                 max={100}
                                                 onChange={( value ) => setAttributes( { blockBottomDividerPosition: value } )}
                                             />
                                             <ToggleControl
-                                                label={__( 'Flip Horizontal' )}
+                                                label={__( 'Flip Horizontal', 'advanced-gutenberg' )}
                                                 checked={blockBottomDividerRotateX}
                                                 onChange={() => setAttributes( { blockBottomDividerRotateX: !blockBottomDividerRotateX } )}
                                             />
                                             <ToggleControl
-                                                label={__( 'Flip Vertical' )}
+                                                label={__( 'Flip Vertical', 'advanced-gutenberg' )}
                                                 checked={blockBottomDividerRotateY}
                                                 onChange={() => setAttributes( { blockBottomDividerRotateY: !blockBottomDividerRotateY } )}
                                             />
                                             <ToggleControl
-                                                label={__( 'Divider on top' )}
-                                                help={__( 'Show divider on top of text' )}
+                                                label={__( 'Divider on top', 'advanced-gutenberg' )}
+                                                help={__( 'Show divider on top of text', 'advanced-gutenberg' )}
                                                 checked={blockBottomDividerOnTop}
                                                 onChange={() => setAttributes( { blockBottomDividerOnTop: !blockBottomDividerOnTop } )}
                                             />
                                         </Fragment>
-                                        : __( ' Choose styles first' )
+                                        : __( ' Choose styles first', 'advanced-gutenberg' )
                                     }
                                 </PanelBody>
                             </PanelBody>
