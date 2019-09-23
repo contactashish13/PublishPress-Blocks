@@ -207,7 +207,7 @@
                                 render={ ( { open } ) => (
                                     <IconButton
                                         className="components-toolbar__control"
-                                        label={ __( 'Change image preview' ) }
+                                        label={ __( 'Change image preview', 'advanced-gutenberg' ) }
                                         icon="edit"
                                         onClick={ open }
                                     />
@@ -215,7 +215,7 @@
                             />
                             <IconButton
                                 className="components-toolbar__control"
-                                label={ __( 'Remove image preview' ) }
+                                label={ __( 'Remove image preview', 'advanced-gutenberg' ) }
                                 icon="no"
                                 onClick={ () => setAttributes( { poster: undefined, posterID: undefined } ) }
                             />
@@ -223,21 +223,21 @@
                     </BlockControls>
                     }
                     <InspectorControls>
-                        <PanelBody title={ __( 'Advanced Video Settings' ) }>
+                        <PanelBody title={ __( 'Advanced Video Settings', 'advanced-gutenberg' ) }>
                             <ToggleControl
-                                label={ __( 'Open video in light box' ) }
-                                help={ __( 'Lightbox offers additional display options.' ) }
+                                label={ __( 'Open video in light box', 'advanced-gutenberg' ) }
+                                help={ __( 'Lightbox offers additional display options.', 'advanced-gutenberg' ) }
                                 checked={ openInLightbox }
                                 onChange={ () => setAttributes( { openInLightbox: !openInLightbox } ) }
                             />
                             <ToggleControl
-                                label={ __( 'Full width' ) }
+                                label={ __( 'Full width', 'advanced-gutenberg' ) }
                                 checked={ videoFullWidth }
                                 onChange={ () => setAttributes( { videoFullWidth: !videoFullWidth } ) }
                             />
                             {!videoFullWidth &&
                             <RangeControl
-                                label={ __( 'Video width' ) }
+                                label={ __( 'Video width', 'advanced-gutenberg' ) }
                                 value={ videoWidth }
                                 min={ 100 }
                                 max={ 1000 }
@@ -245,7 +245,7 @@
                             />
                             }
                             <RangeControl
-                                label={ __( 'Video height' ) }
+                                label={ __( 'Video height', 'advanced-gutenberg' ) }
                                 value={ videoHeight }
                                 min={ 300 }
                                 max={ 700 }
@@ -254,23 +254,23 @@
                             {!!openInLightbox &&
                             <Fragment>
                                 <PanelColorSettings
-                                    title={ __( 'Color Settings' ) }
+                                    title={ __( 'Color Settings', 'advanced-gutenberg' ) }
                                     initialOpen={ false }
                                     colorSettings={ [
                                         {
-                                            label: __( 'Overlay Color' ),
+                                            label: __( 'Overlay Color', 'advanced-gutenberg' ),
                                             value: overlayColor,
                                             onChange: ( value ) => setAttributes( { overlayColor: value === undefined ? '#EEEEEE' : value } ),
                                         },
                                         {
-                                            label: __( 'Play Button Color' ),
+                                            label: __( 'Play Button Color', 'advanced-gutenberg' ),
                                             value: playButtonColor,
                                             onChange: ( value ) => setAttributes( { playButtonColor: value === undefined ? '#fff' : value } ),
                                         },
                                     ] }
                                 />
-                                <PanelBody title={ __( 'Play Button' ) }>
-                                    <BaseControl label={ __( 'Icon Style' ) }>
+                                <PanelBody title={ __( 'Play Button', 'advanced-gutenberg' ) }>
+                                    <BaseControl label={ __( 'Icon Style', 'advanced-gutenberg' ) }>
                                         <div className="advgb-icon-items-wrapper">
                                             {Object.keys( PLAY_BUTTON_STYLE ).map( ( key, index ) => (
                                                 <div className="advgb-icon-item" key={ index }>
@@ -311,7 +311,7 @@
                                         />
                                     </BaseControl>
                                     <RangeControl
-                                        label={ __( 'Play Button Size' ) }
+                                        label={ __( 'Play Button Size', 'advanced-gutenberg' ) }
                                         value={ playButtonSize }
                                         min={ 40 }
                                         max={ 200 }
@@ -337,7 +337,7 @@
                                             className="button button-large"
                                             onClick={ open }
                                         >
-                                            { __( 'Select image preview' ) }
+                                            { __( 'Select image preview', 'advanced-gutenberg' ) }
                                         </Button>
                                     ) }
                                 />
@@ -380,7 +380,7 @@
                                            controls
                                     >
                                         <source src={videoURL}/>
-                                        { __( 'Your browser does not support HTML5 video.' ) }
+                                        { __( 'Your browser does not support HTML5 video.', 'advanced-gutenberg' ) }
                                     </video>
                                 )
                                 || !videoSourceType && <div style={ { width: videoWidth, height: videoHeight } } />}
@@ -391,7 +391,7 @@
                             <div className="advgb-video-input">
                                 <Dashicon className="advgb-video-link-icon" icon="admin-links" />
                                 <TextControl
-                                    placeholder={ __( 'Youtube/Vimeo video URL/ID…' ) }
+                                    placeholder={ __( 'Youtube/Vimeo video URL/ID…', 'advanced-gutenberg' ) }
                                     value={ videoID }
                                     onChange={ (value) => {
                                         setAttributes( { videoID: value, videoURL: '', videoTitle: undefined, videoSourceType: '' } );
@@ -403,9 +403,9 @@
                                     style={ { height: '31px' } }
                                     onClick={ this.fetchVideoInfo }
                                 >
-                                    { __( 'Fetch' ) }
+                                    { __( 'Fetch', 'advanced-gutenberg' ) }
                                 </Button>
-                                <span style={ { margin: 'auto 10px' } }>{ __( 'or use' ) }</span>
+                                <span style={ { margin: 'auto 10px' } }>{ __( 'or use', 'advanced-gutenberg' ) }</span>
                                 <MediaUpload
                                     allowedTypes={ ["video"] }
                                     value={ videoID }
@@ -415,7 +415,7 @@
                                             className="button button-large is-primary"
                                             onClick={ open }
                                         >
-                                            { __( 'Local video' ) }
+                                            { __( 'Local video', 'advanced-gutenberg' ) }
                                         </Button>
                                     ) }
                                 />
@@ -423,7 +423,7 @@
                             <div className="advgb-current-video-desc"
                                  style={ { minWidth: '50%', margin: '10px auto', textAlign: 'center' } }
                             >
-                                <strong>{ __( 'Current Video' ) }:</strong>
+                                <strong>{ __( 'Current Video', 'advanced-gutenberg' ) }:</strong>
                                 <span title={videoSourceType}
                                       style={ {
                                           width: '25px',
@@ -436,9 +436,9 @@
                                 </span>
                                 <span>
                                     {
-                                        ( videoTitle === 'ADVGB_FAIL_TO_LOAD' && <strong style={ { color: 'red' } }>{ __( 'Wrong video URL/ID. Please try another.' ) }</strong> )
+                                        ( videoTitle === 'ADVGB_FAIL_TO_LOAD' && <strong style={ { color: 'red' } }>{ __( 'Wrong video URL/ID. Please try another.', 'advanced-gutenberg' ) }</strong> )
                                         || videoTitle
-                                        || __( 'Not selected yet.' )
+                                        || __( 'Not selected yet.', 'advanced-gutenberg' )
                                     }
                                 </span>
                             </div>
@@ -516,14 +516,14 @@
     };
 
     registerBlockType( 'advgb/video', {
-        title: __( 'Advanced Video' ),
-        description: __( 'Powerful block for insert and embed video.' ),
+        title: __( 'Advanced Video', 'advanced-gutenberg' ),
+        description: __( 'Powerful block for insert and embed video.', 'advanced-gutenberg' ),
         icon: {
             src: advVideoBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,
         },
         category: 'advgb-category',
-        keywords: [ __( 'video' ), __( 'embed' ), __( 'media' ) ],
+        keywords: [ __( 'video', 'advanced-gutenberg' ), __( 'embed', 'advanced-gutenberg' ), __( 'media', 'advanced-gutenberg' ) ],
         attributes: blockAttrs,
         edit: AdvVideo,
         save: function ( { attributes } ) {
@@ -578,7 +578,7 @@
                                        controls
                                 >
                                     <source src={videoURL}/>
-                                    { __( 'Your browser does not support HTML5 video.' ) }
+                                    { __( 'Your browser does not support HTML5 video.', 'advanced-gutenberg' ) }
                                 </video>
                             )
                             || !videoSourceType && <div style={ { width: videoWidth, height: videoHeight } } />}
