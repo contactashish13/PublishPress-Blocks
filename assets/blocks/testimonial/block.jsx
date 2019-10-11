@@ -203,7 +203,7 @@
             const blockClass = [
                 'advgb-testimonial',
                 sliderView && 'slider-view',
-                `advgb-avatar-${avatarPosition}`
+                `advgb-avatar-${avatarPosition}`,
                 avatarBottom && 'avatar-bottom',
                 className,
             ].filter( Boolean ).join( ' ' );
