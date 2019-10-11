@@ -4,7 +4,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, MediaUpload } = wpBlockEditor;
-    const { PanelBody, TextControl, TextareaControl, RangeControl, SelectControl, BaseControl, Button, Placeholder, Spinner } = wpComponents;
+    const { PanelBody, TextControl, TextareaControl, RangeControl, SelectControl, ToggleControl, BaseControl, Button, Placeholder, Spinner } = wpComponents;
 
     let mapWillUpdate = null;
     const mapBlockIcon = (
@@ -1037,7 +1037,7 @@
 
             const DEFAULT_MARKER = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png';
             const { currentMap, currentMarker, currentInfo, invalidStyle } = this.state;
-            const { mapID, lat, lng, zoom, markerTitle, markerIcon, markerSize, markerDesc, mapStyle, mapStyleCustom } = this.props.attributes;
+            const { mapID, lat, lng, zoom, markerTitle, markerIcon, markerSize, markerDesc, mapStyle, mapStyleCustom, infoWindowDefaultShown } = this.props.attributes;
             const location = { lat: parseFloat(lat), lng: parseFloat(lng) };
             const that = this;
             const formattedDesc = markerDesc.replace(/\n/g, '<br/>');
@@ -1102,10 +1102,16 @@
                 scaledSize: new google.maps.Size( 27, 43 ),
             } );
 
-            if (!!markerTitle) {
+            if (!!markerTitle || !!markerDesc) {
                 marker.addListener('click', function() {
                     infoWindow.open(map, marker);
                 });
+
+                if (infoWindowDefaultShown) {
+                    infoWindow.open(map, marker);
+                }
+            } else {
+                infoWindow.close();
             }
 
             marker.addListener( 'dragend', function() {
@@ -1186,6 +1192,7 @@
                 markerDesc,
                 mapStyle,
                 mapStyleCustom,
+                infoWindowDefaultShown,
             } = attributes;
 
             const listStyles = Object.keys(MAP_STYLES).map( (style) => {
@@ -1323,6 +1330,11 @@
                                 placeholder={ __( 'Enter custom description…', 'advanced-gutenberg' ) }
                                 onChange={ (value) => setAttributes( { markerDesc: value } ) }
                             />
+                            <ToggleControl
+                                label={ __( 'Open marker description by default', 'advanced-gutenberg' ) }
+                                checked={ infoWindowDefaultShown }
+                                onChange={ () => setAttributes({infoWindowDefaultShown: !infoWindowDefaultShown}) }
+                            />
                             <SelectControl
                                 label={ __( 'Map styles', 'advanced-gutenberg' ) }
                                 help={ __( 'Custom map style is recommended for experienced users only.', 'advanced-gutenberg' ) }
@@ -1453,6 +1465,10 @@
             mapStyleCustom: {
                 type: 'string',
             },
+            infoWindowDefaultShown: {
+                type: 'boolean',
+                default: true,
+            },
             markerSize: {
                 type: 'number',
             }
@@ -1471,6 +1487,7 @@
                 markerDesc,
                 mapStyle,
                 mapStyleCustom,
+                infoWindowDefaultShown,
             } = attributes;
 
             const formattedDesc = markerDesc.replace( /\n/g, '<br/>' ).replace( /'/, '\\\'' );
@@ -1502,6 +1519,7 @@
                          data-title={ formattedTitle }
                          data-desc={ formattedDesc }
                          data-icon={ markerIcon }
+                         data-shown={ infoWindowDefaultShown }
                          data-isize={ markerSize }
                          data-style={ encodeURIComponent(mapStyleApply) }
                     />
@@ -1536,11 +1554,6 @@
                     const formattedDesc = markerDesc.replace( /\n/g, '<br/>' ).replace( /'/, '\\\'' );
                     const formattedTitle = markerTitle.replace( /'/, '\\\'' );
                     const DEFAULT_MARKER = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png';
-                    const infoWindowHtml = ''+
-                        '<div class="advgbmap-wrapper">' +
-                        '<h2 class="advgbmap-title">' + formattedTitle + '</h2>' +
-                        '<p class="advgbmap-desc">'+ formattedDesc +'</p>' +
-                        '</div>';
                     let mapStyleApply = MAP_STYLES[mapStyle];
                     if (mapStyle === 'custom') {
                         try {
@@ -1565,8 +1578,8 @@
                                  data-lng={ lng }
                                  data-zoom={ zoom }
                                  data-title={ formattedTitle }
+                                 data-desc={ formattedDesc }
                                  data-icon={ markerIcon }
-                                 data-info={ encodeURIComponent(infoWindowHtml) }
                                  data-style={ encodeURIComponent(mapStyleApply) }
                             />
                         </div>

@@ -135,906 +135,6 @@ function AdvColorControl(props) {
 
 /***/ }),
 
-/***/ "./assets/blocks/1-custom-block-options/custom-block.jsx":
-/*!***************************************************************!*\
-  !*** ./assets/blocks/1-custom-block-options/custom-block.jsx ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-(function (wpI18n, wpHooks, wpBlockEditor, wpComponents, wpElement) {
-    wpBlockEditor = wp.blockEditor || wp.editor;
-    var addFilter = wpHooks.addFilter;
-    var __ = wpI18n.__;
-    var Fragment = wpElement.Fragment,
-        renderToString = wpElement.renderToString;
-    var _wpBlockEditor = wpBlockEditor,
-        InspectorControls = _wpBlockEditor.InspectorControls,
-        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
-        MediaUpload = _wpBlockEditor.MediaUpload,
-        ColorPalette = _wpBlockEditor.ColorPalette;
-    var PanelBody = wpComponents.PanelBody,
-        BaseControl = wpComponents.BaseControl,
-        SelectControl = wpComponents.SelectControl,
-        RangeControl = wpComponents.RangeControl,
-        ToggleControl = wpComponents.ToggleControl,
-        Button = wpComponents.Button;
-
-
-    var DIVIDER_STYLES = {
-        sl1: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 140V0H0l1280 140z" })
-        ),
-        sl2: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 140V0H0l1280 140z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M1280 98V0H0l1280 98z" })
-        ),
-        ar1: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M640 140L1280 0H0z" })
-        ),
-        ar2: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M640 139L0 0v140h1280V0L640 139z" })
-        ),
-        ar3: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M640 140L1280 0H0z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M640 98l640-98H0z" })
-        ),
-        ar4: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M640 139L0 0v140h1280V0L640 139z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M640 139L0 42v98h1280V42l-640 97z" })
-        ),
-        ar5: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 0L640 70 0 0v140l640-70 640 70V0z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M1280 0H0l640 70 640-70z" })
-        ),
-        cv1: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0s573.08 140 1280 140V0z" })
-        ),
-        cv2: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0v60s573.09 80 1280 80V0z", "fill-opacity": ".3" }),
-            React.createElement("path", { d: "M0 0v30s573.09 110 1280 110V0z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M0 0s573.09 140 1280 140V0z" })
-        ),
-        cv3: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 140h1280C573.08 140 0 0 0 0z" })
-        ),
-        cv4: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 140h1280C573.08 140 0 0 0 0z", "fill-opacity": ".3" }),
-            React.createElement("path", { d: "M0 140h1280C573.08 140 0 30 0 30z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M0 140h1280C573.08 140 0 60 0 60z" })
-        ),
-        rd1: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M640 140C286.54 140 0 0 0 0h1280S993.46 140 640 140z" })
-        ),
-        rd2: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 140V0S993.46 140 640 139 0 0 0 0v140z" })
-        ),
-        rd3: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0v.48C18.62 9.38 297.81 140 639.5 140 993.24 140 1280 0 1280 0z", "fill-opacity": ".3" }),
-            React.createElement("path", { d: "M0 .6c14 8.28 176.54 99.8 555.45 119.14C952.41 140 1280 0 1280 0H0z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M726.29 101.2C1126.36 79.92 1281 0 1281 0H1c.05 0 325.25 122.48 725.29 101.2z" })
-        ),
-        rd4: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M725.29 101.2C325.22 122.48 0 0 0 0v140h1280V0s-154.64 79.92-554.71 101.2z", "fill-opacity": ".3" }),
-            React.createElement("path", { d: "M556.45 119.74C953.41 140 1280 14 1280 14v126H0V0s159.5 99.48 556.45 119.74z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M640 140c353.46 0 640-140 640-139v140H0V0s286.54 140 640 140z" })
-        ),
-        zz1: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 69.65l-320 49.24L320 20.4 0 69.65V0h1280v69.65z" })
-        ),
-        zz2: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 90.72l140-28.28 315.52 24.14L796.48 65.8 1140 104.89l140-14.17V0H0v90.72z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M0 0v47.44L170 0l626.48 94.89L1110 87.11l170-39.67V0H0z" })
-        ),
-        zz3: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M978.81 122.25L0 0h1280l-262.1 116.26a73.29 73.29 0 0 1-39.09 5.99z" })
-        ),
-        zz4: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 0l-262.1 116.26a73.29 73.29 0 0 1-39.09 6L0 0v140h1280z" })
-        ),
-        zz5: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M978.81 122.25L0 0h1280l-262.1 116.26a73.29 73.29 0 0 1-39.09 5.99z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M983.19 95.23L0 0h1280l-266 91.52a72.58 72.58 0 0 1-30.81 3.71z" })
-        ),
-        zz6: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M1280 0l-266 91.52a72.59 72.59 0 0 1-30.76 3.71L0 0v140h1280z", "fill-opacity": ".5" }),
-            React.createElement("path", { d: "M1280 0l-262.1 116.26a73.29 73.29 0 0 1-39.09 6L0 0v140h1280z" })
-        ),
-        zz7: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M1280 0l-131.81 111.68c-16.47 14-35.47 21-54.71 20.17L173 94a76.85 76.85 0 0 1-36.79-11.46L0 0z" })
-        ),
-        zz8: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M1093.48 131.85L173 94a76.85 76.85 0 0 1-36.79-11.46L0 0v140h1280V0l-131.81 111.68c-16.47 13.96-35.47 20.96-54.71 20.17z" })
-        ),
-        zz9: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M1093.48 131.85L173 94a76.85 76.85 0 0 1-36.79-11.46L0 0h1280l-131.81 111.68c-16.47 13.96-35.47 20.96-54.71 20.17z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", {
-                d: "M1094.44 119L172.7 68.72a74.54 74.54 0 0 1-25.19-5.95L0 0h1280l-133.85 102c-15.84 12.09-33.7 17.95-51.71 17z" })
-        ),
-        zz10: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M1094.44 119L172.7 68.72a74.54 74.54 0 0 1-25.19-5.95L0 0v140h1280V0l-133.85 102c-15.84 12.09-33.7 17.95-51.71 17z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", {
-                d: "M1093.48 131.85L173 94a76.85 76.85 0 0 1-36.79-11.46L0 0v140h1280V0l-131.81 111.68c-16.47 13.96-35.47 20.96-54.71 20.17z" })
-        ),
-        wv1: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M320 28C160 28 80 49 0 70V0h1280v70c-80 21-160 42-320 42-320 0-320-84-640-84z" })
-        ),
-        wv2: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M320 28c320 0 320 84 640 84 160 0 240-21 320-42v70H0V70c80-21 160-42 320-42z" })
-        ),
-        wv3: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M0 51.76c36.21-2.25 77.57-3.58 126.42-3.58 320 0 320 57 640 57 271.15 0 312.58-40.91 513.58-53.4V0H0z",
-                "fill-opacity": ".3" }),
-            React.createElement("path", {
-                d: "M0 24.31c43.46-5.69 94.56-9.25 158.42-9.25 320 0 320 89.24 640 89.24 256.13 0 307.28-57.16 481.58-80V0H0z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", {
-                d: "M0 0v3.4C28.2 1.6 59.4.59 94.42.59c320 0 320 84.3 640 84.3 285 0 316.17-66.85 545.58-81.49V0z" })
-        ),
-        wv4: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M1280 3.4C1050.59 18 1019.4 84.89 734.42 84.89c-320 0-320-84.3-640-84.3C59.4.59 28.2 1.6 0 3.4V140h1280z",
-                "fill-opacity": ".3" }),
-            React.createElement("path", {
-                d: "M0 24.31c43.46-5.69 94.56-9.25 158.42-9.25 320 0 320 89.24 640 89.24 256.13 0 307.28-57.16 481.58-80V140H0z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", {
-                d: "M1280 51.76c-201 12.49-242.43 53.4-513.58 53.4-320 0-320-57-640-57-48.85.01-90.21 1.35-126.42 3.6V140h1280z" })
-        ),
-        wv5: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M0 0v100c20 17.3 40 29.51 80 29.51 51.79 0 74.69-48.57 151.75-48.57 73.72 0 91 54.88 191.56 54.88C543.95 135.8 554 14 665.69 14c109.46 0 98.85 87 188.2 87 70.37 0 69.81-33.73 115.6-33.73 55.85 0 62 39.62 115.6 39.62 58.08 0 57.52-46.59 115-46.59 39.8 0 60 22.48 79.89 39.69V0z" })
-        ),
-        wv6: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M1280 86c-19.9-17.21-40.08-39.69-79.89-39.69-57.49 0-56.93 46.59-115 46.59-53.61 0-59.76-39.62-115.6-39.62C923.7 53.27 924.26 87 853.89 87c-89.35 0-78.74-87-188.2-87C554 0 543.95 121.8 423.32 121.8c-100.52 0-117.84-54.88-191.56-54.88-77.06 0-100 48.57-151.75 48.57-40 0-60-12.21-80-29.51v54H1280z" })
-        ),
-        wv7: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M504.854,80.066c7.812,0,14.893,0.318,21.41,0.879 c-25.925,22.475-56.093,40.852-102.946,40.852c-20.779,0-37.996-2.349-52.898-6.07C413.517,107.295,434.056,80.066,504.854,80.066z M775.938,51.947c19.145,18.596,39.097,35.051,77.956,35.051c46.907,0,62.299-14.986,80.912-24.98 c-21.357-15.783-46.804-28.348-85.489-28.348C816.829,33.671,794.233,41.411,775.938,51.947z",
-                "fill-opacity": ".3" }),
-            React.createElement("path", {
-                d: "M1200.112,46.292c39.804,0,59.986,22.479,79.888,39.69v16.805 c-19.903-10.835-40.084-21.777-79.888-21.777c-72.014,0-78.715,43.559-147.964,43.559c-56.84,0-81.247-35.876-117.342-62.552 c9.309-4.998,19.423-8.749,34.69-8.749c55.846,0,61.99,39.617,115.602,39.617C1143.177,92.887,1142.618,46.292,1200.112,46.292z M80.011,115.488c-40.006,0-60.008-12.206-80.011-29.506v16.806c20.003,10.891,40.005,21.782,80.011,21.782 c80.004,0,78.597-30.407,137.669-30.407c55.971,0,62.526,24.026,126.337,24.026c9.858,0,18.509-0.916,26.404-2.461 c-57.186-14.278-80.177-48.808-138.66-48.808C154.698,66.919,131.801,115.488,80.011,115.488z M526.265,80.945 c56.848,4.902,70.056,28.726,137.193,28.726c54.001,0,73.43-35.237,112.48-57.724C751.06,27.782,727.548,0,665.691,0 C597.381,0,567.086,45.555,526.265,80.945z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", {
-                d: "M0,0v85.982c20.003,17.3,40.005,29.506,80.011,29.506c51.791,0,74.688-48.569,151.751-48.569 c58.482,0,81.473,34.531,138.66,48.808c43.096-8.432,63.634-35.662,134.433-35.662c7.812,0,14.893,0.318,21.41,0.879 C567.086,45.555,597.381,0,665.691,0c61.856,0,85.369,27.782,110.246,51.947c18.295-10.536,40.891-18.276,73.378-18.276 c38.685,0,64.132,12.564,85.489,28.348c9.309-4.998,19.423-8.749,34.69-8.749c55.846,0,61.99,39.617,115.602,39.617 c58.08,0,57.521-46.595,115.015-46.595c39.804,0,59.986,22.479,79.888,39.69V0H0z" })
-        ),
-        wv8: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", {
-                d: "M853.893,86.998c-38.859,0-58.811-16.455-77.956-35.051c18.295-10.536,40.891-18.276,73.378-18.276 c38.685,0,64.132,12.564,85.489,28.347C916.192,72.012,900.8,86.998,853.893,86.998z M526.265,80.945 c-6.517-0.562-13.599-0.879-21.41-0.879c-70.799,0-91.337,27.229-134.433,35.662c14.901,3.72,32.118,6.07,52.898,6.07 C470.171,121.797,500.34,103.421,526.265,80.945z",
-                "fill-opacity": ".3" }),
-            React.createElement("path", {
-                d: "M663.458,109.671c-67.137,0-80.345-23.824-137.193-28.726C567.086,45.555,597.381,0,665.691,0 c61.857,0,85.369,27.782,110.246,51.947C736.888,74.434,717.459,109.671,663.458,109.671z M217.68,94.163 c55.971,0,62.526,24.026,126.337,24.026c9.858,0,18.508-0.916,26.404-2.461c-57.186-14.278-80.177-48.808-138.659-48.808 c-77.063,0-99.96,48.569-151.751,48.569c-40.006,0-60.008-12.206-80.011-29.506v16.806c20.003,10.891,40.005,21.782,80.011,21.782 C160.014,124.57,158.608,94.163,217.68,94.163z M1200.112,46.292c-57.493,0-56.935,46.595-115.015,46.595 c-53.612,0-59.755-39.618-115.602-39.618c-15.267,0-25.381,3.751-34.69,8.749c36.096,26.675,60.503,62.552,117.342,62.552 c69.249,0,75.951-43.559,147.964-43.559c39.804,0,59.986,10.943,79.888,21.777V85.982 C1260.097,68.771,1239.916,46.292,1200.112,46.292z",
-                "fill-opacity": ".5" }),
-            React.createElement("path", {
-                d: "M1052.147,124.57c-56.84,0-81.247-35.876-117.342-62.552c-18.613,9.994-34.005,24.98-80.912,24.98 c-38.859,0-58.811-16.455-77.956-35.051c-39.05,22.487-58.479,57.724-112.48,57.724c-67.137,0-80.345-23.824-137.193-28.726 c-25.925,22.475-56.093,40.852-102.946,40.852c-20.779,0-37.996-2.349-52.898-6.07c-7.895,1.545-16.546,2.461-26.404,2.461 c-63.811,0-70.366-24.026-126.337-24.026c-59.072,0-57.665,30.407-137.669,30.407c-40.006,0-60.008-10.891-80.011-21.782V140h1280 v-37.212c-19.903-10.835-40.084-21.777-79.888-21.777C1128.098,81.011,1121.397,124.57,1052.147,124.57z" })
-        )
-    };
-
-    // Register extra attributes to separator blocks
-    addFilter('blocks.registerBlockType', 'advgb/registerExtraBlocksAttrs', function (settings) {
-        if (!!settings.attributes) {
-            settings.attributes = _extends(settings.attributes, {
-                blockID: {
-                    type: 'string'
-                },
-                blockWidth: {
-                    type: 'number'
-                },
-                blockBgColor: {
-                    type: 'string'
-                },
-                blockBgImage: {
-                    type: 'string'
-                },
-                blockBgImageID: {
-                    type: 'number'
-                },
-                blockBgImageSize: {
-                    type: 'string'
-                },
-                blockBgImageSizeCustom: {
-                    type: 'number'
-                },
-                blockBgImageAlignH: {
-                    type: 'string'
-                },
-                blockBgImageAlignV: {
-                    type: 'string'
-                },
-                blockOverlayDisplay: {
-                    type: 'boolean'
-                },
-                blockOverlayColor: {
-                    type: 'string'
-                },
-                blockOverlayOpacity: {
-                    type: 'number'
-                },
-                blockTopDivider: {
-                    type: 'string'
-                },
-                blockTopDividerColor: {
-                    type: 'string'
-                },
-                blockTopDividerHeight: {
-                    type: 'number'
-                },
-                blockTopDividerPosition: {
-                    type: 'number'
-                },
-                blockTopDividerRotateX: {
-                    type: 'boolean'
-                },
-                blockTopDividerRotateY: {
-                    type: 'boolean'
-                },
-                blockTopDividerOnTop: {
-                    type: 'boolean'
-                },
-                blockBottomDivider: {
-                    type: 'string'
-                },
-                blockBottomDividerColor: {
-                    type: 'string'
-                },
-                blockBottomDividerHeight: {
-                    type: 'number'
-                },
-                blockBottomDividerPosition: {
-                    type: 'number'
-                },
-                blockBottomDividerRotateX: {
-                    type: 'boolean'
-                },
-                blockBottomDividerRotateY: {
-                    type: 'boolean'
-                },
-                blockBottomDividerOnTop: {
-                    type: 'boolean'
-                }
-            });
-        }
-
-        return settings;
-    });
-
-    // Add option to select styles for separator
-    addFilter('editor.BlockEdit', 'advgb/addExtraBlocksStyle', function (BlockEdit) {
-        return function (props) {
-            var attributes = props.attributes,
-                setAttributes = props.setAttributes,
-                clientId = props.clientId;
-            var blockID = attributes.blockID,
-                blockWidth = attributes.blockWidth,
-                blockBgColor = attributes.blockBgColor,
-                blockBgImage = attributes.blockBgImage,
-                blockBgImageID = attributes.blockBgImageID,
-                blockBgImageSize = attributes.blockBgImageSize,
-                blockBgImageSizeCustom = attributes.blockBgImageSizeCustom,
-                blockBgImageAlignH = attributes.blockBgImageAlignH,
-                blockBgImageAlignV = attributes.blockBgImageAlignV,
-                blockOverlayDisplay = attributes.blockOverlayDisplay,
-                blockOverlayColor = attributes.blockOverlayColor,
-                blockOverlayOpacity = attributes.blockOverlayOpacity,
-                blockTopDivider = attributes.blockTopDivider,
-                blockTopDividerColor = attributes.blockTopDividerColor,
-                blockTopDividerHeight = attributes.blockTopDividerHeight,
-                blockTopDividerPosition = attributes.blockTopDividerPosition,
-                blockTopDividerRotateX = attributes.blockTopDividerRotateX,
-                blockTopDividerRotateY = attributes.blockTopDividerRotateY,
-                blockTopDividerOnTop = attributes.blockTopDividerOnTop,
-                blockBottomDivider = attributes.blockBottomDivider,
-                blockBottomDividerColor = attributes.blockBottomDividerColor,
-                blockBottomDividerHeight = attributes.blockBottomDividerHeight,
-                blockBottomDividerPosition = attributes.blockBottomDividerPosition,
-                blockBottomDividerRotateX = attributes.blockBottomDividerRotateX,
-                blockBottomDividerRotateY = attributes.blockBottomDividerRotateY,
-                blockBottomDividerOnTop = attributes.blockBottomDividerOnTop;
-
-
-            var topDividerMod = [blockTopDividerRotateX && 'rotateX(180deg)', blockTopDividerRotateY && 'rotateY(180deg)'].filter(Boolean).join(' ');
-            var topDividerElm = React.createElement(
-                "svg",
-                { width: "100%", viewBox: "0 0 1280 140", preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg",
-                    style: {
-                        transform: topDividerMod ? topDividerMod : undefined
-                    }
-                },
-                React.createElement(
-                    "g",
-                    { fill: blockTopDividerColor },
-                    DIVIDER_STYLES[blockTopDivider]
-                )
-            );
-            var topDividerString = blockTopDivider ? renderToString(topDividerElm).replace(/preserveaspectratio/g, 'preserveAspectRatio').replace(/viewbox/g, 'viewBox') : '';
-            var topDividerURI = topDividerString ? "data:image/svg+xml;base64," + window.btoa(topDividerString) : '';
-
-            var bottomDividerMod = [blockBottomDividerRotateX && 'rotateX(180deg)', blockBottomDividerRotateY && 'rotateY(180deg)'].filter(Boolean).join(' ');
-            var bottomDividerElm = React.createElement(
-                "svg",
-                { width: "100%", viewBox: "0 0 1280 140", preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg",
-                    style: {
-                        transform: bottomDividerMod ? bottomDividerMod : undefined
-                    }
-                },
-                React.createElement(
-                    "g",
-                    { fill: blockBottomDividerColor },
-                    DIVIDER_STYLES[blockBottomDivider]
-                )
-            );
-            var bottomDividerString = blockBottomDivider ? renderToString(bottomDividerElm).replace(/preserveaspectratio/g, 'preserveAspectRatio').replace(/viewbox/g, 'viewBox') : '';
-            var bottomDividerURI = bottomDividerString ? "data:image/svg+xml;base64," + window.btoa(bottomDividerString) : '';
-
-            return React.createElement(
-                Fragment,
-                null,
-                React.createElement(BlockEdit, props),
-                typeof agTheme !== 'undefined' && !!agTheme.activated && props.name === 'advgb/columns' && React.createElement(
-                    InspectorControls,
-                    null,
-                    React.createElement(
-                        PanelBody,
-                        { title: __('Blocks Settings', 'advanced-gutenberg') },
-                        React.createElement(RangeControl, {
-                            label: __('Block width (%)', 'advanced-gutenberg'),
-                            value: blockWidth,
-                            min: 10,
-                            max: 100,
-                            onChange: function onChange(value) {
-                                return setAttributes({ blockWidth: value });
-                            },
-                            allowReset: true
-                        }),
-                        React.createElement(PanelColorSettings, {
-                            title: __('Block Color', 'advanced-gutenberg'),
-                            initialOpen: false,
-                            colorSettings: [{
-                                label: __('Background color', 'advanced-gutenberg'),
-                                value: blockBgColor,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ blockBgColor: value });
-                                }
-                            }, {
-                                label: __('Overlay color', 'advanced-gutenberg'),
-                                value: blockOverlayColor,
-                                onChange: function onChange(value) {
-                                    if (!blockID) setAttributes({ blockID: 'advgb-block-' + clientId });
-                                    if (!value) setAttributes({ blockID: undefined });
-                                    return setAttributes({ blockOverlayColor: value });
-                                }
-                            }]
-                        }),
-                        blockOverlayColor && React.createElement(
-                            PanelBody,
-                            { title: __('Overlay settings', 'advanced-gutenberg') },
-                            React.createElement(RangeControl, {
-                                label: __('Overlay opacity (%)', 'advanced-gutenberg'),
-                                value: blockOverlayOpacity,
-                                min: 10,
-                                max: 90,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ blockOverlayOpacity: value });
-                                }
-                            }),
-                            React.createElement(ToggleControl, {
-                                label: __('Always show overlay', 'advanced-gutenberg'),
-                                checked: blockOverlayDisplay,
-                                onChange: function onChange() {
-                                    return setAttributes({ blockOverlayDisplay: !blockOverlayDisplay });
-                                }
-                            })
-                        ),
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Block Background', 'advanced-gutenberg'), initialOpen: false },
-                            React.createElement(MediaUpload, {
-                                allowedTypes: ["image"],
-                                value: blockBgImageID,
-                                onSelect: function onSelect(image) {
-                                    return setAttributes({
-                                        blockBgImage: image.url,
-                                        blockBgImageID: image.id
-                                    });
-                                },
-                                render: function render(_ref) {
-                                    var open = _ref.open;
-
-                                    return React.createElement(
-                                        BaseControl,
-                                        { label: [__('Background Image', 'advanced-gutenberg'), blockBgImage && React.createElement(
-                                                "a",
-                                                { key: "icon-remove",
-                                                    style: { marginLeft: '10px', cursor: 'pointer' },
-                                                    onClick: function onClick() {
-                                                        return setAttributes({
-                                                            blockBgImage: undefined,
-                                                            blockBgImageID: undefined
-                                                        });
-                                                    }
-                                                },
-                                                __('Remove', 'advanced-gutenberg')
-                                            )]
-                                        },
-                                        React.createElement(
-                                            Button,
-                                            { className: 'button button-large',
-                                                onClick: open
-                                            },
-                                            __('Choose', 'advanced-gutenberg')
-                                        ),
-                                        !!blockBgImage && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
-                                            src: blockBgImage,
-                                            alt: __('Background image', 'advanced-gutenberg') })
-                                    );
-                                }
-                            }),
-                            !!blockBgImage && React.createElement(
-                                PanelBody,
-                                { title: __('Background Image Options', 'advanced-gutenberg') },
-                                React.createElement(SelectControl, {
-                                    label: __('Image Size', 'advanced-gutenberg'),
-                                    value: blockBgImageSize,
-                                    options: [{ label: __('Auto', 'advanced-gutenberg'), value: 'auto' }, { label: __('Fit height', 'advanced-gutenberg'), value: 'contain' }, { label: __('Fit width', 'advanced-gutenberg'), value: 'cover' }, { label: __('Custom', 'advanced-gutenberg'), value: 'custom' }],
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockBgImageSize: value });
-                                    }
-                                }),
-                                blockBgImageSize === 'custom' && React.createElement(RangeControl, {
-                                    label: __('Image size (%)', 'advanced-gutenberg'),
-                                    value: blockBgImageSizeCustom,
-                                    min: 1,
-                                    max: 100,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockBgImageSizeCustom: value });
-                                    }
-                                }),
-                                React.createElement(SelectControl, {
-                                    label: __('Horizontal Align', 'advanced-gutenberg'),
-                                    value: blockBgImageAlignH,
-                                    options: [{ label: __('Left', 'advanced-gutenberg'), value: 'left' }, { label: __('Center', 'advanced-gutenberg'), value: 'center' }, { label: __('Right', 'advanced-gutenberg'), value: 'right' }],
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockBgImageAlignH: value });
-                                    }
-                                }),
-                                React.createElement(SelectControl, {
-                                    label: __('Vertical Align', 'advanced-gutenberg'),
-                                    value: blockBgImageAlignV,
-                                    options: [{ label: __('Top', 'advanced-gutenberg'), value: 'top' }, { label: __('Center', 'advanced-gutenberg'), value: 'center' }, { label: __('Bottom', 'advanced-gutenberg'), value: 'bottom' }],
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockBgImageAlignV: value });
-                                    }
-                                })
-                            )
-                        )
-                    ),
-                    React.createElement(
-                        PanelBody,
-                        { title: __('Top Divider', 'advanced-gutenberg'), initialOpen: false },
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Divider Type', 'advanced-gutenberg'), initialOpen: false },
-                            React.createElement(
-                                "div",
-                                { className: "advgb-styles-select-wrapper" },
-                                React.createElement(
-                                    "div",
-                                    { className: "advgb-styles-item no-divider " + (!blockTopDivider && 'selected'),
-                                        onClick: function onClick() {
-                                            return setAttributes({ blockTopDivider: undefined });
-                                        }
-                                    },
-                                    React.createElement(
-                                        "span",
-                                        null,
-                                        __('No divider', 'advanced-gutenberg')
-                                    )
-                                ),
-                                Object.keys(DIVIDER_STYLES).map(function (key, index) {
-                                    return React.createElement(
-                                        "div",
-                                        {
-                                            className: "advgb-styles-item " + (blockTopDivider === key && 'selected'),
-                                            onClick: function onClick() {
-                                                return setAttributes({ blockTopDivider: key });
-                                            },
-                                            key: index
-                                        },
-                                        React.createElement(
-                                            "svg",
-                                            { width: "100%", height: "30px", viewBox: "0 0 1280 140",
-                                                preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" },
-                                            React.createElement(
-                                                "g",
-                                                { fill: "#333" },
-                                                DIVIDER_STYLES[key]
-                                            )
-                                        )
-                                    );
-                                })
-                            )
-                        ),
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Divider Styles', 'advanced-gutenberg'), initialOpen: false },
-                            blockTopDivider ? React.createElement(
-                                Fragment,
-                                null,
-                                React.createElement(
-                                    BaseControl,
-                                    { label: __('Divider Color', 'advanced-gutenberg') },
-                                    React.createElement(ColorPalette, {
-                                        value: blockTopDividerColor,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ blockTopDividerColor: value });
-                                        }
-                                    })
-                                ),
-                                React.createElement(RangeControl, {
-                                    label: __('Divider height(px)', 'advanced-gutenberg'),
-                                    value: blockTopDividerHeight,
-                                    min: 20,
-                                    max: 500,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockTopDividerHeight: value });
-                                    }
-                                }),
-                                React.createElement(RangeControl, {
-                                    label: __('Divider position', 'advanced-gutenberg'),
-                                    value: blockTopDividerPosition,
-                                    min: -100,
-                                    max: 100,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockTopDividerPosition: value });
-                                    }
-                                }),
-                                React.createElement(ToggleControl, {
-                                    label: __('Flip Horizontal', 'advanced-gutenberg'),
-                                    checked: blockTopDividerRotateX,
-                                    onChange: function onChange() {
-                                        return setAttributes({ blockTopDividerRotateX: !blockTopDividerRotateX });
-                                    }
-                                }),
-                                React.createElement(ToggleControl, {
-                                    label: __('Flip Vertical', 'advanced-gutenberg'),
-                                    checked: blockTopDividerRotateY,
-                                    onChange: function onChange() {
-                                        return setAttributes({ blockTopDividerRotateY: !blockTopDividerRotateY });
-                                    }
-                                }),
-                                React.createElement(ToggleControl, {
-                                    label: __('Divider on top', 'advanced-gutenberg'),
-                                    help: __('Show divider on top of text', 'advanced-gutenberg'),
-                                    checked: blockTopDividerOnTop,
-                                    onChange: function onChange() {
-                                        return setAttributes({ blockTopDividerOnTop: !blockTopDividerOnTop });
-                                    }
-                                })
-                            ) : __(' Choose styles first', 'advanced-gutenberg')
-                        )
-                    ),
-                    React.createElement(
-                        PanelBody,
-                        { title: __('Bottom Divider', 'advanced-gutenberg'), initialOpen: false },
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Divider Type', 'advanced-gutenberg'), initialOpen: false },
-                            React.createElement(
-                                "div",
-                                { className: "advgb-styles-select-wrapper" },
-                                React.createElement(
-                                    "div",
-                                    { className: "advgb-styles-item no-divider " + (!blockBottomDivider && 'selected'),
-                                        onClick: function onClick() {
-                                            return setAttributes({ blockBottomDivider: undefined });
-                                        }
-                                    },
-                                    React.createElement(
-                                        "span",
-                                        null,
-                                        __('No divider', 'advanced-gutenberg')
-                                    )
-                                ),
-                                Object.keys(DIVIDER_STYLES).map(function (key, index) {
-                                    return React.createElement(
-                                        "div",
-                                        {
-                                            className: "advgb-styles-item " + (blockBottomDivider === key && 'selected'),
-                                            onClick: function onClick() {
-                                                return setAttributes({ blockBottomDivider: key });
-                                            },
-                                            key: index
-                                        },
-                                        React.createElement(
-                                            "svg",
-                                            { width: "100%", height: "30px", viewBox: "0 0 1280 140",
-                                                preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg" },
-                                            React.createElement(
-                                                "g",
-                                                { fill: "#333" },
-                                                DIVIDER_STYLES[key]
-                                            )
-                                        )
-                                    );
-                                })
-                            )
-                        ),
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Divider Styles', 'advanced-gutenberg'), initialOpen: false },
-                            blockBottomDivider ? React.createElement(
-                                Fragment,
-                                null,
-                                React.createElement(
-                                    BaseControl,
-                                    { label: __('Divider Color', 'advanced-gutenberg') },
-                                    React.createElement(ColorPalette, {
-                                        value: blockBottomDividerColor,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ blockBottomDividerColor: value });
-                                        }
-                                    })
-                                ),
-                                React.createElement(RangeControl, {
-                                    label: __('Divider height(px)', 'advanced-gutenberg'),
-                                    value: blockBottomDividerHeight,
-                                    min: 20,
-                                    max: 500,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockBottomDividerHeight: value });
-                                    }
-                                }),
-                                React.createElement(RangeControl, {
-                                    label: __('Divider position', 'advanced-gutenberg'),
-                                    value: blockBottomDividerPosition,
-                                    min: -100,
-                                    max: 100,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ blockBottomDividerPosition: value });
-                                    }
-                                }),
-                                React.createElement(ToggleControl, {
-                                    label: __('Flip Horizontal', 'advanced-gutenberg'),
-                                    checked: blockBottomDividerRotateX,
-                                    onChange: function onChange() {
-                                        return setAttributes({ blockBottomDividerRotateX: !blockBottomDividerRotateX });
-                                    }
-                                }),
-                                React.createElement(ToggleControl, {
-                                    label: __('Flip Vertical', 'advanced-gutenberg'),
-                                    checked: blockBottomDividerRotateY,
-                                    onChange: function onChange() {
-                                        return setAttributes({ blockBottomDividerRotateY: !blockBottomDividerRotateY });
-                                    }
-                                }),
-                                React.createElement(ToggleControl, {
-                                    label: __('Divider on top', 'advanced-gutenberg'),
-                                    help: __('Show divider on top of text', 'advanced-gutenberg'),
-                                    checked: blockBottomDividerOnTop,
-                                    onChange: function onChange() {
-                                        return setAttributes({ blockBottomDividerOnTop: !blockBottomDividerOnTop });
-                                    }
-                                })
-                            ) : __(' Choose styles first', 'advanced-gutenberg')
-                        )
-                    )
-                ),
-                React.createElement(
-                    "style",
-                    null,
-                    "#block-" + clientId + " .editor-block-list__block-edit {\n                          max-width: " + (blockWidth ? parseInt(blockWidth) + 8 : undefined) + "%;\n                      }",
-                    "#block-" + clientId + " > .editor-block-list__block-edit::before {\n                          background-color: " + blockBgColor + ";\n                          background-image: url(" + blockBgImage + ");\n                          background-size: " + (blockBgImageSize === 'custom' ? blockBgImageSizeCustom + '%' : blockBgImageSize) + ";\n                          background-position: " + blockBgImageAlignV + " " + blockBgImageAlignH + ";\n                      }",
-                    "#block-" + clientId + " > .editor-block-list__block-edit::after {\n                          z-index: 9;\n                          background-color: " + blockOverlayColor + ";\n                          " + (blockOverlayDisplay && "opacity: " + (blockOverlayOpacity ? blockOverlayOpacity / 100 : 0.5) + ";") + "\n                      }",
-                    !blockOverlayDisplay && "#block-" + clientId + " > .editor-block-list__block-edit:hover::after {\n                          opacity: " + (blockOverlayOpacity ? blockOverlayOpacity / 100 : 0.5) + ";\n                      }",
-                    blockTopDivider && "#editor div[data-block=\"" + clientId + "\"]:before {\n                          background-image: url(" + topDividerURI + ");\n                          height: " + blockTopDividerHeight + "px;\n                          z-index: " + (blockTopDividerOnTop ? 5 : 0) + ";\n                          top: calc(-2.4% - " + (blockTopDividerPosition ? blockTopDividerPosition : 0) + "%);\n                      }",
-                    blockBottomDivider && "#editor div[data-block=\"" + clientId + "\"]:after {\n                          background-image: url(" + bottomDividerURI + ");\n                          height: " + blockBottomDividerHeight + "px;\n                          z-index: " + (blockBottomDividerOnTop ? 5 : 0) + ";\n                          bottom: calc(-2.4% - " + (blockBottomDividerPosition ? blockBottomDividerPosition : 0) + "%);\n                      }"
-                )
-            );
-        };
-    });
-
-    // Apply custom styles on front-end
-    addFilter('blocks.getSaveContent.extraProps', 'advgb/saveExtraBlocksStyles', function (extraProps, blockType, attributes) {
-        var blockID = attributes.blockID,
-            blockWidth = attributes.blockWidth,
-            blockBgColor = attributes.blockBgColor,
-            blockBgImage = attributes.blockBgImage,
-            blockBgImageSize = attributes.blockBgImageSize,
-            blockBgImageSizeCustom = attributes.blockBgImageSizeCustom,
-            blockBgImageAlignH = attributes.blockBgImageAlignH,
-            blockBgImageAlignV = attributes.blockBgImageAlignV,
-            blockOverlayColor = attributes.blockOverlayColor;
-
-
-        if (blockType.name !== 'advgb/image') {
-            extraProps.style = _extends({}, extraProps.style, {
-                width: blockWidth ? blockWidth + '%' : undefined,
-                backgroundColor: blockBgColor,
-                backgroundImage: blockBgImage ? "url(" + blockBgImage + ")" : undefined,
-                backgroundSize: blockBgImage ? blockBgImageSize === 'custom' ? blockBgImageSizeCustom + '%' : blockBgImageSize : undefined,
-                backgroundPosition: blockBgImage ? blockBgImageAlignV || blockBgImageAlignH ? (blockBgImageAlignV || '') + " " + (blockBgImageAlignH || '') : undefined : undefined,
-                backgroundRepeat: blockBgImage ? 'no-repeat' : undefined
-            });
-        }
-
-        extraProps.id = blockOverlayColor ? blockID : extraProps.id;
-
-        return extraProps;
-    });
-
-    addFilter('blocks.getSaveElement', 'advgb/saveExtraBlocksElement', function (SaveElem, blockType, attributes) {
-        var blockID = attributes.blockID,
-            blockOverlayDisplay = attributes.blockOverlayDisplay,
-            blockOverlayColor = attributes.blockOverlayColor,
-            blockOverlayOpacity = attributes.blockOverlayOpacity,
-            blockTopDivider = attributes.blockTopDivider,
-            blockTopDividerColor = attributes.blockTopDividerColor,
-            blockTopDividerHeight = attributes.blockTopDividerHeight,
-            blockTopDividerPosition = attributes.blockTopDividerPosition,
-            blockTopDividerRotateX = attributes.blockTopDividerRotateX,
-            blockTopDividerRotateY = attributes.blockTopDividerRotateY,
-            blockTopDividerOnTop = attributes.blockTopDividerOnTop,
-            blockBottomDivider = attributes.blockBottomDivider,
-            blockBottomDividerColor = attributes.blockBottomDividerColor,
-            blockBottomDividerHeight = attributes.blockBottomDividerHeight,
-            blockBottomDividerPosition = attributes.blockBottomDividerPosition,
-            blockBottomDividerRotateX = attributes.blockBottomDividerRotateX,
-            blockBottomDividerRotateY = attributes.blockBottomDividerRotateY,
-            blockBottomDividerOnTop = attributes.blockBottomDividerOnTop;
-
-
-        if (blockOverlayColor || blockTopDivider || blockBottomDivider) {
-            var topDividerMod = [blockTopDividerRotateX && 'rotateX(180deg)', blockTopDividerRotateY && 'rotateY(180deg)'].filter(Boolean).join(' ');
-            var topDividerElm = React.createElement(
-                "svg",
-                { width: "100%", viewBox: "0 0 1280 140", preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg",
-                    style: {
-                        transform: topDividerMod ? topDividerMod : undefined
-                    }
-                },
-                React.createElement(
-                    "g",
-                    { fill: blockTopDividerColor },
-                    DIVIDER_STYLES[blockTopDivider]
-                )
-            );
-            var topDividerString = blockTopDivider ? renderToString(topDividerElm).replace(/preserveaspectratio/g, 'preserveAspectRatio').replace(/viewbox/g, 'viewBox') : '';
-            var topDividerURI = topDividerString ? "data:image/svg+xml;base64," + window.btoa(topDividerString) : '';
-
-            var bottomDividerMod = [blockBottomDividerRotateX && 'rotateX(180deg)', blockBottomDividerRotateY && 'rotateY(180deg)'].filter(Boolean).join(' ');
-            var bottomDividerElm = React.createElement(
-                "svg",
-                { width: "100%", viewBox: "0 0 1280 140", preserveAspectRatio: "none", xmlns: "http://www.w3.org/2000/svg",
-                    style: {
-                        transform: bottomDividerMod ? bottomDividerMod : undefined
-                    }
-                },
-                React.createElement(
-                    "g",
-                    { fill: blockBottomDividerColor },
-                    DIVIDER_STYLES[blockBottomDivider]
-                )
-            );
-            var bottomDividerString = blockBottomDivider ? renderToString(bottomDividerElm).replace(/preserveaspectratio/g, 'preserveAspectRatio').replace(/viewbox/g, 'viewBox') : '';
-            var bottomDividerURI = bottomDividerString ? "data:image/svg+xml;base64," + window.btoa(bottomDividerString) : '';
-            var wrapperClasses = ['advgb-block-wrapper', attributes.className].filter(Boolean).join(' ');
-
-            return React.createElement(
-                "div",
-                { className: wrapperClasses, style: { position: 'relative', zIndex: 5 } },
-                blockTopDivider && React.createElement("div", { className: "advgb-block-top-divider",
-                    style: {
-                        backgroundImage: "url(" + topDividerURI + ")",
-                        height: blockTopDividerHeight,
-                        top: "calc(0% - " + (blockTopDividerPosition ? blockTopDividerPosition : 0) + "%)",
-                        zIndex: blockTopDividerOnTop ? 5 : 0
-                    }
-                }),
-                SaveElem,
-                blockBottomDivider && React.createElement("div", { className: "advgb-block-bottom-divider",
-                    style: {
-                        backgroundImage: "url(" + bottomDividerURI + ")",
-                        height: blockBottomDividerHeight,
-                        bottom: "calc(0% - " + (blockBottomDividerPosition ? blockBottomDividerPosition : 0) + "%)",
-                        zIndex: blockBottomDividerOnTop ? 5 : 0
-                    }
-                }),
-                blockOverlayColor && React.createElement(
-                    "style",
-                    null,
-                    "#" + blockID + ":before {\n                              content: '';display: block;position: absolute;pointer-events: none;\n                              top: 0;left:0;right:0;bottom: 0;opacity: 0;z-index: 9;\n                              background-color: " + blockOverlayColor + ";\n                              " + (blockOverlayDisplay && "opacity: " + (blockOverlayOpacity ? blockOverlayOpacity / 100 : 0.5) + ";") + "\n                          }",
-                    !blockOverlayDisplay && "#" + blockID + ":hover:before {\n                              opacity: " + (blockOverlayOpacity ? blockOverlayOpacity / 100 : 0.5) + ";\n                          }"
-                )
-            );
-        }
-
-        return SaveElem;
-    });
-})(wp.i18n, wp.hooks, wp.blockEditor, wp.components, wp.element);
-
-/***/ }),
-
 /***/ "./assets/blocks/accordion/block.jsx":
 /*!*******************************************!*\
   !*** ./assets/blocks/accordion/block.jsx ***!
@@ -1122,71 +222,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         )
     };
 
-    var COLLAPSE_ICONS = {
-        remove: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M19 13H5v-2h14v2z" }),
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
-        ),
-        removeCircle: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
-            React.createElement("path", { d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z" })
-        ),
-        removeCircleOutline: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
-            React.createElement("path", { d: "M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
-        ),
-        close: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" }),
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
-        ),
-        closeCircle: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" }),
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
-        ),
-        closeCircleOutline: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
-            React.createElement("path", { d: "M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
-        ),
-        closeBox: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" }),
-            React.createElement("path", { fill: "none", d: "M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" }),
-            React.createElement("path", { d: "M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z" }),
-            React.createElement("path", { fill: "none", d: "M0 0h24v24H0z" })
-        ),
-        unfoldLess: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
-            React.createElement("path", { d: "M7.41 18.59L8.83 20 12 16.83 15.17 20l1.41-1.41L12 14l-4.59 4.59zm9.18-13.18L15.17 4 12 7.17 8.83 4 7.41 5.41 12 10l4.59-4.59z" })
-        ),
-        arrowUp: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { d: "M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" }),
-            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
-        ),
-        power: React.createElement(
-            Fragment,
-            null,
-            React.createElement("path", { fill: "none", d: "M0 0h24v24H0z" }),
-            React.createElement("path", { d: "M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" })
-        )
-    };
-
     var AdvAccordion = function (_Component) {
         _inherits(AdvAccordion, _Component);
 
@@ -1237,8 +272,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     headerTextColor = attributes.headerTextColor,
                     headerIcon = attributes.headerIcon,
                     headerIconColor = attributes.headerIconColor,
-                    collapseIcon = attributes.collapseIcon,
-                    collapseIconColor = attributes.collapseIconColor,
                     bodyBgColor = attributes.bodyBgColor,
                     bodyTextColor = attributes.bodyTextColor,
                     borderStyle = attributes.borderStyle,
@@ -1282,71 +315,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             PanelBody,
                             { title: __('Header Settings', 'advanced-gutenberg') },
                             React.createElement(
-                                PanelBody,
-                                { title: __('Icon styles'), initialOpen: false },
+                                BaseControl,
+                                { label: __('Header Icon Style', 'advanced-gutenberg') },
                                 React.createElement(
-                                    BaseControl,
-                                    { label: __('Expand Icon', 'advanced-gutenberg') },
-                                    React.createElement(
-                                        "div",
-                                        { className: "advgb-icon-items-wrapper" },
-                                        Object.keys(HEADER_ICONS).map(function (key, index) {
-                                            return React.createElement(
-                                                "div",
-                                                { className: "advgb-icon-item", key: index },
-                                                React.createElement(
-                                                    "span",
-                                                    { className: key === headerIcon ? 'active' : '',
-                                                        onClick: function onClick() {
-                                                            return setAttributes({ headerIcon: key });
-                                                        } },
-                                                    React.createElement(
-                                                        "svg",
-                                                        { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
-                                                        HEADER_ICONS[key]
-                                                    )
-                                                )
-                                            );
-                                        })
-                                    )
-                                ),
-                                React.createElement(
-                                    BaseControl,
-                                    { label: __('Collapse Icon') },
-                                    React.createElement(
-                                        "div",
-                                        { className: "advgb-icon-items-wrapper" },
-                                        Object.keys(COLLAPSE_ICONS).map(function (key, index) {
-                                            return React.createElement(
-                                                "div",
-                                                { className: "advgb-icon-item", key: index },
-                                                React.createElement(
-                                                    "span",
-                                                    { className: key === collapseIcon ? 'active' : '',
-                                                        onClick: function onClick() {
-                                                            return setAttributes({ collapseIcon: key });
-                                                        } },
-                                                    React.createElement(
-                                                        "svg",
-                                                        { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
-                                                        COLLAPSE_ICONS[key]
-                                                    )
-                                                )
-                                            );
-                                        }),
-                                        React.createElement(
+                                    "div",
+                                    { className: "advgb-icon-items-wrapper" },
+                                    Object.keys(HEADER_ICONS).map(function (key, index) {
+                                        return React.createElement(
                                             "div",
-                                            { className: "advgb-icon-item" },
+                                            { className: "advgb-icon-item", key: index },
                                             React.createElement(
                                                 "span",
-                                                { className: !collapseIcon || '' === collapseIcon ? 'active' : '',
+                                                { className: key === headerIcon ? 'active' : '',
                                                     onClick: function onClick() {
-                                                        return setAttributes({ collapseIcon: '' });
+                                                        return setAttributes({ headerIcon: key });
                                                     } },
-                                                __('None')
+                                                React.createElement(
+                                                    "svg",
+                                                    { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                                                    HEADER_ICONS[key]
+                                                )
                                             )
-                                        )
-                                    )
+                                        );
+                                    })
                                 )
                             ),
                             React.createElement(PanelColorSettings, {
@@ -1365,16 +356,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return setAttributes({ headerTextColor: value === undefined ? '#eee' : value });
                                     }
                                 }, {
-                                    label: __('Expand Icon Color', 'advanced-gutenberg'),
+                                    label: __('Icon Color', 'advanced-gutenberg'),
                                     value: headerIconColor,
                                     onChange: function onChange(value) {
                                         return setAttributes({ headerIconColor: value === undefined ? '#fff' : value });
-                                    }
-                                }, {
-                                    label: __('Collapse Icon Color'),
-                                    value: collapseIconColor,
-                                    onChange: function onChange(value) {
-                                        return setAttributes({ collapseIconColor: value === undefined ? '#fff' : value });
                                     }
                                 }]
                             })
@@ -1539,13 +524,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: '#fff'
         },
-        collapseIcon: {
-            type: 'string'
-        },
-        collapseIconColor: {
-            type: 'string',
-            default: '#fff'
-        },
         bodyBgColor: {
             type: 'string'
         },
@@ -1602,8 +580,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 headerTextColor = attributes.headerTextColor,
                 headerIcon = attributes.headerIcon,
                 headerIconColor = attributes.headerIconColor,
-                collapseIcon = attributes.collapseIcon,
-                collapseIconColor = attributes.collapseIconColor,
                 bodyBgColor = attributes.bodyBgColor,
                 bodyTextColor = attributes.bodyTextColor,
                 borderStyle = attributes.borderStyle,
@@ -1636,15 +612,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             "svg",
                             { fill: headerIconColor, xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
                             HEADER_ICONS[headerIcon]
-                        )
-                    ),
-                    collapseIcon && React.createElement(
-                        "span",
-                        { className: "advgb-accordion-header-icon collapse-icon" },
-                        React.createElement(
-                            "svg",
-                            { fill: collapseIconColor, xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
-                            COLLAPSE_ICONS[collapseIcon]
                         )
                     ),
                     React.createElement(
@@ -1711,8 +678,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var registerBlockType = wpBlocks.registerBlockType;
     var _wpBlockEditor = wpBlockEditor,
         RichText = _wpBlockEditor.RichText,
-        InnerBlocks = _wpBlockEditor.InnerBlocks;
-    var select = wp.data.select;
+        InnerBlocks = _wpBlockEditor.InnerBlocks,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings;
+    var RangeControl = wpComponents.RangeControl,
+        PanelBody = wpComponents.PanelBody,
+        BaseControl = wpComponents.BaseControl,
+        SelectControl = wpComponents.SelectControl,
+        ToggleControl = wpComponents.ToggleControl;
+    var _wp$data = wp.data,
+        select = _wp$data.select,
+        dispatch = _wp$data.dispatch;
 
 
     var HEADER_ICONS = {
@@ -1767,7 +743,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function AccordionItemEdit() {
             _classCallCheck(this, AccordionItemEdit);
 
-            return _possibleConstructorReturn(this, (AccordionItemEdit.__proto__ || Object.getPrototypeOf(AccordionItemEdit)).apply(this, arguments));
+            var _this = _possibleConstructorReturn(this, (AccordionItemEdit.__proto__ || Object.getPrototypeOf(AccordionItemEdit)).apply(this, arguments));
+
+            _this.updateAccordionAttrs = _this.updateAccordionAttrs.bind(_this);
+            return _this;
         }
 
         _createClass(AccordionItemEdit, [{
@@ -1799,11 +778,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
             }
         }, {
+            key: "updateAccordionAttrs",
+            value: function updateAccordionAttrs(attrs) {
+                var clientId = this.props.clientId;
+
+                var _ref2 = !wp.blockEditor ? dispatch('core/editor') : dispatch('core/block-editor'),
+                    updateBlockAttributes = _ref2.updateBlockAttributes;
+
+                var _ref3 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockOrder = _ref3.getBlockOrder,
+                    getBlockRootClientId = _ref3.getBlockRootClientId;
+
+                var rootBlockId = getBlockRootClientId(clientId);
+                var childBlocks = getBlockOrder(rootBlockId);
+
+                updateBlockAttributes(rootBlockId, attrs);
+                childBlocks.forEach(function (childBlockId) {
+                    return updateBlockAttributes(childBlockId, attrs);
+                });
+            }
+        }, {
             key: "render",
             value: function render() {
+                var _this2 = this;
+
                 var _props2 = this.props,
                     attributes = _props2.attributes,
-                    setAttributes = _props2.setAttributes;
+                    setAttributes = _props2.setAttributes,
+                    clientId = _props2.clientId;
                 var header = attributes.header,
                     headerBgColor = attributes.headerBgColor,
                     headerTextColor = attributes.headerTextColor,
@@ -1814,60 +816,216 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     borderStyle = attributes.borderStyle,
                     borderWidth = attributes.borderWidth,
                     borderColor = attributes.borderColor,
-                    borderRadius = attributes.borderRadius;
+                    borderRadius = attributes.borderRadius,
+                    marginBottom = attributes.marginBottom,
+                    blockCollapsed = attributes.collapsedAll;
 
+                var _ref4 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockRootClientId = _ref4.getBlockRootClientId,
+                    getBlockAttributes = _ref4.getBlockAttributes;
+
+                var _ref5 = !wp.blockEditor ? dispatch('core/editor') : dispatch('core/block-editor'),
+                    updateBlockAttributes = _ref5.updateBlockAttributes;
+
+                var rootBlockId = getBlockRootClientId(clientId);
+                var rootBlockAttrs = getBlockAttributes(rootBlockId);
+                var collapsedAll = rootBlockAttrs.collapsedAll;
+
+                if (blockCollapsed !== collapsedAll) setAttributes({ collapsedAll: collapsedAll });
 
                 return React.createElement(
-                    "div",
-                    { className: "advgb-accordion-item" },
+                    Fragment,
+                    null,
                     React.createElement(
-                        "div",
-                        { className: "advgb-accordion-header",
-                            style: {
-                                backgroundColor: headerBgColor,
-                                color: headerTextColor,
-                                borderStyle: borderStyle,
-                                borderWidth: borderWidth + 'px',
-                                borderColor: borderColor,
-                                borderRadius: borderRadius + 'px'
-                            }
-                        },
+                        InspectorControls,
+                        null,
                         React.createElement(
-                            "span",
-                            { className: "advgb-accordion-header-icon" },
-                            React.createElement(
-                                "svg",
-                                { fill: headerIconColor, xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
-                                HEADER_ICONS[headerIcon]
-                            )
+                            PanelBody,
+                            { title: __('Accordion Settings', 'advanced-gutenberg') },
+                            React.createElement(RangeControl, {
+                                label: __('Bottom spacing', 'advanced-gutenberg'),
+                                value: marginBottom,
+                                help: __('Define space between each accordion (Frontend view only)', 'advanced-gutenberg'),
+                                min: 0,
+                                max: 50,
+                                onChange: function onChange(value) {
+                                    return _this2.updateAccordionAttrs({ marginBottom: value });
+                                }
+                            }),
+                            React.createElement(ToggleControl, {
+                                label: __('Initial Collapsed', 'advanced-gutenberg'),
+                                help: __('Make all accordions collapsed by default.', 'advanced-gutenberg'),
+                                checked: collapsedAll,
+                                onChange: function onChange() {
+                                    updateBlockAttributes(rootBlockId, { collapsedAll: !collapsedAll });
+                                    setAttributes({ collapsedAll: !collapsedAll });
+                                }
+                            })
                         ),
-                        React.createElement(RichText, {
-                            tagName: "h4",
-                            value: header,
-                            onChange: function onChange(value) {
-                                return setAttributes({ header: value });
-                            },
-                            unstableOnSplit: function unstableOnSplit() {
-                                return null;
-                            },
-                            className: "advgb-accordion-header-title",
-                            placeholder: __('Enter header…', 'advanced-gutenberg'),
-                            style: { color: 'inherit' }
-                        })
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Header Settings', 'advanced-gutenberg') },
+                            React.createElement(
+                                BaseControl,
+                                { label: __('Header Icon Style', 'advanced-gutenberg') },
+                                React.createElement(
+                                    "div",
+                                    { className: "advgb-icon-items-wrapper" },
+                                    Object.keys(HEADER_ICONS).map(function (key, index) {
+                                        return React.createElement(
+                                            "div",
+                                            { className: "advgb-icon-item", key: index },
+                                            React.createElement(
+                                                "span",
+                                                { className: key === headerIcon ? 'active' : '',
+                                                    onClick: function onClick() {
+                                                        return _this2.updateAccordionAttrs({ headerIcon: key });
+                                                    } },
+                                                React.createElement(
+                                                    "svg",
+                                                    { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                                                    HEADER_ICONS[key]
+                                                )
+                                            )
+                                        );
+                                    })
+                                )
+                            ),
+                            React.createElement(PanelColorSettings, {
+                                title: __('Color Settings', 'advanced-gutenberg'),
+                                initialOpen: false,
+                                colorSettings: [{
+                                    label: __('Background Color', 'advanced-gutenberg'),
+                                    value: headerBgColor,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateAccordionAttrs({ headerBgColor: value === undefined ? '#000' : value });
+                                    }
+                                }, {
+                                    label: __('Text Color', 'advanced-gutenberg'),
+                                    value: headerTextColor,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateAccordionAttrs({ headerTextColor: value === undefined ? '#eee' : value });
+                                    }
+                                }, {
+                                    label: __('Icon Color', 'advanced-gutenberg'),
+                                    value: headerIconColor,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateAccordionAttrs({ headerIconColor: value === undefined ? '#fff' : value });
+                                    }
+                                }]
+                            })
+                        ),
+                        React.createElement(PanelColorSettings, {
+                            title: __('Body Color Settings', 'advanced-gutenberg'),
+                            initialOpen: false,
+                            colorSettings: [{
+                                label: __('Background Color', 'advanced-gutenberg'),
+                                value: bodyBgColor,
+                                onChange: function onChange(value) {
+                                    return _this2.updateAccordionAttrs({ bodyBgColor: value });
+                                }
+                            }, {
+                                label: __('Text Color', 'advanced-gutenberg'),
+                                value: bodyTextColor,
+                                onChange: function onChange(value) {
+                                    return _this2.updateAccordionAttrs({ bodyTextColor: value });
+                                }
+                            }]
+                        }),
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Border Settings', 'advanced-gutenberg'), initialOpen: false },
+                            React.createElement(SelectControl, {
+                                label: __('Border Style', 'advanced-gutenberg'),
+                                value: borderStyle,
+                                options: [{ label: __('Solid', 'advanced-gutenberg'), value: 'solid' }, { label: __('Dashed', 'advanced-gutenberg'), value: 'dashed' }, { label: __('Dotted', 'advanced-gutenberg'), value: 'dotted' }],
+                                onChange: function onChange(value) {
+                                    return _this2.updateAccordionAttrs({ borderStyle: value });
+                                }
+                            }),
+                            React.createElement(PanelColorSettings, {
+                                title: __('Color Settings', 'advanced-gutenberg'),
+                                initialOpen: false,
+                                colorSettings: [{
+                                    label: __('Border Color', 'advanced-gutenberg'),
+                                    value: borderColor,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateAccordionAttrs({ borderColor: value });
+                                    }
+                                }]
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Border width', 'advanced-gutenberg'),
+                                value: borderWidth,
+                                min: 0,
+                                max: 10,
+                                onChange: function onChange(value) {
+                                    return _this2.updateAccordionAttrs({ borderWidth: value });
+                                }
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Border radius', 'advanced-gutenberg'),
+                                value: borderRadius,
+                                min: 0,
+                                max: 100,
+                                onChange: function onChange(value) {
+                                    return _this2.updateAccordionAttrs({ borderRadius: value });
+                                }
+                            })
+                        )
                     ),
                     React.createElement(
                         "div",
-                        { className: "advgb-accordion-body",
-                            style: {
-                                backgroundColor: bodyBgColor,
-                                color: bodyTextColor,
-                                borderStyle: borderStyle,
-                                borderWidth: borderWidth + 'px',
-                                borderColor: borderColor,
-                                borderRadius: borderRadius + 'px'
-                            }
-                        },
-                        React.createElement(InnerBlocks, null)
+                        { className: "advgb-accordion-item" },
+                        React.createElement(
+                            "div",
+                            { className: "advgb-accordion-header",
+                                style: {
+                                    backgroundColor: headerBgColor,
+                                    color: headerTextColor,
+                                    borderStyle: borderStyle,
+                                    borderWidth: borderWidth + 'px',
+                                    borderColor: borderColor,
+                                    borderRadius: borderRadius + 'px'
+                                }
+                            },
+                            React.createElement(
+                                "span",
+                                { className: "advgb-accordion-header-icon" },
+                                React.createElement(
+                                    "svg",
+                                    { fill: headerIconColor, xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                                    HEADER_ICONS[headerIcon]
+                                )
+                            ),
+                            React.createElement(RichText, {
+                                tagName: "h4",
+                                value: header,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ header: value });
+                                },
+                                unstableOnSplit: function unstableOnSplit() {
+                                    return null;
+                                },
+                                className: "advgb-accordion-header-title",
+                                placeholder: __('Enter header…', 'advanced-gutenberg'),
+                                style: { color: 'inherit' }
+                            })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "advgb-accordion-body",
+                                style: {
+                                    backgroundColor: bodyBgColor,
+                                    color: bodyTextColor,
+                                    borderStyle: borderStyle,
+                                    borderWidth: borderWidth + 'px',
+                                    borderColor: borderColor,
+                                    borderRadius: borderRadius + 'px'
+                                }
+                            },
+                            React.createElement(InnerBlocks, null)
+                        )
                     )
                 );
             }
@@ -1941,14 +1099,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 type: 'number',
                 default: 15
             },
+            collapsedAll: {
+                type: 'boolean',
+                default: false
+            },
             changed: {
                 type: 'boolean',
                 default: false
             }
         },
         edit: AccordionItemEdit,
-        save: function save(_ref2) {
-            var attributes = _ref2.attributes;
+        save: function save(_ref6) {
+            var attributes = _ref6.attributes;
             var header = attributes.header,
                 headerBgColor = attributes.headerBgColor,
                 headerTextColor = attributes.headerTextColor,
@@ -2532,12 +1694,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function AdvButton() {
             _classCallCheck(this, AdvButton);
 
-            var _this = _possibleConstructorReturn(this, (AdvButton.__proto__ || Object.getPrototypeOf(AdvButton)).apply(this, arguments));
-
-            _this.state = {
-                searchedText: ''
-            };
-            return _this;
+            return _possibleConstructorReturn(this, (AdvButton.__proto__ || Object.getPrototypeOf(AdvButton)).apply(this, arguments));
         }
 
         _createClass(AdvButton, [{
@@ -2581,8 +1738,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'render',
             value: function render() {
-                var _this2 = this;
-
                 var listBorderStyles = [{ label: __('None', 'advanced-gutenberg'), value: 'none' }, { label: __('Solid', 'advanced-gutenberg'), value: 'solid' }, { label: __('Dotted', 'advanced-gutenberg'), value: 'dotted' }, { label: __('Dashed', 'advanced-gutenberg'), value: 'dashed' }, { label: __('Double', 'advanced-gutenberg'), value: 'double' }, { label: __('Groove', 'advanced-gutenberg'), value: 'groove' }, { label: __('Ridge', 'advanced-gutenberg'), value: 'ridge' }, { label: __('Inset', 'advanced-gutenberg'), value: 'inset' }, { label: __('Outset', 'advanced-gutenberg'), value: 'outset' }];
                 var _props3 = this.props,
                     attributes = _props3.attributes,
@@ -2594,10 +1749,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     align = attributes.align,
                     url = attributes.url,
                     urlOpenNewTab = attributes.urlOpenNewTab,
+                    title = attributes.title,
                     text = attributes.text,
                     bgColor = attributes.bgColor,
                     textColor = attributes.textColor,
                     textSize = attributes.textSize,
+                    marginTop = attributes.marginTop,
+                    marginRight = attributes.marginRight,
+                    marginBottom = attributes.marginBottom,
+                    marginLeft = attributes.marginLeft,
                     paddingTop = attributes.paddingTop,
                     paddingRight = attributes.paddingRight,
                     paddingBottom = attributes.paddingBottom,
@@ -2614,27 +1774,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     hoverShadowBlur = attributes.hoverShadowBlur,
                     hoverShadowSpread = attributes.hoverShadowSpread,
                     hoverOpacity = attributes.hoverOpacity,
-                    transitionSpeed = attributes.transitionSpeed,
-                    buttonIconType = attributes.buttonIconType,
-                    buttonIcon = attributes.buttonIcon,
-                    buttonIconColor = attributes.buttonIconColor,
-                    buttonIconBgColor = attributes.buttonIconBgColor,
-                    buttonIconBorderColor = attributes.buttonIconBorderColor,
-                    buttonAfter = attributes.buttonAfter,
-                    disableLink = attributes.disableLink;
-                var searchedText = this.state.searchedText;
+                    transitionSpeed = attributes.transitionSpeed;
 
-                var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
-                var iconStyle = {
-                    marginTop: -paddingTop,
-                    marginBottom: -paddingBottom,
-                    marginRight: !buttonAfter ? 5 : -paddingRight,
-                    marginLeft: buttonAfter ? 5 : -paddingLeft,
-                    borderRadius: borderRadius,
-                    color: buttonIconColor,
-                    backgroundColor: buttonIconBgColor,
-                    borderColor: buttonIconBorderColor
-                };
 
                 var isStyleSquared = className.indexOf('-squared') > -1;
                 var isStyleOutlined = className.indexOf('-outline') > -1;
@@ -2686,10 +1827,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     React.createElement(
                         'span',
-                        { className: className + ' align' + align + ' ' + id,
+                        { className: className + ' align' + align,
                             style: { display: 'inline-block' }
                         },
-                        !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
                         React.createElement(RichText, {
                             tagName: 'span',
                             placeholder: __('Add text…', 'advanced-gutenberg'),
@@ -2699,19 +1839,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             },
                             formattingControls: ['bold', 'italic', 'strikethrough'],
                             isSelected: isSelected,
+                            className: 'wp-block-advgb-button_link ' + id,
                             keepPlaceholderOnFocus: true
-                        }),
-                        !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
+                        })
                     ),
                     React.createElement(
                         'style',
                         null,
-                        '.' + id + ' {\n                        font-size: ' + textSize + 'px;\n                        color: ' + textColor + ' !important;\n                        background-color: ' + bgColor + ' !important;\n                        padding: ' + paddingTop + 'px ' + paddingRight + 'px ' + paddingBottom + 'px ' + paddingLeft + 'px;\n                        border-width: ' + borderWidth + 'px;\n                        border-color: ' + borderColor + ' !important;\n                        border-radius: ' + borderRadius + 'px !important;\n                        border-style: ' + borderStyle + ' ' + (borderStyle !== 'none' && '!important') + ';\n                    }\n                    .' + id + ':hover {\n                        color: ' + hoverTextColor + ' !important;\n                        background-color: ' + hoverBgColor + ' !important;\n                        box-shadow: ' + hoverShadowH + 'px ' + hoverShadowV + 'px ' + hoverShadowBlur + 'px ' + hoverShadowSpread + 'px ' + hoverShadowColor + ';\n                        transition: all ' + transitionSpeed + 's ease;\n                        opacity: ' + hoverOpacity / 100 + '\n                    }'
+                        '.' + id + ' {\n                        font-size: ' + textSize + 'px;\n                        color: ' + textColor + ' !important;\n                        background-color: ' + bgColor + ' !important;\n                        margin: ' + marginTop + 'px ' + marginRight + 'px ' + marginBottom + 'px ' + marginLeft + 'px;\n                        padding: ' + paddingTop + 'px ' + paddingRight + 'px ' + paddingBottom + 'px ' + paddingLeft + 'px;\n                        border-width: ' + borderWidth + 'px;\n                        border-color: ' + borderColor + ' !important;\n                        border-radius: ' + borderRadius + 'px !important;\n                        border-style: ' + borderStyle + ' ' + (borderStyle !== 'none' && '!important') + ';\n                    }\n                    .' + id + ':hover {\n                        color: ' + hoverTextColor + ' !important;\n                        background-color: ' + hoverBgColor + ' !important;\n                        box-shadow: ' + hoverShadowH + 'px ' + hoverShadowV + 'px ' + hoverShadowBlur + 'px ' + hoverShadowSpread + 'px ' + hoverShadowColor + ';\n                        transition: all ' + transitionSpeed + 's ease;\n                        opacity: ' + hoverOpacity / 100 + '\n                    }'
                     ),
                     React.createElement(
                         InspectorControls,
                         null,
-                        !disableLink && React.createElement(
+                        React.createElement(
                             PanelBody,
                             { title: __('Button link', 'advanced-gutenberg') },
                             React.createElement(
@@ -2728,7 +1868,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onChange: function onChange(value) {
                                         return setAttributes({ url: value });
                                     },
-                                    autoFocus: false, isFullWidth: true,
+                                    autoFocus: false,
+                                    isFullWidth: true,
                                     hasBorder: true
                                 })
                             ),
@@ -2768,92 +1909,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ textColor: value });
                                 }
                             })
-                        ),
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Button Icon') },
-                            React.createElement(ToggleControl, {
-                                label: __('Icon show after text'),
-                                checked: buttonAfter,
-                                onChange: function onChange() {
-                                    return setAttributes({ buttonAfter: !buttonAfter });
-                                }
-                            }),
-                            React.createElement(SelectControl, {
-                                label: __('Icon Library'),
-                                value: buttonIconType,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ buttonIconType: value });
-                                },
-                                options: [{ label: __('No Icon'), value: '' }, { label: __('Material Icon'), value: 'material' }, { label: __('Font Awesome'), value: 'fawesome' }]
-                            }),
-                            !!buttonIconType && (buttonIconType === 'fawesome' ? React.createElement(
-                                'p',
-                                null,
-                                __('This library will be added soon ;)')
-                            ) : React.createElement(
-                                Fragment,
-                                null,
-                                React.createElement(TextControl, {
-                                    placeholder: __('Search icons (at least 3 characters)'),
-                                    value: searchedText,
-                                    onChange: function onChange(value) {
-                                        return _this2.setState({ searchedText: value });
-                                    }
-                                }),
-                                searchedText.trim().length > 2 && !!advgbBlocks.iconList[buttonIconType] && React.createElement(
-                                    'div',
-                                    { className: 'advgb-icon-items-wrapper button-icons-list', style: { maxHeight: 300, overflow: 'auto' } },
-                                    Object.keys(advgbBlocks.iconList[buttonIconType]).filter(function (icon) {
-                                        return icon.indexOf(searchedText.trim().split(' ').join('_')) > -1;
-                                    }).map(function (icon, index) {
-                                        var iconName = icon.replace(/_/g, '-');
-                                        var iconClass = [buttonIconType === 'material' && 'mi mi-', icon.replace(/_/g, '-')].filter(Boolean).join('');
-
-                                        return React.createElement(
-                                            'div',
-                                            { className: 'advgb-icon-item', key: index },
-                                            React.createElement(
-                                                'span',
-                                                { onClick: function onClick() {
-                                                        return setAttributes({ buttonIcon: iconName });
-                                                    },
-                                                    className: iconName === buttonIcon && 'active',
-                                                    title: iconClass.split(' ').pop()
-                                                },
-                                                React.createElement('i', { className: iconClass })
-                                            )
-                                        );
-                                    })
-                                )
-                            )),
-                            buttonIconType && buttonIcon && React.createElement(
-                                Fragment,
-                                null,
-                                React.createElement(PanelColorSettings, {
-                                    title: __('Icon Color Settings'),
-                                    initialOpen: false,
-                                    colorSettings: [{
-                                        label: __('Icon Color'),
-                                        value: buttonIconColor,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ buttonIconColor: value });
-                                        }
-                                    }, {
-                                        label: __('Background Color'),
-                                        value: buttonIconBgColor,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ buttonIconBgColor: value });
-                                        }
-                                    }, {
-                                        label: __('Border Color'),
-                                        value: buttonIconBorderColor,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({ buttonIconBorderColor: value });
-                                        }
-                                    }]
-                                })
-                            )
                         ),
                         React.createElement(
                             PanelBody,
@@ -2899,6 +1954,46 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     max: 100
                                 })
                             )
+                        ),
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Margin', 'advanced-gutenberg'), initialOpen: false },
+                            React.createElement(RangeControl, {
+                                label: __('Margin top', 'advanced-gutenberg'),
+                                value: marginTop || '',
+                                onChange: function onChange(value) {
+                                    return setAttributes({ marginTop: value });
+                                },
+                                min: 0,
+                                max: 100
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Margin right', 'advanced-gutenberg'),
+                                value: marginRight || '',
+                                onChange: function onChange(value) {
+                                    return setAttributes({ marginRight: value });
+                                },
+                                min: 0,
+                                max: 100
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Margin bottom', 'advanced-gutenberg'),
+                                value: marginBottom || '',
+                                onChange: function onChange(value) {
+                                    return setAttributes({ marginBottom: value });
+                                },
+                                min: 0,
+                                max: 100
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Margin left', 'advanced-gutenberg'),
+                                value: marginLeft || '',
+                                onChange: function onChange(value) {
+                                    return setAttributes({ marginLeft: value });
+                                },
+                                min: 0,
+                                max: 100
+                            })
                         ),
                         React.createElement(
                             PanelBody,
@@ -3036,29 +2131,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string'
         },
         text: {
-            source: 'text',
+            source: 'children',
             selector: 'a',
             default: __('PUSH THE BUTTON', 'advanced-gutenberg')
-        },
-        buttonIconType: {
-            type: 'string',
-            default: ''
-        },
-        buttonIcon: {
-            type: 'string'
-        },
-        buttonIconColor: {
-            type: 'string'
-        },
-        buttonIconBgColor: {
-            type: 'string'
-        },
-        buttonIconBorderColor: {
-            type: 'string'
-        },
-        buttonAfter: {
-            type: 'boolean',
-            default: false
         },
         bgColor: {
             type: 'string'
@@ -3069,6 +2144,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         textSize: {
             type: 'number',
             default: 18
+        },
+        marginTop: {
+            type: 'number',
+            default: 0
+        },
+        marginRight: {
+            type: 'number',
+            default: 0
+        },
+        marginBottom: {
+            type: 'number',
+            default: 0
+        },
+        marginLeft: {
+            type: 'number',
+            default: 0
         },
         paddingTop: {
             type: 'number',
@@ -3135,10 +2226,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 200
         },
-        disableLink: {
-            type: 'boolean',
-            default: false
-        },
         align: {
             type: 'string',
             default: 'none'
@@ -3188,46 +2275,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 url = attributes.url,
                 urlOpenNewTab = attributes.urlOpenNewTab,
                 title = attributes.title,
-                text = attributes.text,
-                paddingTop = attributes.paddingTop,
-                paddingRight = attributes.paddingRight,
-                paddingBottom = attributes.paddingBottom,
-                paddingLeft = attributes.paddingLeft,
-                borderRadius = attributes.borderRadius,
-                buttonIconType = attributes.buttonIconType,
-                buttonIcon = attributes.buttonIcon,
-                buttonIconColor = attributes.buttonIconColor,
-                buttonIconBgColor = attributes.buttonIconBgColor,
-                buttonIconBorderColor = attributes.buttonIconBorderColor,
-                buttonAfter = attributes.buttonAfter;
+                text = attributes.text;
 
-            var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
-            var iconStyle = {
-                marginTop: -paddingTop,
-                marginBottom: -paddingBottom,
-                marginRight: !buttonAfter ? 5 : -paddingRight,
-                marginLeft: buttonAfter ? 5 : -paddingLeft,
-                borderRadius: borderRadius,
-                color: buttonIconColor,
-                backgroundColor: buttonIconBgColor,
-                borderColor: buttonIconBorderColor
-            };
 
             return React.createElement(
                 'div',
                 { className: 'align' + align },
-                React.createElement(
-                    'a',
-                    { href: url || '#',
-                        className: 'wp-block-advgb-button_link ' + id,
-                        title: title,
-                        target: !urlOpenNewTab ? '_self' : '_blank',
-                        rel: 'noopener noreferrer'
-                    },
-                    !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
-                    text,
-                    !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
-                )
+                React.createElement(RichText.Content, {
+                    tagName: 'a',
+                    className: 'wp-block-advgb-button_link ' + id,
+                    href: url || '#',
+                    title: title,
+                    target: !urlOpenNewTab ? '_self' : '_blank',
+                    value: text,
+                    rel: 'noopener noreferrer'
+                })
             );
         },
         getEditWrapperProps: function getEditWrapperProps(attributes) {
@@ -3285,559 +2347,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 
-/***/ "./assets/blocks/advgallery/block.jsx":
-/*!********************************************!*\
-  !*** ./assets/blocks/advgallery/block.jsx ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
-    var __ = wpI18n.__;
-    var Component = wpElement.Component,
-        Fragment = wpElement.Fragment;
-    var registerBlockType = wpBlocks.registerBlockType;
-    var InspectorControls = wpEditor.InspectorControls,
-        RichText = wpEditor.RichText,
-        MediaUpload = wpEditor.MediaUpload,
-        MediaPlaceholder = wpEditor.MediaPlaceholder,
-        BlockControls = wpEditor.BlockControls,
-        BlockIcon = wpEditor.BlockIcon;
-    var SVG = wpComponents.SVG,
-        Path = wpComponents.Path,
-        Toolbar = wpComponents.Toolbar,
-        PanelBody = wpComponents.PanelBody,
-        RangeControl = wpComponents.RangeControl,
-        SelectControl = wpComponents.SelectControl,
-        IconButton = wpComponents.IconButton;
-
-
-    var advGalleryBlockIcon = React.createElement(
-        SVG,
-        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
-        React.createElement(Path, { d: "M0 0h24v24H0z", fill: "none" }),
-        React.createElement(Path, { d: "M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" })
-    );
-
-    var MAX_COLUMNS = 8;
-
-    var AdvGallery = function (_Component) {
-        _inherits(AdvGallery, _Component);
-
-        function AdvGallery() {
-            _classCallCheck(this, AdvGallery);
-
-            var _this = _possibleConstructorReturn(this, (AdvGallery.__proto__ || Object.getPrototypeOf(AdvGallery)).apply(this, arguments));
-
-            _this.state = {
-                selectedImage: null,
-                selectedCaption: null
-            };
-            return _this;
-        }
-
-        _createClass(AdvGallery, [{
-            key: "componentDidMount",
-            value: function componentDidMount() {
-                var _this2 = this;
-
-                var _props$attributes = this.props.attributes,
-                    imageIds = _props$attributes.imageIds,
-                    enableLoadMore = _props$attributes.enableLoadMore;
-                var addQueryArgs = wp.url.addQueryArgs;
-
-                var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
-
-                if (this.props.attributes.layout === 'masonry') {
-                    this.initMasonry(grid);
-                    setTimeout(function () {
-                        grid.masonry('layout');
-                    }, 1000);
-                }
-
-                if (enableLoadMore && imageIds.length) {
-                    wp.apiFetch({
-                        path: addQueryArgs('wp/v2/media', { include: imageIds, orderby: 'include' })
-                    }).then(function (imgs) {
-                        return _this2.addImages(imgs);
-                    });
-                }
-            }
-        }, {
-            key: "componentWillUpdate",
-            value: function componentWillUpdate(nextProps) {
-                if (nextProps.attributes.layout !== 'masonry') {
-                    var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
-                    grid.masonry('destroy');
-                    grid.off('click', '.advgb-gallery-item');
-                }
-            }
-        }, {
-            key: "componentDidUpdate",
-            value: function componentDidUpdate(prevProps, prevState) {
-                var _props = this.props,
-                    isSelected = _props.isSelected,
-                    attributes = _props.attributes;
-                var selectedImage = this.state.selectedImage;
-                var layout = attributes.layout;
-
-                var grid = jQuery('#block-' + this.props.clientId + ' .advgb-gallery.masonry-layout');
-
-                // unselect the caption so when the user selects other image and comeback
-                // the caption is not immediately selected
-                if (!isSelected && prevProps.isSelected) {
-                    this.setState({
-                        selectedCaption: null,
-                        selectedImage: null
-                    });
-                }
-
-                if (selectedImage !== prevState.selectedImage) {
-                    this.setState({ selectedCaption: null });
-                }
-
-                if (layout === 'masonry' && prevProps.attributes.layout !== 'masonry') {
-                    this.initMasonry(grid);
-                }
-
-                if (layout === 'masonry') {
-                    if (prevProps.attributes.images.length !== attributes.images.length || prevProps.attributes.columns !== attributes.columns || prevProps.attributes.itemsToShow !== attributes.itemsToShow) {
-                        grid.masonry('reloadItems');
-                        grid.masonry('layout');
-                        setTimeout(function () {
-                            grid.masonry('layout');
-                        }, 200);
-                    }
-                }
-            }
-        }, {
-            key: "addImages",
-            value: function addImages(images) {
-                var columns = this.props.attributes.columns;
-
-                this.props.setAttributes({
-                    images: images.map(function (image) {
-                        return {
-                            url: image.url || image.source_url,
-                            id: image.id,
-                            alt: image.alt,
-                            caption: typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption
-                        };
-                    }),
-                    columns: columns ? Math.min(images.length, columns) : Math.min(images.length, 3),
-                    imageIds: images.map(function (img) {
-                        return img.id;
-                    })
-                });
-            }
-        }, {
-            key: "initMasonry",
-            value: function initMasonry($grid) {
-                $grid.masonry({
-                    itemSelector: '.advgb-gallery-item',
-                    columnWidth: '.advgb-gallery-item',
-                    percentPosition: true
-                });
-
-                $grid.on('click', '.advgb-gallery-item', function () {
-                    $grid.masonry('layout');
-                });
-            }
-        }, {
-            key: "render",
-            value: function render() {
-                var _this3 = this;
-
-                var _props2 = this.props,
-                    attributes = _props2.attributes,
-                    setAttributes = _props2.setAttributes,
-                    isSelected = _props2.isSelected;
-                var images = attributes.images,
-                    columns = attributes.columns,
-                    layout = attributes.layout,
-                    enableLoadMore = attributes.enableLoadMore,
-                    itemsToShow = attributes.itemsToShow,
-                    imageIds = attributes.imageIds;
-                var _state = this.state,
-                    selectedImage = _state.selectedImage,
-                    selectedCaption = _state.selectedCaption;
-
-
-                var controls = React.createElement(
-                    BlockControls,
-                    null,
-                    !!images.length && React.createElement(
-                        Toolbar,
-                        null,
-                        React.createElement(MediaUpload, {
-                            allowedTypes: ['image'],
-                            multiple: true,
-                            gallery: true,
-                            value: imageIds,
-                            onSelect: function onSelect(imgs) {
-                                return _this3.addImages(imgs);
-                            },
-                            render: function render(_ref) {
-                                var open = _ref.open;
-                                return React.createElement(IconButton, {
-                                    className: "components-toolbar__control",
-                                    label: __('Edit gallery', 'advanced-gutenberg'),
-                                    icon: "edit",
-                                    onClick: open
-                                });
-                            }
-                        }),
-                        layout === 'masonry' && React.createElement(IconButton, {
-                            className: "components-toolbar__control",
-                            label: __('Refresh layout', 'advanced-gutenberg'),
-                            icon: "update",
-                            onClick: function onClick() {
-                                return jQuery('#block-' + _this3.props.clientId + ' .advgb-gallery.masonry-layout').masonry('layout');
-                            }
-                        })
-                    )
-                );
-
-                var mediaHolder = React.createElement(MediaPlaceholder, {
-                    addToGallery: !!images.length,
-                    isAppender: !!images.length,
-                    dropZoneUIOnly: !!images.length && !isSelected,
-                    icon: !images.length && React.createElement(BlockIcon, { icon: advGalleryBlockIcon }),
-                    labels: {
-                        title: !images.length && __('Advanced Gallery', 'advanced-gutenberg'),
-                        instructions: !images.length && __('Drag images, upload new ones or select from your library.', 'advanced-gutenberg')
-                    },
-                    onSelect: function onSelect(imgs) {
-                        return _this3.addImages(imgs);
-                    },
-                    accept: "image/*",
-                    allowedTypes: ['image'],
-                    multiple: true,
-                    value: !!images.length ? images : undefined
-                });
-
-                var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
-
-                if (!images.length) {
-                    return React.createElement(
-                        Fragment,
-                        null,
-                        controls,
-                        mediaHolder
-                    );
-                }
-
-                return React.createElement(
-                    Fragment,
-                    null,
-                    controls,
-                    React.createElement(
-                        InspectorControls,
-                        null,
-                        React.createElement(
-                            PanelBody,
-                            { title: __('Gallery Settings', 'advanced-gutenberg') },
-                            React.createElement(SelectControl, {
-                                label: __('Layout', 'advanced-gutenberg'),
-                                value: layout,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ layout: value });
-                                },
-                                options: [{ label: __('Default', 'advanced-gutenberg'), value: '' }, { label: __('Masonry', 'advanced-gutenberg'), value: 'masonry' }]
-                            }),
-                            React.createElement(RangeControl, {
-                                label: __('Columns', 'advanced-gutenberg'),
-                                value: columns,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ columns: value });
-                                },
-                                min: 1,
-                                max: Math.min(MAX_COLUMNS, images.length),
-                                required: true
-                            }),
-                            enableLoadMore && React.createElement(RangeControl, {
-                                label: __('Items to show', 'advanced-gutenberg'),
-                                help: __('Number of items will be show on first load, also the number of items will be fetched with load more button.', 'advanced-gutenberg'),
-                                value: itemsToShow,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ itemsToShow: value });
-                                },
-                                min: 1,
-                                max: imageIds.length
-                            })
-                        )
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: blockClass },
-                        images.map(function (img, index) {
-                            if (enableLoadMore && index >= itemsToShow) {
-                                return null;
-                            }
-
-                            return React.createElement(
-                                "div",
-                                { className: "advgb-gallery-item", key: index },
-                                React.createElement(
-                                    "figure",
-                                    { className: selectedImage === index ? 'is-selected' : undefined },
-                                    selectedImage === index && React.createElement(
-                                        "div",
-                                        { className: "advgb-gallery-item-remove" },
-                                        React.createElement(IconButton, {
-                                            icon: "no-alt",
-                                            onClick: function onClick() {
-                                                var newImgs = images.filter(function (img, idx) {
-                                                    return idx !== index;
-                                                });
-                                                var newIds = imageIds.filter(function (img, idx) {
-                                                    return idx !== index;
-                                                });
-                                                _this3.setState({
-                                                    selectedImage: null,
-                                                    selectedCaption: null
-                                                });
-                                                setAttributes({
-                                                    images: newImgs,
-                                                    columns: columns ? Math.min(newImgs.length, columns) : columns,
-                                                    imageIds: newIds
-                                                });
-                                            },
-                                            className: "item-remove-icon",
-                                            label: __('Remove Image', 'advanced-gutenberg')
-                                        })
-                                    ),
-                                    React.createElement("img", { src: img.url,
-                                        alt: img.alt,
-                                        "data-id": img.id,
-                                        onClick: function onClick() {
-                                            return _this3.setState({ selectedImage: index });
-                                        }
-                                    }),
-                                    (!RichText.isEmpty(img.caption) || selectedImage === index) && React.createElement(RichText, {
-                                        tagName: "figcaption",
-                                        placeholder: __('Write caption…', 'advanced-gutenberg'),
-                                        value: img.caption,
-                                        isSelected: selectedCaption === index,
-                                        onChange: function onChange(value) {
-                                            return setAttributes({
-                                                images: images.map(function (img, idx) {
-                                                    if (idx === index) {
-                                                        return _extends({}, img, {
-                                                            caption: value
-                                                        });
-                                                    }
-
-                                                    return img;
-                                                })
-                                            });
-                                        },
-                                        unstableOnFocus: function unstableOnFocus() {
-                                            return _this3.setState({ selectedCaption: index });
-                                        },
-                                        inlineToolbar: true
-                                    })
-                                )
-                            );
-                        })
-                    )
-                );
-            }
-        }]);
-
-        return AdvGallery;
-    }(Component);
-
-    var blockAttrs = {
-        images: {
-            type: 'array',
-            default: [],
-            source: 'query',
-            selector: 'div.advgb-gallery .advgb-gallery-item',
-            query: {
-                url: {
-                    source: 'attribute',
-                    selector: 'img',
-                    attribute: 'src'
-                },
-                id: {
-                    source: 'attribute',
-                    selector: 'img',
-                    attribute: 'data-id'
-                },
-                alt: {
-                    source: 'attribute',
-                    selector: 'img',
-                    attribute: 'alt',
-                    default: ''
-                },
-                caption: {
-                    type: 'string',
-                    source: 'html',
-                    selector: 'figcaption'
-                }
-            }
-        },
-        imageIds: {
-            type: 'array',
-            default: []
-        },
-        columns: {
-            type: 'number'
-        },
-        layout: {
-            type: 'string'
-        },
-        enableLoadMore: {
-            type: 'boolean',
-            default: false
-        },
-        itemsToShow: {
-            type: 'number',
-            default: 6
-        },
-        changed: {
-            type: 'boolean',
-            default: false
-        }
-    };
-
-    registerBlockType('advgb/gallery', {
-        title: __('Adv Gallery', 'advanced-gutenberg'),
-        description: __('Advanced gallery with enhanced functions.', 'advanced-gutenberg'),
-        icon: {
-            src: advGalleryBlockIcon,
-            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
-        },
-        category: 'advgb-category',
-        keywords: [__('masonry', 'advanced-gutenberg'), __('gallery', 'advanced-gutenberg'), __('photos', 'advanced-gutenberg')],
-        attributes: blockAttrs,
-        supports: {
-            align: true
-        },
-        edit: AdvGallery,
-        save: function save(_ref2) {
-            var attributes = _ref2.attributes;
-            var images = attributes.images,
-                columns = attributes.columns,
-                layout = attributes.layout,
-                enableLoadMore = attributes.enableLoadMore,
-                itemsToShow = attributes.itemsToShow,
-                imageIds = attributes.imageIds;
-
-            var blockClass = ['advgb-gallery', !layout && 'default-layout', layout === 'masonry' && 'masonry-layout', columns && "columns-" + columns].filter(Boolean).join(' ');
-            var ids = imageIds.join(',');
-
-            return React.createElement(
-                "div",
-                { className: blockClass,
-                    "data-ids": enableLoadMore ? ids : undefined,
-                    "data-show": enableLoadMore ? itemsToShow : undefined
-                },
-                React.createElement("div", { className: "advgb-gallery-sizer" }),
-                images.map(function (img, index) {
-                    if (enableLoadMore && index >= itemsToShow) {
-                        return null;
-                    }
-
-                    return React.createElement(
-                        "div",
-                        { className: "advgb-gallery-item", key: index },
-                        React.createElement(
-                            "figure",
-                            null,
-                            React.createElement("img", { src: img.url,
-                                alt: img.alt,
-                                "data-id": img.id
-                            }),
-                            !RichText.isEmpty(img.caption) && React.createElement(RichText.Content, {
-                                tagName: "figcaption",
-                                value: img.caption
-                            })
-                        )
-                    );
-                })
-            );
-        }
-    });
-})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
-
-/***/ }),
-
-/***/ "./assets/blocks/advgallery/gallery-load-more.jsx":
-/*!********************************************************!*\
-  !*** ./assets/blocks/advgallery/gallery-load-more.jsx ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-(function (wpI18n, wpBlocks, wpEditor) {
-    var __ = wpI18n.__;
-    var registerBlockType = wpBlocks.registerBlockType;
-    var InnerBlocks = wpEditor.InnerBlocks;
-    var _wp$components = wp.components,
-        SVG = _wp$components.SVG,
-        Path = _wp$components.Path;
-
-
-    var advGalleryBlockIcon = React.createElement(
-        SVG,
-        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
-        React.createElement(Path, { d: "M0 0h24v24H0z", fill: "none" }),
-        React.createElement(Path, { d: "M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" })
-    );
-
-    registerBlockType('advgb/gallery-loadmore', {
-        title: __('Adv.Gallery with load more'),
-        icon: {
-            src: advGalleryBlockIcon,
-            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
-        },
-        category: 'advgb-category',
-        keywords: [__('gallery'), __('photos'), __('masonry')],
-        attributes: {},
-        supports: {
-            align: true
-        },
-        edit: function edit(props) {
-            return React.createElement(InnerBlocks, {
-                template: [['advgb/gallery', { enableLoadMore: true }], ['advgb/button', {
-                    className: 'advgb-load-more',
-                    text: 'Load More',
-                    align: 'center',
-                    disableLink: true
-                }]],
-                templateLock: true
-            });
-        },
-        save: function save(props) {
-            return React.createElement(
-                "div",
-                { className: "advgb-gallery-container" },
-                React.createElement(InnerBlocks.Content, null)
-            );
-        }
-    });
-})(wp.i18n, wp.blocks, wp.editor);
-
-/***/ }),
-
 /***/ "./assets/blocks/advimage/block.jsx":
 /*!******************************************!*\
   !*** ./assets/blocks/advimage/block.jsx ***!
@@ -3877,7 +2386,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TextControl = wpComponents.TextControl,
         IconButton = wpComponents.IconButton,
         Button = wpComponents.Button,
-        Toolbar = wpComponents.Toolbar;
+        Toolbar = wpComponents.Toolbar,
+        FocalPointPicker = wpComponents.FocalPointPicker;
 
     var AdvImage = function (_Component) {
         _inherits(AdvImage, _Component);
@@ -3919,17 +2429,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
             }
         }, {
+            key: 'componentDidMount',
+            value: function componentDidMount() {
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes,
+                    clientId = _props2.clientId;
+                var blockIDX = attributes.blockIDX;
+
+
+                if (!blockIDX) {
+                    setAttributes({ blockIDX: 'advgb-img-' + clientId });
+                }
+            }
+        }, {
             key: 'render',
             value: function render() {
                 var _this2 = this;
 
                 var currentEdit = this.state.currentEdit;
-                var _props2 = this.props,
-                    attributes = _props2.attributes,
-                    setAttributes = _props2.setAttributes,
-                    isSelected = _props2.isSelected,
-                    className = _props2.className;
-                var openOnClick = attributes.openOnClick,
+                var _props3 = this.props,
+                    attributes = _props3.attributes,
+                    setAttributes = _props3.setAttributes,
+                    isSelected = _props3.isSelected;
+                var blockIDX = attributes.blockIDX,
+                    openOnClick = attributes.openOnClick,
                     openUrl = attributes.openUrl,
                     linkInNewTab = attributes.linkInNewTab,
                     imageUrl = attributes.imageUrl,
@@ -3943,9 +2467,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     width = attributes.width,
                     height = attributes.height,
                     vAlign = attributes.vAlign,
-                    hAlign = attributes.hAlign;
+                    hAlign = attributes.hAlign,
+                    overlayOpacity = attributes.overlayOpacity,
+                    focalPoint = attributes.focalPoint;
 
-                var blockClassName = ['advgb-image-block', fullWidth && 'full-width', className].filter(Boolean).join(' ');
+                var blockClassName = ['advgb-image-block', fullWidth && 'full-width', blockIDX].filter(Boolean).join(' ');
 
                 return React.createElement(
                     Fragment,
@@ -4046,6 +2572,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onChange: function onChange(value) {
                                         return setAttributes({ width: value });
                                     }
+                                }),
+                                imageUrl && React.createElement(FocalPointPicker, {
+                                    label: __('Focal Point Picker', 'advanced-gutenberg'),
+                                    url: imageUrl,
+                                    value: focalPoint,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ focalPoint: value });
+                                    }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: __('Overlay opacity', 'advanced-gutenberg'),
+                                    value: overlayOpacity,
+                                    min: 0,
+                                    max: 100,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ overlayOpacity: value });
+                                    }
                                 })
                             ),
                             React.createElement(PanelColorSettings, {
@@ -4098,6 +2641,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         { className: blockClassName,
                             style: {
                                 backgroundImage: 'url( ' + imageUrl + ')',
+                                backgroundPosition: focalPoint ? focalPoint.x * 100 + '% ' + focalPoint.y * 100 + '%' : undefined,
                                 height: height,
                                 width: width,
                                 justifyContent: vAlign,
@@ -4111,7 +2655,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             allowedTypes: ['image'],
                             value: imageID,
                             onSelect: function onSelect(image) {
-                                return setAttributes({ imageUrl: image.url, imageID: image.id });
+                                return setAttributes({ imageUrl: image.url, imageID: image.id, focalPoint: {} });
                             },
                             render: function render(_ref2) {
                                 var open = _ref2.open;
@@ -4158,7 +2702,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return null;
                             },
                             placeholder: __('Enter subtitle…', 'advanced-gutenberg')
-                        })
+                        }),
+                        React.createElement(
+                            'style',
+                            null,
+                            '.' + blockIDX + '.advgb-image-block:hover .advgb-image-overlay {opacity: ' + overlayOpacity / 100 + ';}'
+                        )
                     )
                 );
             }
@@ -4175,6 +2724,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     var blockAttrs = {
+        blockIDX: {
+            type: 'string'
+        },
         openOnClick: {
             type: 'string',
             default: 'none'
@@ -4232,6 +2784,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: 'center'
         },
+        overlayOpacity: {
+            type: 'number',
+            default: 20
+        },
+        focalPoint: {
+            type: 'object'
+        },
         changed: {
             type: 'boolean',
             default: false
@@ -4251,7 +2810,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         edit: AdvImage,
         save: function save(_ref3) {
             var attributes = _ref3.attributes;
-            var openOnClick = attributes.openOnClick,
+            var blockIDX = attributes.blockIDX,
+                openOnClick = attributes.openOnClick,
                 openUrl = attributes.openUrl,
                 linkInNewTab = attributes.linkInNewTab,
                 imageUrl = attributes.imageUrl,
@@ -4264,16 +2824,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 width = attributes.width,
                 height = attributes.height,
                 vAlign = attributes.vAlign,
-                hAlign = attributes.hAlign;
+                hAlign = attributes.hAlign,
+                focalPoint = attributes.focalPoint;
 
             var linkURL = openOnClick === 'url' && !!openUrl ? openUrl : undefined;
-            var blockClassName = ['advgb-image-block', fullWidth && 'full-width', openOnClick === 'lightbox' && !!imageUrl && 'advgb-lightbox'].filter(Boolean).join(' ');
+            var blockClassName = ['advgb-image-block', fullWidth && 'full-width', openOnClick === 'lightbox' && !!imageUrl && 'advgb-lightbox', blockIDX].filter(Boolean).join(' ');
 
             return React.createElement(
                 'div',
                 { className: blockClassName,
                     style: {
                         backgroundImage: 'url(' + imageUrl + ')',
+                        backgroundPosition: focalPoint ? focalPoint.x * 100 + '% ' + focalPoint.y * 100 + '%' : undefined,
                         height: height,
                         width: width,
                         justifyContent: vAlign,
@@ -4325,7 +2887,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     'div',
                     { className: blockClassName,
                         style: {
-                            backgroundImage: 'url( ' + imageUrl + ')',
+                            backgroundImage: 'url(' + imageUrl + ')',
                             height: height,
                             width: width,
                             justifyContent: vAlign,
@@ -4339,12 +2901,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         rel: 'noopener noreferrer',
                         href: linkURL
                     }),
-                    React.createElement(
+                    title && React.createElement(
                         'h4',
                         { className: 'advgb-image-title', style: { color: titleColor } },
                         title
                     ),
-                    React.createElement(
+                    subtitle && React.createElement(
                         'p',
                         { className: 'advgb-image-subtitle', style: { color: subtitleColor } },
                         subtitle
@@ -6589,6 +5151,879 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 
+/***/ "./assets/blocks/advtabs/block.jsx":
+/*!*****************************************!*\
+  !*** ./assets/blocks/advtabs/block.jsx ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType,
+        createBlock = wpBlocks.createBlock;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        RichText = _wpBlockEditor.RichText,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        InnerBlocks = _wpBlockEditor.InnerBlocks;
+    var Dashicon = wpComponents.Dashicon,
+        Tooltip = wpComponents.Tooltip,
+        PanelBody = wpComponents.PanelBody,
+        RangeControl = wpComponents.RangeControl,
+        SelectControl = wpComponents.SelectControl,
+        Button = wpComponents.Button;
+    var _wp$data = wp.data,
+        dispatch = _wp$data.dispatch,
+        select = _wp$data.select;
+
+
+    var path = "M464.4,488h-440c-14.131,0-24-8.882-24-21.6v-440C0.4,13.938,10.664,0,24.4,0h440 ";
+    path += "c13.736,0,24,13.938,24,26.4v440C488.4,479.118,478.531,488,464.4,488z M24.4,16c-3.813,0-8,5.443-8,10.4v440 ";
+    path += "c0,5.054,5.595,5.6,8,5.6h440c2.405,0,8-0.546,8-5.6v-440c0-4.957-4.187-10.4-8-10.4C464.4,16,24.4,16,24.4,16z";
+
+    var path2 = "M464.4,488.8h-440c-14.58,0-24-7.223-24-18.399V36h16v434.4c0,1.301,3.664,2.399,8,2.399h440 ";
+    path2 += "c4.337,0,8-1.099,8-2.399V121.6c0-0.074-0.003-0.132-0.007-0.178c-0.587-0.447-2.915-1.422-7.993-1.422H207.305L154.75,7.383 ";
+    path2 += "l14.499-6.766L217.495,104H464.4c22.27,0,24,13.471,24,17.6v348.8C488.4,481.577,478.979,488.8,464.4,488.8z";
+
+    var tabHorizontalIcon = React.createElement(
+        "svg",
+        { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 488.8 488.8", width: "50px", height: "50px", style: { backgroundColor: "#fff" } },
+        React.createElement("polygon", { fill: "#ddd", points: "476.4,105.6 214.8,109.6 162,4 476.4,4 " }),
+        React.createElement("path", { d: path }),
+        React.createElement("path", { d: path2 }),
+        React.createElement("rect", { x: "328.4", y: "3", width: "16", height: "114" })
+    );
+
+    var tabVerticalIcon = React.createElement(
+        "svg",
+        { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 488.8 488.8", width: "50px", height: "50px", transform: "rotate(-90) scale(-1, 1)", style: { backgroundColor: "#fff" } },
+        React.createElement("polygon", { fill: "#ddd", points: "476.4,105.6 214.8,109.6 162,4 476.4,4 " }),
+        React.createElement("path", { d: path }),
+        React.createElement("path", { d: path2 }),
+        React.createElement("rect", { x: "328.4", y: "3", width: "16", height: "114" })
+    );
+
+    var TABS_STYLES = [{ name: 'horz', label: __('Horizontal', 'advanced-gutenberg'), icon: tabHorizontalIcon }, { name: 'vert', label: __('Vertical', 'advanced-gutenberg'), icon: tabVerticalIcon }];
+
+    var AdvTabsWrapper = function (_Component) {
+        _inherits(AdvTabsWrapper, _Component);
+
+        function AdvTabsWrapper() {
+            _classCallCheck(this, AdvTabsWrapper);
+
+            var _this = _possibleConstructorReturn(this, (AdvTabsWrapper.__proto__ || Object.getPrototypeOf(AdvTabsWrapper)).apply(this, arguments));
+
+            _this.state = {
+                viewport: 'desktop'
+            };
+            return _this;
+        }
+
+        _createClass(AdvTabsWrapper, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+
+                var currentBlockConfig = advgbDefaultConfig['advgb-adv-tabs'];
+
+                // No override attributes of blocks inserted before
+                if (attributes.changed !== true) {
+                    if ((typeof currentBlockConfig === "undefined" ? "undefined" : _typeof(currentBlockConfig)) === 'object' && currentBlockConfig !== null) {
+                        Object.keys(currentBlockConfig).map(function (attribute) {
+                            if (typeof attributes[attribute] === 'boolean') {
+                                attributes[attribute] = !!currentBlockConfig[attribute];
+                            } else {
+                                attributes[attribute] = currentBlockConfig[attribute];
+                            }
+                        });
+                    }
+
+                    // Finally set changed attribute to true, so we don't modify anything again
+                    setAttributes({ changed: true });
+                }
+            }
+        }, {
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                if (!this.props.attributes.pid) {
+                    this.props.setAttributes({ pid: "advgb-tabs-" + this.props.clientId });
+                }
+            }
+        }, {
+            key: "updateTabsAttr",
+            value: function updateTabsAttr(attrs) {
+                var _props2 = this.props,
+                    setAttributes = _props2.setAttributes,
+                    clientId = _props2.clientId;
+
+                var _ref = !wp.blockEditor ? dispatch('core/editor') : dispatch('core/block-editor'),
+                    updateBlockAttributes = _ref.updateBlockAttributes;
+
+                var _ref2 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockOrder = _ref2.getBlockOrder;
+
+                var childBlocks = getBlockOrder(clientId);
+
+                setAttributes(attrs);
+                childBlocks.forEach(function (childBlockId) {
+                    return updateBlockAttributes(childBlockId, attrs);
+                });
+            }
+        }, {
+            key: "updateTabsHeader",
+            value: function updateTabsHeader(header, index) {
+                var _props3 = this.props,
+                    attributes = _props3.attributes,
+                    setAttributes = _props3.setAttributes,
+                    clientId = _props3.clientId;
+                var tabHeaders = attributes.tabHeaders;
+
+                var _ref3 = !wp.blockEditor ? dispatch('core/editor') : dispatch('core/block-editor'),
+                    updateBlockAttributes = _ref3.updateBlockAttributes;
+
+                var _ref4 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockOrder = _ref4.getBlockOrder;
+
+                var childBlocks = getBlockOrder(clientId);
+
+                var newHeaders = tabHeaders.map(function (item, idx) {
+                    if (index === idx) {
+                        item = header;
+                    }
+                    return item;
+                });
+
+                setAttributes({ tabHeaders: newHeaders });
+                updateBlockAttributes(childBlocks[index], { header: header });
+            }
+        }, {
+            key: "addTab",
+            value: function addTab() {
+                var _props4 = this.props,
+                    attributes = _props4.attributes,
+                    setAttributes = _props4.setAttributes,
+                    clientId = _props4.clientId;
+
+                var _ref5 = !wp.blockEditor ? dispatch('core/editor') : dispatch('core/block-editor'),
+                    insertBlock = _ref5.insertBlock;
+
+                var tabItemBlock = createBlock('advgb/tab');
+
+                insertBlock(tabItemBlock, attributes.tabHeaders.length, clientId);
+                setAttributes({
+                    tabHeaders: [].concat(_toConsumableArray(attributes.tabHeaders), [__('Tab header', 'advanced-gutenberg')])
+                });
+            }
+        }, {
+            key: "removeTab",
+            value: function removeTab(index) {
+                var _props5 = this.props,
+                    attributes = _props5.attributes,
+                    setAttributes = _props5.setAttributes,
+                    clientId = _props5.clientId;
+
+                var _ref6 = !wp.blockEditor ? dispatch('core/editor') : dispatch('core/block-editor'),
+                    removeBlock = _ref6.removeBlock;
+
+                var _ref7 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockOrder = _ref7.getBlockOrder;
+
+                var childBlocks = getBlockOrder(clientId);
+
+                removeBlock(childBlocks[index], false);
+                setAttributes({
+                    tabHeaders: attributes.tabHeaders.filter(function (vl, idx) {
+                        return idx !== index;
+                    })
+                });
+                this.updateTabsAttr({ tabActive: 0 });
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _this2 = this;
+
+                var _props6 = this.props,
+                    attributes = _props6.attributes,
+                    setAttributes = _props6.setAttributes,
+                    clientId = _props6.clientId;
+                var viewport = this.state.viewport;
+                var tabHeaders = attributes.tabHeaders,
+                    tabActive = attributes.tabActive,
+                    tabActiveFrontend = attributes.tabActiveFrontend,
+                    tabsStyleD = attributes.tabsStyleD,
+                    tabsStyleT = attributes.tabsStyleT,
+                    tabsStyleM = attributes.tabsStyleM,
+                    headerBgColor = attributes.headerBgColor,
+                    headerTextColor = attributes.headerTextColor,
+                    bodyBgColor = attributes.bodyBgColor,
+                    bodyTextColor = attributes.bodyTextColor,
+                    borderStyle = attributes.borderStyle,
+                    borderWidth = attributes.borderWidth,
+                    borderColor = attributes.borderColor,
+                    borderRadius = attributes.borderRadius,
+                    pid = attributes.pid,
+                    activeTabBgColor = attributes.activeTabBgColor,
+                    activeTabTextColor = attributes.activeTabTextColor;
+
+                var blockClass = ["advgb-tabs-wrapper", "advgb-tab-" + tabsStyleD + "-desktop", "advgb-tab-" + tabsStyleT + "-tablet", "advgb-tab-" + tabsStyleM + "-mobile"].filter(Boolean).join(' ');
+
+                var deviceLetter = 'D';
+                if (viewport === 'tablet') deviceLetter = 'T';
+                if (viewport === 'mobile') deviceLetter = 'M';
+
+                return React.createElement(
+                    Fragment,
+                    null,
+                    React.createElement(
+                        InspectorControls,
+                        null,
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Tabs Style', 'advanced-gutenberg') },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-columns-responsive-items" },
+                                ['desktop', 'tablet', 'mobile'].map(function (device, index) {
+                                    var itemClasses = ["advgb-columns-responsive-item", viewport === device && 'is-selected'].filter(Boolean).join(' ');
+
+                                    return React.createElement(
+                                        "div",
+                                        { className: itemClasses,
+                                            key: index,
+                                            onClick: function onClick() {
+                                                return _this2.setState({ viewport: device });
+                                            }
+                                        },
+                                        device
+                                    );
+                                })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "advgb-tabs-styles" },
+                                TABS_STYLES.map(function (style, index) {
+                                    return React.createElement(
+                                        Tooltip,
+                                        { key: index, text: style.label },
+                                        React.createElement(
+                                            Button,
+                                            { className: "advgb-tabs-style",
+                                                isToggled: style.name === attributes["tabsStyle" + deviceLetter],
+                                                onClick: function onClick() {
+                                                    return setAttributes(_defineProperty({}, "tabsStyle" + deviceLetter, style.name));
+                                                }
+                                            },
+                                            style.icon
+                                        )
+                                    );
+                                }),
+                                viewport === 'mobile' && React.createElement(
+                                    Tooltip,
+                                    { text: __('Stacked', 'advanced-gutenberg') },
+                                    React.createElement(
+                                        Button,
+                                        { className: "advgb-tabs-style",
+                                            isToggled: tabsStyleM === 'stack',
+                                            onClick: function onClick() {
+                                                return setAttributes({ tabsStyleM: 'stack' });
+                                            }
+                                        },
+                                        React.createElement(
+                                            "svg",
+                                            { width: "50px", height: "50px", viewBox: "0 0 26 26", xmlns: "http://www.w3.org/2000/svg" },
+                                            React.createElement("path", { fill: "#333", d: "M24.2480469,18.5H1.75C1.3359375,18.5,1,18.8359375,1,19.25v5C1,24.6640625,1.3359375,25,1.75,25   h22.4980469c0.4140625,0,0.75-0.3359375,0.75-0.75v-5C24.9980469,18.8359375,24.6621094,18.5,24.2480469,18.5z M23.4980469,23.5   H2.5V20h20.9980469V23.5z" }),
+                                            React.createElement("path", { fill: "#333", d: "M24.25,9.75H1.75C1.3359375,9.75,1,10.0859375,1,10.5v5c0,0.4140625,0.3359375,0.75,0.75,0.75h22.5   c0.4140625,0,0.75-0.3359375,0.75-0.75v-5C25,10.0859375,24.6640625,9.75,24.25,9.75z M23.5,14.75h-21v-3.5h21V14.75z" }),
+                                            React.createElement("path", { fill: "#333", d: "M1.75,7.5h22.4980469c0.4140625,0,0.75-0.3359375,0.75-0.75v-5c0-0.4140625-0.3359375-0.75-0.75-0.75H1.75   C1.3359375,1,1,1.3359375,1,1.75v5C1,7.1640625,1.3359375,7.5,1.75,7.5z M2.5,2.5h20.9980469V6H2.5V2.5z" })
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Tabs Settings') },
+                            React.createElement(SelectControl, {
+                                label: __('Initial Open Tab'),
+                                value: tabActiveFrontend,
+                                options: tabHeaders.map(function (tab, index) {
+                                    return { value: index, label: tab };
+                                }),
+                                onChange: function onChange(value) {
+                                    return setAttributes({ tabActiveFrontend: parseInt(value) });
+                                }
+                            })
+                        ),
+                        React.createElement(PanelColorSettings, {
+                            title: __('Tab Colors', 'advanced-gutenberg'),
+                            initialOpen: false,
+                            colorSettings: [{
+                                label: __('Background Color', 'advanced-gutenberg'),
+                                value: headerBgColor,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ headerBgColor: value === undefined ? '#000' : value });
+                                }
+                            }, {
+                                label: __('Text Color', 'advanced-gutenberg'),
+                                value: headerTextColor,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ headerTextColor: value === undefined ? '#fff' : value });
+                                }
+                            }, {
+                                label: __('Active Tab Background Color', 'advanced-gutenberg'),
+                                value: activeTabBgColor,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ activeTabBgColor: value });
+                                }
+                            }, {
+                                label: __('Active Tab Text Color', 'advanced-gutenberg'),
+                                value: activeTabTextColor,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ activeTabTextColor: value });
+                                }
+                            }]
+                        }),
+                        React.createElement(PanelColorSettings, {
+                            title: __('Body Colors', 'advanced-gutenberg'),
+                            initialOpen: false,
+                            colorSettings: [{
+                                label: __('Background Color', 'advanced-gutenberg'),
+                                value: bodyBgColor,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ bodyBgColor: value });
+                                }
+                            }, {
+                                label: __('Text Color', 'advanced-gutenberg'),
+                                value: bodyTextColor,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ bodyTextColor: value });
+                                }
+                            }]
+                        }),
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Border Settings', 'advanced-gutenberg'), initialOpen: false },
+                            React.createElement(SelectControl, {
+                                label: __('Border Style', 'advanced-gutenberg'),
+                                value: borderStyle,
+                                options: [{ label: __('Solid', 'advanced-gutenberg'), value: 'solid' }, { label: __('Dashed', 'advanced-gutenberg'), value: 'dashed' }, { label: __('Dotted', 'advanced-gutenberg'), value: 'dotted' }],
+                                onChange: function onChange(value) {
+                                    return setAttributes({ borderStyle: value });
+                                }
+                            }),
+                            React.createElement(PanelColorSettings, {
+                                title: __('Border Color', 'advanced-gutenberg'),
+                                initialOpen: false,
+                                colorSettings: [{
+                                    label: __('Border Color', 'advanced-gutenberg'),
+                                    value: borderColor,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ borderColor: value });
+                                    }
+                                }]
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Border width', 'advanced-gutenberg'),
+                                value: borderWidth,
+                                min: 1,
+                                max: 10,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ borderWidth: value });
+                                }
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Border radius', 'advanced-gutenberg'),
+                                value: borderRadius,
+                                min: 0,
+                                max: 100,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ borderRadius: value });
+                                }
+                            })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: blockClass, style: { border: 'none' } },
+                        React.createElement(
+                            "ul",
+                            { className: "advgb-tabs-panel" },
+                            tabHeaders.map(function (item, index) {
+                                return React.createElement(
+                                    "li",
+                                    { key: index,
+                                        className: "advgb-tab " + (tabActive === index && 'ui-tabs-active'),
+                                        style: {
+                                            backgroundColor: headerBgColor,
+                                            borderStyle: borderStyle,
+                                            borderWidth: borderWidth + 'px',
+                                            borderColor: borderColor,
+                                            borderRadius: borderRadius + 'px',
+                                            margin: "-" + borderWidth + "px 0 -" + borderWidth + "px -" + borderWidth + "px"
+                                        }
+                                    },
+                                    React.createElement(
+                                        "a",
+                                        { style: { color: headerTextColor },
+                                            onClick: function onClick() {
+                                                return _this2.updateTabsAttr({ tabActive: index });
+                                            }
+                                        },
+                                        React.createElement(RichText, {
+                                            tagName: "p",
+                                            value: item,
+                                            onChange: function onChange(value) {
+                                                return _this2.updateTabsHeader(value, index);
+                                            },
+                                            unstableOnSplit: function unstableOnSplit() {
+                                                return null;
+                                            },
+                                            placeholder: __('Title…', 'advanced-gutenberg')
+                                        })
+                                    ),
+                                    tabHeaders.length > 1 && React.createElement(
+                                        Tooltip,
+                                        { text: __('Remove tab', 'advanced-gutenberg') },
+                                        React.createElement(
+                                            "span",
+                                            { className: "advgb-tab-remove",
+                                                onClick: function onClick() {
+                                                    return _this2.removeTab(index);
+                                                }
+                                            },
+                                            React.createElement(Dashicon, { icon: "no" })
+                                        )
+                                    )
+                                );
+                            }),
+                            React.createElement(
+                                "li",
+                                { className: "advgb-tab advgb-add-tab",
+                                    style: {
+                                        borderRadius: borderRadius + 'px',
+                                        borderWidth: borderWidth + 'px',
+                                        margin: "-" + borderWidth + "px 0 -" + borderWidth + "px -" + borderWidth + "px"
+                                    }
+                                },
+                                React.createElement(
+                                    Tooltip,
+                                    { text: __('Add tab', 'advanced-gutenberg') },
+                                    React.createElement(
+                                        "span",
+                                        { onClick: function onClick() {
+                                                return _this2.addTab();
+                                            } },
+                                        React.createElement(Dashicon, { icon: "plus-alt" })
+                                    )
+                                )
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "advgb-tab-body-wrapper",
+                                style: {
+                                    backgroundColor: bodyBgColor,
+                                    color: bodyTextColor,
+                                    borderStyle: borderStyle,
+                                    borderWidth: borderWidth + 'px',
+                                    borderColor: borderColor,
+                                    borderRadius: borderRadius + 'px'
+                                }
+                            },
+                            React.createElement(InnerBlocks, {
+                                template: [['advgb/tab'], ['advgb/tab'], ['advgb/tab']],
+                                templateLock: false,
+                                allowedBlocks: ['advgb/tab']
+                            })
+                        )
+                    ),
+                    !!pid && React.createElement(
+                        "style",
+                        null,
+                        activeTabBgColor && "#block-" + clientId + " li.advgb-tab.ui-tabs-active {\n                                background-color: " + activeTabBgColor + " !important;\n                            }",
+                        activeTabTextColor && "#block-" + clientId + " li.advgb-tab.ui-tabs-active a {\n                                color: " + activeTabTextColor + " !important;\n                            }"
+                    )
+                );
+            }
+        }]);
+
+        return AdvTabsWrapper;
+    }(Component);
+
+    var tabsBlockIcon = React.createElement(
+        "svg",
+        { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 488.8 488.8", width: "20px", height: "20px" },
+        React.createElement("polygon", { fill: "#ddd", points: "476.4,105.6 214.8,109.6 162,4 476.4,4 " }),
+        React.createElement("path", { d: path }),
+        React.createElement("path", { d: path2 }),
+        React.createElement("rect", { x: "328.4", y: "3", width: "16", height: "114" })
+    );
+
+    var tabBlockAttrs = {
+        tabHeaders: {
+            type: 'array',
+            default: [__('Tab 1', 'advanced-gutenberg'), __('Tab 2', 'advanced-gutenberg'), __('Tab 3', 'advanced-gutenberg')]
+        },
+        tabActive: {
+            type: 'number',
+            default: 0
+        },
+        tabActiveFrontend: {
+            type: 'number',
+            default: 0
+        },
+        tabsStyleD: {
+            type: 'string',
+            default: 'horz'
+        },
+        tabsStyleT: {
+            type: 'string',
+            default: 'vert'
+        },
+        tabsStyleM: {
+            type: 'string',
+            default: 'stack'
+        },
+        headerBgColor: {
+            type: 'string',
+            default: '#000'
+        },
+        headerTextColor: {
+            type: 'string',
+            default: '#fff'
+        },
+        bodyBgColor: {
+            type: 'string'
+        },
+        bodyTextColor: {
+            type: 'string'
+        },
+        borderStyle: {
+            type: 'string',
+            default: 'solid'
+        },
+        borderWidth: {
+            type: 'number',
+            default: 1
+        },
+        borderColor: {
+            type: 'string'
+        },
+        borderRadius: {
+            type: 'number',
+            default: 2
+        },
+        pid: {
+            type: 'string'
+        },
+        activeTabBgColor: {
+            type: 'string'
+        },
+        activeTabTextColor: {
+            type: 'string'
+        },
+        changed: {
+            type: 'boolean',
+            default: false
+        }
+    };
+
+    registerBlockType('advgb/adv-tabs', {
+        title: __('Advanced Tabs', 'advanced-gutenberg'),
+        description: __('Create your own tabs never easy like this.', 'advanced-gutenberg'),
+        icon: {
+            src: tabsBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: "advgb-category",
+        keywords: [__('tabs', 'advanced-gutenberg'), __('cards', 'advanced-gutenberg')],
+        attributes: tabBlockAttrs,
+        edit: AdvTabsWrapper,
+        save: function save(_ref8) {
+            var attributes = _ref8.attributes;
+            var tabHeaders = attributes.tabHeaders,
+                tabActiveFrontend = attributes.tabActiveFrontend,
+                tabsStyleD = attributes.tabsStyleD,
+                tabsStyleT = attributes.tabsStyleT,
+                tabsStyleM = attributes.tabsStyleM,
+                headerBgColor = attributes.headerBgColor,
+                headerTextColor = attributes.headerTextColor,
+                bodyBgColor = attributes.bodyBgColor,
+                bodyTextColor = attributes.bodyTextColor,
+                borderStyle = attributes.borderStyle,
+                borderWidth = attributes.borderWidth,
+                borderColor = attributes.borderColor,
+                borderRadius = attributes.borderRadius,
+                pid = attributes.pid;
+
+            var blockClass = ["advgb-tabs-wrapper", "advgb-tab-" + tabsStyleD + "-desktop", "advgb-tab-" + tabsStyleT + "-tablet", "advgb-tab-" + tabsStyleM + "-mobile"].filter(Boolean).join(' ');
+
+            return React.createElement(
+                "div",
+                { id: pid, className: blockClass, "data-tab-active": tabActiveFrontend },
+                React.createElement(
+                    "ul",
+                    { className: "advgb-tabs-panel" },
+                    tabHeaders.map(function (header, index) {
+                        return React.createElement(
+                            "li",
+                            { key: index, className: "advgb-tab",
+                                style: {
+                                    backgroundColor: headerBgColor,
+                                    borderStyle: borderStyle,
+                                    borderWidth: borderWidth + 'px',
+                                    borderColor: borderColor,
+                                    borderRadius: borderRadius + 'px',
+                                    margin: "-" + borderWidth + "px 0 -" + borderWidth + "px -" + borderWidth + "px"
+                                }
+                            },
+                            React.createElement(
+                                "a",
+                                { href: "#" + pid + "-" + index,
+                                    style: { color: headerTextColor }
+                                },
+                                React.createElement(
+                                    "span",
+                                    null,
+                                    header
+                                )
+                            )
+                        );
+                    })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "advgb-tab-body-wrapper",
+                        style: {
+                            backgroundColor: bodyBgColor,
+                            color: bodyTextColor,
+                            borderStyle: borderStyle,
+                            borderWidth: borderWidth + 'px',
+                            borderColor: borderColor,
+                            borderRadius: borderRadius + 'px'
+                        }
+                    },
+                    React.createElement(InnerBlocks.Content, null)
+                )
+            );
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
+
+/***/ }),
+
+/***/ "./assets/blocks/advtabs/tab.jsx":
+/*!***************************************!*\
+  !*** ./assets/blocks/advtabs/tab.jsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var _wpBlockEditor = wpBlockEditor,
+        InnerBlocks = _wpBlockEditor.InnerBlocks;
+    var select = wp.data.select;
+
+
+    var tabsBlockIcon = React.createElement(
+        "svg",
+        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24" },
+        React.createElement("path", { fill: "none", d: "M0,0h24v24H0V0z" }),
+        React.createElement("path", { fill: "none", d: "M0,0h24v24H0V0z" }),
+        React.createElement("path", { d: "M21,3H3C1.9,3,1,3.9,1,5v14c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V5C23,3.9,22.1,3,21,3z M21,19H3V5h10v4h8V19z" })
+    );
+
+    var TabItemEdit = function (_Component) {
+        _inherits(TabItemEdit, _Component);
+
+        function TabItemEdit() {
+            _classCallCheck(this, TabItemEdit);
+
+            return _possibleConstructorReturn(this, (TabItemEdit.__proto__ || Object.getPrototypeOf(TabItemEdit)).apply(this, arguments));
+        }
+
+        _createClass(TabItemEdit, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes,
+                    clientId = _props.clientId;
+
+                var _ref = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockRootClientId = _ref.getBlockRootClientId,
+                    getBlockAttributes = _ref.getBlockAttributes;
+
+                var rootBlockId = getBlockRootClientId(clientId);
+                var rootBlockAttrs = getBlockAttributes(rootBlockId);
+
+                // Apply parent style if newly inserted
+                if (attributes.changed !== true) {
+                    if (rootBlockAttrs !== null && rootBlockAttrs.needUpdate !== false) {
+                        Object.keys(rootBlockAttrs).map(function (attribute) {
+                            attributes[attribute] = rootBlockAttrs[attribute];
+                        });
+
+                        // Done applied, we will not do this again
+                        setAttributes({ changed: true });
+                    }
+                }
+            }
+        }, {
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                var _props2 = this.props,
+                    setAttributes = _props2.setAttributes,
+                    clientId = _props2.clientId;
+
+                var _ref2 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockRootClientId = _ref2.getBlockRootClientId,
+                    getBlockIndex = _ref2.getBlockIndex,
+                    getBlockAttributes = _ref2.getBlockAttributes;
+
+                var rootBlockId = getBlockRootClientId(clientId);
+                var rootBlockAttrs = getBlockAttributes(rootBlockId);
+                var pid = rootBlockAttrs.pid,
+                    tabHeaders = rootBlockAttrs.tabHeaders;
+
+                var blockIndex = getBlockIndex(clientId, rootBlockId);
+
+                setAttributes({
+                    pid: pid + "-" + blockIndex,
+                    header: tabHeaders[blockIndex]
+                });
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _props3 = this.props,
+                    attributes = _props3.attributes,
+                    clientId = _props3.clientId;
+                var tabActive = attributes.tabActive,
+                    pid = attributes.pid;
+
+                var _ref3 = !wp.blockEditor ? select('core/editor') : select('core/block-editor'),
+                    getBlockRootClientId = _ref3.getBlockRootClientId,
+                    getBlockIndex = _ref3.getBlockIndex;
+
+                var rootBlockId = getBlockRootClientId(clientId);
+                var blockIndex = getBlockIndex(clientId, rootBlockId);
+
+                return React.createElement(
+                    Fragment,
+                    null,
+                    React.createElement(
+                        "div",
+                        { className: "advgb-tab-body",
+                            id: pid,
+                            style: {
+                                display: blockIndex === tabActive ? 'block' : 'none'
+                            }
+                        },
+                        React.createElement(InnerBlocks, {
+                            template: [['core/paragraph']],
+                            templateLock: false
+                        })
+                    )
+                );
+            }
+        }]);
+
+        return TabItemEdit;
+    }(Component);
+
+    registerBlockType('advgb/tab', {
+        title: __('Tab Item', 'advanced-gutenberg'),
+        parent: ['advgb/adv-tabs'],
+        icon: {
+            src: tabsBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        attributes: {
+            pid: {
+                type: 'string'
+            },
+            header: {
+                type: 'html'
+            },
+            tabActive: {
+                type: 'number',
+                default: 0
+            },
+            changed: {
+                type: 'boolean',
+                default: false
+            }
+        },
+        keywords: [__('tab', 'advanced-gutenberg')],
+        edit: TabItemEdit,
+        save: function save(_ref4) {
+            var attributes = _ref4.attributes;
+            var pid = attributes.pid,
+                header = attributes.header;
+
+
+            return React.createElement(
+                "div",
+                { className: "advgb-tab-body-container" },
+                React.createElement(
+                    "div",
+                    { className: "advgb-tab-body-header" },
+                    header
+                ),
+                React.createElement(
+                    "div",
+                    { className: "advgb-tab-body", id: pid },
+                    React.createElement(InnerBlocks.Content, null)
+                )
+            );
+        }
+
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
+
+/***/ }),
+
 /***/ "./assets/blocks/advvideo/block.jsx":
 /*!******************************************!*\
   !*** ./assets/blocks/advvideo/block.jsx ***!
@@ -6776,7 +6211,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     videoWidth = attributes.videoWidth,
                     videoHeight = attributes.videoHeight,
                     playButtonIcon = attributes.playButtonIcon,
-                    playIconID = attributes.playIconID,
                     playButtonSize = attributes.playButtonSize,
                     playButtonColor = attributes.playButtonColor,
                     overlayColor = attributes.overlayColor,
@@ -6932,12 +6366,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                         "span",
                                                         { className: key === playButtonIcon ? 'active' : '',
                                                             onClick: function onClick() {
-                                                                return setAttributes({
-                                                                    playButtonIcon: key,
-                                                                    playIconID: undefined
-                                                                });
-                                                            }
-                                                        },
+                                                                return setAttributes({ playButtonIcon: key });
+                                                            } },
                                                         React.createElement(
                                                             "svg",
                                                             { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
@@ -6947,33 +6377,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                 );
                                             })
                                         )
-                                    ),
-                                    React.createElement(
-                                        BaseControl,
-                                        { label: __('Custom icon'),
-                                            help: __('Color settings cannot be applied to custom icon.')
-                                        },
-                                        React.createElement(MediaUpload, {
-                                            allowedTypes: ["image"],
-                                            value: playIconID,
-                                            onSelect: function onSelect(media) {
-                                                setAttributes({
-                                                    playButtonIcon: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
-                                                    playIconID: media.id
-                                                });
-                                            },
-                                            render: function render(_ref2) {
-                                                var open = _ref2.open;
-                                                return React.createElement(
-                                                    Button,
-                                                    {
-                                                        className: "button button-large",
-                                                        onClick: open
-                                                    },
-                                                    __('Upload/Choose')
-                                                );
-                                            }
-                                        })
                                     ),
                                     React.createElement(RangeControl, {
                                         label: __('Play Button Size', 'advanced-gutenberg'),
@@ -7004,8 +6407,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return setAttributes({ poster: media.url, posterID: media.id });
                                     },
                                     value: posterID,
-                                    render: function render(_ref3) {
-                                        var open = _ref3.open;
+                                    render: function render(_ref2) {
+                                        var open = _ref2.open;
                                         return React.createElement(
                                             Button,
                                             {
@@ -7019,7 +6422,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 React.createElement(
                                     "div",
                                     { className: "advgb-play-button", style: { color: playButtonColor } },
-                                    !playIconID ? React.createElement(
+                                    React.createElement(
                                         "svg",
                                         { xmlns: "http://www.w3.org/2000/svg",
                                             width: playButtonSize,
@@ -7027,11 +6430,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             viewBox: "0 0 24 24"
                                         },
                                         PLAY_BUTTON_STYLE[playButtonIcon]
-                                    ) : React.createElement("img", { src: playButtonIcon,
-                                        alt: __('Play button'),
-                                        style: { width: playButtonSize },
-                                        className: "advgb-custom-play-button"
-                                    })
+                                    )
                                 )
                             )
                         ),
@@ -7088,8 +6487,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onSelect: function onSelect(video) {
                                         return setAttributes({ videoURL: video.url, videoID: video.id, videoTitle: video.title, videoSourceType: 'local' });
                                     },
-                                    render: function render(_ref4) {
-                                        var open = _ref4.open;
+                                    render: function render(_ref3) {
+                                        var open = _ref3.open;
                                         return React.createElement(
                                             Button,
                                             {
@@ -7177,9 +6576,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: 'normal'
         },
-        playIconID: {
-            type: 'number'
-        },
         playButtonSize: {
             type: 'number',
             default: 80
@@ -7219,8 +6615,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         keywords: [__('video', 'advanced-gutenberg'), __('embed', 'advanced-gutenberg'), __('media', 'advanced-gutenberg')],
         attributes: blockAttrs,
         edit: AdvVideo,
-        save: function save(_ref5) {
-            var attributes = _ref5.attributes;
+        save: function save(_ref4) {
+            var attributes = _ref4.attributes;
             var videoURL = attributes.videoURL,
                 videoSourceType = attributes.videoSourceType,
                 videoTitle = attributes.videoTitle,
@@ -7228,7 +6624,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 videoWidth = attributes.videoWidth,
                 videoHeight = attributes.videoHeight,
                 playButtonIcon = attributes.playButtonIcon,
-                playIconID = attributes.playIconID,
                 playButtonSize = attributes.playButtonSize,
                 playButtonColor = attributes.playButtonColor,
                 overlayColor = attributes.overlayColor,
@@ -7276,7 +6671,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         React.createElement(
                             "div",
                             { className: "advgb-play-button", style: { color: playButtonColor } },
-                            !playIconID ? React.createElement(
+                            React.createElement(
                                 "svg",
                                 { xmlns: "http://www.w3.org/2000/svg",
                                     width: playButtonSize,
@@ -7284,11 +6679,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     viewBox: "0 0 24 24"
                                 },
                                 PLAY_BUTTON_STYLE[playButtonIcon]
-                            ) : React.createElement("img", { src: playButtonIcon,
-                                alt: __('Play button'),
-                                style: { width: playButtonSize },
-                                className: "advgb-custom-play-button"
-                            })
+                            )
                         )
                     )
                 )
@@ -7492,6 +6883,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     contentMaxWidthUnit = attributes.contentMaxWidthUnit,
                     contentMinHeight = attributes.contentMinHeight,
                     contentMinHeightUnit = attributes.contentMinHeightUnit,
+                    contentMaxHeight = attributes.contentMaxHeight,
+                    contentMaxHeightUnit = attributes.contentMaxHeightUnit,
                     wrapperTag = attributes.wrapperTag;
 
 
@@ -7717,7 +7110,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             beforeIcon: pos.icon,
                                             value: attributes['padding' + pos.label + deviceLetter] || 0,
                                             min: 0,
-                                            max: 200,
+                                            max: 50,
                                             onChange: function onChange(value) {
                                                 return setAttributes(_defineProperty({}, 'padding' + pos.label + deviceLetter, value));
                                             }
@@ -7759,7 +7152,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             beforeIcon: pos.icon,
                                             value: attributes['margin' + pos.label + deviceLetter] || 0,
                                             min: 0,
-                                            max: 200,
+                                            max: 50,
                                             onChange: function onChange(value) {
                                                 return setAttributes(_defineProperty({}, 'margin' + pos.label + deviceLetter, value));
                                             }
@@ -7831,6 +7224,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onChange: function onChange(value) {
                                         return setAttributes({ contentMinHeight: value });
                                     }
+                                }),
+                                React.createElement(RangeControl, {
+                                    label: [__('Content Max Height', 'advanced-gutenberg'), React.createElement(
+                                        'div',
+                                        { className: 'advgb-unit-wrapper', key: 'unit' },
+                                        ['px', 'vw', 'vh'].map(function (unit, idx) {
+                                            return React.createElement(
+                                                'span',
+                                                { className: 'advgb-unit ' + (contentMaxHeightUnit === unit ? 'selected' : ''), key: idx,
+                                                    onClick: function onClick() {
+                                                        return setAttributes({ contentMaxHeightUnit: unit });
+                                                    }
+                                                },
+                                                unit
+                                            );
+                                        })
+                                    )],
+                                    value: contentMaxHeight,
+                                    min: 0,
+                                    max: contentMaxHeightUnit === 'px' ? 2000 : 200,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ contentMaxHeight: value });
+                                    }
                                 })
                             )
                         )
@@ -7843,7 +7259,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             { className: blockClasses,
                                 style: {
                                     maxWidth: !!contentMaxWidth ? '' + contentMaxWidth + contentMaxWidthUnit : undefined,
-                                    minHeight: !!contentMinHeight ? '' + contentMinHeight + contentMinHeightUnit : undefined
+                                    minHeight: !!contentMinHeight ? '' + contentMinHeight + contentMinHeightUnit : undefined,
+                                    maxHeight: !!contentMaxHeight ? '' + contentMaxHeight + contentMaxHeightUnit : undefined
                                 }
                             },
                             React.createElement(InnerBlocks, {
@@ -8144,6 +7561,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'string',
             default: 'px'
         },
+        contentMaxHeight: {
+            type: 'number'
+        },
+        contentMaxHeightUnit: {
+            type: 'string',
+            default: 'px'
+        },
         wrapperTag: {
             type: 'string',
             default: 'div'
@@ -8187,6 +7611,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 contentMaxWidthUnit = attributes.contentMaxWidthUnit,
                 contentMinHeight = attributes.contentMinHeight,
                 contentMinHeightUnit = attributes.contentMinHeightUnit,
+                contentMaxHeight = attributes.contentMaxHeight,
+                contentMaxHeightUnit = attributes.contentMaxHeightUnit,
                 wrapperTag = attributes.wrapperTag,
                 colId = attributes.colId;
 
@@ -8202,7 +7628,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     { className: blockClasses, id: colId,
                         style: {
                             maxWidth: !!contentMaxWidth ? '' + contentMaxWidth + contentMaxWidthUnit : undefined,
-                            minHeight: !!contentMinHeight ? '' + contentMinHeight + contentMinHeightUnit : undefined
+                            minHeight: !!contentMinHeight ? '' + contentMinHeight + contentMinHeightUnit : undefined,
+                            maxHeight: !!contentMaxHeight ? '' + contentMaxHeight + contentMaxHeightUnit : undefined
                         }
                     },
                     React.createElement(InnerBlocks.Content, null)
@@ -8528,7 +7955,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         beforeIcon: pos.icon,
                                         value: attributes['padding' + pos.label + deviceLetter] || '',
                                         min: 0,
-                                        max: 200,
+                                        max: 50,
                                         onChange: function onChange(value) {
                                             return setAttributes(_defineProperty({}, 'padding' + pos.label + deviceLetter, value));
                                         }
@@ -8551,7 +7978,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         beforeIcon: pos.icon,
                                         value: attributes['margin' + pos.label + deviceLetter] || '',
                                         min: 0,
-                                        max: 200,
+                                        max: 50,
                                         onChange: function onChange(value) {
                                             return setAttributes(_defineProperty({}, 'margin' + pos.label + deviceLetter, value));
                                         }
@@ -12890,6 +12317,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         TextareaControl = wpComponents.TextareaControl,
         RangeControl = wpComponents.RangeControl,
         SelectControl = wpComponents.SelectControl,
+        ToggleControl = wpComponents.ToggleControl,
         BaseControl = wpComponents.BaseControl,
         Button = wpComponents.Button,
         Placeholder = wpComponents.Placeholder,
@@ -13633,10 +13061,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     zoom = _props$attributes2.zoom,
                     markerTitle = _props$attributes2.markerTitle,
                     markerIcon = _props$attributes2.markerIcon,
-                    markerSize = _props$attributes2.markerSize,
                     markerDesc = _props$attributes2.markerDesc,
                     mapStyle = _props$attributes2.mapStyle,
-                    mapStyleCustom = _props$attributes2.mapStyleCustom;
+                    mapStyleCustom = _props$attributes2.mapStyleCustom,
+                    infoWindowDefaultShown = _props$attributes2.infoWindowDefaultShown;
 
                 var location = { lat: parseFloat(lat), lng: parseFloat(lng) };
                 var that = this;
@@ -13670,13 +13098,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 if (!infoWindow) {
                     infoWindow = new google.maps.InfoWindow({
-                        content: "<div class=\"advgbmap-wrapper\"><h3 class=\"advgbmap-title\">" + markerTitle + "</h3><p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p></div>",
+                        content: "<div class=\"advgbmap-wrapper\">\n                    <h3 class=\"advgbmap-title\">" + markerTitle + "</h3>\n                    <p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p>\n                </div>",
                         maxWidth: 500
                     });
                     this.setState({ currentInfo: infoWindow });
                 }
 
-                infoWindow.setContent("<div class=\"advgbmap-wrapper\"><h3 class=\"advgbmap-title\">" + markerTitle + "</h3><p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p></div>");
+                infoWindow.setContent("<div class=\"advgbmap-wrapper\">\n                <h3 class=\"advgbmap-title\">" + markerTitle + "</h3>\n                <p class=\"advgbmap-desc\">" + (formattedDesc || '') + "</p>\n            </div>");
 
                 if (!marker) {
                     marker = new google.maps.Marker({
@@ -13700,10 +13128,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     scaledSize: new google.maps.Size(27, 43)
                 });
 
-                if (!!markerTitle) {
+                if (!!markerTitle || !!markerDesc) {
                     marker.addListener('click', function () {
                         infoWindow.open(map, marker);
                     });
+
+                    if (infoWindowDefaultShown) {
+                        infoWindow.open(map, marker);
+                    }
+                } else {
+                    infoWindow.close();
                 }
 
                 marker.addListener('dragend', function () {
@@ -13713,24 +13147,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                     that.props.setAttributes({ lat: newLat, lng: newLng });
                 });
-
-                if (markerIcon && markerSize) {
-                    var realWidth = 0,
-                        realHeight = 0,
-                        img = new Image();
-
-                    img.src = markerIcon;
-                    img.onload = function (ev) {
-                        realWidth = ev.target.width;
-                        realHeight = ev.target.height;
-                        var iconSize = markerSize / 100;
-
-                        marker.setIcon({
-                            url: markerIcon || DEFAULT_MARKER,
-                            scaledSize: new google.maps.Size(realWidth * iconSize, realHeight * iconSize)
-                        });
-                    };
-                }
             }
         }, {
             key: "fetchLocation",
@@ -13790,11 +13206,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     height = attributes.height,
                     markerIcon = attributes.markerIcon,
                     markerIconID = attributes.markerIconID,
-                    markerSize = attributes.markerSize,
                     markerTitle = attributes.markerTitle,
                     markerDesc = attributes.markerDesc,
                     mapStyle = attributes.mapStyle,
-                    mapStyleCustom = attributes.mapStyleCustom;
+                    mapStyleCustom = attributes.mapStyleCustom,
+                    infoWindowDefaultShown = attributes.infoWindowDefaultShown;
 
 
                 var listStyles = Object.keys(MAP_STYLES).map(function (style) {
@@ -13945,15 +13361,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     );
                                 }
                             }),
-                            markerIcon && React.createElement(RangeControl, {
-                                label: __('Marker Size (%)'),
-                                value: markerSize,
-                                min: 1,
-                                max: 200,
-                                onChange: function onChange(value) {
-                                    return setAttributes({ markerSize: value });
-                                }
-                            }),
                             React.createElement(TextControl, {
                                 label: __('Marker Title', 'advanced-gutenberg'),
                                 value: markerTitle,
@@ -13968,6 +13375,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 placeholder: __('Enter custom description…', 'advanced-gutenberg'),
                                 onChange: function onChange(value) {
                                     return setAttributes({ markerDesc: value });
+                                }
+                            }),
+                            React.createElement(ToggleControl, {
+                                label: __('Open marker description by default', 'advanced-gutenberg'),
+                                checked: infoWindowDefaultShown,
+                                onChange: function onChange() {
+                                    return setAttributes({ infoWindowDefaultShown: !infoWindowDefaultShown });
                                 }
                             }),
                             React.createElement(SelectControl, {
@@ -14098,8 +13512,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             mapStyleCustom: {
                 type: 'string'
             },
-            markerSize: {
-                type: 'number'
+            infoWindowDefaultShown: {
+                type: 'boolean',
+                default: true
             }
         }),
         edit: AdvMap,
@@ -14111,11 +13526,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 zoom = attributes.zoom,
                 height = attributes.height,
                 markerIcon = attributes.markerIcon,
-                markerSize = attributes.markerSize,
                 markerTitle = attributes.markerTitle,
                 markerDesc = attributes.markerDesc,
                 mapStyle = attributes.mapStyle,
-                mapStyleCustom = attributes.mapStyleCustom;
+                mapStyleCustom = attributes.mapStyleCustom,
+                infoWindowDefaultShown = attributes.infoWindowDefaultShown;
 
 
             var formattedDesc = markerDesc.replace(/\n/g, '<br/>').replace(/'/, '\\\'');
@@ -14148,7 +13563,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     "data-title": formattedTitle,
                     "data-desc": formattedDesc,
                     "data-icon": markerIcon,
-                    "data-isize": markerSize,
+                    "data-shown": infoWindowDefaultShown,
                     "data-style": encodeURIComponent(mapStyleApply)
                 })
             );
@@ -14179,7 +13594,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var formattedDesc = markerDesc.replace(/\n/g, '<br/>').replace(/'/, '\\\'');
                 var formattedTitle = markerTitle.replace(/'/, '\\\'');
                 var DEFAULT_MARKER = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png';
-                var infoWindowHtml = '' + '<div class="advgbmap-wrapper">' + '<h2 class="advgbmap-title">' + formattedTitle + '</h2>' + '<p class="advgbmap-desc">' + formattedDesc + '</p>' + '</div>';
                 var mapStyleApply = MAP_STYLES[mapStyle];
                 if (mapStyle === 'custom') {
                     try {
@@ -14205,8 +13619,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         "data-lng": lng,
                         "data-zoom": zoom,
                         "data-title": formattedTitle,
+                        "data-desc": formattedDesc,
                         "data-icon": markerIcon,
-                        "data-info": encodeURIComponent(infoWindowHtml),
                         "data-style": encodeURIComponent(mapStyleApply)
                     })
                 );
@@ -14809,68 +14223,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /***/ }),
 
-/***/ "./assets/blocks/recent-posts/block-with-load-more.jsx":
-/*!*************************************************************!*\
-  !*** ./assets/blocks/recent-posts/block-with-load-more.jsx ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-(function (wpI18n, wpBlocks, wpEditor) {
-    var __ = wpI18n.__;
-    var registerBlockType = wpBlocks.registerBlockType;
-    var InnerBlocks = wpEditor.InnerBlocks;
-
-
-    var advRecentPostsBlockIcon = React.createElement(
-        "svg",
-        { width: "20", height: "20", viewBox: "2 2 22 22" },
-        React.createElement("path", { fill: "none", d: "M0,0h24v24H0V0z" }),
-        React.createElement("rect", { x: "13", y: "7.5", width: "5", height: "2" }),
-        React.createElement("rect", { x: "13", y: "14.5", width: "5", height: "2" }),
-        React.createElement("path", { d: "M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V5h14V19z" }),
-        React.createElement("path", { d: "M11,6H6v5h5V6z M10,10H7V7h3V10z" }),
-        React.createElement("path", { d: "M11,13H6v5h5V13z M10,17H7v-3h3V17z" })
-    );
-
-    registerBlockType('advgb/rp-loadmore', {
-        title: __('Recent Posts with load more'),
-        icon: {
-            src: advRecentPostsBlockIcon,
-            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
-        },
-        category: 'advgb-category',
-        keywords: [__('latest posts'), __('articles'), __('layout')],
-        attributes: {},
-        supports: {
-            align: true
-        },
-        edit: function edit(props) {
-            return React.createElement(InnerBlocks, {
-                template: [['advgb/recent-posts', { disableSliderView: true }], ['advgb/button', {
-                    className: 'advgb-load-more',
-                    text: 'Load More',
-                    align: 'center',
-                    disableLink: true
-                }]],
-                templateLock: true
-            });
-        },
-        save: function save(props) {
-            return React.createElement(
-                "div",
-                { className: "advgb-recent-posts-container" },
-                React.createElement(InnerBlocks.Content, null)
-            );
-        }
-    });
-})(wp.i18n, wp.blocks, wp.editor);
-
-/***/ }),
-
 /***/ "./assets/blocks/recent-posts/block.jsx":
 /*!**********************************************!*\
   !*** ./assets/blocks/recent-posts/block.jsx ***!
@@ -14901,10 +14253,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var registerBlockType = wpBlocks.registerBlockType;
     var _wpBlockEditor = wpBlockEditor,
         InspectorControls = _wpBlockEditor.InspectorControls,
-        BlockControls = _wpBlockEditor.BlockControls,
-        MediaUpload = _wpBlockEditor.MediaUpload;
+        BlockControls = _wpBlockEditor.BlockControls;
     var PanelBody = wpComponents.PanelBody,
-        BaseControl = wpComponents.BaseControl,
         RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
         TextControl = wpComponents.TextControl,
@@ -14912,8 +14262,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         Spinner = wpComponents.Spinner,
         Toolbar = wpComponents.Toolbar,
         Placeholder = wpComponents.Placeholder,
-        IconButton = wpComponents.IconButton,
-        Button = wpComponents.Button;
+        IconButton = wpComponents.IconButton;
     var withSelect = wpData.withSelect;
     var pickBy = lodash.pickBy,
         isUndefined = lodash.isUndefined;
@@ -14934,7 +14283,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     var initSlider = null;
-    if (typeof window.advgbRPL === 'undefined') window.advgbRPL = undefined;
 
     var RecentPostsEdit = function (_Component) {
         _inherits(RecentPostsEdit, _Component);
@@ -15059,17 +14407,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayFeaturedImage = attributes.displayFeaturedImage,
                     displayAuthor = attributes.displayAuthor,
                     displayDate = attributes.displayDate,
-                    displayCategory = attributes.displayCategory,
                     displayExcerpt = attributes.displayExcerpt,
                     postTextAsExcerpt = attributes.postTextAsExcerpt,
                     postTextExcerptLength = attributes.postTextExcerptLength,
                     displayReadMore = attributes.displayReadMore,
-                    readMoreLbl = attributes.readMoreLbl,
-                    layout = attributes.layout,
-                    disableSliderView = attributes.disableSliderView,
-                    categoryAbove = attributes.categoryAbove,
-                    defaultThumb = attributes.defaultThumb,
-                    defaultThumbID = attributes.defaultThumbID;
+                    readMoreLbl = attributes.readMoreLbl;
 
 
                 var inspectorControls = React.createElement(
@@ -15078,46 +14420,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     React.createElement(
                         PanelBody,
                         { title: __('Block Settings', 'advanced-gutenberg') },
-                        !!advgbRPL && !!Object.keys(advgbRPL).length && React.createElement(
-                            PanelBody,
-                            { title: __('Preset Layout'), initialOpen: false },
-                            React.createElement(
-                                "div",
-                                { className: "advgb-recent-post-layouts" },
-                                React.createElement(
-                                    "div",
-                                    { className: !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout',
-                                        onClick: function onClick() {
-                                            return setAttributes({ layout: undefined });
-                                        }
-                                    },
-                                    React.createElement(
-                                        "div",
-                                        { className: "no-layout" },
-                                        __('NONE')
-                                    )
-                                ),
-                                Object.keys(advgbRPL).map(function (clayout, index) {
-                                    return React.createElement(
-                                        "div",
-                                        { className: clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout',
-                                            key: index,
-                                            onClick: function onClick() {
-                                                return setAttributes({ layout: clayout });
-                                            }
-                                        },
-                                        React.createElement("img", { src: advgbRPL[clayout].preview,
-                                            alt: advgbRPL[clayout].title
-                                        }),
-                                        React.createElement(
-                                            "div",
-                                            { className: "advgb-recent-post-layout-title" },
-                                            advgbRPL[clayout].title
-                                        )
-                                    );
-                                })
-                            )
-                        ),
                         React.createElement(QueryControls, _extends({ order: order, orderBy: orderBy }, {
                             categoriesList: categoriesList,
                             selectedCategoryId: category,
@@ -15135,12 +14437,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return setAttributes({ numberOfPosts: value });
                             }
                         })),
-                        !!layout && React.createElement(
-                            "p",
-                            { className: "components-base-control__help", style: { margin: '-20px auto 20px' } },
-                            __('Some layout required minimum items to display properly.')
-                        ),
-                        postView === 'grid' && !layout && React.createElement(RangeControl, {
+                        postView === 'grid' && React.createElement(RangeControl, {
                             label: __('Columns', 'advanced-gutenberg'),
                             value: columns,
                             min: 1,
@@ -15156,49 +14453,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return setAttributes({ displayFeaturedImage: !displayFeaturedImage });
                             }
                         }),
-                        displayFeaturedImage && React.createElement(MediaUpload, {
-                            allowedTypes: ["image"],
-                            value: defaultThumbID,
-                            onSelect: function onSelect(image) {
-                                return setAttributes({
-                                    defaultThumb: image.sizes.full.url,
-                                    defaultThumbID: image.id
-                                });
-                            },
-                            render: function render(_ref) {
-                                var open = _ref.open;
-
-                                return React.createElement(
-                                    BaseControl,
-                                    {
-                                        label: [__('Default Thumbnail'), defaultThumb && React.createElement(
-                                            "a",
-                                            { key: "thumb-remove",
-                                                style: { marginLeft: '10px', cursor: 'pointer' },
-                                                onClick: function onClick() {
-                                                    return setAttributes({
-                                                        defaultThumb: undefined,
-                                                        defaultThumbID: undefined
-                                                    });
-                                                }
-                                            },
-                                            __('Remove')
-                                        )],
-                                        help: __('Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.')
-                                    },
-                                    React.createElement(
-                                        Button,
-                                        { className: "button button-large",
-                                            onClick: open
-                                        },
-                                        __('Choose image')
-                                    ),
-                                    !!defaultThumb && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
-                                        src: defaultThumb,
-                                        alt: __('Post Thumb') })
-                                );
-                            }
-                        }),
                         React.createElement(ToggleControl, {
                             label: __('Display Post Author', 'advanced-gutenberg'),
                             checked: displayAuthor,
@@ -15211,20 +14465,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             checked: displayDate,
                             onChange: function onChange() {
                                 return setAttributes({ displayDate: !displayDate });
-                            }
-                        }),
-                        React.createElement(ToggleControl, {
-                            label: __('Display Categories'),
-                            checked: displayCategory,
-                            onChange: function onChange() {
-                                return setAttributes({ displayCategory: !displayCategory });
-                            }
-                        }),
-                        displayCategory && React.createElement(ToggleControl, {
-                            label: __('Categories above post title'),
-                            checked: categoryAbove,
-                            onChange: function onChange() {
-                                return setAttributes({ categoryAbove: !categoryAbove });
                             }
                         }),
                         React.createElement(ToggleControl, {
@@ -15307,118 +14547,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     onClick: function onClick() {
                         return setAttributes({ postView: 'slider' });
                     },
-                    isActive: postView === 'slider',
-                    isDisabled: !!disableSliderView
+                    isActive: postView === 'slider'
                 }];
 
                 var blockClassName = ['advgb-recent-posts-block', this.state.updating && 'loading', postView === 'grid' && 'columns-' + columns, postView === 'grid' && 'grid-view', postView === 'list' && 'list-view', postView === 'slider' && 'slider-view'].filter(Boolean).join(' ');
 
                 var dateFormat = __experimentalGetSettings().formats.date;
-
-                var recentPostsView = React.createElement(
-                    "div",
-                    { className: blockClassName },
-                    this.state.updating && React.createElement("div", { className: "advgb-recent-posts-loading" }),
-                    React.createElement(
-                        "div",
-                        { className: "advgb-recent-posts" },
-                        recentPosts.map(function (post, index) {
-                            var catsHtml = displayCategory && React.createElement(
-                                "div",
-                                { className: "advgb-post-categories" },
-                                post.categories.length && post.categories.map(function (catID, index) {
-                                    if (index > 5) return null;
-
-                                    if (index === 5) {
-                                        return React.createElement(
-                                            "span",
-                                            { className: "advgb-post-category-more" },
-                                            "+",
-                                            post.categories.length - index
-                                        );
-                                    }
-
-                                    var idx = categoriesList.findIndex(function (cat) {
-                                        return cat.id === catID;
-                                    });
-                                    var catName = '';
-                                    if (idx > -1) catName = categoriesList[idx].name;
-
-                                    return React.createElement(
-                                        "span",
-                                        { className: "advgb-post-category" },
-                                        catName
-                                    );
-                                })
-                            );
-
-                            return React.createElement(
-                                "article",
-                                { key: index, className: "advgb-recent-post" },
-                                displayFeaturedImage && React.createElement(
-                                    "div",
-                                    { className: "advgb-post-thumbnail" },
-                                    React.createElement(
-                                        "a",
-                                        { href: post.link, target: "_blank" },
-                                        React.createElement("img", { src: post.featured_img ? post.featured_img : defaultThumb ? defaultThumb : advgbBlocks.post_thumb, alt: __('Post Image', 'advanced-gutenberg') })
-                                    ),
-                                    categoryAbove && postView !== 'list' && catsHtml
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "advgb-post-wrapper" },
-                                    categoryAbove && (!displayFeaturedImage || postView === 'list') && catsHtml,
-                                    React.createElement(
-                                        "h2",
-                                        { className: "advgb-post-title" },
-                                        React.createElement(
-                                            "a",
-                                            { href: post.link, target: "_blank" },
-                                            decodeEntities(post.title.rendered)
-                                        )
-                                    ),
-                                    React.createElement(
-                                        "div",
-                                        { className: "advgb-post-info" },
-                                        !categoryAbove && catsHtml,
-                                        displayAuthor && React.createElement(
-                                            "a",
-                                            { href: post.author_meta.author_link,
-                                                target: "_blank",
-                                                className: "advgb-post-author"
-                                            },
-                                            post.author_meta.display_name
-                                        ),
-                                        displayDate && React.createElement(
-                                            "span",
-                                            { className: "advgb-post-date" },
-                                            dateI18n(dateFormat, post.date_gmt)
-                                        )
-                                    ),
-                                    React.createElement(
-                                        "div",
-                                        { className: "advgb-post-content" },
-                                        displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
-                                            dangerouslySetInnerHTML: {
-                                                __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
-                                            }
-                                        }),
-                                        displayReadMore && React.createElement(
-                                            "div",
-                                            { className: "advgb-post-readmore" },
-                                            React.createElement(
-                                                "a",
-                                                { href: post.link, target: "_blank" },
-                                                readMoreLbl ? readMoreLbl : __('Read More', 'advanced-gutenberg')
-                                            )
-                                        )
-                                    )
-                                )
-                            );
-                        })
-                    )
-                );
 
                 return React.createElement(
                     Fragment,
@@ -15427,12 +14561,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     React.createElement(
                         BlockControls,
                         null,
-                        !layout && React.createElement(Toolbar, { controls: postViewControls }),
+                        React.createElement(Toolbar, { controls: postViewControls }),
                         React.createElement(
                             Toolbar,
                             null,
                             React.createElement(IconButton, {
-                                label: __('Refresh'),
+                                label: __('Refresh', 'advanced-gutenberg'),
                                 icon: "update",
                                 onClick: function onClick() {
                                     return setAttributes({ myToken: Math.floor(Math.random() * Math.floor(999)) });
@@ -15440,55 +14574,77 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             })
                         )
                     ),
-                    layout ? !advgbRPL || !advgbRPL[layout] ?
-                    // No layout detected or the layout current loaded is not available anymore
-                    React.createElement(
-                        Placeholder,
-                        {
-                            icon: advRecentPostsBlockIcon,
-                            label: __('ADVGB Recent Posts Block'),
-                            instructions: __('Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.')
-                        },
-                        React.createElement(
-                            "p",
-                            { style: { width: '100%' } },
-                            __('Current Activated:'),
-                            React.createElement(
-                                "strong",
-                                { style: { margin: '0 5px' } },
-                                layout
-                            )
-                        ),
-                        React.createElement(
-                            Button,
-                            { isPrimary: true,
-                                onClick: function onClick() {
-                                    return setAttributes({ layout: undefined });
-                                }
-                            },
-                            __('Revert to default layout')
-                        )
-                    ) : // Layout found and loaded
                     React.createElement(
                         "div",
-                        { className: "advgb-recent-posts-layout-preview" },
-                        React.createElement(
-                            "p",
-                            { className: "layout-preview-title" },
-                            __('Using preset layout:'),
-                            React.createElement(
-                                "strong",
-                                null,
-                                advgbRPL[layout].title
-                            )
-                        ),
+                        { className: blockClassName },
+                        this.state.updating && React.createElement("div", { className: "advgb-recent-posts-loading" }),
                         React.createElement(
                             "div",
-                            { className: "layout-preview" },
-                            React.createElement("img", { src: advgbRPL[layout].preview, alt: advgbRPL[layout].title })
+                            { className: "advgb-recent-posts" },
+                            recentPosts.map(function (post, index) {
+                                return React.createElement(
+                                    "article",
+                                    { key: index, className: "advgb-recent-post" },
+                                    displayFeaturedImage && React.createElement(
+                                        "div",
+                                        { className: "advgb-post-thumbnail" },
+                                        React.createElement(
+                                            "a",
+                                            { href: post.link, target: "_blank" },
+                                            React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image', 'advanced-gutenberg') })
+                                        )
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-post-wrapper" },
+                                        React.createElement(
+                                            "h2",
+                                            { className: "advgb-post-title" },
+                                            React.createElement(
+                                                "a",
+                                                { href: post.link, target: "_blank" },
+                                                decodeEntities(post.title.rendered)
+                                            )
+                                        ),
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-post-info" },
+                                            displayAuthor && React.createElement(
+                                                "a",
+                                                { href: post.author_meta.author_link,
+                                                    target: "_blank",
+                                                    className: "advgb-post-author"
+                                                },
+                                                post.author_meta.display_name
+                                            ),
+                                            displayDate && React.createElement(
+                                                "span",
+                                                { className: "advgb-post-date" },
+                                                dateI18n(dateFormat, post.date_gmt)
+                                            )
+                                        ),
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-post-content" },
+                                            displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
+                                                dangerouslySetInnerHTML: {
+                                                    __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
+                                                } }),
+                                            displayReadMore && React.createElement(
+                                                "div",
+                                                { className: "advgb-post-readmore" },
+                                                React.createElement(
+                                                    "a",
+                                                    { href: post.link, target: "_blank" },
+                                                    readMoreLbl ? readMoreLbl : __('Read More', 'advanced-gutenberg')
+                                                )
+                                            )
+                                        )
+                                    )
+                                );
+                            })
                         )
-                    ) : // Not using layout (default layout)
-                    recentPostsView
+                    )
                 );
             }
         }], [{
@@ -17400,7 +16556,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var __ = wpI18n.__;
     var Component = wpElement.Component,
         Fragment = wpElement.Fragment;
-    var registerBlockType = wpBlocks.registerBlockType;
+    var registerBlockType = wpBlocks.registerBlockType,
+        createBlock = wpBlocks.createBlock;
     var _wpBlockEditor = wpBlockEditor,
         InspectorControls = _wpBlockEditor.InspectorControls,
         RichText = _wpBlockEditor.RichText,
@@ -17825,6 +16982,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         category: "advgb-category",
         keywords: [__('tabs', 'advanced-gutenberg'), __('cards', 'advanced-gutenberg')],
         attributes: tabBlockAttrs,
+        supports: {
+            inserter: false
+        },
         edit: AdvTabsBlock,
         save: function save(_ref) {
             var attributes = _ref.attributes;
@@ -17896,6 +17056,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     activeTabTextColor && '#advgb-tabs-' + blockID + ' li.advgb-tab.ui-tabs-active a {\n                                color: ' + activeTabTextColor + ' !important;\n                            }'
                 )
             );
+        },
+        transforms: {
+            to: [{
+                type: 'block',
+                blocks: ['advgb/adv-tabs'],
+                transform: function transform(attributes) {
+                    var innerTabs = [];
+                    var tabHeaders = [];
+
+                    attributes.tabItems.map(function (item) {
+                        var tabContent = createBlock('core/paragraph', { content: item.body });
+
+                        var tab = createBlock('advgb/tab', { tabActive: 0 }, [tabContent]);
+
+                        tabHeaders.push(item.header);
+                        innerTabs.push(tab);
+                    });
+
+                    attributes.tabItems = undefined;
+                    return createBlock('advgb/adv-tabs', _extends({}, attributes, { tabHeaders: tabHeaders, changed: false }), innerTabs);
+                }
+            }]
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
@@ -17937,12 +17119,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         MediaUpload = _wpBlockEditor.MediaUpload;
     var RangeControl = wpComponents.RangeControl,
         ToggleControl = wpComponents.ToggleControl,
-        BaseControl = wpComponents.BaseControl,
+        SelectControl = wpComponents.SelectControl,
         PanelBody = wpComponents.PanelBody,
-        Tooltip = wpComponents.Tooltip,
-        Button = wpComponents.Button;
+        Tooltip = wpComponents.Tooltip;
     var _lodash = lodash,
         times = _lodash.times;
+
+
+    var PREV_ARROW = React.createElement(
+        "svg",
+        { fill: "currentColor", xmlns: "http://www.w3.org/2000/svg", width: "100%", height: "100%", viewBox: "0 0 24 24" },
+        React.createElement("path", { d: "M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" }),
+        React.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" })
+    );
+
+    var NEXT_ARROW = React.createElement(
+        "svg",
+        { fill: "currentColor", xmlns: "http://www.w3.org/2000/svg", width: "100%", height: "100%", viewBox: "0 0 24 24" },
+        React.createElement("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" }),
+        React.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" })
+    );
 
     var AdvTestimonial = function (_Component) {
         _inherits(AdvTestimonial, _Component);
@@ -17953,14 +17149,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, (AdvTestimonial.__proto__ || Object.getPrototypeOf(AdvTestimonial)).apply(this, arguments));
 
             _this.state = {
-                currentEdit: '',
-                refresh: true
+                currentEdit: ''
             };
             return _this;
         }
 
         _createClass(AdvTestimonial, [{
-            key: 'componentWillMount',
+            key: "componentWillMount",
             value: function componentWillMount() {
                 var _props = this.props,
                     attributes = _props.attributes,
@@ -17970,7 +17165,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 // No override attributes of blocks inserted before
                 if (attributes.changed !== true) {
-                    if ((typeof currentBlockConfig === 'undefined' ? 'undefined' : _typeof(currentBlockConfig)) === 'object' && currentBlockConfig !== null) {
+                    if ((typeof currentBlockConfig === "undefined" ? "undefined" : _typeof(currentBlockConfig)) === 'object' && currentBlockConfig !== null) {
                         Object.keys(currentBlockConfig).map(function (attribute) {
                             if (typeof attributes[attribute] === 'boolean') {
                                 attributes[attribute] = !!currentBlockConfig[attribute];
@@ -17985,84 +17180,195 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
             }
         }, {
-            key: 'componentDidMount',
+            key: "componentDidMount",
             value: function componentDidMount() {
                 var _props2 = this.props,
                     attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes,
                     clientId = _props2.clientId;
-                var sliderView = attributes.sliderView,
-                    avatarBottom = attributes.avatarBottom,
-                    prevArrow = attributes.prevArrow,
-                    nextArrow = attributes.nextArrow;
+                var pid = attributes.pid,
+                    sliderView = attributes.sliderView,
+                    sliderColumn = attributes.sliderColumn,
+                    sliderCenterMode = attributes.sliderCenterMode,
+                    sliderPauseOnHover = attributes.sliderPauseOnHover,
+                    sliderAutoPlay = attributes.sliderAutoPlay,
+                    sliderInfiniteLoop = attributes.sliderInfiniteLoop,
+                    sliderDotsShown = attributes.sliderDotsShown,
+                    sliderSpeed = attributes.sliderSpeed,
+                    sliderAutoPlaySpeed = attributes.sliderAutoPlaySpeed,
+                    sliderArrowShown = attributes.sliderArrowShown,
+                    sliderItemsToScroll = attributes.sliderItemsToScroll;
 
+
+                if (!pid) {
+                    setAttributes({ pid: "advgb-testimonial-" + clientId });
+                }
 
                 if (sliderView) {
-                    var num = avatarBottom ? 1 : 3;
-                    jQuery('#block-' + clientId + ' .advgb-testimonial.slider-view').slick({
-                        infinite: true,
-                        centerMode: !avatarBottom,
-                        centerPadding: '40px',
-                        slidesToShow: num,
-                        nextArrow: !!nextArrow ? '<button class="advgb-arrow advgb-next"><img src="' + nextArrow + '" alt="Next" /></button>' : undefined, //<div class="slick-next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>
-                        prevArrow: !!prevArrow ? '<button class="advgb-arrow advgb-prev"><img src="' + prevArrow + '" alt="Prev" /></button>' : undefined //<div class="slick-prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></div>
+                    jQuery("#block-" + clientId + " .advgb-testimonial.slider-view").slick({
+                        infinite: sliderInfiniteLoop,
+                        centerMode: sliderCenterMode,
+                        slidesToShow: sliderColumn,
+                        slidesToScroll: Math.min(sliderItemsToScroll, sliderColumn),
+                        pauseOnHover: sliderPauseOnHover,
+                        autoplay: sliderAutoPlay,
+                        autoplaySpeed: sliderAutoPlaySpeed,
+                        dots: sliderDotsShown,
+                        arrows: sliderArrowShown,
+                        speed: sliderSpeed,
+                        prevArrow: jQuery("#block-" + clientId + " .advgb-slider-prev"),
+                        nextArrow: jQuery("#block-" + clientId + " .advgb-slider-next")
                     });
                 }
             }
         }, {
-            key: 'componentWillUpdate',
-            value: function componentWillUpdate(nextProps, nextState) {
-                var _nextProps$attributes = nextProps.attributes,
-                    nextView = _nextProps$attributes.sliderView,
-                    nextColumns = _nextProps$attributes.columns,
-                    nextAvaPos = _nextProps$attributes.avatarBottom;
+            key: "componentWillUpdate",
+            value: function componentWillUpdate(nextProps) {
                 var _props3 = this.props,
                     attributes = _props3.attributes,
                     clientId = _props3.clientId;
-                var sliderView = attributes.sliderView,
-                    columns = attributes.columns,
-                    avatarBottom = attributes.avatarBottom;
+                var sliderView = attributes.sliderView;
 
 
-                if (nextView !== sliderView || nextColumns !== columns || avatarBottom !== nextAvaPos || nextState.refresh !== this.state.refresh) {
+                if (this.sliderNeedReload(nextProps.attributes, this.props.attributes)) {
                     if (sliderView) {
-                        jQuery('#block-' + clientId + ' .advgb-testimonial.slick-initialized').slick('unslick');
-                        jQuery('#block-' + clientId + ' .advgb-testimonial').removeAttr('tabindex').removeAttr('role').removeAttr('aria-describedby');
+                        jQuery("#block-" + clientId + " .advgb-testimonial.slick-initialized").slick('unslick');
+                        jQuery("#block-" + clientId + " .advgb-testimonial").removeAttr('tabindex').removeAttr('role').removeAttr('aria-describedby');
                     }
                 }
             }
         }, {
-            key: 'componentDidUpdate',
-            value: function componentDidUpdate(prevProps, prevState) {
-                var _prevProps$attributes = prevProps.attributes,
-                    prevView = _prevProps$attributes.sliderView,
-                    prevColumns = _prevProps$attributes.columns,
-                    prevAvaPos = _prevProps$attributes.avatarBottom;
+            key: "componentDidUpdate",
+            value: function componentDidUpdate(prevProps) {
                 var _props4 = this.props,
                     attributes = _props4.attributes,
                     clientId = _props4.clientId;
                 var sliderView = attributes.sliderView,
-                    columns = attributes.columns,
-                    avatarBottom = attributes.avatarBottom,
-                    nextArrow = attributes.nextArrow,
-                    prevArrow = attributes.prevArrow;
+                    sliderColumn = attributes.sliderColumn,
+                    sliderCenterMode = attributes.sliderCenterMode,
+                    sliderPauseOnHover = attributes.sliderPauseOnHover,
+                    sliderAutoPlay = attributes.sliderAutoPlay,
+                    sliderInfiniteLoop = attributes.sliderInfiniteLoop,
+                    sliderDotsShown = attributes.sliderDotsShown,
+                    sliderSpeed = attributes.sliderSpeed,
+                    sliderAutoPlaySpeed = attributes.sliderAutoPlaySpeed,
+                    sliderArrowShown = attributes.sliderArrowShown,
+                    sliderItemsToScroll = attributes.sliderItemsToScroll;
 
+                var needReload = this.sliderNeedReload(prevProps.attributes, this.props.attributes);
+                var needUpdate = this.sliderNeedUpdate(prevProps.attributes, this.props.attributes);
+                var slider = jQuery("#block-" + clientId + " .advgb-testimonial.slider-view");
+                var prevElm = jQuery("#block-" + clientId + " .advgb-slider-prev");
+                var nextElm = jQuery("#block-" + clientId + " .advgb-slider-next");
 
-                if (sliderView !== prevView || columns !== prevColumns || avatarBottom !== prevAvaPos || prevState.refresh !== this.state.refresh) {
+                if (needReload) {
                     if (sliderView) {
-                        var num = avatarBottom ? 1 : 3;
-                        jQuery('#block-' + clientId + ' .advgb-testimonial.slider-view').slick({
-                            infinite: true,
-                            centerMode: !avatarBottom,
-                            centerPadding: '40px',
-                            slidesToShow: num,
-                            nextArrow: !!nextArrow ? '<button class="advgb-arrow advgb-next"><img src="' + nextArrow + '" alt="Next" /></button>' : undefined,
-                            prevArrow: !!prevArrow ? '<button class="advgb-arrow advgb-prev"><img src="' + prevArrow + '" alt="Prev" /></button>' : undefined
+                        slider.slick({
+                            infinite: sliderInfiniteLoop,
+                            centerMode: sliderCenterMode,
+                            slidesToShow: sliderColumn,
+                            slidesToScroll: Math.min(sliderItemsToScroll, sliderColumn),
+                            pauseOnHover: sliderPauseOnHover,
+                            autoplay: sliderAutoPlay,
+                            autoplaySpeed: sliderAutoPlaySpeed,
+                            dots: sliderDotsShown,
+                            arrows: sliderArrowShown,
+                            speed: sliderSpeed,
+                            prevArrow: prevElm,
+                            nextArrow: nextElm
                         });
                     }
                 }
+
+                if (needUpdate && sliderView) {
+                    slider.slick('slickSetOption', 'slidesToShow', sliderColumn);
+                    slider.slick('slickSetOption', 'slidesToScroll', sliderItemsToScroll);
+                    slider.slick('slickSetOption', 'centerMode', sliderCenterMode);
+                    slider.slick('slickSetOption', 'pauseOnHover', sliderPauseOnHover);
+                    slider.slick('slickSetOption', 'infinite', sliderInfiniteLoop);
+                    slider.slick('slickSetOption', 'dots', sliderDotsShown);
+                    slider.slick('slickSetOption', 'arrows', sliderArrowShown);
+                    slider.slick('slickSetOption', 'speed', sliderSpeed);
+                    slider.slick('slickSetOption', 'autoplay', sliderAutoPlay);
+                    slider.slick('slickSetOption', 'autoplaySpeed', sliderAutoPlaySpeed);
+                    slider.slick('slickSetOption', 'prevArrow', prevElm);
+                    slider.slick('slickSetOption', 'nextArrow', nextElm, true);
+                }
             }
         }, {
-            key: 'updateItems',
+            key: "sliderNeedReload",
+            value: function sliderNeedReload(pa, ca) {
+                var checkReload = ['sliderView', 'columns', 'avatarPosition'];
+                var reload = false;
+
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = checkReload[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var checkProp = _step.value;
+
+                        if (pa[checkProp] !== ca[checkProp]) {
+                            reload = true;
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                return reload;
+            }
+        }, {
+            key: "sliderNeedUpdate",
+            value: function sliderNeedUpdate(pa, ca) {
+                var checkUpdate = ['sliderColumn', 'sliderItemsToScroll', 'sliderPauseOnHover', 'sliderAutoPlay', 'sliderInfiniteLoop', 'sliderDotsShown', 'sliderSpeed', 'sliderAutoPlaySpeed', 'sliderArrowShown', 'sliderCenterMode'];
+                var update = false;
+
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = checkUpdate[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var checkItem = _step2.value;
+
+                        if (pa[checkItem] !== ca[checkItem]) {
+                            update = true;
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+
+                return update;
+            }
+        }, {
+            key: "updateItems",
             value: function updateItems(idx, data) {
                 var _props5 = this.props,
                     attributes = _props5.attributes,
@@ -18079,19 +17385,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 setAttributes({ items: newItems });
             }
         }, {
-            key: 'render',
+            key: "render",
             value: function render() {
                 var _this2 = this;
 
-                var _state = this.state,
-                    currentEdit = _state.currentEdit,
-                    refresh = _state.refresh;
+                var currentEdit = this.state.currentEdit;
                 var _props6 = this.props,
                     attributes = _props6.attributes,
                     setAttributes = _props6.setAttributes,
-                    isSelected = _props6.isSelected,
-                    className = _props6.className;
-                var items = attributes.items,
+                    isSelected = _props6.isSelected;
+                var pid = attributes.pid,
+                    items = attributes.items,
                     sliderView = attributes.sliderView,
                     avatarColor = attributes.avatarColor,
                     avatarBorderRadius = attributes.avatarBorderRadius,
@@ -18102,12 +17406,25 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     positionColor = attributes.positionColor,
                     descColor = attributes.descColor,
                     columns = attributes.columns,
-                    avatarBottom = attributes.avatarBottom,
-                    prevArrow = attributes.prevArrow,
-                    nextArrow = attributes.nextArrow;
+                    sliderColumn = attributes.sliderColumn,
+                    sliderItemsToScroll = attributes.sliderItemsToScroll,
+                    sliderCenterMode = attributes.sliderCenterMode,
+                    sliderPauseOnHover = attributes.sliderPauseOnHover,
+                    sliderAutoPlay = attributes.sliderAutoPlay,
+                    sliderInfiniteLoop = attributes.sliderInfiniteLoop,
+                    sliderDotsShown = attributes.sliderDotsShown,
+                    sliderDotsColor = attributes.sliderDotsColor,
+                    sliderSpeed = attributes.sliderSpeed,
+                    sliderAutoPlaySpeed = attributes.sliderAutoPlaySpeed,
+                    sliderArrowShown = attributes.sliderArrowShown,
+                    sliderArrowSize = attributes.sliderArrowSize,
+                    sliderArrowBorderSize = attributes.sliderArrowBorderSize,
+                    sliderArrowBorderRadius = attributes.sliderArrowBorderRadius,
+                    sliderArrowColor = attributes.sliderArrowColor,
+                    avatarPosition = attributes.avatarPosition;
 
 
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom', className].filter(Boolean).join(' ');
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', "advgb-avatar-" + avatarPosition].filter(Boolean).join(' ');
 
                 var maxCols = sliderView ? 10 : 3;
                 var minCols = sliderView ? 4 : 1;
@@ -18128,6 +17445,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     validCols = sliderView ? 4 : 1;
                 }
 
+                var arrowStyle = {
+                    color: sliderArrowColor,
+                    borderColor: sliderArrowColor,
+                    borderWidth: sliderArrowBorderSize,
+                    borderRadius: sliderArrowBorderRadius ? sliderArrowBorderRadius + "%" : undefined,
+                    width: sliderArrowSize
+                };
+
                 return React.createElement(
                     Fragment,
                     null,
@@ -18144,16 +17469,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ sliderView: !sliderView });
                                 }
                             }),
-                            React.createElement(ToggleControl, {
-                                label: __('Avatar at the bottom'),
-                                checked: avatarBottom,
-                                onChange: function onChange() {
-                                    return setAttributes({ avatarBottom: !avatarBottom });
-                                }
-                            }),
                             React.createElement(RangeControl, {
-                                label: __('Columns', 'advanced-gutenberg'),
-                                help: __('Columns range in Normal view is 1-3, and in Slider view is 4-10.', 'advanced-gutenberg'),
+                                label: !sliderView ? __('Columns', 'advanced-gutenberg') : __('Number of items', 'advanced-gutenberg'),
+                                help: __('Range in Normal view is 1-3, and in Slider view is 4-10.', 'advanced-gutenberg'),
                                 min: minCols,
                                 max: maxCols,
                                 value: columns,
@@ -18162,83 +17480,138 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             sliderView && React.createElement(
-                                PanelBody,
-                                { title: __('Custom Prev/Next Arrow'), initialOpen: false },
-                                React.createElement(MediaUpload, {
-                                    allowedTypes: ["image"],
-                                    onSelect: function onSelect(media) {
-                                        return setAttributes({ prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
-                                    },
-                                    value: null,
-                                    render: function render(_ref) {
-                                        var open = _ref.open;
-                                        return React.createElement(
-                                            BaseControl,
-                                            { label: [__('Prev Arrow'), prevArrow && React.createElement(
-                                                    'a',
-                                                    { key: 'marker-icon-remove',
-                                                        style: { marginLeft: '10px', cursor: 'pointer' },
-                                                        onClick: function onClick() {
-                                                            return setAttributes({ prevArrow: undefined });
-                                                        }
-                                                    },
-                                                    __('Remove')
-                                                )]
-                                            },
-                                            React.createElement(
-                                                Button,
-                                                { className: 'button button-large',
-                                                    onClick: open
-                                                },
-                                                __('Choose icon')
-                                            ),
-                                            !!prevArrow && React.createElement('img', { style: { maxHeight: '30px', marginLeft: '10px' },
-                                                src: prevArrow,
-                                                alt: __('Prev Arrow') })
-                                        );
+                                Fragment,
+                                null,
+                                React.createElement(RangeControl, {
+                                    label: __('Items to show', 'advanced-gutenberg'),
+                                    min: 1,
+                                    max: columns,
+                                    value: sliderColumn,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ sliderColumn: value });
                                     }
                                 }),
-                                React.createElement(MediaUpload, {
-                                    allowedTypes: ["image"],
-                                    onSelect: function onSelect(media) {
-                                        return setAttributes({ nextArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
-                                    },
-                                    value: null,
-                                    render: function render(_ref2) {
-                                        var open = _ref2.open;
-                                        return React.createElement(
-                                            BaseControl,
-                                            { label: [__('Next Arrow'), nextArrow && React.createElement(
-                                                    'a',
-                                                    { key: 'marker-icon-remove',
-                                                        style: { marginLeft: '10px', cursor: 'pointer' },
-                                                        onClick: function onClick() {
-                                                            return setAttributes({ nextArrow: undefined });
-                                                        }
-                                                    },
-                                                    __('Remove')
-                                                )]
-                                            },
-                                            React.createElement(
-                                                Button,
-                                                { className: 'button button-large',
-                                                    onClick: open
-                                                },
-                                                __('Choose icon')
-                                            ),
-                                            !!nextArrow && React.createElement('img', { style: { maxHeight: '30px', marginLeft: '10px' },
-                                                src: nextArrow,
-                                                alt: __('Prev Arrow') })
-                                        );
+                                React.createElement(RangeControl, {
+                                    label: __('Items to scroll', 'advanced-gutenberg'),
+                                    min: 1,
+                                    max: sliderColumn,
+                                    value: sliderItemsToScroll,
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ sliderItemsToScroll: value });
                                     }
                                 }),
                                 React.createElement(
-                                    Button,
-                                    { isPrimary: true, onClick: function onClick() {
-                                            return _this2.setState({ refresh: !refresh });
-                                        } },
-                                    __('Apply')
-                                )
+                                    PanelBody,
+                                    { title: __('Slider Settings', 'advanced-gutenberg'), initialOpen: false },
+                                    React.createElement(ToggleControl, {
+                                        label: __('Center mode', 'advanced-gutenberg'),
+                                        checked: sliderCenterMode,
+                                        onChange: function onChange() {
+                                            return setAttributes({ sliderCenterMode: !sliderCenterMode });
+                                        }
+                                    }),
+                                    React.createElement(ToggleControl, {
+                                        label: __('Pause on hover', 'advanced-gutenberg'),
+                                        checked: sliderPauseOnHover,
+                                        onChange: function onChange() {
+                                            return setAttributes({ sliderPauseOnHover: !sliderPauseOnHover });
+                                        }
+                                    }),
+                                    React.createElement(ToggleControl, {
+                                        label: __('Auto play', 'advanced-gutenberg'),
+                                        checked: sliderAutoPlay,
+                                        onChange: function onChange() {
+                                            return setAttributes({ sliderAutoPlay: !sliderAutoPlay });
+                                        }
+                                    }),
+                                    sliderAutoPlay && React.createElement(RangeControl, {
+                                        label: __('Autoplay speed (ms)', 'advanced-gutenberg'),
+                                        min: 0,
+                                        max: 10000,
+                                        value: sliderAutoPlaySpeed,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ sliderAutoPlaySpeed: value });
+                                        }
+                                    }),
+                                    React.createElement(ToggleControl, {
+                                        label: __('Infinite Loop', 'advanced-gutenberg'),
+                                        checked: sliderInfiniteLoop,
+                                        onChange: function onChange() {
+                                            return setAttributes({ sliderInfiniteLoop: !sliderInfiniteLoop });
+                                        }
+                                    }),
+                                    React.createElement(RangeControl, {
+                                        label: __('Transition speed (ms)', 'advanced-gutenberg'),
+                                        min: 0,
+                                        max: 5000,
+                                        value: sliderSpeed,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ sliderSpeed: value });
+                                        }
+                                    }),
+                                    React.createElement(ToggleControl, {
+                                        label: __('Show dots', 'advanced-gutenberg'),
+                                        checked: sliderDotsShown,
+                                        onChange: function onChange() {
+                                            return setAttributes({ sliderDotsShown: !sliderDotsShown });
+                                        }
+                                    }),
+                                    React.createElement(ToggleControl, {
+                                        label: __('Show arrows', 'advanced-gutenberg'),
+                                        checked: sliderArrowShown,
+                                        onChange: function onChange() {
+                                            return setAttributes({ sliderArrowShown: !sliderArrowShown });
+                                        }
+                                    }),
+                                    sliderArrowShown && React.createElement(
+                                        Fragment,
+                                        null,
+                                        React.createElement(RangeControl, {
+                                            label: __('Arrow size', 'advanced-gutenberg'),
+                                            min: 40,
+                                            max: 150,
+                                            value: sliderArrowSize,
+                                            onChange: function onChange(value) {
+                                                return setAttributes({ sliderArrowSize: value });
+                                            }
+                                        }),
+                                        React.createElement(RangeControl, {
+                                            label: __('Arrow border size', 'advanced-gutenberg'),
+                                            min: 0,
+                                            max: 15,
+                                            value: sliderArrowBorderSize,
+                                            onChange: function onChange(value) {
+                                                return setAttributes({ sliderArrowBorderSize: value });
+                                            }
+                                        }),
+                                        React.createElement(RangeControl, {
+                                            label: __('Arrow border radius (%)', 'advanced-gutenberg'),
+                                            min: 0,
+                                            max: 100,
+                                            value: sliderArrowBorderRadius,
+                                            onChange: function onChange(value) {
+                                                return setAttributes({ sliderArrowBorderRadius: value });
+                                            }
+                                        })
+                                    )
+                                ),
+                                React.createElement(PanelColorSettings, {
+                                    title: __('Slider Colors', 'advanced-gutenberg'),
+                                    initialOpen: false,
+                                    colorSettings: [{
+                                        label: __('Arrow and Border Color', 'advanced-gutenberg'),
+                                        value: sliderArrowColor,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ sliderArrowColor: value });
+                                        }
+                                    }, {
+                                        label: __('Dots Color', 'advanced-gutenberg'),
+                                        value: sliderDotsColor,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ sliderDotsColor: value });
+                                        }
+                                    }]
+                                })
                             ),
                             React.createElement(
                                 PanelBody,
@@ -18286,6 +17659,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     onChange: function onChange(value) {
                                         return setAttributes({ avatarSize: value });
                                     }
+                                }),
+                                React.createElement(SelectControl, {
+                                    label: __('Avatar Position', 'advanced-gutenberg'),
+                                    value: avatarPosition,
+                                    options: [{ label: __('Top', 'advanced-gutenberg'), value: 'top' }, { label: __('Bottom', 'advanced-gutenberg'), value: 'bottom' }, { label: __('Left', 'advanced-gutenberg'), value: 'left' }, { label: __('right', 'advanced-gutenberg'), value: 'right' }],
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ avatarPosition: value });
+                                    }
                                 })
                             ),
                             React.createElement(PanelColorSettings, {
@@ -18314,114 +17695,136 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         )
                     ),
                     React.createElement(
-                        'div',
-                        { className: blockClass },
-                        items.map(function (item, idx) {
-                            i++;
-                            if (i > validCols) return false;
-                            return React.createElement(
-                                'div',
-                                { className: 'advgb-testimonial-item', key: idx },
-                                avatarBottom && React.createElement(RichText, {
-                                    tagName: 'p',
-                                    className: 'advgb-testimonial-desc',
-                                    value: item.desc,
-                                    isSelected: isSelected && currentEdit === 'desc' + idx,
-                                    unstableOnFocus: function unstableOnFocus() {
-                                        return _this2.setState({ currentEdit: 'desc' + idx });
+                        "div",
+                        { className: "advgb-testimonial-wrapper", id: pid },
+                        React.createElement(
+                            "div",
+                            { className: blockClass },
+                            items.map(function (item, idx) {
+                                i++;
+                                if (i > validCols) return false;
+                                return React.createElement(
+                                    "div",
+                                    { className: "advgb-testimonial-item", key: idx },
+                                    React.createElement(MediaUpload, {
+                                        allowedTypes: ["image"],
+                                        onSelect: function onSelect(media) {
+                                            return _this2.updateItems(idx, {
+                                                avatarUrl: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
+                                                avatarID: media.id
+                                            });
+                                        },
+                                        value: item.avatarID,
+                                        render: function render(_ref) {
+                                            var open = _ref.open;
+                                            return React.createElement(
+                                                "div",
+                                                { className: "advgb-testimonial-avatar-group" },
+                                                React.createElement(
+                                                    Tooltip,
+                                                    { text: __('Click to change avatar', 'advanced-gutenberg') },
+                                                    React.createElement("div", { className: "advgb-testimonial-avatar",
+                                                        onClick: open,
+                                                        style: {
+                                                            backgroundImage: "url(" + (item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder) + ")",
+                                                            backgroundColor: avatarColor,
+                                                            borderRadius: avatarBorderRadius + '%',
+                                                            borderWidth: avatarBorderWidth + 'px',
+                                                            borderColor: avatarBorderColor,
+                                                            width: avatarSize + 'px',
+                                                            height: avatarSize + 'px'
+                                                        }
+                                                    })
+                                                ),
+                                                React.createElement(
+                                                    Tooltip,
+                                                    { text: __('Remove avatar', 'advanced-gutenberg') },
+                                                    React.createElement("span", { className: "dashicons dashicons-no advgb-testimonial-avatar-clear",
+                                                        onClick: function onClick() {
+                                                            return _this2.updateItems(idx, { avatarUrl: undefined, avatarID: undefined });
+                                                        }
+                                                    })
+                                                )
+                                            );
+                                        }
+                                    }),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-testimonial-info" },
+                                        React.createElement(RichText, {
+                                            tagName: "h4",
+                                            className: "advgb-testimonial-name",
+                                            value: item.name,
+                                            isSelected: isSelected && currentEdit === 'name' + idx,
+                                            unstableOnFocus: function unstableOnFocus() {
+                                                return _this2.setState({ currentEdit: 'name' + idx });
+                                            },
+                                            onChange: function onChange(value) {
+                                                return _this2.updateItems(idx, { name: value });
+                                            },
+                                            style: { color: nameColor },
+                                            placeholder: __('Text…', 'advanced-gutenberg')
+                                        }),
+                                        React.createElement(RichText, {
+                                            tagName: "p",
+                                            className: "advgb-testimonial-position",
+                                            value: item.position,
+                                            isSelected: isSelected && currentEdit === 'pos' + idx,
+                                            unstableOnFocus: function unstableOnFocus() {
+                                                return _this2.setState({ currentEdit: 'pos' + idx });
+                                            },
+                                            onChange: function onChange(value) {
+                                                return _this2.updateItems(idx, { position: value });
+                                            },
+                                            style: { color: positionColor },
+                                            placeholder: __('Text…', 'advanced-gutenberg')
+                                        }),
+                                        React.createElement(RichText, {
+                                            tagName: "p",
+                                            className: "advgb-testimonial-desc",
+                                            value: item.desc,
+                                            isSelected: isSelected && currentEdit === 'desc' + idx,
+                                            unstableOnFocus: function unstableOnFocus() {
+                                                return _this2.setState({ currentEdit: 'desc' + idx });
+                                            },
+                                            onChange: function onChange(value) {
+                                                return _this2.updateItems(idx, { desc: value });
+                                            },
+                                            style: { color: descColor },
+                                            placeholder: __('Text…', 'advanced-gutenberg')
+                                        })
+                                    )
+                                );
+                            })
+                        ),
+                        sliderView && React.createElement(
+                            Fragment,
+                            null,
+                            sliderArrowShown && React.createElement(
+                                Fragment,
+                                null,
+                                React.createElement(
+                                    "button",
+                                    { className: "advgb-slider-arrow advgb-slider-prev",
+                                        style: arrowStyle
                                     },
-                                    onChange: function onChange(value) {
-                                        return _this2.updateItems(idx, { desc: value });
+                                    PREV_ARROW
+                                ),
+                                React.createElement(
+                                    "button",
+                                    { className: "advgb-slider-arrow advgb-slider-next",
+                                        style: arrowStyle
                                     },
-                                    style: { color: descColor },
-                                    placeholder: __('Text…')
-                                }),
-                                React.createElement(MediaUpload, {
-                                    allowedTypes: ["image"],
-                                    onSelect: function onSelect(media) {
-                                        return _this2.updateItems(idx, {
-                                            avatarUrl: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
-                                            avatarID: media.id
-                                        });
-                                    },
-                                    value: item.avatarID,
-                                    render: function render(_ref3) {
-                                        var open = _ref3.open;
-                                        return React.createElement(
-                                            'div',
-                                            { className: 'advgb-testimonial-avatar-group' },
-                                            React.createElement(
-                                                Tooltip,
-                                                { text: __('Click to change avatar', 'advanced-gutenberg') },
-                                                React.createElement('div', { className: 'advgb-testimonial-avatar',
-                                                    onClick: open,
-                                                    style: {
-                                                        backgroundImage: 'url(' + (item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder) + ')',
-                                                        backgroundColor: avatarColor,
-                                                        borderRadius: avatarBorderRadius + '%',
-                                                        borderWidth: avatarBorderWidth + 'px',
-                                                        borderColor: avatarBorderColor,
-                                                        width: avatarSize + 'px',
-                                                        height: avatarSize + 'px'
-                                                    }
-                                                })
-                                            ),
-                                            React.createElement(
-                                                Tooltip,
-                                                { text: __('Remove avatar', 'advanced-gutenberg') },
-                                                React.createElement('span', { className: 'dashicons dashicons-no advgb-testimonial-avatar-clear',
-                                                    onClick: function onClick() {
-                                                        return _this2.updateItems(idx, { avatarUrl: undefined, avatarID: undefined });
-                                                    }
-                                                })
-                                            )
-                                        );
-                                    }
-                                }),
-                                React.createElement(RichText, {
-                                    tagName: 'h4',
-                                    className: 'advgb-testimonial-name',
-                                    value: item.name,
-                                    isSelected: isSelected && currentEdit === 'name' + idx,
-                                    unstableOnFocus: function unstableOnFocus() {
-                                        return _this2.setState({ currentEdit: 'name' + idx });
-                                    },
-                                    onChange: function onChange(value) {
-                                        return _this2.updateItems(idx, { name: value });
-                                    },
-                                    style: { color: nameColor },
-                                    placeholder: __('Text…', 'advanced-gutenberg')
-                                }),
-                                React.createElement(RichText, {
-                                    tagName: 'p',
-                                    className: 'advgb-testimonial-position',
-                                    value: item.position,
-                                    isSelected: isSelected && currentEdit === 'pos' + idx,
-                                    unstableOnFocus: function unstableOnFocus() {
-                                        return _this2.setState({ currentEdit: 'pos' + idx });
-                                    },
-                                    onChange: function onChange(value) {
-                                        return _this2.updateItems(idx, { position: value });
-                                    },
-                                    style: { color: positionColor },
-                                    placeholder: __('Text…', 'advanced-gutenberg')
-                                }),
-                                !avatarBottom && React.createElement(RichText, {
-                                    tagName: 'p',
-                                    className: 'advgb-testimonial-desc',
-                                    value: item.desc,
-                                    isSelected: isSelected && currentEdit === 'desc' + idx,
-                                    unstableOnFocus: function unstableOnFocus() {
-                                        return _this2.setState({ currentEdit: 'desc' + idx });
-                                    },
-                                    onChange: function onChange(value) {
-                                        return _this2.updateItems(idx, { desc: value });
-                                    },
-                                    style: { color: descColor },
-                                    placeholder: __('Text…', 'advanced-gutenberg')
-                                })
-                            );
-                        })
+                                    NEXT_ARROW
+                                )
+                            ),
+                            React.createElement(
+                                "style",
+                                null,
+                                "#" + pid + " .slick-dots li.slick-active button:before {color: " + sliderDotsColor + "}",
+                                "#" + pid + " .slick-dots li button:before {color: " + sliderDotsColor + "}"
+                            )
+                        )
                     )
                 );
             }
@@ -18431,40 +17834,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }(Component);
 
     var testimonialBlockIcon = React.createElement(
-        'svg',
-        { height: '20', viewBox: '2 2 22 22', width: '20', xmlns: 'http://www.w3.org/2000/svg' },
-        React.createElement('path', { d: 'M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 3.3c1.49 0 2.7 1.21 2.7 2.7 0 1.49-1.21 2.7-2.7 2.7-1.49 0-2.7-1.21-2.7-2.7 0-1.49 1.21-2.7 2.7-2.7zM18 16H6v-.9c0-2 4-3.1 6-3.1s6 1.1 6 3.1v.9z' }),
-        React.createElement('path', { d: 'M0 0h24v24H0z', fill: 'none' })
+        "svg",
+        { height: "20", viewBox: "2 2 22 22", width: "20", xmlns: "http://www.w3.org/2000/svg" },
+        React.createElement("path", { d: "M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 3.3c1.49 0 2.7 1.21 2.7 2.7 0 1.49-1.21 2.7-2.7 2.7-1.49 0-2.7-1.21-2.7-2.7 0-1.49 1.21-2.7 2.7-2.7zM18 16H6v-.9c0-2 4-3.1 6-3.1s6 1.1 6 3.1v.9z" }),
+        React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
     );
 
-    var blockAttrsOld = {
-        avatarUrl: {
-            type: 'string',
-            default: advgbBlocks.avatarHolder
+    var blockAttrs = {
+        items: {
+            type: 'array',
+            default: times(10, function () {
+                return {
+                    avatarUrl: advgbBlocks.avatarHolder,
+                    avatarID: undefined,
+                    name: __('Person Name', 'advanced-gutenberg'),
+                    position: __('Job Position', 'advanced-gutenberg'),
+                    desc: __('A little description about this person will show up here.', 'advanced-gutenberg')
+                };
+            })
         },
-        avatarID: {
-            type: 'number'
+        pid: {
+            type: 'string'
         },
-        avatarUrl2: {
-            type: 'string',
-            default: advgbBlocks.avatarHolder
-        },
-        avatarID2: {
-            type: 'number'
-        },
-        avatarUrl3: {
-            type: 'string',
-            default: advgbBlocks.avatarHolder
-        },
-        avatarID3: {
-            type: 'number'
-        },
-        avatarUrl4: {
-            type: 'string',
-            default: advgbBlocks.avatarHolder
-        },
-        avatarID4: {
-            type: 'number'
+        sliderView: {
+            type: 'boolean',
+            default: false
         },
         avatarColor: {
             type: 'string'
@@ -18483,59 +17877,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 70
         },
-        name: {
+        avatarPosition: {
             type: 'string',
-            default: __('Person Name', 'advanced-gutenberg')
-        },
-        name2: {
-            type: 'string',
-            default: __('Person Name', 'advanced-gutenberg')
-        },
-        name3: {
-            type: 'string',
-            default: __('Person Name', 'advanced-gutenberg')
-        },
-        name4: {
-            type: 'string',
-            default: __('Person Name', 'advanced-gutenberg')
+            default: 'top'
         },
         nameColor: {
             type: 'string'
         },
-        position: {
-            type: 'string',
-            default: __('Job Position', 'advanced-gutenberg')
-        },
-        position2: {
-            type: 'string',
-            default: __('Job Position', 'advanced-gutenberg')
-        },
-        position3: {
-            type: 'string',
-            default: __('Job Position', 'advanced-gutenberg')
-        },
-        position4: {
-            type: 'string',
-            default: __('Job Position', 'advanced-gutenberg')
-        },
         positionColor: {
             type: 'string'
-        },
-        desc: {
-            type: 'string',
-            default: __('A little description about this person will show up here.', 'advanced-gutenberg')
-        },
-        desc2: {
-            type: 'string',
-            default: __('A little description about this person will show up here.', 'advanced-gutenberg')
-        },
-        desc3: {
-            type: 'string',
-            default: __('A little description about this person will show up here.', 'advanced-gutenberg')
-        },
-        desc4: {
-            type: 'string',
-            default: __('A little description about this person will show up here.', 'advanced-gutenberg')
         },
         descColor: {
             type: 'string'
@@ -18543,6 +17893,62 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         columns: {
             type: 'number',
             default: 1
+        },
+        sliderColumn: {
+            type: 'number',
+            default: 1
+        },
+        sliderItemsToScroll: {
+            type: 'number',
+            default: 1
+        },
+        sliderCenterMode: {
+            type: 'boolean',
+            default: true
+        },
+        sliderPauseOnHover: {
+            type: 'boolean',
+            default: true
+        },
+        sliderAutoPlay: {
+            type: 'boolean',
+            default: true
+        },
+        sliderAutoPlaySpeed: {
+            type: 'number',
+            default: 2500
+        },
+        sliderInfiniteLoop: {
+            type: 'boolean',
+            default: true
+        },
+        sliderDotsShown: {
+            type: 'boolean',
+            default: true
+        },
+        sliderDotsColor: {
+            type: 'string'
+        },
+        sliderArrowShown: {
+            type: 'boolean',
+            default: true
+        },
+        sliderArrowSize: {
+            type: 'number',
+            default: 50
+        },
+        sliderArrowBorderSize: {
+            type: 'number'
+        },
+        sliderArrowBorderRadius: {
+            type: 'number'
+        },
+        sliderArrowColor: {
+            type: 'string'
+        },
+        sliderSpeed: {
+            type: 'number',
+            default: 500
         },
         changed: {
             type: 'boolean',
@@ -18559,38 +17965,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         category: 'advgb-category',
         keywords: [__('testimonial', 'advanced-gutenberg'), __('personal', 'advanced-gutenberg'), __('about', 'advanced-gutenberg')],
-        attributes: _extends({}, blockAttrsOld, {
-            items: {
-                type: 'array',
-                default: times(10, function () {
-                    return {
-                        avatarUrl: advgbBlocks.avatarHolder,
-                        avatarID: undefined,
-                        name: __('Person Name', 'advanced-gutenberg'),
-                        position: __('Job Position', 'advanced-gutenberg'),
-                        desc: __('A little description about this person will show up here.', 'advanced-gutenberg')
-                    };
-                })
-            },
-            sliderView: {
-                type: 'boolean',
-                default: false
-            },
-            avatarBottom: {
-                type: 'boolean',
-                default: false
-            },
-            prevArrow: {
-                type: 'string'
-            },
-            nextArrow: {
-                type: 'string'
-            }
-        }),
+        attributes: blockAttrs,
         edit: AdvTestimonial,
-        save: function save(_ref4) {
-            var attributes = _ref4.attributes;
-            var items = attributes.items,
+        save: function save(_ref2) {
+            var attributes = _ref2.attributes;
+            var pid = attributes.pid,
+                items = attributes.items,
                 sliderView = attributes.sliderView,
                 avatarColor = attributes.avatarColor,
                 avatarBorderRadius = attributes.avatarBorderRadius,
@@ -18601,12 +17981,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 positionColor = attributes.positionColor,
                 descColor = attributes.descColor,
                 columns = attributes.columns,
-                avatarBottom = attributes.avatarBottom,
-                prevArrow = attributes.prevArrow,
-                nextArrow = attributes.nextArrow;
+                sliderColumn = attributes.sliderColumn,
+                sliderItemsToScroll = attributes.sliderItemsToScroll,
+                sliderCenterMode = attributes.sliderCenterMode,
+                sliderPauseOnHover = attributes.sliderPauseOnHover,
+                sliderAutoPlay = attributes.sliderAutoPlay,
+                sliderInfiniteLoop = attributes.sliderInfiniteLoop,
+                sliderDotsShown = attributes.sliderDotsShown,
+                avatarPosition = attributes.avatarPosition,
+                sliderSpeed = attributes.sliderSpeed,
+                sliderAutoPlaySpeed = attributes.sliderAutoPlaySpeed,
+                sliderArrowShown = attributes.sliderArrowShown,
+                sliderArrowSize = attributes.sliderArrowSize,
+                sliderArrowBorderSize = attributes.sliderArrowBorderSize,
+                sliderArrowBorderRadius = attributes.sliderArrowBorderRadius,
+                sliderArrowColor = attributes.sliderArrowColor;
 
 
-            var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
+            var blockClass = ['advgb-testimonial', sliderView && 'slider-view', "advgb-avatar-" + avatarPosition].filter(Boolean).join(' ');
 
             var i = 0;
             var validCols = columns;
@@ -18620,65 +18012,181 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 validCols = 10;
             }
 
+            var arrowStyle = {
+                color: sliderArrowColor,
+                borderColor: sliderArrowColor,
+                borderWidth: sliderArrowBorderSize,
+                borderRadius: sliderArrowBorderRadius ? sliderArrowBorderRadius + "%" : undefined,
+                width: sliderArrowSize
+            };
+
             return React.createElement(
-                'div',
-                { className: blockClass,
-                    'data-prev-arrow': prevArrow ? prevArrow : undefined,
-                    'data-next-arrow': nextArrow ? nextArrow : undefined
+                "div",
+                { className: "advgb-testimonial-wrapper", id: pid,
+                    "data-col": sliderView ? sliderColumn : undefined,
+                    "data-scroll": sliderView ? sliderItemsToScroll : undefined,
+                    "data-pause": sliderView ? sliderPauseOnHover : undefined,
+                    "data-autoplay": sliderView ? sliderAutoPlay : undefined,
+                    "data-apspeed": sliderView ? sliderAutoPlaySpeed : undefined,
+                    "data-loop": sliderView ? sliderInfiniteLoop : undefined,
+                    "data-dots": sliderView ? sliderDotsShown : undefined,
+                    "data-speed": sliderView ? sliderSpeed : undefined,
+                    "data-arrows": sliderView ? sliderArrowShown : undefined,
+                    "data-center": sliderView ? sliderCenterMode : undefined
                 },
-                items.map(function (item, idx) {
-                    i++;
-                    if (i > validCols) return false;
-                    return React.createElement(
-                        'div',
-                        { className: 'advgb-testimonial-item', key: idx },
-                        avatarBottom && React.createElement(
-                            'p',
-                            { className: 'advgb-testimonial-desc',
-                                style: { color: descColor }
-                            },
-                            item.desc
-                        ),
-                        React.createElement(
-                            'div',
-                            { className: 'advgb-testimonial-avatar-group' },
-                            React.createElement('div', { className: 'advgb-testimonial-avatar',
-                                style: {
-                                    backgroundImage: 'url(' + (item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder) + ')',
-                                    backgroundColor: avatarColor,
-                                    borderRadius: avatarBorderRadius + '%',
-                                    borderWidth: avatarBorderWidth + 'px',
-                                    borderColor: avatarBorderColor,
-                                    width: avatarSize + 'px',
-                                    height: avatarSize + 'px'
-                                }
-                            })
-                        ),
-                        React.createElement(
-                            'h4',
-                            { className: 'advgb-testimonial-name',
-                                style: { color: nameColor }
-                            },
-                            item.name
-                        ),
-                        React.createElement(
-                            'p',
-                            { className: 'advgb-testimonial-position',
-                                style: { color: positionColor }
-                            },
-                            item.position
-                        ),
-                        !avatarBottom && React.createElement(
-                            'p',
-                            { className: 'advgb-testimonial-desc',
-                                style: { color: descColor }
-                            },
-                            item.desc
-                        )
-                    );
-                })
+                React.createElement(
+                    "div",
+                    { className: blockClass },
+                    items.map(function (item, idx) {
+                        i++;
+                        if (i > validCols) return false;
+                        return React.createElement(
+                            "div",
+                            { className: "advgb-testimonial-item", key: idx },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-testimonial-avatar-group" },
+                                React.createElement("div", { className: "advgb-testimonial-avatar",
+                                    style: {
+                                        backgroundImage: "url(" + (item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder) + ")",
+                                        backgroundColor: avatarColor,
+                                        borderRadius: avatarBorderRadius + '%',
+                                        borderWidth: avatarBorderWidth + 'px',
+                                        borderColor: avatarBorderColor,
+                                        width: avatarSize + 'px',
+                                        height: avatarSize + 'px'
+                                    }
+                                })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "advgb-testimonial-info" },
+                                React.createElement(
+                                    "h4",
+                                    { className: "advgb-testimonial-name",
+                                        style: { color: nameColor }
+                                    },
+                                    item.name
+                                ),
+                                React.createElement(
+                                    "p",
+                                    { className: "advgb-testimonial-position",
+                                        style: { color: positionColor }
+                                    },
+                                    item.position
+                                ),
+                                React.createElement(
+                                    "p",
+                                    { className: "advgb-testimonial-desc",
+                                        style: { color: descColor }
+                                    },
+                                    item.desc
+                                )
+                            )
+                        );
+                    })
+                ),
+                sliderView && React.createElement(
+                    Fragment,
+                    null,
+                    React.createElement(
+                        "button",
+                        { className: "advgb-slider-arrow advgb-slider-prev",
+                            style: arrowStyle
+                        },
+                        PREV_ARROW
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "advgb-slider-arrow advgb-slider-next",
+                            style: arrowStyle
+                        },
+                        NEXT_ARROW
+                    )
+                )
             );
-        }
+        },
+        deprecated: [{
+            attributes: blockAttrs,
+            save: function save(_ref3) {
+                var attributes = _ref3.attributes;
+                var items = attributes.items,
+                    sliderView = attributes.sliderView,
+                    avatarColor = attributes.avatarColor,
+                    avatarBorderRadius = attributes.avatarBorderRadius,
+                    avatarBorderWidth = attributes.avatarBorderWidth,
+                    avatarBorderColor = attributes.avatarBorderColor,
+                    avatarSize = attributes.avatarSize,
+                    nameColor = attributes.nameColor,
+                    positionColor = attributes.positionColor,
+                    descColor = attributes.descColor,
+                    columns = attributes.columns;
+
+
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view'].filter(Boolean).join(' ');
+
+                var i = 0;
+                var validCols = columns;
+                if (columns < 1) {
+                    validCols = 1;
+                } else if (columns > 3 && !sliderView) {
+                    validCols = 3;
+                } else if (columns < 4 && sliderView) {
+                    validCols = 4;
+                } else if (columns > 10) {
+                    validCols = 10;
+                }
+
+                return React.createElement(
+                    "div",
+                    { className: blockClass },
+                    items.map(function (item, idx) {
+                        i++;
+                        if (i > validCols) return false;
+                        return React.createElement(
+                            "div",
+                            { className: "advgb-testimonial-item", key: idx },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-testimonial-avatar-group" },
+                                React.createElement("div", { className: "advgb-testimonial-avatar",
+                                    style: {
+                                        backgroundImage: "url(" + (item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder) + ")",
+                                        backgroundColor: avatarColor,
+                                        borderRadius: avatarBorderRadius + '%',
+                                        borderWidth: avatarBorderWidth + 'px',
+                                        borderColor: avatarBorderColor,
+                                        width: avatarSize + 'px',
+                                        height: avatarSize + 'px'
+                                    }
+                                })
+                            ),
+                            React.createElement(
+                                "h4",
+                                { className: "advgb-testimonial-name",
+                                    style: { color: nameColor }
+                                },
+                                item.name
+                            ),
+                            React.createElement(
+                                "p",
+                                { className: "advgb-testimonial-position",
+                                    style: { color: positionColor }
+                                },
+                                item.position
+                            ),
+                            React.createElement(
+                                "p",
+                                { className: "advgb-testimonial-desc",
+                                    style: { color: descColor }
+                                },
+                                item.desc
+                            )
+                        );
+                    })
+                );
+            }
+        }]
     });
 })(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
 
@@ -19319,23 +18827,22 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
 /***/ }),
 
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./assets/blocks/0-adv-components/components.jsx ./assets/blocks/1-custom-block-options/custom-block.jsx ./assets/blocks/accordion/block.jsx ./assets/blocks/advaccordion/accordion.jsx ./assets/blocks/advaccordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advgallery/block.jsx ./assets/blocks/advgallery/gallery-load-more.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/columns/block.jsx ./assets/blocks/columns/column.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/editor-sidebar/sidebar.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/login-form/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block-with-load-more.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/search-bar/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./assets/blocks/0-adv-components/components.jsx ./assets/blocks/accordion/block.jsx ./assets/blocks/advaccordion/accordion.jsx ./assets/blocks/advaccordion/block.jsx ./assets/blocks/advbutton/block.jsx ./assets/blocks/advimage/block.jsx ./assets/blocks/advlist/block.jsx ./assets/blocks/advtable/block.jsx ./assets/blocks/advtabs/block.jsx ./assets/blocks/advtabs/tab.jsx ./assets/blocks/advvideo/block.jsx ./assets/blocks/columns/block.jsx ./assets/blocks/columns/column.jsx ./assets/blocks/contact-form/block.jsx ./assets/blocks/container/block.jsx ./assets/blocks/count-up/block.jsx ./assets/blocks/customstyles/custom-styles.jsx ./assets/blocks/editor-sidebar/sidebar.jsx ./assets/blocks/images-slider/block.jsx ./assets/blocks/login-form/block.jsx ./assets/blocks/map/block.jsx ./assets/blocks/newsletter/block.jsx ./assets/blocks/recent-posts/block.jsx ./assets/blocks/search-bar/block.jsx ./assets/blocks/social-links/block.jsx ./assets/blocks/summary/block.jsx ./assets/blocks/tabs/block.jsx ./assets/blocks/testimonial/block.jsx ./assets/blocks/woo-products/block.jsx ./assets/js/editor.jsx ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! ./assets/blocks/0-adv-components/components.jsx */"./assets/blocks/0-adv-components/components.jsx");
-__webpack_require__(/*! ./assets/blocks/1-custom-block-options/custom-block.jsx */"./assets/blocks/1-custom-block-options/custom-block.jsx");
 __webpack_require__(/*! ./assets/blocks/accordion/block.jsx */"./assets/blocks/accordion/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advaccordion/accordion.jsx */"./assets/blocks/advaccordion/accordion.jsx");
 __webpack_require__(/*! ./assets/blocks/advaccordion/block.jsx */"./assets/blocks/advaccordion/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advbutton/block.jsx */"./assets/blocks/advbutton/block.jsx");
-__webpack_require__(/*! ./assets/blocks/advgallery/block.jsx */"./assets/blocks/advgallery/block.jsx");
-__webpack_require__(/*! ./assets/blocks/advgallery/gallery-load-more.jsx */"./assets/blocks/advgallery/gallery-load-more.jsx");
 __webpack_require__(/*! ./assets/blocks/advimage/block.jsx */"./assets/blocks/advimage/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advlist/block.jsx */"./assets/blocks/advlist/block.jsx");
 __webpack_require__(/*! ./assets/blocks/advtable/block.jsx */"./assets/blocks/advtable/block.jsx");
+__webpack_require__(/*! ./assets/blocks/advtabs/block.jsx */"./assets/blocks/advtabs/block.jsx");
+__webpack_require__(/*! ./assets/blocks/advtabs/tab.jsx */"./assets/blocks/advtabs/tab.jsx");
 __webpack_require__(/*! ./assets/blocks/advvideo/block.jsx */"./assets/blocks/advvideo/block.jsx");
 __webpack_require__(/*! ./assets/blocks/columns/block.jsx */"./assets/blocks/columns/block.jsx");
 __webpack_require__(/*! ./assets/blocks/columns/column.jsx */"./assets/blocks/columns/column.jsx");
@@ -19348,7 +18855,6 @@ __webpack_require__(/*! ./assets/blocks/images-slider/block.jsx */"./assets/bloc
 __webpack_require__(/*! ./assets/blocks/login-form/block.jsx */"./assets/blocks/login-form/block.jsx");
 __webpack_require__(/*! ./assets/blocks/map/block.jsx */"./assets/blocks/map/block.jsx");
 __webpack_require__(/*! ./assets/blocks/newsletter/block.jsx */"./assets/blocks/newsletter/block.jsx");
-__webpack_require__(/*! ./assets/blocks/recent-posts/block-with-load-more.jsx */"./assets/blocks/recent-posts/block-with-load-more.jsx");
 __webpack_require__(/*! ./assets/blocks/recent-posts/block.jsx */"./assets/blocks/recent-posts/block.jsx");
 __webpack_require__(/*! ./assets/blocks/search-bar/block.jsx */"./assets/blocks/search-bar/block.jsx");
 __webpack_require__(/*! ./assets/blocks/social-links/block.jsx */"./assets/blocks/social-links/block.jsx");
