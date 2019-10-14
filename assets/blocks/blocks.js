@@ -1770,6 +1770,71 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         )
     };
 
+    var COLLAPSE_ICONS = {
+        remove: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M19 13H5v-2h14v2z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        removeCircle: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z" })
+        ),
+        removeCircleOutline: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
+        ),
+        close: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        closeCircle: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        closeCircleOutline: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
+        ),
+        closeBox: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" }),
+            React.createElement("path", { fill: "none", d: "M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" }),
+            React.createElement("path", { d: "M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z" }),
+            React.createElement("path", { fill: "none", d: "M0 0h24v24H0z" })
+        ),
+        unfoldLess: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M7.41 18.59L8.83 20 12 16.83 15.17 20l1.41-1.41L12 14l-4.59 4.59zm9.18-13.18L15.17 4 12 7.17 8.83 4 7.41 5.41 12 10l4.59-4.59z" })
+        ),
+        arrowUp: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        power: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { fill: "none", d: "M0 0h24v24H0z" }),
+            React.createElement("path", { d: "M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" })
+        )
+    };
+
     var AccordionItemEdit = function (_Component) {
         _inherits(AccordionItemEdit, _Component);
 
@@ -1843,6 +1908,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     headerBgColor = attributes.headerBgColor,
                     headerTextColor = attributes.headerTextColor,
                     headerIcon = attributes.headerIcon,
+                    collapseIcon = attributes.collapseIcon,
+                    collapseIconColor = attributes.collapseIconColor,
                     headerIconColor = attributes.headerIconColor,
                     bodyBgColor = attributes.bodyBgColor,
                     bodyTextColor = attributes.bodyTextColor,
@@ -1924,6 +1991,47 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             ),
+                            React.createElement(
+                                BaseControl,
+                                { label: __('Collapse Icon') },
+                                React.createElement(
+                                    "div",
+                                    { className: "advgb-icon-items-wrapper" },
+                                    Object.keys(COLLAPSE_ICONS).map(function (key, index) {
+                                        return React.createElement(
+                                            "div",
+                                            { className: "advgb-icon-item", key: index },
+                                            React.createElement(
+                                                "span",
+                                                { className: key === collapseIcon ? 'active' : '',
+                                                    onClick: function onClick() {
+                                                        return _this2.updateAccordionAttrs({ collapseIcon: key });
+                                                    }
+                                                },
+                                                React.createElement(
+                                                    "svg",
+                                                    { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                                                    COLLAPSE_ICONS[key]
+                                                )
+                                            )
+                                        );
+                                    }),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-icon-item" },
+                                        React.createElement(
+                                            "span",
+                                            { className: !collapseIcon || '' === collapseIcon ? 'active' : '',
+                                                onClick: function onClick() {
+                                                    return _this2.updateAccordionAttrs({ collapseIcon: '' });
+                                                },
+                                                style: { padding: '10px' }
+                                            },
+                                            __('None')
+                                        )
+                                    )
+                                )
+                            ),
                             React.createElement(PanelColorSettings, {
                                 title: __('Color Settings', 'advanced-gutenberg'),
                                 initialOpen: false,
@@ -1940,10 +2048,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return _this2.updateAccordionAttrs({ headerTextColor: value === undefined ? '#eee' : value });
                                     }
                                 }, {
-                                    label: __('Icon Color', 'advanced-gutenberg'),
+                                    label: __('Expand Icon Color', 'advanced-gutenberg'),
                                     value: headerIconColor,
                                     onChange: function onChange(value) {
                                         return _this2.updateAccordionAttrs({ headerIconColor: value === undefined ? '#fff' : value });
+                                    }
+                                }, {
+                                    label: __('Collapse Icon Color'),
+                                    value: collapseIconColor,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateAccordionAttrs({ collapseIconColor: value === undefined ? '#fff' : value });
                                     }
                                 }]
                             })
@@ -2107,6 +2221,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 type: 'string',
                 default: '#fff'
             },
+            collapseIcon: {
+                type: 'string'
+            },
+            collapseIconColor: {
+                type: 'string',
+                default: '#fff'
+            },
             bodyBgColor: {
                 type: 'string'
             },
@@ -2149,6 +2270,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 headerTextColor = attributes.headerTextColor,
                 headerIcon = attributes.headerIcon,
                 headerIconColor = attributes.headerIconColor,
+                collapseIcon = attributes.collapseIcon,
+                collapseIconColor = attributes.collapseIconColor,
                 bodyBgColor = attributes.bodyBgColor,
                 bodyTextColor = attributes.bodyTextColor,
                 borderStyle = attributes.borderStyle,
@@ -2180,6 +2303,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             "svg",
                             { fill: headerIconColor, xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
                             HEADER_ICONS[headerIcon]
+                        )
+                    ),
+                    collapseIcon && React.createElement(
+                        "span",
+                        { className: "advgb-accordion-header-icon collapse-icon" },
+                        React.createElement(
+                            "svg",
+                            { fill: collapseIconColor, xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                            COLLAPSE_ICONS[collapseIcon]
                         )
                     ),
                     React.createElement(
@@ -2298,6 +2430,71 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         )
     };
 
+    var COLLAPSE_ICONS = {
+        remove: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M19 13H5v-2h14v2z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        removeCircle: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z" })
+        ),
+        removeCircleOutline: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
+        ),
+        close: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        closeCircle: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        closeCircleOutline: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
+        ),
+        closeBox: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" }),
+            React.createElement("path", { fill: "none", d: "M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" }),
+            React.createElement("path", { d: "M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z" }),
+            React.createElement("path", { fill: "none", d: "M0 0h24v24H0z" })
+        ),
+        unfoldLess: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+            React.createElement("path", { d: "M7.41 18.59L8.83 20 12 16.83 15.17 20l1.41-1.41L12 14l-4.59 4.59zm9.18-13.18L15.17 4 12 7.17 8.83 4 7.41 5.41 12 10l4.59-4.59z" })
+        ),
+        arrowUp: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { d: "M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" }),
+            React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" })
+        ),
+        power: React.createElement(
+            Fragment,
+            null,
+            React.createElement("path", { fill: "none", d: "M0 0h24v24H0z" }),
+            React.createElement("path", { d: "M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" })
+        )
+    };
+
     var AccordionsEdit = function (_Component) {
         _inherits(AccordionsEdit, _Component);
 
@@ -2404,6 +2601,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     headerTextColor = attributes.headerTextColor,
                     headerIcon = attributes.headerIcon,
                     headerIconColor = attributes.headerIconColor,
+                    collapseIcon = attributes.collapseIcon,
+                    collapseIconColor = attributes.collapseIconColor,
                     bodyBgColor = attributes.bodyBgColor,
                     bodyTextColor = attributes.bodyTextColor,
                     borderStyle = attributes.borderStyle,
@@ -2485,6 +2684,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     })
                                 )
                             ),
+                            React.createElement(
+                                BaseControl,
+                                { label: __('Collapse Icon') },
+                                React.createElement(
+                                    "div",
+                                    { className: "advgb-icon-items-wrapper" },
+                                    Object.keys(COLLAPSE_ICONS).map(function (key, index) {
+                                        return React.createElement(
+                                            "div",
+                                            { className: "advgb-icon-item", key: index },
+                                            React.createElement(
+                                                "span",
+                                                { className: key === collapseIcon ? 'active' : '',
+                                                    onClick: function onClick() {
+                                                        return _this2.updateAccordionAttrs({ collapseIcon: key });
+                                                    } },
+                                                React.createElement(
+                                                    "svg",
+                                                    { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                                                    COLLAPSE_ICONS[key]
+                                                )
+                                            )
+                                        );
+                                    }),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-icon-item" },
+                                        React.createElement(
+                                            "span",
+                                            { className: !collapseIcon || '' === collapseIcon ? 'active' : '',
+                                                onClick: function onClick() {
+                                                    return _this2.updateAccordionAttrs({ collapseIcon: '' });
+                                                } },
+                                            __('None')
+                                        )
+                                    )
+                                )
+                            ),
                             React.createElement(PanelColorSettings, {
                                 title: __('Color Settings', 'advanced-gutenberg'),
                                 initialOpen: false,
@@ -2501,10 +2738,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return _this2.updateAccordionAttrs({ headerTextColor: value === undefined ? '#eee' : value });
                                     }
                                 }, {
-                                    label: __('Icon Color', 'advanced-gutenberg'),
+                                    label: __('Expand Icon Color', 'advanced-gutenberg'),
                                     value: headerIconColor,
                                     onChange: function onChange(value) {
                                         return _this2.updateAccordionAttrs({ headerIconColor: value === undefined ? '#fff' : value });
+                                    }
+                                }, {
+                                    label: __('Collapse Icon Color'),
+                                    value: collapseIconColor,
+                                    onChange: function onChange(value) {
+                                        return _this2.updateAccordionAttrs({ collapseIconColor: value === undefined ? '#fff' : value });
                                     }
                                 }]
                             })
@@ -2605,6 +2848,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             default: 'unfold'
         },
         headerIconColor: {
+            type: 'string',
+            default: '#fff'
+        },
+        collapseIcon: {
+            type: 'string'
+        },
+        collapseIconColor: {
             type: 'string',
             default: '#fff'
         },

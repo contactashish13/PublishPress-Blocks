@@ -53,6 +53,71 @@
         )
     };
 
+    const COLLAPSE_ICONS = {
+        remove: (
+            <Fragment>
+                <path d="M19 13H5v-2h14v2z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </Fragment>
+        ),
+        removeCircle: (
+            <Fragment>
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/>
+            </Fragment>
+        ),
+        removeCircleOutline: (
+            <Fragment>
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </Fragment>
+        ),
+        close: (
+            <Fragment>
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </Fragment>
+        ),
+        closeCircle: (
+            <Fragment>
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </Fragment>
+        ),
+        closeCircleOutline: (
+            <Fragment>
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </Fragment>
+        ),
+        closeBox: (
+            <Fragment>
+                <path d="M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                <path fill="none" d="M21 19.1H3V5h18v14.1zM21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                <path d="M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z"/>
+                <path fill="none" d="M0 0h24v24H0z"/>
+            </Fragment>
+        ),
+        unfoldLess: (
+            <Fragment>
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7.41 18.59L8.83 20 12 16.83 15.17 20l1.41-1.41L12 14l-4.59 4.59zm9.18-13.18L15.17 4 12 7.17 8.83 4 7.41 5.41 12 10l4.59-4.59z"/>
+            </Fragment>
+        ),
+        arrowUp: (
+            <Fragment>
+                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </Fragment>
+        ),
+        power: (
+            <Fragment>
+                <path fill="none" d="M0 0h24v24H0z"/>
+                <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/>
+            </Fragment>
+        ),
+    };
+
     class AccordionsEdit extends Component {
         constructor() {
             super( ...arguments );
@@ -119,6 +184,8 @@
                 headerTextColor,
                 headerIcon,
                 headerIconColor,
+                collapseIcon,
+                collapseIconColor,
                 bodyBgColor,
                 bodyTextColor,
                 borderStyle,
@@ -161,14 +228,34 @@
                                 <div className="advgb-icon-items-wrapper">
                                     {Object.keys( HEADER_ICONS ).map( ( key, index ) => (
                                         <div className="advgb-icon-item" key={ index }>
-                                                <span className={ key === headerIcon ? 'active' : '' }
-                                                      onClick={ () => this.updateAccordionAttrs( { headerIcon: key } ) }>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                        { HEADER_ICONS[key] }
-                                                    </svg>
-                                                </span>
+                                            <span className={ key === headerIcon ? 'active' : '' }
+                                                  onClick={ () => this.updateAccordionAttrs( { headerIcon: key } ) }>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    { HEADER_ICONS[key] }
+                                                </svg>
+                                            </span>
                                         </div>
                                     ) ) }
+                                </div>
+                            </BaseControl>
+                            <BaseControl label={ __( 'Collapse Icon' ) }>
+                                <div className="advgb-icon-items-wrapper">
+                                    {Object.keys( COLLAPSE_ICONS ).map( ( key, index ) => (
+                                        <div className="advgb-icon-item" key={ index }>
+                                            <span className={ key === collapseIcon ? 'active' : '' }
+                                                  onClick={ () => this.updateAccordionAttrs( { collapseIcon: key } ) }>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    { COLLAPSE_ICONS[key] }
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    ) ) }
+                                    <div className="advgb-icon-item">
+                                        <span className={ !collapseIcon || '' === collapseIcon ? 'active' : '' }
+                                              onClick={ () => this.updateAccordionAttrs( { collapseIcon: '' } ) } >
+                                            { __( 'None' ) }
+                                        </span>
+                                    </div>
                                 </div>
                             </BaseControl>
                             <PanelColorSettings
@@ -186,9 +273,14 @@
                                         onChange: ( value ) => this.updateAccordionAttrs( { headerTextColor: value === undefined ? '#eee' : value } ),
                                     },
                                     {
-                                        label: __( 'Icon Color', 'advanced-gutenberg' ),
+                                        label: __( 'Expand Icon Color', 'advanced-gutenberg' ),
                                         value: headerIconColor,
                                         onChange: ( value ) => this.updateAccordionAttrs( { headerIconColor: value === undefined ? '#fff' : value } ),
+                                    },
+                                    {
+                                        label: __( 'Collapse Icon Color' ),
+                                        value: collapseIconColor,
+                                        onChange: ( value ) => this.updateAccordionAttrs( { collapseIconColor: value === undefined ? '#fff' : value } ),
                                     },
                                 ] }
                             />
@@ -280,6 +372,13 @@
             default: 'unfold',
         },
         headerIconColor: {
+            type: 'string',
+            default: '#fff',
+        },
+        collapseIcon: {
+            type: 'string',
+        },
+        collapseIconColor: {
             type: 'string',
             default: '#fff',
         },
