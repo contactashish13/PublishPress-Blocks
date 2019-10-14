@@ -10,7 +10,9 @@ jQuery(document).ready(function ($) {
             loop = wrapper.data('loop'),
             speed = parseInt(wrapper.data('speed')),
             dotsShown = wrapper.data('dots'),
-            arrowsShown = wrapper.data('arrows');
+            arrowsShown = wrapper.data('arrows'),
+            prevArrow = decodeURIComponent(wrapper.data("prev-arrow")),
+            nextArrow = decodeURIComponent(wrapper.data("next-arrow"));
 
         if (!arrowsShown) {
             wrapper.find('.advgb-slider-arrow').hide();
@@ -27,8 +29,8 @@ jQuery(document).ready(function ($) {
             dots: dotsShown,
             arrows: arrowsShown,
             speed: speed,
-            prevArrow: wrapper.find('.advgb-slider-prev'),
-            nextArrow: wrapper.find('.advgb-slider-next')
+            prevArrow: prevArrow !== "undefined" ? prevArrow : wrapper.find('.advgb-slider-prev'),
+            nextArrow: nextArrow !== "undefined" ? nextArrow : wrapper.find('.advgb-slider-next')
         })
     })
 });

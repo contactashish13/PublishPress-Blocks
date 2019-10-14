@@ -2885,12 +2885,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     React.createElement(
                         'span',
-                        { className: className + ' align' + align + ' ' + id,
+                        { className: className + ' wp-block-advgb-button_link align' + align + ' ' + id,
                             style: { display: 'inline-block' }
                         },
                         !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
                         React.createElement(RichText, {
-                            tagName: 'span',
                             placeholder: __('Add text…', 'advanced-gutenberg'),
                             value: text,
                             onChange: function onChange(value) {
@@ -19234,8 +19233,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             var _this = _possibleConstructorReturn(this, (AdvTestimonial.__proto__ || Object.getPrototypeOf(AdvTestimonial)).apply(this, arguments));
 
             _this.state = {
-                currentEdit: '',
-                refresh: true
+                currentEdit: ''
             };
             return _this;
         }
@@ -19285,8 +19283,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderSpeed = attributes.sliderSpeed,
                     sliderAutoPlaySpeed = attributes.sliderAutoPlaySpeed,
                     sliderArrowShown = attributes.sliderArrowShown,
-                    sliderItemsToScroll = attributes.sliderItemsToScroll,
-                    avatarBottom = attributes.avatarBottom;
+                    sliderItemsToScroll = attributes.sliderItemsToScroll;
 
 
                 if (!pid) {
@@ -19294,7 +19291,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 }
 
                 if (sliderView) {
-                    var num = avatarBottom ? 1 : 3;
                     jQuery("#block-" + clientId + " .advgb-testimonial.slider-view").slick({
                         infinite: sliderInfiniteLoop,
                         centerMode: sliderCenterMode,
@@ -19313,17 +19309,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }, {
             key: "componentWillUpdate",
-            value: function componentWillUpdate(nextProps, nextState) {
-                var _nextProps$attributes = nextProps.attributes,
-                    nextView = _nextProps$attributes.sliderView,
-                    nextColumns = _nextProps$attributes.columns,
-                    nextAvaPos = _nextProps$attributes.avatarBottom;
+            value: function componentWillUpdate(nextProps) {
                 var _props3 = this.props,
                     attributes = _props3.attributes,
                     clientId = _props3.clientId;
-                var sliderView = attributes.sliderView,
-                    columns = attributes.columns,
-                    avatarBottom = attributes.avatarBottom;
+                var sliderView = attributes.sliderView;
 
 
                 if (this.sliderNeedReload(nextProps.attributes, this.props.attributes)) {
@@ -19335,11 +19325,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }, {
             key: "componentDidUpdate",
-            value: function componentDidUpdate(prevProps, prevState) {
-                var _prevProps$attributes = prevProps.attributes,
-                    prevView = _prevProps$attributes.sliderView,
-                    prevColumns = _prevProps$attributes.columns,
-                    prevAvaPos = _prevProps$attributes.avatarBottom;
+            value: function componentDidUpdate(prevProps) {
                 var _props4 = this.props,
                     attributes = _props4.attributes,
                     clientId = _props4.clientId;
@@ -19354,15 +19340,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderAutoPlaySpeed = attributes.sliderAutoPlaySpeed,
                     sliderArrowShown = attributes.sliderArrowShown,
                     sliderItemsToScroll = attributes.sliderItemsToScroll,
-                    avatarBottom = attributes.avatarBottom,
                     nextArrow = attributes.nextArrow,
                     prevArrow = attributes.prevArrow;
 
                 var needReload = this.sliderNeedReload(prevProps.attributes, this.props.attributes);
                 var needUpdate = this.sliderNeedUpdate(prevProps.attributes, this.props.attributes);
                 var slider = jQuery("#block-" + clientId + " .advgb-testimonial.slider-view");
-                var prevElm = jQuery("#block-" + clientId + " .advgb-slider-prev");
-                var nextElm = jQuery("#block-" + clientId + " .advgb-slider-next");
+                var prevElm = !!prevArrow ? "<button class=\"advgb-arrow advgb-prev\"><img src=\"" + prevArrow + "\" alt=\"Prev\" /></button>" : jQuery("#block-" + clientId + " .advgb-slider-prev");
+                var nextElm = !!nextArrow ? "<button class=\"advgb-arrow advgb-next\"><img src=\"" + nextArrow + "\" alt=\"Next\" /></button>" : jQuery("#block-" + clientId + " .advgb-slider-next");
 
                 if (needReload) {
                     if (sliderView) {
@@ -19377,8 +19362,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             dots: sliderDotsShown,
                             arrows: sliderArrowShown,
                             speed: sliderSpeed,
-                            prevArrow: !!prevArrow ? "<button class=\"advgb-arrow advgb-prev\"><img src=\"" + prevArrow + "\" alt=\"Prev\" /></button>" : prevElm,
-                            nextArrow: !!nextArrow ? "<button class=\"advgb-arrow advgb-next\"><img src=\"" + nextArrow + "\" alt=\"Next\" /></button>" : nextElm
+                            prevArrow: prevElm,
+                            nextArrow: nextElm
                         });
                     }
                 }
@@ -19401,7 +19386,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "sliderNeedReload",
             value: function sliderNeedReload(pa, ca) {
-                var checkReload = ['sliderView', 'columns', 'avatarPosition'];
+                var checkReload = ['sliderView', 'columns', 'avatarPosition', 'nextArrow', 'prevArrow'];
                 var reload = false;
 
                 var _iteratorNormalCompletion = true;
@@ -19492,9 +19477,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function render() {
                 var _this2 = this;
 
-                var _state = this.state,
-                    currentEdit = _state.currentEdit,
-                    refresh = _state.refresh;
+                var currentEdit = this.state.currentEdit;
                 var _props6 = this.props,
                     attributes = _props6.attributes,
                     setAttributes = _props6.setAttributes,
@@ -19528,12 +19511,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     sliderArrowBorderRadius = attributes.sliderArrowBorderRadius,
                     sliderArrowColor = attributes.sliderArrowColor,
                     avatarPosition = attributes.avatarPosition,
-                    avatarBottom = attributes.avatarBottom,
                     prevArrow = attributes.prevArrow,
                     nextArrow = attributes.nextArrow;
 
 
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', "advgb-avatar-" + avatarPosition, avatarBottom && 'avatar-bottom', className].filter(Boolean).join(' ');
+                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', "advgb-avatar-" + avatarPosition, className].filter(Boolean).join(' ');
 
                 var maxCols = sliderView ? 10 : 3;
                 var minCols = sliderView ? 4 : 1;
@@ -19578,13 +19560,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ sliderView: !sliderView });
                                 }
                             }),
-                            React.createElement(ToggleControl, {
-                                label: __('Avatar at the bottom'),
-                                checked: avatarBottom,
-                                onChange: function onChange() {
-                                    return setAttributes({ avatarBottom: !avatarBottom });
-                                }
-                            }),
                             React.createElement(RangeControl, {
                                 label: !sliderView ? __('Columns', 'advanced-gutenberg') : __('Number of items', 'advanced-gutenberg'),
                                 help: __('Range in Normal view is 1-3, and in Slider view is 4-10.', 'advanced-gutenberg'),
@@ -19595,85 +19570,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     return setAttributes({ columns: value });
                                 }
                             }),
-                            sliderView && React.createElement(
-                                PanelBody,
-                                { title: __('Custom Prev/Next Arrow'), initialOpen: false },
-                                React.createElement(MediaUpload, {
-                                    allowedTypes: ["image"],
-                                    onSelect: function onSelect(media) {
-                                        return setAttributes({ prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
-                                    },
-                                    value: null,
-                                    render: function render(_ref) {
-                                        var open = _ref.open;
-                                        return React.createElement(
-                                            BaseControl,
-                                            { label: [__('Prev Arrow'), prevArrow && React.createElement(
-                                                    "a",
-                                                    { key: "marker-icon-remove",
-                                                        style: { marginLeft: '10px', cursor: 'pointer' },
-                                                        onClick: function onClick() {
-                                                            return setAttributes({ prevArrow: undefined });
-                                                        }
-                                                    },
-                                                    __('Remove')
-                                                )]
-                                            },
-                                            React.createElement(
-                                                Button,
-                                                { className: "button button-large",
-                                                    onClick: open
-                                                },
-                                                __('Choose icon')
-                                            ),
-                                            !!prevArrow && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
-                                                src: prevArrow,
-                                                alt: __('Prev Arrow') })
-                                        );
-                                    }
-                                }),
-                                React.createElement(MediaUpload, {
-                                    allowedTypes: ["image"],
-                                    onSelect: function onSelect(media) {
-                                        return setAttributes({ nextArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
-                                    },
-                                    value: null,
-                                    render: function render(_ref2) {
-                                        var open = _ref2.open;
-                                        return React.createElement(
-                                            BaseControl,
-                                            { label: [__('Next Arrow'), nextArrow && React.createElement(
-                                                    "a",
-                                                    { key: "marker-icon-remove",
-                                                        style: { marginLeft: '10px', cursor: 'pointer' },
-                                                        onClick: function onClick() {
-                                                            return setAttributes({ nextArrow: undefined });
-                                                        }
-                                                    },
-                                                    __('Remove')
-                                                )]
-                                            },
-                                            React.createElement(
-                                                Button,
-                                                { className: "button button-large",
-                                                    onClick: open
-                                                },
-                                                __('Choose icon')
-                                            ),
-                                            !!nextArrow && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
-                                                src: nextArrow,
-                                                alt: __('Prev Arrow') })
-                                        );
-                                    }
-                                }),
-                                React.createElement(
-                                    Button,
-                                    { isPrimary: true, onClick: function onClick() {
-                                            return _this2.setState({ refresh: !refresh });
-                                        } },
-                                    __('Apply')
-                                )
-                            ),
                             sliderView && React.createElement(
                                 Fragment,
                                 null,
@@ -19695,6 +19591,78 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return setAttributes({ sliderItemsToScroll: value });
                                     }
                                 }),
+                                React.createElement(
+                                    PanelBody,
+                                    { title: __('Custom Prev/Next Arrow'), initialOpen: false },
+                                    React.createElement(MediaUpload, {
+                                        allowedTypes: ["image"],
+                                        onSelect: function onSelect(media) {
+                                            return setAttributes({ prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
+                                        },
+                                        value: null,
+                                        render: function render(_ref) {
+                                            var open = _ref.open;
+                                            return React.createElement(
+                                                BaseControl,
+                                                { label: [__('Prev Arrow'), prevArrow && React.createElement(
+                                                        "a",
+                                                        { key: "marker-icon-remove",
+                                                            style: { marginLeft: '10px', cursor: 'pointer' },
+                                                            onClick: function onClick() {
+                                                                return setAttributes({ prevArrow: undefined });
+                                                            }
+                                                        },
+                                                        __('Remove')
+                                                    )]
+                                                },
+                                                React.createElement(
+                                                    Button,
+                                                    { className: "button button-large",
+                                                        onClick: open
+                                                    },
+                                                    __('Choose icon')
+                                                ),
+                                                !!prevArrow && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
+                                                    src: prevArrow,
+                                                    alt: __('Prev Arrow') })
+                                            );
+                                        }
+                                    }),
+                                    React.createElement(MediaUpload, {
+                                        allowedTypes: ["image"],
+                                        onSelect: function onSelect(media) {
+                                            return setAttributes({ nextArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url });
+                                        },
+                                        value: null,
+                                        render: function render(_ref2) {
+                                            var open = _ref2.open;
+                                            return React.createElement(
+                                                BaseControl,
+                                                { label: [__('Next Arrow'), nextArrow && React.createElement(
+                                                        "a",
+                                                        { key: "marker-icon-remove",
+                                                            style: { marginLeft: '10px', cursor: 'pointer' },
+                                                            onClick: function onClick() {
+                                                                return setAttributes({ nextArrow: undefined });
+                                                            }
+                                                        },
+                                                        __('Remove')
+                                                    )]
+                                                },
+                                                React.createElement(
+                                                    Button,
+                                                    { className: "button button-large",
+                                                        onClick: open
+                                                    },
+                                                    __('Choose icon')
+                                                ),
+                                                !!nextArrow && React.createElement("img", { style: { maxHeight: '30px', marginLeft: '10px' },
+                                                    src: nextArrow,
+                                                    alt: __('Prev Arrow') })
+                                            );
+                                        }
+                                    })
+                                ),
                                 React.createElement(
                                     PanelBody,
                                     { title: __('Slider Settings', 'advanced-gutenberg'), initialOpen: false },
@@ -19901,20 +19869,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 return React.createElement(
                                     "div",
                                     { className: "advgb-testimonial-item", key: idx },
-                                    avatarBottom && React.createElement(RichText, {
-                                        tagName: "p",
-                                        className: "advgb-testimonial-desc",
-                                        value: item.desc,
-                                        isSelected: isSelected && currentEdit === 'desc' + idx,
-                                        unstableOnFocus: function unstableOnFocus() {
-                                            return _this2.setState({ currentEdit: 'desc' + idx });
-                                        },
-                                        onChange: function onChange(value) {
-                                            return _this2.updateItems(idx, { desc: value });
-                                        },
-                                        style: { color: descColor },
-                                        placeholder: __('Text…')
-                                    }),
                                     React.createElement(MediaUpload, {
                                         allowedTypes: ["image"],
                                         onSelect: function onSelect(media) {
@@ -19988,7 +19942,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             style: { color: positionColor },
                                             placeholder: __('Text…', 'advanced-gutenberg')
                                         }),
-                                        !avatarBottom && React.createElement(RichText, {
+                                        React.createElement(RichText, {
                                             tagName: "p",
                                             className: "advgb-testimonial-desc",
                                             value: item.desc,
@@ -20012,14 +19966,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             sliderArrowShown && React.createElement(
                                 Fragment,
                                 null,
-                                React.createElement(
+                                !prevArrow && React.createElement(
                                     "button",
                                     { className: "advgb-slider-arrow advgb-slider-prev",
                                         style: arrowStyle
                                     },
                                     PREV_ARROW
                                 ),
-                                React.createElement(
+                                !nextArrow && React.createElement(
                                     "button",
                                     { className: "advgb-slider-arrow advgb-slider-next",
                                         style: arrowStyle
@@ -20159,10 +20113,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             type: 'number',
             default: 500
         },
-        avatarBottom: {
-            type: 'boolean',
-            default: false
-        },
         prevArrow: {
             type: 'string'
         },
@@ -20214,7 +20164,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 sliderArrowSize = attributes.sliderArrowSize,
                 sliderArrowBorderSize = attributes.sliderArrowBorderSize,
                 sliderArrowBorderRadius = attributes.sliderArrowBorderRadius,
-                sliderArrowColor = attributes.sliderArrowColor;
+                sliderArrowColor = attributes.sliderArrowColor,
+                prevArrow = attributes.prevArrow,
+                nextArrow = attributes.nextArrow;
 
 
             var blockClass = ['advgb-testimonial', sliderView && 'slider-view', "advgb-avatar-" + avatarPosition].filter(Boolean).join(' ');
@@ -20251,7 +20203,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     "data-dots": sliderView ? sliderDotsShown : undefined,
                     "data-speed": sliderView ? sliderSpeed : undefined,
                     "data-arrows": sliderView ? sliderArrowShown : undefined,
-                    "data-center": sliderView ? sliderCenterMode : undefined
+                    "data-center": sliderView ? sliderCenterMode : undefined,
+                    "data-prev-arrow": prevArrow ? encodeURIComponent(prevArrow) : undefined,
+                    "data-next-arrow": nextArrow ? encodeURIComponent(nextArrow) : undefined
                 },
                 React.createElement(
                     "div",
@@ -20308,14 +20262,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 sliderView && React.createElement(
                     Fragment,
                     null,
-                    React.createElement(
+                    !prevArrow && React.createElement(
                         "button",
                         { className: "advgb-slider-arrow advgb-slider-prev",
                             style: arrowStyle
                         },
                         PREV_ARROW
                     ),
-                    React.createElement(
+                    !nextArrow && React.createElement(
                         "button",
                         { className: "advgb-slider-arrow advgb-slider-next",
                             style: arrowStyle
@@ -20324,101 +20278,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     )
                 )
             );
-        },
-        deprecated: [{
-            attributes: blockAttrs,
-            save: function save(_ref5) {
-                var attributes = _ref5.attributes;
-                var items = attributes.items,
-                    sliderView = attributes.sliderView,
-                    avatarColor = attributes.avatarColor,
-                    avatarBorderRadius = attributes.avatarBorderRadius,
-                    avatarBorderWidth = attributes.avatarBorderWidth,
-                    avatarBorderColor = attributes.avatarBorderColor,
-                    avatarSize = attributes.avatarSize,
-                    nameColor = attributes.nameColor,
-                    positionColor = attributes.positionColor,
-                    descColor = attributes.descColor,
-                    columns = attributes.columns,
-                    avatarBottom = attributes.avatarBottom,
-                    prevArrow = attributes.prevArrow,
-                    nextArrow = attributes.nextArrow;
-
-
-                var blockClass = ['advgb-testimonial', sliderView && 'slider-view', avatarBottom && 'avatar-bottom'].filter(Boolean).join(' ');
-
-                var i = 0;
-                var validCols = columns;
-                if (columns < 1) {
-                    validCols = 1;
-                } else if (columns > 3 && !sliderView) {
-                    validCols = 3;
-                } else if (columns < 4 && sliderView) {
-                    validCols = 4;
-                } else if (columns > 10) {
-                    validCols = 10;
-                }
-
-                return React.createElement(
-                    "div",
-                    { className: blockClass,
-                        "data-prev-arrow": prevArrow ? prevArrow : undefined,
-                        "data-next-arrow": nextArrow ? nextArrow : undefined
-                    },
-                    items.map(function (item, idx) {
-                        i++;
-                        if (i > validCols) return false;
-                        return React.createElement(
-                            "div",
-                            { className: "advgb-testimonial-item", key: idx },
-                            avatarBottom && React.createElement(
-                                "p",
-                                { className: "advgb-testimonial-desc",
-                                    style: { color: descColor }
-                                },
-                                item.desc
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "advgb-testimonial-avatar-group" },
-                                React.createElement("div", { className: "advgb-testimonial-avatar",
-                                    style: {
-                                        backgroundImage: "url(" + (item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder) + ")",
-                                        backgroundColor: avatarColor,
-                                        borderRadius: avatarBorderRadius + '%',
-                                        borderWidth: avatarBorderWidth + 'px',
-                                        borderColor: avatarBorderColor,
-                                        width: avatarSize + 'px',
-                                        height: avatarSize + 'px'
-                                    }
-                                })
-                            ),
-                            React.createElement(
-                                "h4",
-                                { className: "advgb-testimonial-name",
-                                    style: { color: nameColor }
-                                },
-                                item.name
-                            ),
-                            React.createElement(
-                                "p",
-                                { className: "advgb-testimonial-position",
-                                    style: { color: positionColor }
-                                },
-                                item.position
-                            ),
-                            !avatarBottom && React.createElement(
-                                "p",
-                                { className: "advgb-testimonial-desc",
-                                    style: { color: descColor }
-                                },
-                                item.desc
-                            )
-                        );
-                    })
-                );
-            }
-        }]
+        }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
 

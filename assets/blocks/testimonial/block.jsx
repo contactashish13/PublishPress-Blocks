@@ -26,7 +26,6 @@
             super( ...arguments );
             this.state = {
                 currentEdit: '',
-                refresh: true,
             }
         }
 
@@ -53,8 +52,8 @@
 
         componentDidMount() {
             const { attributes, setAttributes, clientId } = this.props;
-            const { pid, sliderView, prevArrow, nextArrow, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderAutoPlay, sliderInfiniteLoop,
-                sliderDotsShown, sliderSpeed, sliderAutoPlaySpeed, sliderArrowShown, sliderItemsToScroll, avatarBottom,
+            const { pid, sliderView, prevArrow, nextArrow, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderAutoPlay,
+                sliderInfiniteLoop, sliderDotsShown, sliderSpeed, sliderAutoPlaySpeed, sliderArrowShown, sliderItemsToScroll,
             } = attributes;
 
             if (!pid) {
@@ -62,7 +61,6 @@
             }
 
             if (sliderView) {
-                const num = avatarBottom ? 1 : 3;
                 jQuery(`#block-${clientId} .advgb-testimonial.slider-view`).slick({
                     infinite: sliderInfiniteLoop,
                     centerMode: sliderCenterMode,
@@ -80,10 +78,9 @@
             }
         }
 
-        componentWillUpdate(nextProps, nextState) {
-            const { sliderView: nextView, columns: nextColumns, avatarBottom: nextAvaPos } = nextProps.attributes;
+        componentWillUpdate(nextProps) {
             const { attributes, clientId } = this.props;
-            const { sliderView, columns, avatarBottom } = attributes;
+            const { sliderView } = attributes;
 
             if (this.sliderNeedReload(nextProps.attributes, this.props.attributes)) {
                 if (sliderView) {
@@ -96,17 +93,16 @@
             }
         }
 
-        componentDidUpdate(prevProps, prevState) {
-            const { sliderView: prevView, columns: prevColumns, avatarBottom: prevAvaPos } = prevProps.attributes;
+        componentDidUpdate(prevProps) {
             const { attributes, clientId } = this.props;
             const { sliderView, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderAutoPlay, sliderInfiniteLoop,
-                sliderDotsShown, sliderSpeed, sliderAutoPlaySpeed, sliderArrowShown, sliderItemsToScroll, avatarBottom, nextArrow, prevArrow,
+                sliderDotsShown, sliderSpeed, sliderAutoPlaySpeed, sliderArrowShown, sliderItemsToScroll, nextArrow, prevArrow,
             } = attributes;
             const needReload = this.sliderNeedReload(prevProps.attributes, this.props.attributes);
             const needUpdate = this.sliderNeedUpdate(prevProps.attributes, this.props.attributes);
             const slider = jQuery(`#block-${clientId} .advgb-testimonial.slider-view`);
-            const prevElm = jQuery(`#block-${clientId} .advgb-slider-prev`);
-            const nextElm = jQuery(`#block-${clientId} .advgb-slider-next`);
+            const prevElm = !!prevArrow ? `<button class="advgb-arrow advgb-prev"><img src="${prevArrow}" alt="Prev" /></button>` : jQuery(`#block-${clientId} .advgb-slider-prev`);
+            const nextElm = !!nextArrow ? `<button class="advgb-arrow advgb-next"><img src="${nextArrow}" alt="Next" /></button>` : jQuery(`#block-${clientId} .advgb-slider-next`);
 
             if (needReload) {
                 if (sliderView) {
@@ -121,8 +117,8 @@
                         dots: sliderDotsShown,
                         arrows: sliderArrowShown,
                         speed: sliderSpeed,
-                        prevArrow: !!prevArrow ? `<button class="advgb-arrow advgb-prev"><img src="${prevArrow}" alt="Prev" /></button>` : prevElm,
-                        nextArrow: !!nextArrow ? `<button class="advgb-arrow advgb-next"><img src="${nextArrow}" alt="Next" /></button>` : nextElm,
+                        prevArrow: prevElm,
+                        nextArrow: nextElm,
                     });
                 }
             }
@@ -144,7 +140,7 @@
         }
 
         sliderNeedReload(pa, ca) {
-            const checkReload = ['sliderView', 'columns', 'avatarPosition'];
+            const checkReload = ['sliderView', 'columns', 'avatarPosition', 'nextArrow', 'prevArrow'];
             let reload = false;
 
             for (let checkProp of checkReload) {
@@ -188,23 +184,20 @@
         }
 
         render() {
-            const { currentEdit, refresh } = this.state;
+            const { currentEdit } = this.state;
             const { attributes, setAttributes, isSelected, className } = this.props;
             const {
                 pid, items, sliderView, avatarColor, avatarBorderRadius, avatarBorderWidth, avatarBorderColor, avatarSize,
                 nameColor, positionColor, descColor, columns, sliderColumn, sliderItemsToScroll, sliderCenterMode, sliderPauseOnHover,
                 sliderAutoPlay, sliderInfiniteLoop, sliderDotsShown, sliderDotsColor, sliderSpeed, sliderAutoPlaySpeed,
                 sliderArrowShown, sliderArrowSize, sliderArrowBorderSize, sliderArrowBorderRadius, sliderArrowColor, avatarPosition,
-                avatarBottom,
-                prevArrow,
-                nextArrow,
+                prevArrow, nextArrow,
             } = attributes;
 
             const blockClass = [
                 'advgb-testimonial',
                 sliderView && 'slider-view',
                 `advgb-avatar-${avatarPosition}`,
-                avatarBottom && 'avatar-bottom',
                 className,
             ].filter( Boolean ).join( ' ' );
 
@@ -244,11 +237,6 @@
                                 checked={ sliderView }
                                 onChange={ () => setAttributes( { sliderView: !sliderView } ) }
                             />
-                            <ToggleControl
-                                label={ __( 'Avatar at the bottom' ) }
-                                checked={ avatarBottom }
-                                onChange={ () => setAttributes( { avatarBottom: !avatarBottom } ) }
-                            />
                             <RangeControl
                                 label={ !sliderView ? __( 'Columns', 'advanced-gutenberg' ) : __( 'Number of items', 'advanced-gutenberg' ) }
                                 help={ __( 'Range in Normal view is 1-3, and in Slider view is 4-10.', 'advanced-gutenberg' ) }
@@ -258,6 +246,21 @@
                                 onChange={ (value) => setAttributes( { columns: value } ) }
                             />
                             {sliderView && (
+                            <Fragment>
+                                <RangeControl
+                                    label={ __( 'Items to show', 'advanced-gutenberg' ) }
+                                    min={ 1 }
+                                    max={ columns }
+                                    value={ sliderColumn }
+                                    onChange={ (value) => setAttributes( { sliderColumn: value } ) }
+                                />
+                                <RangeControl
+                                    label={ __( 'Items to scroll', 'advanced-gutenberg' ) }
+                                    min={ 1 }
+                                    max={ sliderColumn }
+                                    value={ sliderItemsToScroll }
+                                    onChange={ (value) => setAttributes( { sliderItemsToScroll: value } ) }
+                                />
                                 <PanelBody title={ __( 'Custom Prev/Next Arrow' ) } initialOpen={ false }>
                                     <MediaUpload
                                         allowedTypes={ ["image"] }
@@ -319,27 +322,7 @@
                                             </BaseControl>
                                         ) }
                                     />
-                                    <Button isPrimary={ true } onClick={ () => this.setState( { refresh: !refresh } ) }>
-                                        { __( 'Apply' ) }
-                                    </Button>
                                 </PanelBody>
-                            ) }
-                            {sliderView && (
-                            <Fragment>
-                                <RangeControl
-                                    label={ __( 'Items to show', 'advanced-gutenberg' ) }
-                                    min={ 1 }
-                                    max={ columns }
-                                    value={ sliderColumn }
-                                    onChange={ (value) => setAttributes( { sliderColumn: value } ) }
-                                />
-                                <RangeControl
-                                    label={ __( 'Items to scroll', 'advanced-gutenberg' ) }
-                                    min={ 1 }
-                                    max={ sliderColumn }
-                                    value={ sliderItemsToScroll }
-                                    onChange={ (value) => setAttributes( { sliderItemsToScroll: value } ) }
-                                />
                                 <PanelBody title={ __( 'Slider Settings', 'advanced-gutenberg' ) } initialOpen={ false }>
                                     <ToggleControl
                                         label={ __( 'Center mode', 'advanced-gutenberg' ) }
@@ -511,70 +494,58 @@
                                 if (i > validCols) return false;
                                 return (
                                     <div className="advgb-testimonial-item" key={idx}>
-                                        {avatarBottom &&
-                                    <RichText
-                                        tagName="p"
-                                        className="advgb-testimonial-desc"
-                                        value={ item.desc }
-                                        isSelected={ isSelected && currentEdit === 'desc' + idx }
-                                        unstableOnFocus={ () => this.setState( { currentEdit: 'desc' + idx } ) }
-                                        onChange={ (value) => this.updateItems(idx, { desc: value } ) }
-                                        style={ { color: descColor } }
-                                        placeholder={ __( 'Text…' ) }
-                                    />}
-                                    <MediaUpload
-                                        allowedTypes={ ["image"] }
-                                        onSelect={ (media) => this.updateItems(idx, {
-                                            avatarUrl: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
-                                            avatarID: media.id
-                                        } ) }
-                                        value={ item.avatarID }
-                                        render={ ( { open } ) => (
-                                            <div className="advgb-testimonial-avatar-group">
-                                                <Tooltip text={ __( 'Click to change avatar', 'advanced-gutenberg' ) }>
-                                                    <div className="advgb-testimonial-avatar"
-                                                         onClick={ open }
-                                                         style={ {
-                                                             backgroundImage: `url(${item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder})`,
-                                                             backgroundColor: avatarColor,
-                                                             borderRadius: avatarBorderRadius + '%',
-                                                             borderWidth: avatarBorderWidth + 'px',
-                                                             borderColor: avatarBorderColor,
-                                                             width: avatarSize + 'px',
-                                                             height: avatarSize + 'px',
-                                                         } }
-                                                    />
-                                                </Tooltip>
-                                                <Tooltip text={ __( 'Remove avatar', 'advanced-gutenberg' ) }>
-                                            <span className="dashicons dashicons-no advgb-testimonial-avatar-clear"
-                                                  onClick={ () => this.updateItems(idx, { avatarUrl: undefined, avatarID: undefined } ) }
-                                            />
-                                                </Tooltip>
-                                            </div>
-                                        ) }
-                                    />
-                                    <div className="advgb-testimonial-info">
+                                        <MediaUpload
+                                            allowedTypes={ ["image"] }
+                                            onSelect={ (media) => this.updateItems(idx, {
+                                                avatarUrl: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
+                                                avatarID: media.id
+                                            } ) }
+                                            value={ item.avatarID }
+                                            render={ ( { open } ) => (
+                                                <div className="advgb-testimonial-avatar-group">
+                                                    <Tooltip text={ __( 'Click to change avatar', 'advanced-gutenberg' ) }>
+                                                        <div className="advgb-testimonial-avatar"
+                                                             onClick={ open }
+                                                             style={ {
+                                                                 backgroundImage: `url(${item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder})`,
+                                                                 backgroundColor: avatarColor,
+                                                                 borderRadius: avatarBorderRadius + '%',
+                                                                 borderWidth: avatarBorderWidth + 'px',
+                                                                 borderColor: avatarBorderColor,
+                                                                 width: avatarSize + 'px',
+                                                                 height: avatarSize + 'px',
+                                                             } }
+                                                        />
+                                                    </Tooltip>
+                                                    <Tooltip text={ __( 'Remove avatar', 'advanced-gutenberg' ) }>
+                                                <span className="dashicons dashicons-no advgb-testimonial-avatar-clear"
+                                                      onClick={ () => this.updateItems(idx, { avatarUrl: undefined, avatarID: undefined } ) }
+                                                />
+                                                    </Tooltip>
+                                                </div>
+                                            ) }
+                                        />
+                                        <div className="advgb-testimonial-info">
                                             <RichText
-                                        tagName="h4"
-                                        className="advgb-testimonial-name"
-                                        value={ item.name }
-                                        isSelected={ isSelected && currentEdit === 'name' + idx }
-                                        unstableOnFocus={ () => this.setState( { currentEdit: 'name' + idx } ) }
-                                        onChange={ (value) => this.updateItems(idx, { name: value } ) }
-                                        style={ { color: nameColor } }
-                                        placeholder={ __( 'Text…', 'advanced-gutenberg' ) }
-                                    />
-                                    <RichText
-                                        tagName="p"
-                                        className="advgb-testimonial-position"
-                                        value={ item.position }
-                                        isSelected={ isSelected && currentEdit === 'pos' + idx }
-                                        unstableOnFocus={ () => this.setState( { currentEdit: 'pos' + idx } ) }
-                                        onChange={ (value) => this.updateItems(idx, { position: value } ) }
-                                        style={ { color: positionColor } }
-                                        placeholder={ __( 'Text…', 'advanced-gutenberg' ) }
-                                    />
-                                    {!avatarBottom &&
+                                                tagName="h4"
+                                                className="advgb-testimonial-name"
+                                                value={ item.name }
+                                                isSelected={ isSelected && currentEdit === 'name' + idx }
+                                                unstableOnFocus={ () => this.setState( { currentEdit: 'name' + idx } ) }
+                                                onChange={ (value) => this.updateItems(idx, { name: value } ) }
+                                                style={ { color: nameColor } }
+                                                placeholder={ __( 'Text…', 'advanced-gutenberg' ) }
+                                            />
+                                            <RichText
+                                                tagName="p"
+                                                className="advgb-testimonial-position"
+                                                value={ item.position }
+                                                isSelected={ isSelected && currentEdit === 'pos' + idx }
+                                                unstableOnFocus={ () => this.setState( { currentEdit: 'pos' + idx } ) }
+                                                onChange={ (value) => this.updateItems(idx, { position: value } ) }
+                                                style={ { color: positionColor } }
+                                                placeholder={ __( 'Text…', 'advanced-gutenberg' ) }
+                                            />
                                             <RichText
                                                 tagName="p"
                                                 className="advgb-testimonial-desc"
@@ -584,7 +555,7 @@
                                                 onChange={ (value) => this.updateItems(idx, { desc: value } ) }
                                                 style={ { color: descColor } }
                                                 placeholder={ __( 'Text…', 'advanced-gutenberg' ) }
-                                            />}
+                                            />
                                         </div>
                                     </div>
                                 ) } ) }
@@ -593,16 +564,20 @@
                         <Fragment>
                             {sliderArrowShown && (
                                 <Fragment>
-                                    <button className="advgb-slider-arrow advgb-slider-prev"
-                                            style={ arrowStyle }
-                                    >
-                                        {PREV_ARROW}
-                                    </button>
-                                    <button className="advgb-slider-arrow advgb-slider-next"
-                                            style={ arrowStyle }
-                                    >
-                                        {NEXT_ARROW}
-                                    </button>
+                                    {!prevArrow && (
+                                        <button className="advgb-slider-arrow advgb-slider-prev"
+                                                style={ arrowStyle }
+                                        >
+                                            {PREV_ARROW}
+                                        </button>
+                                    )}
+                                    {!nextArrow && (
+                                        <button className="advgb-slider-arrow advgb-slider-next"
+                                                style={ arrowStyle }
+                                        >
+                                            {NEXT_ARROW}
+                                        </button>
+                                    )}
                                 </Fragment>
                             )}
                             <style>
@@ -732,10 +707,6 @@
             type: 'number',
             default: 500,
         },
-        avatarBottom: {
-            type: 'boolean',
-            default: false,
-        },
         prevArrow: {
             type: 'string',
         },
@@ -765,6 +736,7 @@
                 nameColor, positionColor, descColor, columns, sliderColumn, sliderItemsToScroll, sliderCenterMode, sliderPauseOnHover,
                 sliderAutoPlay, sliderInfiniteLoop, sliderDotsShown, avatarPosition, sliderSpeed, sliderAutoPlaySpeed,
                 sliderArrowShown, sliderArrowSize, sliderArrowBorderSize, sliderArrowBorderRadius, sliderArrowColor,
+                prevArrow, nextArrow,
             } = attributes;
 
             const blockClass = [
@@ -805,6 +777,8 @@
                      data-speed={ sliderView ? sliderSpeed : undefined }
                      data-arrows={ sliderView ? sliderArrowShown : undefined }
                      data-center={ sliderView ? sliderCenterMode : undefined }
+                     data-prev-arrow={ prevArrow ? encodeURIComponent(prevArrow) : undefined }
+                     data-next-arrow={ nextArrow ? encodeURIComponent(nextArrow) : undefined }
                 >
                     <div className={ blockClass }>
                         {items.map( (item, idx) => {
@@ -847,110 +821,24 @@
                     </div>
                     {sliderView && (
                         <Fragment>
-                            <button className="advgb-slider-arrow advgb-slider-prev"
-                                    style={ arrowStyle }
-                            >
-                                {PREV_ARROW}
-                            </button>
-                            <button className="advgb-slider-arrow advgb-slider-next"
-                                    style={ arrowStyle }
-                            >
-                                {NEXT_ARROW}
-                            </button>
+                            {!prevArrow && (
+                                <button className="advgb-slider-arrow advgb-slider-prev"
+                                        style={ arrowStyle }
+                                >
+                                    {PREV_ARROW}
+                                </button>
+                            )}
+                            {!nextArrow && (
+                                <button className="advgb-slider-arrow advgb-slider-next"
+                                        style={ arrowStyle }
+                                >
+                                    {NEXT_ARROW}
+                                </button>
+                            )}
                         </Fragment>
                     )}
                 </div>
             );
         },
-        deprecated: [
-            {
-                attributes: blockAttrs,
-                save: function ( { attributes } ) {
-                    const {items,
-                sliderView,
-                avatarColor,
-                avatarBorderRadius,
-                avatarBorderWidth,
-                avatarBorderColor,
-                avatarSize,
-                nameColor,
-                positionColor,
-                descColor,
-                columns,
-                avatarBottom,
-                prevArrow,
-                nextArrow,
-            } = attributes;
-
-            const blockClass = [
-                'advgb-testimonial',
-                sliderView && 'slider-view',
-                avatarBottom && 'avatar-bottom',
-            ].filter( Boolean ).join( ' ' );
-
-                    let i = 0;
-                    let validCols = columns;
-                    if (columns < 1) {
-                        validCols = 1;
-                    } else if (columns > 3 && !sliderView) {
-                        validCols = 3;
-                    } else if (columns < 4 && sliderView) {
-                        validCols = 4;
-                    } else if (columns > 10) {
-                        validCols = 10;
-                    }
-
-                    return (
-                        <div className={ blockClass }
-                     data-prev-arrow={ prevArrow ? prevArrow : undefined }
-                     data-next-arrow={ nextArrow ? nextArrow : undefined }
-                >
-                    {items.map( (item, idx) => {
-                        i++;
-                        if (i > validCols) return false;
-                        return (
-                            <div className="advgb-testimonial-item" key={idx}>
-                                {avatarBottom &&
-                                <p className="advgb-testimonial-desc"
-                                   style={ { color: descColor } }
-                                >
-                                    { item.desc }
-                                </p>}
-                                <div className="advgb-testimonial-avatar-group">
-                                    <div className="advgb-testimonial-avatar"
-                                         style={ {
-                                             backgroundImage: `url(${item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder})`,
-                                             backgroundColor: avatarColor,
-                                             borderRadius: avatarBorderRadius + '%',
-                                             borderWidth: avatarBorderWidth + 'px',
-                                             borderColor: avatarBorderColor,
-                                             width: avatarSize + 'px',
-                                             height: avatarSize + 'px',
-                                         } }
-                                    />
-                                </div>
-                                <h4 className="advgb-testimonial-name"
-                                    style={ { color: nameColor } }
-                                >
-                                    { item.name }
-                                </h4>
-                                <p className="advgb-testimonial-position"
-                                   style={ { color: positionColor } }
-                                >
-                                    { item.position }
-                                </p>
-                                {!avatarBottom &&
-                                        <p className="advgb-testimonial-desc"
-                                           style={ { color: descColor } }
-                                        >
-                                            { item.desc }
-                                        </p>}
-                                    </div>
-                                ) } ) }
-                        </div>
-                    );
-                }
-            }
-        ]
     } );
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );

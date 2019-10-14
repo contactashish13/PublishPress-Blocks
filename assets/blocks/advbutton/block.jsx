@@ -152,14 +152,13 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             />
                         </Toolbar>
                     </BlockControls>
-                    <span className={ `${className} align${align} ${id}` }
+                    <span className={ `${className} wp-block-advgb-button_link align${align} ${id}` }
                           style={ { display: 'inline-block' } }
                     >
                         {!!buttonIconType && !!buttonIcon && !buttonAfter && (
                             <i className={ iconClass } style={ iconStyle } />
                         ) }
                         <RichText
-                            tagName="span"
                             placeholder={ __( 'Add text…', 'advanced-gutenberg' ) }
                             value={ text }
                             onChange={ ( value ) => setAttributes( { text: value } ) }

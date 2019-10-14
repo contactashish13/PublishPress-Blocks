@@ -216,7 +216,7 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     text-align: center;
 }
 
-.wp-block-advgb-button .wp-block-advgb-button_link,
+.wp-block-advgb-button.wp-block-advgb-button_link,
 .wp-block-advgb-button_link div {
     display: inline-block;
     text-decoration: none !important;
@@ -973,16 +973,6 @@ div.advgb-tab-body {
     pointer-events: all;
 }
 
-.advgb-testimonial.avatar-bottom .advgb-testimonial-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.advgb-testimonial.avatar-bottom .advgb-testimonial-item > *:first-child {
-    flex: 1;
-    margin-bottom: 15px;
-}
-
 .advgb-testimonial .advgb-testimonial-avatar-group {
     position: relative;
     align-self: center;
@@ -1039,29 +1029,6 @@ button.advgb-testimonial-preview {
 
 .advgb-testimonial button.slick-arrow {
     background-color: transparent;
-}
-
-.advgb-testimonial:not(.avatar-bottom) .slick-slide {
-    opacity: 0.6;
-}
-
-.advgb-testimonial:not(.avatar-bottom) .slick-slide.slick-current {
-    opacity: 1;
-}
-
-.advgb-testimonial:not(.avatar-bottom) .slick-slide:not(.slick-current) > *:not(.advgb-testimonial-avatar-group) {
-    visibility: hidden;
-}
-
-.advgb-testimonial:not(.avatar-bottom) .slick-slide.slick-current > *:not(.advgb-testimonial-avatar-group) {
-    margin-left: -100px;
-    margin-right: -100px;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.advgb-testimonial:not(.avatar-bottom) .slick-slide.slick-current .advgb-testimonial-avatar-group {
-    transform: scale(1.3);
 }
 
 .advgb-arrow {
