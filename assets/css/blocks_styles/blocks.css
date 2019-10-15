@@ -216,8 +216,7 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     text-align: center;
 }
 
-.wp-block-advgb-button.wp-block-advgb-button_link,
-.wp-block-advgb-button_link div {
+.wp-block-advgb-button.wp-block-advgb-button_link {
     display: inline-block;
     text-decoration: none !important;
     background-color: #2196f3;
