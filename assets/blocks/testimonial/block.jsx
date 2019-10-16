@@ -52,8 +52,8 @@
 
         componentDidMount() {
             const { attributes, setAttributes, clientId } = this.props;
-            const { pid, sliderView, prevArrow, nextArrow, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderAutoPlay,
-                sliderInfiniteLoop, sliderDotsShown, sliderSpeed, sliderAutoPlaySpeed, sliderArrowShown, sliderItemsToScroll,
+            const { pid, sliderView, prevArrow, nextArrow, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderInfiniteLoop,
+                sliderDotsShown, sliderSpeed, sliderArrowShown, sliderItemsToScroll,
             } = attributes;
 
             if (!pid) {
@@ -67,8 +67,6 @@
                     slidesToShow: sliderColumn,
                     slidesToScroll: Math.min(sliderItemsToScroll, sliderColumn),
                     pauseOnHover: sliderPauseOnHover,
-                    autoplay: sliderAutoPlay,
-                    autoplaySpeed: sliderAutoPlaySpeed,
                     dots: sliderDotsShown,
                     arrows: sliderArrowShown,
                     speed: sliderSpeed,
@@ -95,8 +93,8 @@
 
         componentDidUpdate(prevProps) {
             const { attributes, clientId } = this.props;
-            const { sliderView, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderAutoPlay, sliderInfiniteLoop,
-                sliderDotsShown, sliderSpeed, sliderAutoPlaySpeed, sliderArrowShown, sliderItemsToScroll, nextArrow, prevArrow,
+            const { sliderView, sliderColumn, sliderCenterMode, sliderPauseOnHover, sliderInfiniteLoop,
+                sliderDotsShown, sliderSpeed, sliderArrowShown, sliderItemsToScroll, nextArrow, prevArrow,
             } = attributes;
             const needReload = this.sliderNeedReload(prevProps.attributes, this.props.attributes);
             const needUpdate = this.sliderNeedUpdate(prevProps.attributes, this.props.attributes);
@@ -112,8 +110,6 @@
                         slidesToShow: sliderColumn,
                         slidesToScroll: Math.min(sliderItemsToScroll, sliderColumn),
                         pauseOnHover: sliderPauseOnHover,
-                        autoplay: sliderAutoPlay,
-                        autoplaySpeed: sliderAutoPlaySpeed,
                         dots: sliderDotsShown,
                         arrows: sliderArrowShown,
                         speed: sliderSpeed,
@@ -132,15 +128,13 @@
                 slider.slick('slickSetOption', 'dots', sliderDotsShown);
                 slider.slick('slickSetOption', 'arrows', sliderArrowShown);
                 slider.slick('slickSetOption', 'speed', sliderSpeed);
-                slider.slick('slickSetOption', 'autoplay', sliderAutoPlay);
-                slider.slick('slickSetOption', 'autoplaySpeed', sliderAutoPlaySpeed);
                 slider.slick('slickSetOption', 'prevArrow', prevElm);
                 slider.slick('slickSetOption', 'nextArrow', nextElm, true);
             }
         }
 
         sliderNeedReload(pa, ca) {
-            const checkReload = ['sliderView', 'columns', 'avatarPosition', 'nextArrow', 'prevArrow'];
+            const checkReload = ['sliderView', 'columns', 'avatarPosition', 'nextArrow', 'prevArrow', 'sliderCenterMode'];
             let reload = false;
 
             for (let checkProp of checkReload) {
@@ -156,7 +150,7 @@
         sliderNeedUpdate(pa, ca) {
             const checkUpdate = [
                 'sliderColumn', 'sliderItemsToScroll', 'sliderPauseOnHover', 'sliderAutoPlay', 'sliderInfiniteLoop',
-                'sliderDotsShown', 'sliderSpeed', 'sliderAutoPlaySpeed', 'sliderArrowShown', 'sliderCenterMode',
+                'sliderDotsShown', 'sliderSpeed', 'sliderAutoPlaySpeed', 'sliderArrowShown',
             ];
             let update = false;
 
@@ -632,7 +626,7 @@
         },
         avatarSize: {
             type: 'number',
-            default: 70,
+            default: 120,
         },
         avatarPosition: {
             type: 'string',
@@ -661,7 +655,7 @@
         },
         sliderCenterMode: {
             type: 'boolean',
-            default: true,
+            default: false,
         },
         sliderPauseOnHover: {
             type: 'boolean',
@@ -840,5 +834,88 @@
                 </div>
             );
         },
+        deprecated: [
+            {
+                attributes: {
+                    ...blockAttrs,
+                    avatarSize: {
+                        type: 'number',
+                        default: 70
+                    }
+                },
+                save: function ( { attributes } ) {
+                    const {
+                        items,
+                        sliderView,
+                        avatarColor,
+                        avatarBorderRadius,
+                        avatarBorderWidth,
+                        avatarBorderColor,
+                        avatarSize,
+                        nameColor,
+                        positionColor,
+                        descColor,
+                        columns,
+                    } = attributes;
+
+                    const blockClass = [
+                        'advgb-testimonial',
+                        sliderView && 'slider-view',
+                    ].filter( Boolean ).join( ' ' );
+
+                    let i = 0;
+                    let validCols = columns;
+                    if (columns < 1) {
+                        validCols = 1;
+                    } else if (columns > 3 && !sliderView) {
+                        validCols = 3;
+                    } else if (columns < 4 && sliderView) {
+                        validCols = 4;
+                    } else if (columns > 10) {
+                        validCols = 10;
+                    }
+
+                    return (
+                        <div className={ blockClass }>
+                            {items.map( (item, idx) => {
+                                i++;
+                                if (i > validCols) return false;
+                                return (
+                                    <div className="advgb-testimonial-item" key={idx}>
+                                        <div className="advgb-testimonial-avatar-group">
+                                            <div className="advgb-testimonial-avatar"
+                                                 style={ {
+                                                     backgroundImage: `url(${item.avatarUrl ? item.avatarUrl : advgbBlocks.avatarHolder})`,
+                                                     backgroundColor: avatarColor,
+                                                     borderRadius: avatarBorderRadius + '%',
+                                                     borderWidth: avatarBorderWidth + 'px',
+                                                     borderColor: avatarBorderColor,
+                                                     width: avatarSize + 'px',
+                                                     height: avatarSize + 'px',
+                                                 } }
+                                            />
+                                        </div>
+                                        <h4 className="advgb-testimonial-name"
+                                            style={ { color: nameColor } }
+                                        >
+                                            { item.name }
+                                        </h4>
+                                        <p className="advgb-testimonial-position"
+                                           style={ { color: positionColor } }
+                                        >
+                                            { item.position }
+                                        </p>
+                                        <p className="advgb-testimonial-desc"
+                                           style={ { color: descColor } }
+                                        >
+                                            { item.desc }
+                                        </p>
+                                    </div>
+                                ) } ) }
+                        </div>
+                    );
+                }
+            }
+        ]
     } );
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );
