@@ -2965,6 +2965,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var BaseControl = wpComponents.BaseControl,
         RangeControl = wpComponents.RangeControl,
         PanelBody = wpComponents.PanelBody,
+        TextControl = wpComponents.TextControl,
         ToggleControl = wpComponents.ToggleControl,
         SelectControl = wpComponents.SelectControl,
         IconButton = wpComponents.IconButton,

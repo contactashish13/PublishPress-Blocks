@@ -6,7 +6,7 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
     const { Component, Fragment } = wpElement;
     const { registerBlockType, createBlock } = wpBlocks;
     const { InspectorControls, BlockControls, BlockAlignmentToolbar, RichText, PanelColorSettings, URLInput } = wpBlockEditor;
-    const { BaseControl, RangeControl, PanelBody, ToggleControl, SelectControl, IconButton, Toolbar } = wpComponents;
+    const { BaseControl, RangeControl, PanelBody, TextControl, ToggleControl, SelectControl, IconButton, Toolbar } = wpComponents;
 
     class AdvButton extends Component {
         constructor() {
