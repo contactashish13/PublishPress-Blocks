@@ -29,8 +29,8 @@ jQuery(document).ready(function ($) {
             dots: dotsShown,
             arrows: arrowsShown,
             speed: speed,
-            prevArrow: prevArrow !== "undefined" ? prevArrow : wrapper.find('.advgb-slider-prev'),
-            nextArrow: nextArrow !== "undefined" ? nextArrow : wrapper.find('.advgb-slider-next')
+            prevArrow: prevArrow !== "undefined" ? '<button class="advgb-arrow advgb-prev slick-arrow"><img src="' + prevArrow + '" /></button>' : wrapper.find('.advgb-slider-prev'),
+            nextArrow: nextArrow !== "undefined" ? '<button class="advgb-arrow advgb-next slick-arrow"><img src="' + nextArrow + '" /></button>' : wrapper.find('.advgb-slider-next')
         })
     })
 });
