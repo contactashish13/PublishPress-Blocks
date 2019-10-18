@@ -252,7 +252,9 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     border-style: solid;
     border-width: 1px;
 }
-
+.wp-block-advgb-button_link .block-editor-rich-text {
+    display: inline-block;
+}
 .wp-block-advgb-button_link i {
     display: inline-block;
     vertical-align: middle;
