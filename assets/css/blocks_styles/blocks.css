@@ -1615,9 +1615,10 @@ hr.wp-block-separator {
     display: block;
     position: absolute;
     pointer-events: none;
-    left: -2%;
     z-index: 0;
-    width: 104%;
+    left: -14px;
+    right: -14px;
+    width: calc(100% + 28px);
     height: 50px;
     background-repeat: no-repeat;
 }

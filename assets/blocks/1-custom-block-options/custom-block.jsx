@@ -685,14 +685,14 @@
                           background-image: url(${topDividerURI});
                           height: ${blockTopDividerHeight}px;
                           z-index: ${blockTopDividerOnTop ? 5 : 0};
-                          top: calc(-2.4% - ${blockTopDividerPosition ? blockTopDividerPosition : 0}%);
+                          top: calc(-14px - ${blockTopDividerPosition ? blockTopDividerPosition : 0}%);
                       }`}
                         {blockBottomDivider &&
                         `#editor div[data-block="${clientId}"]:after {
                           background-image: url(${bottomDividerURI});
                           height: ${blockBottomDividerHeight}px;
                           z-index: ${blockBottomDividerOnTop ? 5 : 0};
-                          bottom: calc(-2.4% - ${blockBottomDividerPosition ? blockBottomDividerPosition : 0}%);
+                          bottom: calc(-14px - ${blockBottomDividerPosition ? blockBottomDividerPosition : 0}%);
                       }`}
                     </style>
                 </Fragment>
