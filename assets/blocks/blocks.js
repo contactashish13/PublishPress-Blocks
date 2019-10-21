@@ -3075,14 +3075,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
                 var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
                 var iconStyle = {
-                    marginTop: -paddingTop,
-                    marginBottom: -paddingBottom,
-                    marginRight: !buttonAfter ? 5 : -paddingRight,
-                    marginLeft: buttonAfter ? 5 : -paddingLeft,
+                    marginTop: 0,
+                    marginBottom: 0,
+                    marginRight: !buttonAfter ? 5 : -paddingRight + 10,
+                    marginLeft: buttonAfter ? 5 : -paddingLeft + 10,
+                    float: !buttonAfter ? 'left' : 'right',
                     borderRadius: borderRadius,
                     color: buttonIconColor,
                     backgroundColor: buttonIconBgColor,
                     borderColor: buttonIconBorderColor
+                };
+                var textStyle = {
+                    lineHeight: !buttonIconType ? textSize + 'px' : textSize < 45 ? '45px' : textSize + 'px'
                 };
 
                 var isStyleSquared = className.indexOf('-squared') > -1;
@@ -3147,6 +3151,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             },
                             formattingControls: ['bold', 'italic', 'strikethrough'],
                             isSelected: isSelected,
+                            style: textStyle,
                             keepPlaceholderOnFocus: true
                         }),
                         !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })

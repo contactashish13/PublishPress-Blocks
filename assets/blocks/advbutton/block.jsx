@@ -105,14 +105,18 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                 buttonIcon,
             ].filter( Boolean ).join('');
             const iconStyle = {
-                marginTop: -paddingTop,
-                marginBottom: -paddingBottom,
-                marginRight: !buttonAfter ? 5 : -paddingRight,
-                marginLeft: buttonAfter ? 5 : -paddingLeft,
+                marginTop: 0,
+                marginBottom: 0,
+                marginRight: !buttonAfter ? 5 : -paddingRight+10,
+                marginLeft: buttonAfter ? 5 : -paddingLeft+10,
+                float: !buttonAfter ? 'left' : 'right',
                 borderRadius: borderRadius,
                 color: buttonIconColor,
                 backgroundColor: buttonIconBgColor,
                 borderColor: buttonIconBorderColor,
+            };
+            const textStyle = {
+                lineHeight: !buttonIconType ? textSize + 'px' : textSize < 45 ? '45px' : textSize + 'px',
             };
 
             const isStyleSquared = className.indexOf('-squared') > -1;
@@ -164,6 +168,7 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             onChange={ ( value ) => setAttributes( { text: value } ) }
                             formattingControls={ [ 'bold', 'italic', 'strikethrough' ] }
                             isSelected={ isSelected }
+                            style={textStyle}
                             keepPlaceholderOnFocus
                         />
                         {!!buttonIconType && !!buttonIcon && buttonAfter && (
