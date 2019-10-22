@@ -375,8 +375,9 @@ float: left;'
         // Set variable needed by blocks editor
         $avatarHolder       = plugins_url('assets/blocks/testimonial/avatar-placeholder.png', ADVANCED_GUTENBERG_PLUGIN);
         $default_thumb      = plugins_url('assets/blocks/recent-posts/recent-post-default.png', ADVANCED_GUTENBERG_PLUGIN);
-        $login_logo          = plugins_url('assets/blocks/login-form/login.svg', ADVANCED_GUTENBERG_PLUGIN);
-        $reg_logo          = plugins_url('assets/blocks/login-form/reg.svg', ADVANCED_GUTENBERG_PLUGIN);
+        $image_holder       = plugins_url('assets/blocks/advimage/imageholder.svg', ADVANCED_GUTENBERG_PLUGIN);
+        $login_logo         = plugins_url('assets/blocks/login-form/login.svg', ADVANCED_GUTENBERG_PLUGIN);
+        $reg_logo           = plugins_url('assets/blocks/login-form/reg.svg', ADVANCED_GUTENBERG_PLUGIN);
         $saved_settings     = get_option('advgb_settings');
         $custom_styles_data = get_option('advgb_custom_styles');
         $recaptcha_config   = get_option('advgb_recaptcha_config');
@@ -391,6 +392,7 @@ float: left;'
             'color' => $blocks_icon_color,
             'post_thumb' => $rp_default_thumb['url'],
             'default_thumb' => $default_thumb,
+            'image_holder' => $image_holder,
             'avatarHolder' => $avatarHolder,
             'login_logo' => $login_logo,
             'reg_logo' => $reg_logo,
@@ -4522,7 +4524,7 @@ float: left;'
                 $style_html .= '}';
             } elseif ($blockName === 'advgb/adv-tabs') {
                 $block_id    = $blockAttrs['pid'];
-                $active_tab_bg_color  = isset($blockAttrs['activeTabBgColor']) ? $blockAttrs['activeTabBgColor'] : '#2196f3';
+                $active_tab_bg_color  = isset($blockAttrs['activeTabBgColor']) ? $blockAttrs['activeTabBgColor'] : '#5954d6';
                 $active_tab_text_color  = isset($blockAttrs['activeTabTextColor']) ? $blockAttrs['activeTabTextColor'] : '#fff';
 
                 $style_html .= '#'. $block_id . ' li.advgb-tab.ui-tabs-active{';
