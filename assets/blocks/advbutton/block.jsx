@@ -261,11 +261,11 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             />
                             {!!buttonIconType && (
                                 buttonIconType === 'fawesome' ?
-                                    <p>{ __( 'This library will be added soon ;)' ) }</p>
+                                    <p>{ __( 'This library will be added soon ;)', 'advanced-gutenberg' ) }</p>
                                     :
                                     <Fragment>
                                         <TextControl
-                                            placeholder={ __( 'Search icons (at least 3 characters)' ) }
+                                            placeholder={ __( 'Search icons (at least 3 characters)', 'advanced-gutenberg' ) }
                                             value={ searchedText }
                                             onChange={ (value) => this.setState( { searchedText: value } ) }
                                         />

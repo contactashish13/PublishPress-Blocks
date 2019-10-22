@@ -255,7 +255,7 @@
                                     value={ sliderItemsToScroll }
                                     onChange={ (value) => setAttributes( { sliderItemsToScroll: value } ) }
                                 />
-                                <PanelBody title={ __( 'Custom Prev/Next Arrow' ) } initialOpen={ false }>
+                                <PanelBody title={ __( 'Custom Prev/Next Arrow', 'advanced-gutenberg' ) } initialOpen={ false }>
                                     <MediaUpload
                                         allowedTypes={ ["image"] }
                                         onSelect={ (media) => setAttributes( { prevArrow: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url } ) }

@@ -12,7 +12,7 @@
     );
 
     registerBlockType( 'advgb/gallery-loadmore', {
-        title: __( 'Adv.Gallery with load more' ),
+        title: __( 'Adv.Gallery with load more', 'advanced-gutenberg' ),
         icon: {
             src: advGalleryBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,

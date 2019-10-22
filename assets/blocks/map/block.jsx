@@ -1311,7 +1311,7 @@
                             />
                             {markerIcon && (
                                 <RangeControl
-                                    label={ __( 'Marker Size (%)' ) }
+                                    label={ __( 'Marker Size (%)', 'advanced-gutenberg' ) }
                                     value={ markerSize }
                                     min={ 1 }
                                     max={ 200 }

@@ -209,7 +209,7 @@
                         />
                         {!!layout && (
                             <p className="components-base-control__help" style={ { margin: '-20px auto 20px' } }>
-                                { __( 'Some layout required minimum items to display properly.' ) }
+                                { __( 'Some layout required minimum items to display properly.', 'advanced-gutenberg' ) }
                             </p>
                         ) }
                         {postView === 'grid' && !layout &&
@@ -251,7 +251,7 @@
                                                     </a>
                                                 )
                                             ] }
-                                            help={ __( 'Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.' ) }
+                                            help={ __( 'Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.', 'advanced-gutenberg' ) }
                                         >
                                             <Button className="button button-large"
                                                     onClick={ open }
@@ -480,10 +480,10 @@
                             <Placeholder
                                 icon={ advRecentPostsBlockIcon }
                                 label={ __( 'ADVGB Recent Posts Block', 'advanced-gutenberg' ) }
-                                instructions={ __( 'Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.' ) }
+                                instructions={ __( 'Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.', 'advanced-gutenberg' ) }
                             >
                                 <p style={ { width: '100%' } }>
-                                    { __( 'Current Activated:' ) }
+                                    { __( 'Current Activated:', 'advanced-gutenberg' ) }
                                     <strong style={ { margin: '0 5px' } }>{layout}</strong>
                                 </p>
                                 <Button isPrimary
@@ -495,7 +495,7 @@
                             : // Layout found and loaded
                             <div className="advgb-recent-posts-layout-preview">
                                 <p className="layout-preview-title">
-                                    { __( 'Using preset layout:' ) }
+                                    { __( 'Using preset layout:', 'advanced-gutenberg' ) }
                                     <strong>{ advgbRPL[layout].title }</strong>
                                 </p>
                                 <div className="layout-preview">

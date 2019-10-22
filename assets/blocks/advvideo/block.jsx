@@ -289,7 +289,7 @@
                                         </div>
                                     </BaseControl>
                                     <BaseControl label={ __( 'Custom icon', 'advanced-gutenberg' ) }
-                                                 help={ __( 'Color settings cannot be applied to custom icon.' ) }
+                                                 help={ __( 'Color settings cannot be applied to custom icon.', 'advanced-gutenberg' ) }
                                     >
                                         <MediaUpload
                                             allowedTypes={ ["image"] }
@@ -305,7 +305,7 @@
                                                     className="button button-large"
                                                     onClick={ open }
                                                 >
-                                                    { __( 'Upload/Choose' ) }
+                                                    { __( 'Upload/Choose', 'advanced-gutenberg' ) }
                                                 </Button>
                                             ) }
                                         />

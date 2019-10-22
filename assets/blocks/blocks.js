@@ -3243,12 +3243,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             !!buttonIconType && (buttonIconType === 'fawesome' ? React.createElement(
                                 'p',
                                 null,
-                                __('This library will be added soon ;)')
+                                __('This library will be added soon ;)', 'advanced-gutenberg')
                             ) : React.createElement(
                                 Fragment,
                                 null,
                                 React.createElement(TextControl, {
-                                    placeholder: __('Search icons (at least 3 characters)'),
+                                    placeholder: __('Search icons (at least 3 characters)', 'advanced-gutenberg'),
                                     value: searchedText,
                                     onChange: function onChange(value) {
                                         return _this2.setState({ searchedText: value });
@@ -4313,7 +4313,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     );
 
     registerBlockType('advgb/gallery-loadmore', {
-        title: __('Adv.Gallery with load more'),
+        title: __('Adv.Gallery with load more', 'advanced-gutenberg'),
         icon: {
             src: advGalleryBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
@@ -8464,7 +8464,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     React.createElement(
                                         BaseControl,
                                         { label: __('Custom icon', 'advanced-gutenberg'),
-                                            help: __('Color settings cannot be applied to custom icon.')
+                                            help: __('Color settings cannot be applied to custom icon.', 'advanced-gutenberg')
                                         },
                                         React.createElement(MediaUpload, {
                                             allowedTypes: ["image"],
@@ -8483,7 +8483,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                         className: "button button-large",
                                                         onClick: open
                                                     },
-                                                    __('Upload/Choose')
+                                                    __('Upload/Choose', 'advanced-gutenberg')
                                                 );
                                             }
                                         })
@@ -15504,7 +15504,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }
                             }),
                             markerIcon && React.createElement(RangeControl, {
-                                label: __('Marker Size (%)'),
+                                label: __('Marker Size (%)', 'advanced-gutenberg'),
                                 value: markerSize,
                                 min: 1,
                                 max: 200,
@@ -16708,7 +16708,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         !!layout && React.createElement(
                             "p",
                             { className: "components-base-control__help", style: { margin: '-20px auto 20px' } },
-                            __('Some layout required minimum items to display properly.')
+                            __('Some layout required minimum items to display properly.', 'advanced-gutenberg')
                         ),
                         postView === 'grid' && !layout && React.createElement(RangeControl, {
                             label: __('Columns', 'advanced-gutenberg'),
@@ -16754,7 +16754,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             },
                                             __('Remove', 'advanced-gutenberg')
                                         )],
-                                        help: __('Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.')
+                                        help: __('Use for posts without thumbnail. This will override the post default thumb in Adv. Gutenberg setting.', 'advanced-gutenberg')
                                     },
                                     React.createElement(
                                         Button,
@@ -17017,12 +17017,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         {
                             icon: advRecentPostsBlockIcon,
                             label: __('ADVGB Recent Posts Block', 'advanced-gutenberg'),
-                            instructions: __('Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.')
+                            instructions: __('Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.', 'advanced-gutenberg')
                         },
                         React.createElement(
                             "p",
                             { style: { width: '100%' } },
-                            __('Current Activated:'),
+                            __('Current Activated:', 'advanced-gutenberg'),
                             React.createElement(
                                 "strong",
                                 { style: { margin: '0 5px' } },
@@ -17045,7 +17045,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         React.createElement(
                             "p",
                             { className: "layout-preview-title" },
-                            __('Using preset layout:'),
+                            __('Using preset layout:', 'advanced-gutenberg'),
                             React.createElement(
                                 "strong",
                                 null,
@@ -19915,7 +19915,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 }),
                                 React.createElement(
                                     PanelBody,
-                                    { title: __('Custom Prev/Next Arrow'), initialOpen: false },
+                                    { title: __('Custom Prev/Next Arrow', 'advanced-gutenberg'), initialOpen: false },
                                     React.createElement(MediaUpload, {
                                         allowedTypes: ["image"],
                                         onSelect: function onSelect(media) {
