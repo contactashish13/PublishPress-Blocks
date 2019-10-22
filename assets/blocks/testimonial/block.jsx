@@ -262,13 +262,13 @@
                                         value={ null }
                                         render={ ( { open } ) => (
                                             <BaseControl label={ [
-                                                __( 'Prev Arrow' ),
+                                                __( 'Prev Arrow', 'advanced-gutenberg' ),
                                                 prevArrow && (
                                                     <a key="marker-icon-remove"
                                                        style={ { marginLeft: '10px', cursor: 'pointer' } }
                                                        onClick={ () => setAttributes( { prevArrow: undefined } ) }
                                                     >
-                                                        { __( 'Remove' ) }
+                                                        { __( 'Remove', 'advanced-gutenberg' ) }
                                                     </a>
                                                 )
                                             ] }
@@ -276,12 +276,12 @@
                                                 <Button className="button button-large"
                                                         onClick={ open }
                                                 >
-                                                    { __( 'Choose icon' ) }
+                                                    { __( 'Choose icon', 'advanced-gutenberg' ) }
                                                 </Button>
                                                 {!!prevArrow &&
                                                 <img style={ { maxHeight: '30px', marginLeft: '10px' } }
                                                      src={ prevArrow }
-                                                     alt={ __( 'Prev Arrow' ) }/>
+                                                     alt={ __( 'Prev Arrow', 'advanced-gutenberg' ) }/>
                                                 }
                                             </BaseControl>
                                         ) }
@@ -292,13 +292,13 @@
                                         value={ null }
                                         render={ ( { open } ) => (
                                             <BaseControl label={ [
-                                                __( 'Next Arrow' ),
+                                                __( 'Next Arrow', 'advanced-gutenberg' ),
                                                 nextArrow && (
                                                     <a key="marker-icon-remove"
                                                        style={ { marginLeft: '10px', cursor: 'pointer' } }
                                                        onClick={ () => setAttributes( { nextArrow: undefined } ) }
                                                     >
-                                                        { __( 'Remove' ) }
+                                                        { __( 'Remove', 'advanced-gutenberg' ) }
                                                     </a>
                                                 )
                                             ] }
@@ -306,12 +306,12 @@
                                                 <Button className="button button-large"
                                                         onClick={ open }
                                                 >
-                                                    { __( 'Choose icon' ) }
+                                                    { __( 'Choose icon', 'advanced-gutenberg' ) }
                                                 </Button>
                                                 {!!nextArrow &&
                                                 <img style={ { maxHeight: '30px', marginLeft: '10px' } }
                                                      src={ nextArrow }
-                                                     alt={ __( 'Prev Arrow' ) }/>
+                                                     alt={ __( 'Prev Arrow', 'advanced-gutenberg' ) }/>
                                                 }
                                             </BaseControl>
                                         ) }

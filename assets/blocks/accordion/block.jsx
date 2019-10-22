@@ -188,7 +188,7 @@
                             />
                         </PanelBody>
                         <PanelBody title={ __( 'Header Settings', 'advanced-gutenberg' ) }>
-                            <PanelBody title={ __( 'Icon styles' ) } initialOpen={ false }>
+                            <PanelBody title={ __( 'Icon styles', 'advanced-gutenberg' ) } initialOpen={ false }>
                                 <BaseControl label={ __( 'Expand Icon', 'advanced-gutenberg' ) }>
                                     <div className="advgb-icon-items-wrapper">
                                         {Object.keys( HEADER_ICONS ).map( ( key, index ) => (
@@ -203,7 +203,7 @@
                                         ) ) }
                                     </div>
                                 </BaseControl>
-                                <BaseControl label={ __( 'Collapse Icon' ) }>
+                                <BaseControl label={ __( 'Collapse Icon', 'advanced-gutenberg' ) }>
                                     <div className="advgb-icon-items-wrapper">
                                         {Object.keys( COLLAPSE_ICONS ).map( ( key, index ) => (
                                             <div className="advgb-icon-item" key={ index }>
@@ -218,7 +218,7 @@
                                         <div className="advgb-icon-item">
                                                 <span className={ !collapseIcon || '' === collapseIcon ? 'active' : '' }
                                                       onClick={ () => setAttributes( { collapseIcon: '' } ) } >
-                                                    { __( 'None' ) }
+                                                    { __( 'None', 'advanced-gutenberg' ) }
                                                 </span>
                                         </div>
                                     </div>
@@ -244,7 +244,7 @@
                                         onChange: ( value ) => setAttributes( { headerIconColor: value === undefined ? '#fff' : value } ),
                                     },
                                     {
-                                        label: __( 'Collapse Icon Color' ),
+                                        label: __( 'Collapse Icon Color', 'advanced-gutenberg' ),
                                         value: collapseIconColor,
                                         onChange: ( value ) => setAttributes( { collapseIconColor: value === undefined ? '#fff' : value } ),
                                     },

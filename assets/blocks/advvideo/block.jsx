@@ -288,7 +288,7 @@
                                             ) ) }
                                         </div>
                                     </BaseControl>
-                                    <BaseControl label={ __( 'Custom icon' ) }
+                                    <BaseControl label={ __( 'Custom icon', 'advanced-gutenberg' ) }
                                                  help={ __( 'Color settings cannot be applied to custom icon.' ) }
                                     >
                                         <MediaUpload
@@ -354,7 +354,7 @@
                                             </svg>
                                         ) : (
                                             <img src={playButtonIcon}
-                                                 alt={ __( 'Play button' ) }
+                                                 alt={ __( 'Play button', 'advanced-gutenberg' ) }
                                                  style={ { width: playButtonSize } }
                                                  className="advgb-custom-play-button"
                                             />
@@ -600,7 +600,7 @@
                                         </svg>
                                     ) : (
                                         <img src={playButtonIcon}
-                                             alt={ __( 'Play button' ) }
+                                             alt={ __( 'Play button', 'advanced-gutenberg' ) }
                                              style={ { width: playButtonSize } }
                                              className="advgb-custom-play-button"
                                         />

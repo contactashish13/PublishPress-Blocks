@@ -138,7 +138,7 @@
 
             let text = [span.textContent || span.innerText].toString().replace(/\s\s+/g,' ');
             text = text.slice(0, length).trim();
-            
+
             if (text.length) text += '…' ;
 
             return text;
@@ -174,12 +174,12 @@
                 <InspectorControls>
                     <PanelBody title={ __( 'Block Settings', 'advanced-gutenberg' ) }>
                         {!!advgbRPL && !!Object.keys(advgbRPL).length && (
-                            <PanelBody title={ __( 'Preset Layout' ) } initialOpen={ false }>
+                            <PanelBody title={ __( 'Preset Layout', 'advanced-gutenberg' ) } initialOpen={ false }>
                                 <div className="advgb-recent-post-layouts">
                                     <div className={ !layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
                                          onClick={ () => setAttributes( { layout: undefined } ) }
                                     >
-                                        <div className="no-layout">{ __( 'NONE' ) }</div>
+                                        <div className="no-layout">{ __( 'NONE', 'advanced-gutenberg' ) }</div>
                                     </div>
                                     {Object.keys(advgbRPL).map((clayout, index) => (
                                         <div className={ clayout === layout ? 'advgb-recent-post-layout activated' : 'advgb-recent-post-layout' }
@@ -238,7 +238,7 @@
                                     return (
                                         <BaseControl
                                             label={ [
-                                                __( 'Default Thumbnail' ),
+                                                __( 'Default Thumbnail', 'advanced-gutenberg' ),
                                                 defaultThumb && (
                                                     <a key="thumb-remove"
                                                        style={ { marginLeft: '10px', cursor: 'pointer' } }
@@ -247,7 +247,7 @@
                                                            defaultThumbID: undefined,
                                                        } ) }
                                                     >
-                                                        { __( 'Remove' ) }
+                                                        { __( 'Remove', 'advanced-gutenberg' ) }
                                                     </a>
                                                 )
                                             ] }
@@ -256,12 +256,12 @@
                                             <Button className="button button-large"
                                                     onClick={ open }
                                             >
-                                                { __( 'Choose image' ) }
+                                                { __( 'Choose image', 'advanced-gutenberg' ) }
                                             </Button>
                                             {!!defaultThumb &&
                                             <img style={ { maxHeight: '30px', marginLeft: '10px' } }
                                                  src={ defaultThumb }
-                                                 alt={ __( 'Post Thumb' ) }/>
+                                                 alt={ __( 'Post Thumb', 'advanced-gutenberg' ) }/>
                                             }
                                         </BaseControl>
                                     )
@@ -279,13 +279,13 @@
                             onChange={ () => setAttributes( { displayDate: !displayDate } ) }
                         />
                         <ToggleControl
-                            label={ __( 'Display Categories' ) }
+                            label={ __( 'Display Categories', 'advanced-gutenberg' ) }
                             checked={ displayCategory }
                             onChange={ () => setAttributes( { displayCategory: !displayCategory } ) }
                         />
                         {displayCategory &&
                             <ToggleControl
-                                label={ __( 'Categories above post title' ) }
+                                label={ __( 'Categories above post title', 'advanced-gutenberg' ) }
                                 checked={ categoryAbove }
                                 onChange={ () => setAttributes( { categoryAbove: !categoryAbove } ) }
                             />
@@ -468,7 +468,7 @@
                         {!layout && <Toolbar controls={ postViewControls } />}
                         <Toolbar>
                             <IconButton
-                                label={ __( 'Refresh' ) }
+                                label={ __( 'Refresh', 'advanced-gutenberg' ) }
                                 icon="update"
                                 onClick={ () => setAttributes( { myToken: Math.floor(Math.random() * Math.floor(999)) } ) }
                             />
@@ -479,7 +479,7 @@
                             // No layout detected or the layout current loaded is not available anymore
                             <Placeholder
                                 icon={ advRecentPostsBlockIcon }
-                                label={ __( 'ADVGB Recent Posts Block' ) }
+                                label={ __( 'ADVGB Recent Posts Block', 'advanced-gutenberg' ) }
                                 instructions={ __( 'Opps! We can\'t detect current activated layout. Please try to re-active it or change to another layout to continue using this block.' ) }
                             >
                                 <p style={ { width: '100%' } }>
@@ -489,7 +489,7 @@
                                 <Button isPrimary
                                         onClick={ () => setAttributes( { layout: undefined } ) }
                                 >
-                                    { __( 'Revert to default layout' ) }
+                                    { __( 'Revert to default layout', 'advanced-gutenberg' ) }
                                 </Button>
                             </Placeholder>
                             : // Layout found and loaded

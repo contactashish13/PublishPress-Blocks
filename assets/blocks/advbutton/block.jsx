@@ -243,20 +243,20 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                                 onChange={ (value) => setAttributes( { textColor: value } ) }
                             />
                         </PanelBody>
-                        <PanelBody title={ __( 'Button Icon' ) }>
+                        <PanelBody title={ __( 'Button Icon', 'advanced-gutenberg' ) }>
                             <ToggleControl
-                                label={ __( 'Icon show after text' ) }
+                                label={ __( 'Icon show after text', 'advanced-gutenberg' ) }
                                 checked={ buttonAfter }
                                 onChange={ () => setAttributes( { buttonAfter: !buttonAfter } ) }
                             />
                             <SelectControl
-                                label={ __( 'Icon Library' ) }
+                                label={ __( 'Icon Library', 'advanced-gutenberg' ) }
                                 value={ buttonIconType }
                                 onChange={ (value) => setAttributes( { buttonIconType: value } ) }
                                 options={ [
-                                    { label: __( 'No Icon' ), value: '' },
-                                    { label: __( 'Material Icon' ), value: 'material' },
-                                    { label: __( 'Font Awesome' ), value: 'fawesome' },
+                                    { label: __( 'No Icon', 'advanced-gutenberg' ), value: '' },
+                                    { label: __( 'Material Icon', 'advanced-gutenberg' ), value: 'material' },
+                                    { label: __( 'Font Awesome', 'advanced-gutenberg' ), value: 'fawesome' },
                                 ] }
                             />
                             {!!buttonIconType && (
@@ -298,21 +298,21 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             {buttonIconType && buttonIcon && (
                                 <Fragment>
                                     <PanelColorSettings
-                                        title={ __( 'Icon Color Settings' ) }
+                                        title={ __( 'Icon Color Settings', 'advanced-gutenberg' ) }
                                         initialOpen={ false }
                                         colorSettings={ [
                                             {
-                                                label: __( 'Icon Color' ),
+                                                label: __( 'Icon Color', 'advanced-gutenberg' ),
                                                 value: buttonIconColor,
                                                 onChange: ( value ) => setAttributes( { buttonIconColor: value } ),
                                             },
                                             {
-                                                label: __( 'Background Color' ),
+                                                label: __( 'Background Color', 'advanced-gutenberg' ),
                                                 value: buttonIconBgColor,
                                                 onChange: ( value ) => setAttributes( { buttonIconBgColor: value } ),
                                             },
                                             {
-                                                label: __( 'Border Color' ),
+                                                label: __( 'Border Color', 'advanced-gutenberg' ),
                                                 value: buttonIconBorderColor,
                                                 onChange: ( value ) => setAttributes( { buttonIconBorderColor: value } ),
                                             },

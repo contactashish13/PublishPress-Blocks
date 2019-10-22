@@ -18,7 +18,7 @@
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,
         },
         category: 'advgb-category',
-        keywords: [ __( 'gallery' ), __( 'photos' ), __( 'masonry' ) ],
+        keywords: [ __( 'gallery', 'advanced-gutenberg' ), __( 'photos', 'advanced-gutenberg' ), __( 'masonry', 'advanced-gutenberg' ) ],
         attributes: {},
         supports: {
             align: true,

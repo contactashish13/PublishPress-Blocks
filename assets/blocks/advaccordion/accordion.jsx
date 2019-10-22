@@ -219,7 +219,7 @@
                                     ) ) }
                                 </div>
                             </BaseControl>
-                            <BaseControl label={ __( 'Collapse Icon' ) }>
+                            <BaseControl label={ __( 'Collapse Icon', 'advanced-gutenberg' ) }>
                                 <div className="advgb-icon-items-wrapper">
                                     {Object.keys( COLLAPSE_ICONS ).map( ( key, index ) => (
                                         <div className="advgb-icon-item" key={ index }>
@@ -237,7 +237,7 @@
                                               onClick={ () => this.updateAccordionAttrs( { collapseIcon: '' } ) }
                                               style={{padding: '10px'}}
                                         >
-                                            { __( 'None' ) }
+                                            { __( 'None', 'advanced-gutenberg' ) }
                                         </span>
                                     </div>
                                 </div>
@@ -262,7 +262,7 @@
                                         onChange: ( value ) => this.updateAccordionAttrs( { headerIconColor: value === undefined ? '#fff' : value } ),
                                     },
                                     {
-                                        label: __( 'Collapse Icon Color' ),
+                                        label: __( 'Collapse Icon Color', 'advanced-gutenberg' ),
                                         value: collapseIconColor,
                                         onChange: ( value ) => this.updateAccordionAttrs( { collapseIconColor: value === undefined ? '#fff' : value } ),
                                     },
