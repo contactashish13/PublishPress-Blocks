@@ -3937,13 +3937,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             value: function addImages(images) {
                 var columns = this.props.attributes.columns;
 
+
                 this.props.setAttributes({
                     images: images.map(function (image) {
                         return {
                             url: image.url || image.source_url,
                             id: image.id,
                             alt: image.alt,
-                            caption: typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption
+                            caption: typeof image.caption !== "undefined" && image.caption !== "" ? typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption : image.caption
                         };
                     }),
                     columns: columns ? Math.min(images.length, columns) : Math.min(images.length, 3),
