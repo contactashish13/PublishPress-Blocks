@@ -18,9 +18,9 @@ jQuery(document).ready(function ($) {
                 loop = wrapper.data('loop'),
                 speed = parseInt(wrapper.data('speed')),
                 dotsShown = wrapper.data('dots'),
-                arrowsShown = wrapper.data('arrows'),
-                prevArrow = decodeURIComponent(wrapper.data("prev-arrow")),
-                nextArrow = decodeURIComponent(wrapper.data("next-arrow"));
+                arrowsShown = wrapper.data('arrows');
+                // prevArrow = decodeURIComponent(wrapper.data("prev-arrow")),
+                // nextArrow = decodeURIComponent(wrapper.data("next-arrow"));
 
             if (!arrowsShown) {
                 wrapper.find('.advgb-slider-arrow').hide();
@@ -37,8 +37,8 @@ jQuery(document).ready(function ($) {
                 dots: dotsShown,
                 arrows: arrowsShown,
                 speed: speed,
-                prevArrow: prevArrow !== "undefined" ? '<button class="advgb-arrow advgb-prev slick-arrow"><img src="' + prevArrow + '" alt="Previous"/></button>' : wrapper.find('.advgb-slider-prev'),
-                nextArrow: nextArrow !== "undefined" ? '<button class="advgb-arrow advgb-next slick-arrow"><img src="' + nextArrow + '" alt="Next" /></button>' : wrapper.find('.advgb-slider-next')
+                prevArrow: wrapper.find('.advgb-slider-prev'),
+                nextArrow: wrapper.find('.advgb-slider-next'),
             })
         }
     })

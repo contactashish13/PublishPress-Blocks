@@ -19630,8 +19630,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         dots: sliderDotsShown,
                         arrows: sliderArrowShown,
                         speed: sliderSpeed,
-                        prevArrow: !!prevArrow ? "<button class=\"advgb-arrow advgb-prev\"><img src=\"" + prevArrow + "\" alt=\"Prev\" /></button>" : jQuery("#block-" + clientId + " .advgb-slider-prev"),
-                        nextArrow: !!nextArrow ? "<button class=\"advgb-arrow advgb-next\"><img src=\"" + nextArrow + "\" alt=\"Next\" /></button>" : jQuery("#block-" + clientId + " .advgb-slider-next")
+                        prevArrow: jQuery("#block-" + clientId + " .advgb-slider-prev"),
+                        nextArrow: jQuery("#block-" + clientId + " .advgb-slider-next")
                     });
                 }
             }
@@ -19672,8 +19672,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var needReload = this.sliderNeedReload(prevProps.attributes, this.props.attributes);
                 var needUpdate = this.sliderNeedUpdate(prevProps.attributes, this.props.attributes);
                 var slider = jQuery("#block-" + clientId + " .advgb-testimonial.slider-view");
-                var prevElm = !!prevArrow ? "<button class=\"advgb-arrow advgb-prev\"><img src=\"" + prevArrow + "\" alt=\"Prev\" /></button>" : jQuery("#block-" + clientId + " .advgb-slider-prev");
-                var nextElm = !!nextArrow ? "<button class=\"advgb-arrow advgb-next\"><img src=\"" + nextArrow + "\" alt=\"Next\" /></button>" : jQuery("#block-" + clientId + " .advgb-slider-next");
+                var prevElm = jQuery("#block-" + clientId + " .advgb-slider-prev");
+                var nextElm = jQuery("#block-" + clientId + " .advgb-slider-next");
 
                 if (needReload) {
                     if (sliderView) {
@@ -20288,19 +20288,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             sliderArrowShown && React.createElement(
                                 Fragment,
                                 null,
-                                !prevArrow && React.createElement(
+                                React.createElement(
                                     "button",
                                     { className: "advgb-slider-arrow advgb-slider-prev",
                                         style: arrowStyle
                                     },
-                                    PREV_ARROW
+                                    !prevArrow ? PREV_ARROW : React.createElement("img", { src: prevArrow, alt: __('Previous', 'advanced-gutenberg') })
                                 ),
-                                !nextArrow && React.createElement(
+                                React.createElement(
                                     "button",
                                     { className: "advgb-slider-arrow advgb-slider-next",
                                         style: arrowStyle
                                     },
-                                    NEXT_ARROW
+                                    !nextArrow ? NEXT_ARROW : React.createElement("img", { src: nextArrow, alt: __('Next', 'advanced-gutenberg') })
                                 )
                             ),
                             React.createElement(
@@ -20584,19 +20584,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 sliderView && React.createElement(
                     Fragment,
                     null,
-                    !prevArrow && React.createElement(
+                    React.createElement(
                         "button",
                         { className: "advgb-slider-arrow advgb-slider-prev",
                             style: arrowStyle
                         },
-                        PREV_ARROW
+                        !prevArrow ? PREV_ARROW : React.createElement("img", { src: prevArrow, alt: __('Previous', 'advanced-gutenberg') })
                     ),
-                    !nextArrow && React.createElement(
+                    React.createElement(
                         "button",
                         { className: "advgb-slider-arrow advgb-slider-next",
                             style: arrowStyle
                         },
-                        NEXT_ARROW
+                        !nextArrow ? NEXT_ARROW : React.createElement("img", { src: nextArrow, alt: __('Next', 'advanced-gutenberg') })
                     )
                 )
             );

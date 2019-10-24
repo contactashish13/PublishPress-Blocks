@@ -70,8 +70,8 @@
                     dots: sliderDotsShown,
                     arrows: sliderArrowShown,
                     speed: sliderSpeed,
-                    prevArrow: !!prevArrow ? `<button class="advgb-arrow advgb-prev"><img src="${prevArrow}" alt="Prev" /></button>` : jQuery(`#block-${clientId} .advgb-slider-prev`),
-                    nextArrow: !!nextArrow ? `<button class="advgb-arrow advgb-next"><img src="${nextArrow}" alt="Next" /></button>` : jQuery(`#block-${clientId} .advgb-slider-next`),
+                    prevArrow: jQuery(`#block-${clientId} .advgb-slider-prev`),
+                    nextArrow: jQuery(`#block-${clientId} .advgb-slider-next`),
                 });
             }
         }
@@ -99,8 +99,8 @@
             const needReload = this.sliderNeedReload(prevProps.attributes, this.props.attributes);
             const needUpdate = this.sliderNeedUpdate(prevProps.attributes, this.props.attributes);
             const slider = jQuery(`#block-${clientId} .advgb-testimonial.slider-view`);
-            const prevElm = !!prevArrow ? `<button class="advgb-arrow advgb-prev"><img src="${prevArrow}" alt="Prev" /></button>` : jQuery(`#block-${clientId} .advgb-slider-prev`);
-            const nextElm = !!nextArrow ? `<button class="advgb-arrow advgb-next"><img src="${nextArrow}" alt="Next" /></button>` : jQuery(`#block-${clientId} .advgb-slider-next`);
+            const prevElm = jQuery(`#block-${clientId} .advgb-slider-prev`);
+            const nextElm = jQuery(`#block-${clientId} .advgb-slider-next`);
 
             if (needReload) {
                 if (sliderView) {
@@ -558,20 +558,17 @@
                         <Fragment>
                             {sliderArrowShown && (
                                 <Fragment>
-                                    {!prevArrow && (
-                                        <button className="advgb-slider-arrow advgb-slider-prev"
-                                                style={ arrowStyle }
-                                        >
-                                            {PREV_ARROW}
-                                        </button>
-                                    )}
-                                    {!nextArrow && (
-                                        <button className="advgb-slider-arrow advgb-slider-next"
-                                                style={ arrowStyle }
-                                        >
-                                            {NEXT_ARROW}
-                                        </button>
-                                    )}
+                                    <button className="advgb-slider-arrow advgb-slider-prev"
+                                            style={ arrowStyle }
+                                    >
+                                        {!prevArrow ? PREV_ARROW : <img src={prevArrow} alt={__('Previous', 'advanced-gutenberg')} />}
+                                    </button>
+
+                                    <button className="advgb-slider-arrow advgb-slider-next"
+                                            style={ arrowStyle }
+                                    >
+                                        {!nextArrow ? NEXT_ARROW : <img src={nextArrow} alt={__('Next', 'advanced-gutenberg')} />}
+                                    </button>
                                 </Fragment>
                             )}
                             <style>
@@ -815,20 +812,17 @@
                     </div>
                     {sliderView && (
                         <Fragment>
-                            {!prevArrow && (
-                                <button className="advgb-slider-arrow advgb-slider-prev"
-                                        style={ arrowStyle }
-                                >
-                                    {PREV_ARROW}
-                                </button>
-                            )}
-                            {!nextArrow && (
-                                <button className="advgb-slider-arrow advgb-slider-next"
-                                        style={ arrowStyle }
-                                >
-                                    {NEXT_ARROW}
-                                </button>
-                            )}
+                            <button className="advgb-slider-arrow advgb-slider-prev"
+                                    style={ arrowStyle }
+                            >
+                                {!prevArrow ? PREV_ARROW : <img src={prevArrow} alt={__('Previous', 'advanced-gutenberg')} />}
+                            </button>
+
+                            <button className="advgb-slider-arrow advgb-slider-next"
+                                    style={ arrowStyle }
+                            >
+                                {!nextArrow ? NEXT_ARROW : <img src={nextArrow} alt={__('Next', 'advanced-gutenberg')} />}
+                            </button>
                         </Fragment>
                     )}
                 </div>
