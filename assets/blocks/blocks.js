@@ -3077,8 +3077,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var iconStyle = {
                     marginTop: 0,
                     marginBottom: 0,
-                    marginRight: !buttonAfter ? 5 : -paddingRight + 10,
-                    marginLeft: buttonAfter ? 5 : -paddingLeft + 10,
+                    marginRight: !buttonAfter ? 5 : 0,
+                    marginLeft: buttonAfter ? 5 : 0,
                     float: !buttonAfter ? 'left' : 'right',
                     borderRadius: borderRadius,
                     color: buttonIconColor,
@@ -3138,7 +3138,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         )
                     ),
                     React.createElement(
-                        'span',
+                        'div',
                         { className: className + ' wp-block-advgb-button_link align' + align + ' ' + id,
                             style: { display: 'inline-block' }
                         },
@@ -3152,6 +3152,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             formattingControls: ['bold', 'italic', 'strikethrough'],
                             isSelected: isSelected,
                             style: textStyle,
+                            tagName: 'span',
                             keepPlaceholderOnFocus: true
                         }),
                         !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
@@ -3698,10 +3699,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 urlOpenNewTab = attributes.urlOpenNewTab,
                 title = attributes.title,
                 text = attributes.text,
-                paddingTop = attributes.paddingTop,
-                paddingRight = attributes.paddingRight,
-                paddingBottom = attributes.paddingBottom,
-                paddingLeft = attributes.paddingLeft,
                 borderRadius = attributes.borderRadius,
                 buttonIconType = attributes.buttonIconType,
                 buttonIcon = attributes.buttonIcon,
@@ -3712,14 +3709,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
             var iconStyle = {
-                marginTop: -paddingTop,
-                marginBottom: -paddingBottom,
-                marginRight: !buttonAfter ? 5 : -paddingRight,
-                marginLeft: buttonAfter ? 5 : -paddingLeft,
+                marginRight: !buttonAfter ? 5 : 0,
+                marginLeft: buttonAfter ? 5 : 0,
                 borderRadius: borderRadius,
                 color: buttonIconColor,
                 backgroundColor: buttonIconBgColor,
                 borderColor: buttonIconBorderColor
+            };
+
+            var textStyle = {
+                verticalAlign: 'middle'
             };
 
             return React.createElement(
@@ -3734,7 +3733,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         rel: 'noopener noreferrer'
                     },
                     !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
-                    text,
+                    React.createElement(
+                        'span',
+                        { style: textStyle },
+                        text
+                    ),
                     !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
                 )
             );
@@ -3752,6 +3755,57 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
 
         deprecated: [{
+            attributes: blockAttrs,
+            save: function save(_ref2) {
+                var attributes = _ref2.attributes;
+                var id = attributes.id,
+                    align = attributes.align,
+                    url = attributes.url,
+                    urlOpenNewTab = attributes.urlOpenNewTab,
+                    title = attributes.title,
+                    text = attributes.text,
+                    paddingTop = attributes.paddingTop,
+                    paddingRight = attributes.paddingRight,
+                    paddingBottom = attributes.paddingBottom,
+                    paddingLeft = attributes.paddingLeft,
+                    borderRadius = attributes.borderRadius,
+                    buttonIconType = attributes.buttonIconType,
+                    buttonIcon = attributes.buttonIcon,
+                    buttonIconColor = attributes.buttonIconColor,
+                    buttonIconBgColor = attributes.buttonIconBgColor,
+                    buttonIconBorderColor = attributes.buttonIconBorderColor,
+                    buttonAfter = attributes.buttonAfter;
+
+                var iconClass = [buttonIconType === 'material' && 'mi mi-', buttonIcon].filter(Boolean).join('');
+                var iconStyle = {
+                    marginTop: -paddingTop,
+                    marginBottom: -paddingBottom,
+                    marginRight: !buttonAfter ? 5 : -paddingRight,
+                    marginLeft: buttonAfter ? 5 : -paddingLeft,
+                    borderRadius: borderRadius,
+                    color: buttonIconColor,
+                    backgroundColor: buttonIconBgColor,
+                    borderColor: buttonIconBorderColor
+                };
+
+                return React.createElement(
+                    'div',
+                    { className: 'align' + align },
+                    React.createElement(
+                        'a',
+                        { href: url || '#',
+                            className: 'wp-block-advgb-button_link ' + id,
+                            title: title,
+                            target: !urlOpenNewTab ? '_self' : '_blank',
+                            rel: 'noopener noreferrer'
+                        },
+                        !!buttonIconType && !!buttonIcon && !buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle }),
+                        text,
+                        !!buttonIconType && !!buttonIcon && buttonAfter && React.createElement('i', { className: iconClass, style: iconStyle })
+                    )
+                );
+            }
+        }, {
             attributes: _extends({}, blockAttrs, {
                 transitionSpeed: {
                     type: 'number',
@@ -3764,8 +3818,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     transitionSpeed: transitionSpeed
                 });
             },
-            save: function save(_ref2) {
-                var attributes = _ref2.attributes;
+            save: function save(_ref3) {
+                var attributes = _ref3.attributes;
                 var id = attributes.id,
                     align = attributes.align,
                     url = attributes.url,

@@ -4396,13 +4396,14 @@ float: left;'
                 $transition_spd = isset($blockAttrs['transitionSpeed']) ? floatval($blockAttrs['transitionSpeed'])/1000 : 0.2;
 
                 $style_html .= '.'. $block_class . '{';
+                $style_html .= 'display: inline-block;';
                 $style_html .= 'font-size:'.$font_size.'px;';
                 $style_html .= 'color:'.$color.' !important;';
                 $style_html .= 'background-color:'.$bg_color.' !important;';
                 $style_html .= 'margin:'.$mg_top.'px '.$mg_right.'px '.$mg_bottom.'px '.$mg_left.'px !important;';
                 $style_html .= 'padding:'.$pd_top.'px '.$pd_right.'px '.$pd_bottom.'px '.$pd_left.'px;';
                 $style_html .= 'border-width:'.$border_width.'px !important;';
-                $style_html .= 'border-color:'.$border_color.' !important;';
+                $style_html .= $border_color !== '' ? 'border-color:'.$border_color.' !important;' : '';
                 $style_html .= 'border-style:'.$border_style. ($border_style === 'none' ? '' : ' !important') .';';
                 $style_html .= 'border-radius:'.$border_radius.'px !important;';
                 $style_html .= '}';
