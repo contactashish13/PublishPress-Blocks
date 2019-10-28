@@ -288,8 +288,8 @@
                                             ) ) }
                                         </div>
                                     </BaseControl>
-                                    <BaseControl label={ __( 'Custom icon' ) }
-                                                 help={ __( 'Color settings cannot be applied to custom icon.' ) }
+                                    <BaseControl label={ __( 'Custom icon', 'advanced-gutenberg' ) }
+                                                 help={ __( 'Color settings cannot be applied to custom icon.', 'advanced-gutenberg' ) }
                                     >
                                         <MediaUpload
                                             allowedTypes={ ["image"] }
@@ -305,7 +305,7 @@
                                                     className="button button-large"
                                                     onClick={ open }
                                                 >
-                                                    { __( 'Upload/Choose' ) }
+                                                    { __( 'Upload/Choose', 'advanced-gutenberg' ) }
                                                 </Button>
                                             ) }
                                         />
@@ -354,7 +354,7 @@
                                             </svg>
                                         ) : (
                                             <img src={playButtonIcon}
-                                                 alt={ __( 'Play button' ) }
+                                                 alt={ __( 'Play button', 'advanced-gutenberg' ) }
                                                  style={ { width: playButtonSize } }
                                                  className="advgb-custom-play-button"
                                             />
@@ -600,7 +600,7 @@
                                         </svg>
                                     ) : (
                                         <img src={playButtonIcon}
-                                             alt={ __( 'Play button' ) }
+                                             alt={ __( 'Play button', 'advanced-gutenberg' ) }
                                              style={ { width: playButtonSize } }
                                              className="advgb-custom-play-button"
                                         />

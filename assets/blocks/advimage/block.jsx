@@ -209,7 +209,7 @@
                     </InspectorControls>
                     <div className={ blockClassName }
                          style={ {
-                             backgroundImage: `url(${imageUrl || advgbBlocks.default_thumb})`,
+                             backgroundImage: `url(${imageUrl || advgbBlocks.image_holder})`,
                              backgroundPosition: focalPoint ? `${ focalPoint.x * 100 }% ${ focalPoint.y * 100 }%` : undefined,
                              height: height,
                              width: width,
@@ -227,10 +227,10 @@
                             onSelect={ (image) => setAttributes( { imageUrl: image.url, imageID: image.id, focalPoint: {} } ) }
                             render={ ( { open } ) => (
                                 <Button
-                                    className="button button-large"
+                                    className="button button-large advgb-browse-image-btn"
                                     onClick={ open }
                                 >
-                                    { __( 'Choose image', 'advanced-gutenberg' ) }
+                                    { __( 'Open media library', 'advanced-gutenberg' ) }
                                 </Button>
                             ) }
                         />
@@ -316,7 +316,7 @@
         },
         fullWidth: {
             type: 'boolean',
-            default: false,
+            default: true,
         },
         width: {
             type: 'number',
@@ -430,7 +430,11 @@
                     overlayColor: {
                         type: 'string',
                         default: '#2196f3',
-                    }
+                    },
+                    fullWidth: {
+                        type: 'boolean',
+                        default: false,
+                    },
                 },
                 save: ( { attributes } ) => {
                     const {

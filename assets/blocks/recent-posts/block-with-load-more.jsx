@@ -15,13 +15,13 @@
     );
 
     registerBlockType( 'advgb/rp-loadmore', {
-        title: __( 'Recent Posts with load more' ),
+        title: __( 'Recent Posts with load more', 'advanced-gutenberg' ),
         icon: {
             src: advRecentPostsBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,
         },
         category: 'advgb-category',
-        keywords: [ __( 'latest posts' ), __( 'articles' ), __( 'layout' ) ],
+        keywords: [ __( 'latest posts', 'advanced-gutenberg' ), __( 'articles', 'advanced-gutenberg' ), __( 'layout', 'advanced-gutenberg' ) ],
         attributes: {},
         supports: {
             align: true,

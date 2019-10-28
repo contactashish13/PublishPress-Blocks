@@ -12,13 +12,13 @@
     );
 
     registerBlockType( 'advgb/gallery-loadmore', {
-        title: __( 'Adv.Gallery with load more' ),
+        title: __( 'Adv.Gallery with load more', 'advanced-gutenberg' ),
         icon: {
             src: advGalleryBlockIcon,
             foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined,
         },
         category: 'advgb-category',
-        keywords: [ __( 'gallery' ), __( 'photos' ), __( 'masonry' ) ],
+        keywords: [ __( 'gallery', 'advanced-gutenberg' ), __( 'photos', 'advanced-gutenberg' ), __( 'masonry', 'advanced-gutenberg' ) ],
         attributes: {},
         supports: {
             align: true,

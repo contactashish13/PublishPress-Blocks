@@ -107,8 +107,8 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
             const iconStyle = {
                 marginTop: 0,
                 marginBottom: 0,
-                marginRight: !buttonAfter ? 5 : -paddingRight+10,
-                marginLeft: buttonAfter ? 5 : -paddingLeft+10,
+                marginRight: !buttonAfter ? 5 : 0,
+                marginLeft: buttonAfter ? 5 : 0,
                 float: !buttonAfter ? 'left' : 'right',
                 borderRadius: borderRadius,
                 color: buttonIconColor,
@@ -156,7 +156,7 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             />
                         </Toolbar>
                     </BlockControls>
-                    <span className={ `${className} wp-block-advgb-button_link align${align} ${id}` }
+                    <div className={ `${className} wp-block-advgb-button_link align${align} ${id}` }
                           style={ { display: 'inline-block' } }
                     >
                         {!!buttonIconType && !!buttonIcon && !buttonAfter && (
@@ -169,12 +169,13 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             formattingControls={ [ 'bold', 'italic', 'strikethrough' ] }
                             isSelected={ isSelected }
                             style={textStyle}
+                            tagName="span"
                             keepPlaceholderOnFocus
                         />
                         {!!buttonIconType && !!buttonIcon && buttonAfter && (
                             <i className={ iconClass } style={ iconStyle } />
                         ) }
-                    </span>
+                    </div>
                     <style>
                         {`.${id} {
                         font-size: ${textSize}px;
@@ -243,29 +244,29 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                                 onChange={ (value) => setAttributes( { textColor: value } ) }
                             />
                         </PanelBody>
-                        <PanelBody title={ __( 'Button Icon' ) }>
+                        <PanelBody title={ __( 'Button Icon', 'advanced-gutenberg' ) }>
                             <ToggleControl
-                                label={ __( 'Icon show after text' ) }
+                                label={ __( 'Icon show after text', 'advanced-gutenberg' ) }
                                 checked={ buttonAfter }
                                 onChange={ () => setAttributes( { buttonAfter: !buttonAfter } ) }
                             />
                             <SelectControl
-                                label={ __( 'Icon Library' ) }
+                                label={ __( 'Icon Library', 'advanced-gutenberg' ) }
                                 value={ buttonIconType }
                                 onChange={ (value) => setAttributes( { buttonIconType: value } ) }
                                 options={ [
-                                    { label: __( 'No Icon' ), value: '' },
-                                    { label: __( 'Material Icon' ), value: 'material' },
-                                    { label: __( 'Font Awesome' ), value: 'fawesome' },
+                                    { label: __( 'No Icon', 'advanced-gutenberg' ), value: '' },
+                                    { label: __( 'Material Icon', 'advanced-gutenberg' ), value: 'material' },
+                                    { label: __( 'Font Awesome', 'advanced-gutenberg' ), value: 'fawesome' },
                                 ] }
                             />
                             {!!buttonIconType && (
                                 buttonIconType === 'fawesome' ?
-                                    <p>{ __( 'This library will be added soon ;)' ) }</p>
+                                    <p>{ __( 'This library will be added soon ;)', 'advanced-gutenberg' ) }</p>
                                     :
                                     <Fragment>
                                         <TextControl
-                                            placeholder={ __( 'Search icons (at least 3 characters)' ) }
+                                            placeholder={ __( 'Search icons (at least 3 characters)', 'advanced-gutenberg' ) }
                                             value={ searchedText }
                                             onChange={ (value) => this.setState( { searchedText: value } ) }
                                         />
@@ -298,21 +299,21 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                             {buttonIconType && buttonIcon && (
                                 <Fragment>
                                     <PanelColorSettings
-                                        title={ __( 'Icon Color Settings' ) }
+                                        title={ __( 'Icon Color Settings', 'advanced-gutenberg' ) }
                                         initialOpen={ false }
                                         colorSettings={ [
                                             {
-                                                label: __( 'Icon Color' ),
+                                                label: __( 'Icon Color', 'advanced-gutenberg' ),
                                                 value: buttonIconColor,
                                                 onChange: ( value ) => setAttributes( { buttonIconColor: value } ),
                                             },
                                             {
-                                                label: __( 'Background Color' ),
+                                                label: __( 'Background Color', 'advanced-gutenberg' ),
                                                 value: buttonIconBgColor,
                                                 onChange: ( value ) => setAttributes( { buttonIconBgColor: value } ),
                                             },
                                             {
-                                                label: __( 'Border Color' ),
+                                                label: __( 'Border Color', 'advanced-gutenberg' ),
                                                 value: buttonIconBorderColor,
                                                 onChange: ( value ) => setAttributes( { buttonIconBorderColor: value } ),
                                             },
@@ -678,10 +679,6 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                 urlOpenNewTab,
                 title,
                 text,
-                paddingTop,
-                paddingRight,
-                paddingBottom,
-                paddingLeft,
                 borderRadius,
                 buttonIconType,
                 buttonIcon,
@@ -695,14 +692,16 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                 buttonIcon,
             ].filter( Boolean ).join('');
             const iconStyle = {
-                marginTop: -paddingTop,
-                marginBottom: -paddingBottom,
-                marginRight: !buttonAfter ? 5 : -paddingRight,
-                marginLeft: buttonAfter ? 5 : -paddingLeft,
+                marginRight: !buttonAfter ? 5 : 0,
+                marginLeft: buttonAfter ? 5 : 0,
                 borderRadius: borderRadius,
                 color: buttonIconColor,
                 backgroundColor: buttonIconBgColor,
                 borderColor: buttonIconBorderColor,
+            };
+
+            const textStyle = {
+                verticalAlign: 'middle'
             };
 
             return (
@@ -716,7 +715,7 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
                         {(!!buttonIconType && !!buttonIcon && !buttonAfter) && (
                             <i className={ iconClass } style={ iconStyle } />
                         ) }
-                        {text}
+                        <span style={textStyle}>{text}</span>
                         {(!!buttonIconType && !!buttonIcon && buttonAfter) && (
                             <i className={ iconClass } style={ iconStyle } />
                         ) }
@@ -735,6 +734,63 @@ import {AdvColorControl} from "../0-adv-components/components.jsx";
             return props;
         },
         deprecated: [
+            {
+                attributes: blockAttrs,
+                save: function ( { attributes } ) {
+                    const {
+                        id,
+                        align,
+                        url,
+                        urlOpenNewTab,
+                        title,
+                        text,
+                        paddingTop,
+                        paddingRight,
+                        paddingBottom,
+                        paddingLeft,
+                        borderRadius,
+                        buttonIconType,
+                        buttonIcon,
+                        buttonIconColor,
+                        buttonIconBgColor,
+                        buttonIconBorderColor,
+                        buttonAfter,
+                    } = attributes;
+                    const iconClass = [
+                        buttonIconType === 'material' && 'mi mi-',
+                        buttonIcon,
+                    ].filter( Boolean ).join('');
+                    const iconStyle = {
+                        marginTop: -paddingTop,
+                        marginBottom: -paddingBottom,
+                        marginRight: !buttonAfter ? 5 : -paddingRight,
+                        marginLeft: buttonAfter ? 5 : -paddingLeft,
+                        borderRadius: borderRadius,
+                        color: buttonIconColor,
+                        backgroundColor: buttonIconBgColor,
+                        borderColor: buttonIconBorderColor,
+                    };
+
+                    return (
+                        <div className={ `align${align}` }>
+                            <a href={ url || '#' }
+                               className={ `wp-block-advgb-button_link ${id}` }
+                               title={ title }
+                               target={ !urlOpenNewTab ? '_self' : '_blank' }
+                               rel="noopener noreferrer"
+                            >
+                                {(!!buttonIconType && !!buttonIcon && !buttonAfter) && (
+                                    <i className={ iconClass } style={ iconStyle } />
+                                ) }
+                                {text}
+                                {(!!buttonIconType && !!buttonIcon && buttonAfter) && (
+                                    <i className={ iconClass } style={ iconStyle } />
+                                ) }
+                            </a>
+                        </div>
+                    );
+                }
+            },
             {
                 attributes: {
                     ...blockAttrs,

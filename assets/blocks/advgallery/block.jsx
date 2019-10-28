@@ -89,12 +89,13 @@
 
         addImages( images ) {
             const { columns } = this.props.attributes;
+
             this.props.setAttributes( {
                 images: images.map( (image) => ( {
                     url: image.url || image.source_url,
                     id: image.id,
                     alt: image.alt,
-                    caption: typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption,
+                    caption: (typeof image.caption !== "undefined" && image.caption !== "") ? ( typeof image.caption.rendered !== "undefined" ? jQuery(image.caption.rendered).text() : image.caption) : image.caption,
                 } ) ),
                 columns: columns ? Math.min( images.length, columns ) : Math.min( images.length, 3 ),
                 imageIds: images.map( (img) => img.id ),
