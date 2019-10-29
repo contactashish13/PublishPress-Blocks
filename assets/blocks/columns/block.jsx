@@ -552,8 +552,8 @@
                                             key={ idx }
                                             beforeIcon={ pos.icon }
                                             value={ attributes['margin' + pos.label + deviceLetter] || 0 }
-                                            min={ 0 }
-                                            max={ 200 }
+                                            min={ -500 }
+                                            max={ 500 }
                                             onChange={ (value) => setAttributes( { ['margin' + pos.label + deviceLetter]: value } ) }
                                         />
                                     ) ) }

@@ -9348,8 +9348,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             key: idx,
                                             beforeIcon: pos.icon,
                                             value: attributes['margin' + pos.label + deviceLetter] || 0,
-                                            min: 0,
-                                            max: 200,
+                                            min: -500,
+                                            max: 500,
                                             onChange: function onChange(value) {
                                                 return setAttributes(_defineProperty({}, 'margin' + pos.label + deviceLetter, value));
                                             }
@@ -10178,8 +10178,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         key: idx,
                                         beforeIcon: pos.icon,
                                         value: attributes['margin' + pos.label + deviceLetter] || '',
-                                        min: 0,
-                                        max: 200,
+                                        min: -500,
+                                        max: 500,
                                         onChange: function onChange(value) {
                                             return setAttributes(_defineProperty({}, 'margin' + pos.label + deviceLetter, value));
                                         }
