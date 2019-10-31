@@ -231,7 +231,8 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     color: #fff;
 }
 
-.wp-block-advgb-button.is-style-outlined .wp-block-advgb-button_link {
+.wp-block-advgb-button.is-style-outlined .wp-block-advgb-button_link,
+.wp-block-advgb-button.is-style-outlined.wp-block-advgb-button_link {
     background-color: transparent !important;
     color: #000;
     border-radius: 50px;
@@ -240,11 +241,13 @@ span.wp-block-advgb-button[data-is-placeholder-visible=true] {
     border-width: 1px;
 }
 
-.wp-block-advgb-button.is-style-squared .wp-block-advgb-button_link {
+.wp-block-advgb-button.is-style-squared .wp-block-advgb-button_link,
+.wp-block-advgb-button.is-style-squared.wp-block-advgb-button_link {
     border-radius: 0 !important;
 }
 
-.wp-block-advgb-button.is-style-squared-outline .wp-block-advgb-button_link {
+.wp-block-advgb-button.is-style-squared-outline .wp-block-advgb-button_link,
+.wp-block-advgb-button.is-style-squared-outline.wp-block-advgb-button_link {
     border-radius: 0 !important;
     background-color: transparent !important;
     color: #000;
