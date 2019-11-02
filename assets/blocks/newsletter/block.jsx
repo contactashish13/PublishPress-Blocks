@@ -87,7 +87,7 @@
                                     value={ formWidth }
                                     onChange={ (value) => setAttributes( { formWidth: value } ) }
                                     min={ 200 }
-                                    max={ 1000 }
+                                    max={ 2000 }
                                 />
                             </PanelBody>
                             <PanelBody title={ __( 'Text Label', 'advanced-gutenberg' ) }>

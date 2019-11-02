@@ -16009,7 +16009,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         return setAttributes({ formWidth: value });
                                     },
                                     min: 200,
-                                    max: 1000
+                                    max: 2000
                                 })
                             ),
                             React.createElement(
