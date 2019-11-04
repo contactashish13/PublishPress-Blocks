@@ -4546,6 +4546,52 @@ float: left;'
                 $style_html .= 'background-color:'.$active_tab_bg_color.' !important;';
                 $style_html .= 'color:'.$active_tab_text_color.' !important;';
                 $style_html .= '}';
+            } elseif ($blockName === 'advgb/accordions') {
+                $block_id    = $blockAttrs['pid'];
+                $marginBottom = isset($blockAttrs['arginBottom']) ? $blockAttrs['arginBottom'] : 15;
+                $headerBgColor = isset($blockAttrs['headerBgColor']) ? $blockAttrs['headerBgColor'] : '#f2f2f2';
+                $headerTextColor = isset($blockAttrs['headerTextColor']) ? $blockAttrs['headerTextColor'] : '#444';
+                $borderStyle = isset($blockAttrs['borderStyle']) ? $blockAttrs['borderStyle'] : 'solid';
+                $borderWidth = isset($blockAttrs['borderWidth']) ? $blockAttrs['borderWidth'] : 0;
+                $borderRadius = isset($blockAttrs['borderRadius']) ? $blockAttrs['borderRadius'] : 2;
+                $borderColor = isset($blockAttrs['borderColor']) ? $blockAttrs['borderColor'] : 'undefined';
+                $bodyBgColor = isset($blockAttrs['bodyBgColor']) ? $blockAttrs['bodyBgColor'] : 'undefined';
+                $bodyTextColor = isset($blockAttrs['bodyTextColor']) ? $blockAttrs['bodyTextColor'] : 'undefined';
+
+                $headerBgColorActive = isset($blockAttrs['headerBgColorActive']) ? $blockAttrs['headerBgColorActive'] : '#444';
+                $headerTextColorActive = isset($blockAttrs['headerTextColorActive']) ? $blockAttrs['headerTextColorActive'] : '#fff';
+
+                $style_html .= '#'. $block_id . ' .advgb-accordion-item {';
+                $style_html .= 'margin-bottom: ' . $marginBottom . 'px;';
+                $style_html .= '}';
+
+                $style_html .= '#'. $block_id . ' .advgb-accordion-item .advgb-accordion-header {';
+                $style_html .= 'background-color: ' . $headerBgColor . ';';
+                $style_html .= 'color: ' . $headerTextColor . ';';
+                $style_html .= 'border-style: ' . $borderStyle . ';';
+                $style_html .= 'border-width: ' . $borderWidth . 'px;';
+                $style_html .= 'border-color: ' . $borderColor . ';';
+                $style_html .= 'border-radius: ' . $borderRadius . 'px;';
+                $style_html .= '}';
+
+                $style_html .= '#'. $block_id . ' .advgb-accordion-item .advgb-accordion-header.ui-state-active {';
+                $style_html .= 'background-color: ' . $headerBgColorActive . ';';
+                $style_html .= 'color: ' . $headerTextColorActive . ';';
+                $style_html .= '}';
+
+                $style_html .= '#'. $block_id . ' .advgb-accordion-item .advgb-accordion-header {';
+                $style_html .= 'background-color: ' . $headerBgColor . ';';
+                $style_html .= 'color: ' . $headerTextColor . ';';
+                $style_html .= 'border-style: ' . $borderStyle . ';';
+                $style_html .= 'border-width: ' . $borderWidth . 'px;';
+                $style_html .= 'border-color: ' . $borderColor . ';';
+                $style_html .= 'border-radius: ' . $borderRadius . 'px;';
+                $style_html .= '}';
+
+                $style_html .= '#'. $block_id . ' .advgb-accordion-item .advgb-accordion-body {';
+                $style_html .= 'background-color: ' . $bodyBgColor . ';';
+                $style_html .= 'color: ' . $bodyTextColor . ';';
+                $style_html .= '}';
             }
         }
 

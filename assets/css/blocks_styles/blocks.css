@@ -2271,13 +2271,15 @@ form .advgb-grecaptcha > div {
 }
 
 .advgb-columns-select-layout,
-.advgb-columns-responsive-items {
+.advgb-columns-responsive-items,
+.advgb-accordion-state-items {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
 }
 
-.advgb-columns-responsive-items .advgb-columns-responsive-item {
+.advgb-columns-responsive-items .advgb-columns-responsive-item,
+.advgb-accordion-state-items .advgb-accordion-state-item {
     flex-grow: 1;
     flex-basis: 33.3%;
     padding: 5px;
@@ -2287,7 +2289,8 @@ form .advgb-grecaptcha > div {
     cursor: pointer;
 }
 
-.advgb-columns-responsive-items .advgb-columns-responsive-item.is-selected {
+.advgb-columns-responsive-items .advgb-columns-responsive-item.is-selected,
+.advgb-accordion-state-items .advgb-accordion-state-item.is-selected{
     background-color: #2196f3;
     color: #fff;
 }

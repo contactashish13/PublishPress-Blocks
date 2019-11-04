@@ -4,7 +4,7 @@
     const { Component, Fragment } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { InspectorControls, BlockControls, PanelColorSettings, InnerBlocks } = wpBlockEditor;
-    const { RangeControl, PanelBody, BaseControl , SelectControl, ToggleControl, Toolbar, IconButton } = wpComponents;
+    const { RangeControl, PanelBody, BaseControl , SelectControl, ToggleControl, Toolbar, IconButton, ColorPalette } = wpComponents;
     const { select, dispatch } = wp.data;
 
     const HEADER_ICONS = {
@@ -118,9 +118,27 @@
         ),
     };
 
+    const DEFAULT_COLORS = [
+        { name: __('Pale pink', 'advanced-gutenberg' ), color: '#F78DA7' },
+        { name: __('Vivid red', 'advanced-gutenberg' ), color: '#cf2e2e' },
+        { name: __('Luminous vivid orange', 'advanced-gutenberg' ), color: '#ff6900' },
+        { name: __('Luminous vivid amber', 'advanced-gutenberg' ), color: '#fcb900' },
+        { name: __('Light green cyan', 'advanced-gutenberg' ), color: '#7bdcb5' },
+        { name: __('Vivid green cyan', 'advanced-gutenberg' ), color: '#00d084' },
+        { name: __('Pale cyan blue', 'advanced-gutenberg' ), color: '#8ed1fc' },
+        { name: __('Vivid cyan blue', 'advanced-gutenberg' ), color: '#0693e3' },
+        { name: __('Very light gray', 'advanced-gutenberg' ), color: '#eeeeee' },
+        { name: __('Cyan bluish gray', 'advanced-gutenberg' ), color: '#abb8c3' },
+        { name: __('Black', 'advanced-gutenberg' ), color: '#000000' },
+        { name: __('White', 'advanced-gutenberg' ), color: '#ffffff' },
+    ];
+
     class AccordionsEdit extends Component {
         constructor() {
             super( ...arguments );
+            this.state = {
+                tabSelected: 'normal',
+            };
 
             this.updateAccordionAttrs = this.updateAccordionAttrs.bind( this );
         }
@@ -143,6 +161,14 @@
 
                 // Finally set changed attribute to true, so we don't modify anything again
                 setAttributes( { changed: true } );
+            }
+        }
+
+        componentDidMount() {
+            const { attributes, setAttributes, clientId } = this.props;
+
+            if ( !attributes.id ) {
+                setAttributes( { pid: 'advgb-accordion-' + clientId, } )
             }
         }
 
@@ -179,9 +205,8 @@
 
         render() {
             const { attributes, setAttributes } = this.props;
+            const { tabSelected } = this.state;
             const {
-                headerBgColor,
-                headerTextColor,
                 headerIcon,
                 headerIconColor,
                 collapseIcon,
@@ -193,8 +218,15 @@
                 borderColor,
                 borderRadius,
                 marginBottom,
-                collapsedAll,
+                collapsedAll
             } = attributes;
+
+            const ELEMENT_CONTROLS = [
+                {label: __('Background Color', 'advanced-gutenberg'), name:'headerBgColor'},
+                {label: __('Text Color', 'advanced-gutenberg'), name:'headerTextColor'},
+                ];
+
+            let stateName = (tabSelected === 'active') ? 'Active' : '';
 
             return (
                 <Fragment>
@@ -258,32 +290,62 @@
                                     </div>
                                 </div>
                             </BaseControl>
-                            <PanelColorSettings
+                            <PanelBody
                                 title={ __( 'Color Settings', 'advanced-gutenberg' ) }
                                 initialOpen={ false }
-                                colorSettings={ [
-                                    {
-                                        label: __( 'Background Color', 'advanced-gutenberg' ),
-                                        value: headerBgColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { headerBgColor: value === undefined ? '#000' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Text Color', 'advanced-gutenberg' ),
-                                        value: headerTextColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { headerTextColor: value === undefined ? '#eee' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Expand Icon Color', 'advanced-gutenberg' ),
-                                        value: headerIconColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { headerIconColor: value === undefined ? '#fff' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Collapse Icon Color', 'advanced-gutenberg' ),
-                                        value: collapseIconColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { collapseIconColor: value === undefined ? '#fff' : value } ),
-                                    },
-                                ] }
-                            />
+                                >
+                                <div className="advgb-accordion-state-items">
+                                    {['normal', 'active'].map( (state, index) => {
+                                        const itemClasses = [
+                                            "advgb-accordion-state-item",
+                                            tabSelected === state && 'is-selected',
+                                        ].filter( Boolean ).join( ' ' );
+
+                                        return (
+                                            <div className={ itemClasses }
+                                                 key={ index }
+                                                 onClick={ () => this.setState( { tabSelected: state } ) }
+                                            >
+                                                {state}
+                                            </div>
+                                        )
+                                    } ) }
+                                </div>
+
+                                    <Fragment>
+                                        {ELEMENT_CONTROLS.map((pos, idx) => (
+                                        <BaseControl
+                                            label={ pos.label }
+                                        >
+                                            <ColorPalette
+                                                colors={ DEFAULT_COLORS }
+                                                value={ attributes[pos.name + stateName] }
+                                                onChange={ ( value ) => this.updateAccordionAttrs( { [pos.name + stateName]: value === undefined ? '#000' : value } ) }
+                                            />
+                                        </BaseControl>
+                                            ) ) }
+                                        <BaseControl
+                                            label={ __( 'Expand Icon Color', 'advanced-gutenberg' ) }
+                                        >
+                                            <ColorPalette
+                                                colors={ DEFAULT_COLORS }
+                                                value={ headerIconColor }
+                                                onChange={ ( value ) => this.updateAccordionAttrs( { headerIconColor: value === undefined ? '#555' : value } ) }
+                                            />
+                                        </BaseControl>
+                                        <BaseControl
+                                            label={ __( 'Collapse Icon Color', 'advanced-gutenberg' ) }
+                                        >
+                                            <ColorPalette
+                                                colors={ DEFAULT_COLORS }
+                                                value={ collapseIconColor }
+                                                onChange={ ( value ) => this.updateAccordionAttrs( { collapseIconColor: value === undefined ? '#fff' : value } ) }
+                                            />
+                                        </BaseControl>
+
+                                    </Fragment>
+
+                            </PanelBody>
                         </PanelBody>
                         <PanelColorSettings
                             title={ __( 'Body Color Settings', 'advanced-gutenberg' ) }
@@ -361,17 +423,25 @@
     const blockAttrs = {
         headerBgColor: {
             type: 'string',
-            default: '#000',
+            default: '#f2f2f2',
         },
         headerTextColor: {
             type: 'string',
-            default: '#eee',
+            default: '#444',
+        },
+        headerIconColor: {
+            type: 'string',
+            default: '#555',
         },
         headerIcon: {
             type: 'string',
             default: 'unfold',
         },
-        headerIconColor: {
+        headerBgColorActive: {
+            type: 'string',
+            default: '#444',
+        },
+        headerTextColorActive: {
             type: 'string',
             default: '#fff',
         },
@@ -418,6 +488,9 @@
         needUpdate: {
             type: 'boolean',
             default: true,
+        },
+        pid: {
+            type: 'string'
         }
     };
 
@@ -433,13 +506,41 @@
         attributes: blockAttrs,
         edit: AccordionsEdit,
         save: function ( { attributes } ) {
-            const { collapsedAll } = attributes;
+            const { collapsedAll, pid } = attributes;
 
             return (
-                <div className="advgb-accordion-wrapper" data-collapsed={ collapsedAll ? collapsedAll : undefined }>
+                <div className="advgb-accordion-wrapper" id={pid} data-collapsed={ collapsedAll ? collapsedAll : undefined }>
                     <InnerBlocks.Content />
                 </div>
             );
-        }
+        },
+        deprecated: [
+            {
+                attributes: {
+                    ...blockAttrs,
+                    headerBgColor: {
+                        type: 'string',
+                        default: '#000',
+                    },
+                    headerTextColor: {
+                        type: 'string',
+                        default: '#eee',
+                    },
+                    headerIconColor: {
+                        type: 'string',
+                        default: '#fff',
+                    }
+                },
+                save: function ( { attributes } ) {
+                    const { collapsedAll } = attributes;
+
+                    return (
+                        <div className="advgb-accordion-wrapper" data-collapsed={ collapsedAll ? collapsedAll : undefined }>
+                            <InnerBlocks.Content />
+                        </div>
+                    );
+                }
+            }
+        ]
     } )
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );

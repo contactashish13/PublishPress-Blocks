@@ -4,7 +4,7 @@
     const { Fragment, Component } = wpElement;
     const { registerBlockType } = wpBlocks;
     const { RichText, InnerBlocks, InspectorControls, PanelColorSettings } = wpBlockEditor;
-    const { RangeControl, PanelBody, BaseControl , SelectControl, ToggleControl } = wpComponents;
+    const { RangeControl, PanelBody, BaseControl , SelectControl, ToggleControl, ColorPalette } = wpComponents;
     const { select, dispatch } = wp.data;
 
     const HEADER_ICONS = {
@@ -118,9 +118,27 @@
         ),
     };
 
+    const DEFAULT_COLORS = [
+        { name: __('Pale pink', 'advanced-gutenberg' ), color: '#F78DA7' },
+        { name: __('Vivid red', 'advanced-gutenberg' ), color: '#cf2e2e' },
+        { name: __('Luminous vivid orange', 'advanced-gutenberg' ), color: '#ff6900' },
+        { name: __('Luminous vivid amber', 'advanced-gutenberg' ), color: '#fcb900' },
+        { name: __('Light green cyan', 'advanced-gutenberg' ), color: '#7bdcb5' },
+        { name: __('Vivid green cyan', 'advanced-gutenberg' ), color: '#00d084' },
+        { name: __('Pale cyan blue', 'advanced-gutenberg' ), color: '#8ed1fc' },
+        { name: __('Vivid cyan blue', 'advanced-gutenberg' ), color: '#0693e3' },
+        { name: __('Very light gray', 'advanced-gutenberg' ), color: '#eeeeee' },
+        { name: __('Cyan bluish gray', 'advanced-gutenberg' ), color: '#abb8c3' },
+        { name: __('Black', 'advanced-gutenberg' ), color: '#000000' },
+        { name: __('White', 'advanced-gutenberg' ), color: '#ffffff' },
+    ];
+
     class AccordionItemEdit extends Component {
         constructor() {
             super( ...arguments );
+            this.state = {
+                tabSelected: 'normal',
+            };
 
             this.updateAccordionAttrs = this.updateAccordionAttrs.bind(this);
         }
@@ -142,6 +160,21 @@
                     // Done applied, we will not do this again
                     setAttributes( { changed: true } );
                 }
+
+            }
+        }
+
+        componentDidMount() {
+            const { clientId, setAttributes, attributes } = this.props;
+            const { getBlockOrder, getBlockRootClientId } = !wp.blockEditor ? select( 'core/editor' ) : select( 'core/block-editor' );
+            const rootBlockId = getBlockRootClientId(clientId);
+            const childBlocks = getBlockOrder(rootBlockId);
+            if(attributes.isActive !== true) {
+                if (childBlocks[ 0 ] === clientId) {
+                    setAttributes( {
+                        isActive: true
+                    } )
+                }
             }
         }
 
@@ -158,14 +191,17 @@
 
         render() {
             const { attributes, setAttributes, clientId } = this.props;
+            const { tabSelected } = this.state;
             const {
                 header,
                 headerBgColor,
                 headerTextColor,
+                headerIconColor,
+                headerBgColorActive,
+                headerTextColorActive,
                 headerIcon,
                 collapseIcon,
                 collapseIconColor,
-                headerIconColor,
                 bodyBgColor,
                 bodyTextColor,
                 borderStyle,
@@ -173,6 +209,7 @@
                 borderColor,
                 borderRadius,
                 marginBottom,
+                isActive,
                 collapsedAll: blockCollapsed,
             } = attributes;
             const { getBlockRootClientId, getBlockAttributes } = !wp.blockEditor ? select( 'core/editor' ) : select( 'core/block-editor' );
@@ -181,6 +218,19 @@
             const rootBlockAttrs = getBlockAttributes(rootBlockId);
             const { collapsedAll } = rootBlockAttrs;
             if (blockCollapsed !== collapsedAll) setAttributes({collapsedAll: collapsedAll});
+
+            const activeClass = isActive ? 'is-active' : '';
+            const accordionItemClass = [
+                "advgb-accordion-item",
+                activeClass,
+            ].filter( Boolean ).join( ' ' );
+
+            const ELEMENT_CONTROLS = [
+                {label: __('Background Color', 'advanced-gutenberg'), name:'headerBgColor'},
+                {label: __('Text Color', 'advanced-gutenberg'), name:'headerTextColor'},
+            ];
+
+            let stateName = (tabSelected === 'active') ? 'Active' : '';
 
             return (
                 <Fragment>
@@ -242,32 +292,63 @@
                                     </div>
                                 </div>
                             </BaseControl>
-                            <PanelColorSettings
+                            <PanelBody
                                 title={ __( 'Color Settings', 'advanced-gutenberg' ) }
                                 initialOpen={ false }
-                                colorSettings={ [
-                                    {
-                                        label: __( 'Background Color', 'advanced-gutenberg' ),
-                                        value: headerBgColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { headerBgColor: value === undefined ? '#000' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Text Color', 'advanced-gutenberg' ),
-                                        value: headerTextColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { headerTextColor: value === undefined ? '#eee' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Expand Icon Color', 'advanced-gutenberg' ),
-                                        value: headerIconColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { headerIconColor: value === undefined ? '#fff' : value } ),
-                                    },
-                                    {
-                                        label: __( 'Collapse Icon Color', 'advanced-gutenberg' ),
-                                        value: collapseIconColor,
-                                        onChange: ( value ) => this.updateAccordionAttrs( { collapseIconColor: value === undefined ? '#fff' : value } ),
-                                    },
-                                ] }
-                            />
+                            >
+                                <div className="advgb-accordion-state-items">
+                                    {['normal', 'active'].map( (state, index) => {
+                                        const itemClasses = [
+                                            "advgb-accordion-state-item",
+                                            tabSelected === state && 'is-selected',
+                                        ].filter( Boolean ).join( ' ' );
+
+                                        return (
+                                            <div className={ itemClasses }
+                                                 key={ index }
+                                                 onClick={ () => this.setState( { tabSelected: state } ) }
+                                            >
+                                                {state}
+                                            </div>
+                                        )
+                                    } ) }
+                                </div>
+
+                                <Fragment>
+                                    {ELEMENT_CONTROLS.map((pos, idx) => (
+                                        <BaseControl
+                                            label={ pos.label }
+                                        >
+                                            <ColorPalette
+                                                colors={ DEFAULT_COLORS }
+                                                value={ attributes[pos.name + stateName] }
+                                                onChange={ ( value ) => this.updateAccordionAttrs( { [pos.name + stateName]: value === undefined ? '#000' : value } ) }
+                                            />
+                                        </BaseControl>
+                                    ) ) }
+                                    <BaseControl
+                                        label={ __( 'Expand Icon Color', 'advanced-gutenberg' ) }
+                                    >
+                                        <ColorPalette
+                                            colors={ DEFAULT_COLORS }
+                                            value={ headerIconColor }
+                                            onChange={ ( value ) => this.updateAccordionAttrs( { headerIconColor: value === undefined ? '#555' : value } ) }
+                                        />
+                                    </BaseControl>
+                                    <BaseControl
+                                        label={ __( 'Collapse Icon Color', 'advanced-gutenberg' ) }
+                                    >
+                                        <ColorPalette
+                                            colors={ DEFAULT_COLORS }
+                                            value={ collapseIconColor }
+                                            onChange={ ( value ) => this.updateAccordionAttrs( { collapseIconColor: value === undefined ? '#fff' : value } ) }
+                                        />
+                                    </BaseControl>
+
+                                </Fragment>
+
+                            </PanelBody>
+
                         </PanelBody>
                         <PanelColorSettings
                             title={ __( 'Body Color Settings', 'advanced-gutenberg' ) }
@@ -323,21 +404,20 @@
                             />
                         </PanelBody>
                     </InspectorControls>
-                    <div className="advgb-accordion-item">
-                        <div className="advgb-accordion-header"
-                             style={ {
-                                 backgroundColor: headerBgColor,
-                                 color: headerTextColor,
-                                 borderStyle: borderStyle,
-                                 borderWidth: borderWidth + 'px',
-                                 borderColor: borderColor,
-                                 borderRadius: borderRadius + 'px',
-                             } }
-                        >
+                    <div className={accordionItemClass}>
+                        <div className="advgb-accordion-header">
                         <span className="advgb-accordion-header-icon">
-                            <svg fill={ headerIconColor } xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                { HEADER_ICONS[headerIcon] }
-                            </svg>
+                            {(isActive && collapseIcon) && (
+                                <svg fill={ collapseIconColor } xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    { COLLAPSE_ICONS[collapseIcon] }
+                                </svg>
+                            ) }
+                            {(!isActive && headerIconColor) && (
+                                <svg fill={ headerIconColor } xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    { HEADER_ICONS[headerIcon] }
+                                </svg>
+                            ) }
+
                         </span>
                             <RichText
                                 tagName="h4"
@@ -349,19 +429,32 @@
                                 style={ { color: 'inherit' } }
                             />
                         </div>
-                        <div className="advgb-accordion-body"
-                             style={ {
-                                 backgroundColor: bodyBgColor,
-                                 color: bodyTextColor,
-                                 borderStyle: borderStyle,
-                                 borderWidth: borderWidth + 'px',
-                                 borderColor: borderColor,
-                                 borderRadius: borderRadius + 'px',
-                             } }
-                        >
+                        <div className="advgb-accordion-body">
                             <InnerBlocks />
                         </div>
                     </div>
+                    <style>
+                        {`#block-${clientId} .advgb-accordion-item .advgb-accordion-header {
+                            background-color: ${headerBgColor};
+                            color: ${headerTextColor};
+                            border-style: ${borderStyle};
+                            border-width: ${borderWidth + 'px'};
+                            border-color: ${borderColor};
+                            border-radius: ${borderRadius + 'px'};
+                        }
+                        #block-${clientId} .advgb-accordion-item.is-active .advgb-accordion-header {
+                            background-color: ${headerBgColorActive};
+                            color: ${headerTextColorActive};
+                        }
+                        #block-${clientId} .advgb-accordion-item .advgb-accordion-body {
+                            background-color: ${bodyBgColor};
+                            color: ${bodyTextColor};
+                            border-style: ${borderStyle};
+                            border-width: ${borderWidth + 'px'};
+                            border-color: ${borderColor};
+                            border-radius: ${borderRadius + 'px'};
+                        }`}
+                    </style>
                 </Fragment>
             )
         }
@@ -376,6 +469,81 @@
         </svg>
     );
 
+    const blockAttrs = {
+        header: {
+            type: 'string',
+            default: __( 'Header text', 'advanced-gutenberg' ),
+        },
+        headerBgColor: {
+            type: 'string',
+            default: '#f2f2f2',
+        },
+        headerTextColor: {
+            type: 'string',
+            default: '#444',
+        },
+        headerIconColor: {
+            type: 'string',
+            default: '#555',
+        },
+        headerIcon: {
+            type: 'string',
+            default: 'unfold',
+        },
+        headerBgColorActive: {
+            type: 'string',
+            default: '#444',
+        },
+        headerTextColorActive: {
+            type: 'string',
+            default: '#fff',
+        },
+        collapseIcon: {
+            type: 'string',
+        },
+        collapseIconColor: {
+            type: 'string',
+            default: '#fff',
+        },
+        bodyBgColor: {
+            type: 'string',
+        },
+        bodyTextColor: {
+            type: 'string',
+        },
+        borderStyle: {
+            type: 'string',
+            default: 'solid',
+        },
+        borderWidth: {
+            type: 'number',
+            default: 0,
+        },
+        borderColor: {
+            type: 'string',
+        },
+        borderRadius: {
+            type: 'number',
+            default: 2,
+        },
+        marginBottom: {
+            type: 'number',
+            default: 15,
+        },
+        collapsedAll: {
+            type: 'boolean',
+            default: false,
+        },
+        changed: {
+            type: 'boolean',
+            default: false,
+        },
+        isActive: {
+            type: 'boolean',
+            default: false
+        }
+    };
+
     registerBlockType( 'advgb/accordion-item', {
         title: __( 'Accordion Item', 'advanced-gutenberg' ),
         description: __( 'Easy to create an accordion for your post/page.', 'advanced-gutenberg' ),
@@ -386,99 +554,20 @@
         parent: [ 'advgb/accordions' ],
         category: 'advgb-category',
         keywords: [ __( 'accordion', 'advanced-gutenberg' ), __( 'list', 'advanced-gutenberg' ), __( 'faq', 'advanced-gutenberg' ) ],
-        attributes: {
-            header: {
-                type: 'string',
-                default: __( 'Header text', 'advanced-gutenberg' ),
-            },
-            headerBgColor: {
-                type: 'string',
-                default: '#000',
-            },
-            headerTextColor: {
-                type: 'string',
-                default: '#eee',
-            },
-            headerIcon: {
-                type: 'string',
-                default: 'unfold',
-            },
-            headerIconColor: {
-                type: 'string',
-                default: '#fff',
-            },
-            collapseIcon: {
-                type: 'string',
-            },
-            collapseIconColor: {
-                type: 'string',
-                default: '#fff',
-            },
-            bodyBgColor: {
-                type: 'string',
-            },
-            bodyTextColor: {
-                type: 'string',
-            },
-            borderStyle: {
-                type: 'string',
-                default: 'solid',
-            },
-            borderWidth: {
-                type: 'number',
-                default: 0,
-            },
-            borderColor: {
-                type: 'string',
-            },
-            borderRadius: {
-                type: 'number',
-                default: 2,
-            },
-            marginBottom: {
-                type: 'number',
-                default: 15,
-            },
-            collapsedAll: {
-                type: 'boolean',
-                default: false,
-            },
-            changed: {
-                type: 'boolean',
-                default: false,
-            }
-        },
+        attributes: blockAttrs,
         edit: AccordionItemEdit,
         save: function ( { attributes } ) {
             const {
                 header,
-                headerBgColor,
-                headerTextColor,
-                headerIcon,
                 headerIconColor,
+                headerIcon,
                 collapseIcon,
-                collapseIconColor,
-                bodyBgColor,
-                bodyTextColor,
-                borderStyle,
-                borderWidth,
-                borderColor,
-                borderRadius,
-                marginBottom,
+                collapseIconColor
             } = attributes;
 
             return (
-                <div className="advgb-accordion-item" style={ { marginBottom } }>
-                    <div className="advgb-accordion-header"
-                         style={ {
-                             backgroundColor: headerBgColor,
-                             color: headerTextColor,
-                             borderStyle: borderStyle,
-                             borderWidth: !!borderWidth ? borderWidth + 'px' : undefined,
-                             borderColor: borderColor,
-                             borderRadius: !!borderRadius ? borderRadius + 'px' : undefined,
-                         } }
-                    >
+                <div className="advgb-accordion-item">
+                    <div className="advgb-accordion-header">
                         <span className="advgb-accordion-header-icon">
                             <svg fill={ headerIconColor } xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 { HEADER_ICONS[headerIcon] }
@@ -493,20 +582,89 @@
                         ) }
                         <h4 className="advgb-accordion-header-title" style={ { color: 'inherit' } }>{ header }</h4>
                     </div>
-                    <div className="advgb-accordion-body"
-                         style={ {
-                             backgroundColor: bodyBgColor,
-                             color: bodyTextColor,
-                             borderStyle: borderStyle,
-                             borderWidth: !!borderWidth ? borderWidth + 'px' : undefined,
-                             borderColor: borderColor,
-                             borderRadius: !!borderRadius ? borderRadius + 'px' : undefined,
-                         } }
-                    >
+                    <div className="advgb-accordion-body">
                         <InnerBlocks.Content />
                     </div>
                 </div>
             );
         },
+        deprecated: [
+            {
+                attributes: {
+                    ...blockAttrs,
+                    headerBgColor: {
+                        type: 'string',
+                        default: '#000',
+                    },
+                    headerTextColor: {
+                        type: 'string',
+                        default: '#eee',
+                    },
+                    headerIconColor: {
+                        type: 'string',
+                        default: '#fff',
+                    }
+                },
+                save: function ( { attributes } ) {
+                    const {
+                        header,
+                        headerBgColor,
+                        headerTextColor,
+                        headerIcon,
+                        headerIconColor,
+                        collapseIcon,
+                        collapseIconColor,
+                        bodyBgColor,
+                        bodyTextColor,
+                        borderStyle,
+                        borderWidth,
+                        borderColor,
+                        borderRadius,
+                        marginBottom,
+                    } = attributes;
+
+                    return (
+                        <div className="advgb-accordion-item" style={ { marginBottom } }>
+                            <div className="advgb-accordion-header"
+                                 style={ {
+                                     backgroundColor: headerBgColor,
+                                     color: headerTextColor,
+                                     borderStyle: borderStyle,
+                                     borderWidth: !!borderWidth ? borderWidth + 'px' : undefined,
+                                     borderColor: borderColor,
+                                     borderRadius: !!borderRadius ? borderRadius + 'px' : undefined,
+                                 } }
+                            >
+                        <span className="advgb-accordion-header-icon">
+                            <svg fill={ headerIconColor } xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                { HEADER_ICONS[headerIcon] }
+                            </svg>
+                        </span>
+                                {collapseIcon && (
+                                    <span className="advgb-accordion-header-icon collapse-icon">
+                            <svg fill={ collapseIconColor } xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                { COLLAPSE_ICONS[collapseIcon] }
+                            </svg>
+                        </span>
+                                ) }
+                                <h4 className="advgb-accordion-header-title" style={ { color: 'inherit' } }>{ header }</h4>
+                            </div>
+                            <div className="advgb-accordion-body"
+                                 style={ {
+                                     backgroundColor: bodyBgColor,
+                                     color: bodyTextColor,
+                                     borderStyle: borderStyle,
+                                     borderWidth: !!borderWidth ? borderWidth + 'px' : undefined,
+                                     borderColor: borderColor,
+                                     borderRadius: !!borderRadius ? borderRadius + 'px' : undefined,
+                                 } }
+                            >
+                                <InnerBlocks.Content />
+                            </div>
+                        </div>
+                    );
+                }
+            }
+        ]
     } )
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );
