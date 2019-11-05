@@ -4548,7 +4548,7 @@ float: left;'
                 $style_html .= '}';
             } elseif ($blockName === 'advgb/accordions') {
                 $block_id    = $blockAttrs['pid'];
-                $marginBottom = isset($blockAttrs['arginBottom']) ? $blockAttrs['arginBottom'] : 15;
+                $marginBottom = isset($blockAttrs['marginBottom']) ? $blockAttrs['marginBottom'] : 15;
                 $headerBgColor = isset($blockAttrs['headerBgColor']) ? $blockAttrs['headerBgColor'] : '#f2f2f2';
                 $headerTextColor = isset($blockAttrs['headerTextColor']) ? $blockAttrs['headerTextColor'] : '#444';
                 $borderStyle = isset($blockAttrs['borderStyle']) ? $blockAttrs['borderStyle'] : 'solid';
