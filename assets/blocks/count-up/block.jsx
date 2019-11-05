@@ -51,6 +51,7 @@
                 countUpSymbol,
                 countUpSymbol2,
                 countUpSymbol3,
+                countUpSymbolColor,
                 countUpSymbolAfter,
                 countUpSymbolAfter2,
                 countUpSymbolAfter3,
@@ -83,6 +84,11 @@
                                         label: __( 'Description Color', 'advanced-gutenberg' ),
                                         value: descTextColor,
                                         onChange: ( value ) => setAttributes( { descTextColor: value } ),
+                                    },
+                                    {
+                                        label: __( 'Symbol Color', 'advanced-gutenberg' ),
+                                        value: countUpSymbolColor,
+                                        onChange: ( countUpSymbolColor ) => setAttributes( { countUpSymbolColor } ),
                                     },
                                 ] }
                             />
@@ -162,7 +168,7 @@
                                     <span className="advgb-counter-symbol"
                                           style={ {
                                               fontSize: countUpNumberSize,
-                                              color: countUpNumberColor,
+                                              color: countUpSymbolColor,
                                           } }
                                     >
                                         { countUpSymbol }
@@ -181,7 +187,7 @@
                                     <span className="advgb-counter-symbol"
                                           style={ {
                                               fontSize: countUpNumberSize,
-                                              color: countUpNumberColor,
+                                              color: countUpSymbolColor,
                                           } }
                                     >
                                         { countUpSymbol }
@@ -215,7 +221,7 @@
                                     <span className="advgb-counter-symbol"
                                           style={ {
                                               fontSize: countUpNumberSize,
-                                              color: countUpNumberColor,
+                                              color: countUpSymbolColor,
                                           } }
                                     >
                                         { countUpSymbol2 }
@@ -234,7 +240,7 @@
                                     <span className="advgb-counter-symbol"
                                           style={ {
                                               fontSize: countUpNumberSize,
-                                              color: countUpNumberColor,
+                                              color: countUpSymbolColor,
                                           } }
                                     >
                                         { countUpSymbol2 }
@@ -268,7 +274,7 @@
                                     <span className="advgb-counter-symbol"
                                           style={ {
                                               fontSize: countUpNumberSize,
-                                              color: countUpNumberColor,
+                                              color: countUpSymbolColor,
                                           } }
                                     >
                                         { countUpSymbol3 }
@@ -287,7 +293,7 @@
                                     <span className="advgb-counter-symbol"
                                           style={ {
                                               fontSize: countUpNumberSize,
-                                              color: countUpNumberColor,
+                                              color: countUpSymbolColor,
                                           } }
                                     >
                                         { countUpSymbol3 }
@@ -401,6 +407,90 @@
         </svg>
     );
 
+    const blockAttrs = {
+        headerText: {
+            type: 'string',
+            default: __( 'Header text', 'advanced-gutenberg' ),
+        },
+        headerText2: {
+            type: 'string',
+            default: __( 'Header text', 'advanced-gutenberg' ),
+        },
+        headerText3: {
+            type: 'string',
+            default: __( 'Header text', 'advanced-gutenberg' ),
+        },
+        headerTextColor: {
+            type: 'string',
+        },
+        countUpNumber: {
+            type: 'string',
+            default: '56789'
+        },
+        countUpNumber2: {
+            type: 'string',
+            default: '56789'
+        },
+        countUpNumber3: {
+            type: 'string',
+            default: '56789'
+        },
+        countUpNumberColor: {
+            type: 'string',
+        },
+        countUpNumberSize: {
+            type: 'number',
+            default: 55,
+        },
+        countUpSymbol: {
+            type: 'string',
+        },
+        countUpSymbol2: {
+            type: 'string',
+        },
+        countUpSymbol3: {
+            type: 'string',
+        },
+        countUpSymbolColor: {
+            type: 'string',
+        },
+        countUpSymbolAfter: {
+            type: 'boolean',
+            default: false,
+        },
+        countUpSymbolAfter2: {
+            type: 'boolean',
+            default: false,
+        },
+        countUpSymbolAfter3: {
+            type: 'boolean',
+            default: false,
+        },
+        descText: {
+            type: 'string',
+            default: __( 'and description', 'advanced-gutenberg' ),
+        },
+        descText2: {
+            type: 'string',
+            default: __( 'and description', 'advanced-gutenberg' ),
+        },
+        descText3: {
+            type: 'string',
+            default: __( 'and description', 'advanced-gutenberg' ),
+        },
+        descTextColor: {
+            type: 'string',
+        },
+        columns: {
+            type: 'number',
+            default: 1,
+        },
+        changed: {
+            type: 'boolean',
+            default: false,
+        },
+    };
+
     registerBlockType( 'advgb/count-up', {
         title: __( 'Count Up', 'advanced-gutenberg' ),
         description: __( 'Make a block with animate counting numbers.', 'advanced-gutenberg' ),
@@ -410,87 +500,97 @@
         },
         category: 'advgb-category',
         keywords: [ __( 'numbers', 'advanced-gutenberg' ), __( 'count', 'advanced-gutenberg' ), __( 'increase', 'advanced-gutenberg' ) ],
-        attributes: {
-            headerText: {
-                type: 'string',
-                default: __( 'Header text', 'advanced-gutenberg' ),
-            },
-            headerText2: {
-                type: 'string',
-                default: __( 'Header text', 'advanced-gutenberg' ),
-            },
-            headerText3: {
-                type: 'string',
-                default: __( 'Header text', 'advanced-gutenberg' ),
-            },
-            headerTextColor: {
-                type: 'string',
-            },
-            countUpNumber: {
-                type: 'string',
-                default: '56789'
-            },
-            countUpNumber2: {
-                type: 'string',
-                default: '56789'
-            },
-            countUpNumber3: {
-                type: 'string',
-                default: '56789'
-            },
-            countUpNumberColor: {
-                type: 'string',
-            },
-            countUpNumberSize: {
-                type: 'number',
-                default: 55,
-            },
-            countUpSymbol: {
-                type: 'string',
-            },
-            countUpSymbol2: {
-                type: 'string',
-            },
-            countUpSymbol3: {
-                type: 'string',
-            },
-            countUpSymbolAfter: {
-                type: 'boolean',
-                default: false,
-            },
-            countUpSymbolAfter2: {
-                type: 'boolean',
-                default: false,
-            },
-            countUpSymbolAfter3: {
-                type: 'boolean',
-                default: false,
-            },
-            descText: {
-                type: 'string',
-                default: __( 'and description', 'advanced-gutenberg' ),
-            },
-            descText2: {
-                type: 'string',
-                default: __( 'and description', 'advanced-gutenberg' ),
-            },
-            descText3: {
-                type: 'string',
-                default: __( 'and description', 'advanced-gutenberg' ),
-            },
-            descTextColor: {
-                type: 'string',
-            },
-            columns: {
-                type: 'number',
-                default: 1,
-            },
-            changed: {
-                type: 'boolean',
-                default: false,
-            },
-        },
+        attributes: blockAttrs,
         edit: AdvCountUp,
-        save: AdvCountUpSave,
+        save: function ( { attributes } ) {
+            const {
+                headerText,
+                headerText2,
+                headerText3,
+                headerTextColor,
+                countUpNumber,
+                countUpNumber2,
+                countUpNumber3,
+                countUpNumberColor,
+                countUpNumberSize,
+                countUpSymbol,
+                countUpSymbol2,
+                countUpSymbol3,
+                countUpSymbolColor,
+                countUpSymbolAfter,
+                countUpSymbolAfter2,
+                countUpSymbolAfter3,
+                descText,
+                descText2,
+                descText3,
+                descTextColor,
+                columns,
+            } = attributes;
+
+            const countSymbolColor = countUpSymbolColor ? countUpSymbolColor : 'inherit';
+            const countSymbolElm = countUpSymbol ? <span className="advgb-counter-symbol" style={ {color: countSymbolColor} }>{ countUpSymbol }</span> : '';
+            const countSymbolElm2 = countUpSymbol2 ? <span className="advgb-counter-symbol" style={ {color: countSymbolColor} }>{ countUpSymbol2 }</span> : '';
+            const countSymbolElm3 = countUpSymbol3 ? <span className="advgb-counter-symbol" style={ {color: countSymbolColor} }>{ countUpSymbol3 }</span> : '';
+
+            return (
+                <div className="advgb-count-up" style={ { display: 'flex' } }>
+                    <div className="advgb-count-up-columns-one" style={ { textAlign: 'center' } }>
+                        <h4 className="advgb-count-up-header" style={ { color: headerTextColor } }>
+                            { headerText }
+                        </h4>
+                        <div className="advgb-counter"
+                             style={ { color: countUpNumberColor, fontSize: countUpNumberSize + 'px' } }
+                        >
+                            {!countUpSymbolAfter && countSymbolElm}
+                            <span className="advgb-counter-number">{ countUpNumber }</span>
+                            {!!countUpSymbolAfter && countSymbolElm}
+                        </div>
+                        <p className="advgb-count-up-desc" style={ { color: descTextColor } }>
+                            { descText }
+                        </p>
+                    </div>
+                    {parseInt(columns) > 1 && (
+                        <div className="advgb-count-up-columns-two" style={ { textAlign: 'center' } }>
+                            <h4 className="advgb-count-up-header" style={ { color: headerTextColor } }>
+                                { headerText2 }
+                            </h4>
+                            <div className="advgb-counter"
+                                 style={ { color: countUpNumberColor, fontSize: countUpNumberSize + 'px' } }
+                            >
+                                {!countUpSymbolAfter2 && countSymbolElm2}
+                                <span className="advgb-counter-number">{ countUpNumber2 }</span>
+                                {!!countUpSymbolAfter2 && countSymbolElm2}
+                            </div>
+                            <p className="advgb-count-up-desc" style={ { color: descTextColor } }>
+                                { descText2 }
+                            </p>
+                        </div>
+                    ) }
+                    {parseInt(columns) > 2 && (
+                        <div className="advgb-count-up-columns-three" style={ { textAlign: 'center' } }>
+                            <h4 className="advgb-count-up-header" style={ { color: headerTextColor } }>
+                                { headerText3 }
+                            </h4>
+                            <div className="advgb-counter"
+                                 style={ { color: countUpNumberColor, fontSize: countUpNumberSize + 'px' } }
+                            >
+                                {!countUpSymbolAfter3 && countSymbolElm3}
+                                <span className="advgb-counter-number">{ countUpNumber3 }</span>
+                                {!!countUpSymbolAfter3 && countSymbolElm3}
+                            </div>
+                            <p className="advgb-count-up-desc" style={ { color: descTextColor } }>
+                                { descText3 }
+                            </p>
+                        </div>
+                    ) }
+                </div>
+            );
+        },
+        deprecated: [
+            {
+                attributes: blockAttrs,
+                save: AdvCountUpSave
+            }
+        ]
     } );
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );
