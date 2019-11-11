@@ -2650,7 +2650,7 @@ body.block-editor-page .advgb-columns-wrapper .advgb-columns .wp-block {
     padding: 6px;
 }
 
-    /*Responsive for Columns*/
+/*Responsive for Columns*/
 @media screen and (min-width: 1088px) {
     .advgb-column.advgb-is-default-desktop {
         flex: 1;
