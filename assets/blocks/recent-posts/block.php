@@ -203,10 +203,11 @@ if (!function_exists('advgbRecentPostsFilter')) {
 
         $postHtml = '';
 
+    if (!empty($recent_posts)) {
         foreach ($recent_posts as $post) {
             $postThumbID = get_post_thumbnail_id($post->ID);
 
-            $postHtml .= '<article class="advgb-recent-post">';
+        $postHtml .= '<article class="advgb-recent-post">';
 
             $catsHtml = '';
             if (isset($attributes['displayCategory']) && $attributes['displayCategory']) {
@@ -253,13 +254,13 @@ if (!function_exists('advgbRecentPostsFilter')) {
                 }
             }
 
-            $postHtml .= sprintf(
-                '<h2 class="advgb-post-title"><a href="%1$s">%2$s</a></h2>',
-                get_permalink($post->ID),
-                get_the_title($post->ID)
-            );
+        $postHtml .= sprintf(
+            '<h2 class="advgb-post-title"><a href="%1$s">%2$s</a></h2>',
+            get_permalink($post->ID),
+            get_the_title($post->ID)
+        );
 
-            $postHtml .= '<div class="advgb-post-info">';
+        $postHtml .= '<div class="advgb-post-info">';
 
             if (!$attributes['categoryAbove']) {
                 $postHtml .= $catsHtml;
@@ -273,19 +274,19 @@ if (!function_exists('advgbRecentPostsFilter')) {
                 );
             }
 
-            if (isset($attributes['displayDate']) && $attributes['displayDate']) {
-                $postHtml .= sprintf(
-                    '<span class="advgb-post-date">%1$s</span>',
-                    get_the_date('', $post->ID)
-                );
-            }
+        if (isset($attributes['displayDate']) && $attributes['displayDate']) {
+            $postHtml .= sprintf(
+                '<span class="advgb-post-date">%1$s</span>',
+                get_the_date('', $post->ID)
+            );
+        }
 
-            $postHtml .= '</div>'; // end advgb-post-info
+        $postHtml .= '</div>'; // end advgb-post-info
 
-            $postHtml .= '<div class="advgb-post-content">';
+        $postHtml .= '<div class="advgb-post-content">';
 
-            if (isset($attributes['displayExcerpt']) && $attributes['displayExcerpt']) {
-                $introText = $post->post_excerpt;
+        if (isset($attributes['displayExcerpt']) && $attributes['displayExcerpt']) {
+            $introText = $post->post_excerpt;
 
                 if (isset($attributes['displayExcerpt']) && $attributes['postTextAsExcerpt']) {
                     if (!is_admin()) {
@@ -296,31 +297,32 @@ if (!function_exists('advgbRecentPostsFilter')) {
                     }
                 }
 
-                $postHtml .= sprintf(
-                    '<div class="advgb-post-excerpt">%1$s</div>',
-                    $introText
-                );
+            $postHtml .= sprintf(
+                '<div class="advgb-post-excerpt">%1$s</div>',
+                $introText
+            );
+        }
+
+        if (isset($attributes['displayReadMore']) && $attributes['displayReadMore']) {
+            $readMoreText = __('Read More', 'advanced-gutenberg');
+            if (isset($attributes['readMoreLbl']) && $attributes['readMoreLbl']) {
+                $readMoreText = $attributes['readMoreLbl'];
             }
 
-            if (isset($attributes['displayReadMore']) && $attributes['displayReadMore']) {
-                $readMoreText = __('Read More', 'advanced-gutenberg');
-                if (isset($attributes['readMoreLbl']) && $attributes['readMoreLbl']) {
-                    $readMoreText = $attributes['readMoreLbl'];
-                }
+            $postHtml .= sprintf(
+                '<div class="advgb-post-readmore"><a href="%1$s">%2$s</a></div>',
+                get_permalink($post->ID),
+                $readMoreText
+            );
+        }
 
-                $postHtml .= sprintf(
-                    '<div class="advgb-post-readmore"><a href="%1$s">%2$s</a></div>',
-                    get_permalink($post->ID),
-                    $readMoreText
-                );
-            }
+        $postHtml .= '</div>'; // end advgb-post-content
 
-            $postHtml .= '</div>'; // end advgb-post-content
-
-            $postHtml .= '</div>'; // end advgb-post-wrapper
+        $postHtml .= '</div>'; // end advgb-post-wrapper
 
             $postHtml .= '</article>';
         }
+    }
 
         $blockClass = '';
 
