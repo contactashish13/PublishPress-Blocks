@@ -9472,9 +9472,911 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   !*** ./assets/blocks/advvideo/block.jsx ***!
   \******************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: Unexpected token, expected , (376:1)\n\n  374 |                                                         </svg>\n  375 |                                                     </span>\n> 376 | <<<<<<< HEAD\n      |  ^\n  377 |                                                 </div>\n  378 |                                             ) ) }\n  379 |                                         </div>\n");
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        PanelColorSettings = _wpBlockEditor.PanelColorSettings,
+        MediaUpload = _wpBlockEditor.MediaUpload;
+    var RangeControl = wpComponents.RangeControl,
+        PanelBody = wpComponents.PanelBody,
+        ToggleControl = wpComponents.ToggleControl,
+        BaseControl = wpComponents.BaseControl,
+        TextControl = wpComponents.TextControl,
+        SelectControl = wpComponents.SelectControl,
+        Button = wpComponents.Button,
+        IconButton = wpComponents.IconButton,
+        Dashicon = wpComponents.Dashicon,
+        Spinner = wpComponents.Spinner,
+        Toolbar = wpComponents.Toolbar,
+        Disabled = wpComponents.Disabled;
+
+
+    var PLAY_BUTTON_STYLE = {
+        normal: [React.createElement("path", { key: "x", d: "M8 5v14l11-7z" }), React.createElement("path", { key: "y", d: "M0 0h24v24H0z", fill: "none" })],
+        circleFill: [React.createElement("path", { key: "x", d: "M0 0h24v24H0z", fill: "none" }), React.createElement("path", { key: "y", d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" })],
+        circleOutline: [React.createElement("path", { key: "x", d: "M0 0h24v24H0z", fill: "none" }), React.createElement("path", { key: "y", d: "M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })],
+        videoCam: [React.createElement("path", { key: "x", d: "M0 0h24v24H0z", fill: "none" }), React.createElement("path", { key: "y", d: "M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" })],
+        squareCurved: [React.createElement("path", { key: "x", d: "M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z" }), React.createElement("path", { key: "y", fill: "none", d: "M0 0h24v24H0z" })],
+        starSticker: [React.createElement("path", { key: "x", d: "M0 0h24v24H0z", fill: "none" }), React.createElement("path", { key: "y", d: "M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2zm-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69 1.09 4.11z" })]
+    };
+
+    var previewImageData = 'data:image/png;base64,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';
+
+    var AdvVideo = function (_Component) {
+        _inherits(AdvVideo, _Component);
+
+        function AdvVideo() {
+            _classCallCheck(this, AdvVideo);
+
+            var _this = _possibleConstructorReturn(this, (AdvVideo.__proto__ || Object.getPrototypeOf(AdvVideo)).apply(this, arguments));
+
+            _this.state = {
+                fetching: false
+            };
+
+            _this.fetchVideoInfo = _this.fetchVideoInfo.bind(_this);
+            return _this;
+        }
+
+        _createClass(AdvVideo, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+
+                var currentBlockConfig = advgbDefaultConfig['advgb-video'];
+
+                // No override attributes of blocks inserted before
+                if (attributes.changed !== true) {
+                    if ((typeof currentBlockConfig === "undefined" ? "undefined" : _typeof(currentBlockConfig)) === 'object' && currentBlockConfig !== null) {
+                        Object.keys(currentBlockConfig).map(function (attribute) {
+                            if (typeof attributes[attribute] === 'boolean') {
+                                attributes[attribute] = !!currentBlockConfig[attribute];
+                            } else {
+                                attributes[attribute] = currentBlockConfig[attribute];
+                            }
+                        });
+                    }
+
+                    // Finally set changed attribute to true, so we don't modify anything again
+                    setAttributes({ changed: true });
+                }
+            }
+        }, {
+            key: "fetchVideoInfo",
+            value: function fetchVideoInfo() {
+                var _this2 = this;
+
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    setAttributes = _props2.setAttributes;
+                var videoID = attributes.videoID,
+                    poster = attributes.poster,
+                    posterID = attributes.posterID;
+
+                var realID = videoID;
+
+                if (!!videoID) {
+                    this.setState({ fetching: true });
+
+                    var url = '';
+                    if (videoID.match(/^\d+$/g)) {
+                        url = "https://vimeo.com/" + videoID;
+                    } else {
+                        url = "https://www.youtube.com/watch?v=" + videoID;
+                    }
+
+                    if (videoID.indexOf('http') > -1) {
+                        url = videoID;
+                    }
+
+                    if (videoID.match(/youtube.com/)) {
+                        realID = videoID.split('v=');
+                        realID = realID[1];
+                    } else if (videoID.match(/youtu.be|vimeo.com/)) {
+                        realID = videoID.split('/');
+                        realID = realID[realID.length - 1];
+                    }
+
+                    if (!realID) realID = '';
+
+                    if (realID.indexOf('&') > -1) realID = realID.substring(0, realID.indexOf('&'));
+
+                    wp.apiFetch({ path: wp.url.addQueryArgs("/oembed/1.0/proxy?url=" + encodeURIComponent(url)) }).then(function (obj) {
+                        _this2.setState({ fetching: false });
+                        if (!!obj.title && !!obj.provider_name) {
+                            setAttributes({
+                                videoTitle: obj.title,
+                                poster: !!posterID ? poster : obj.thumbnail_url
+                            });
+
+                            switch (obj.provider_name) {
+                                case 'YouTube':
+                                    setAttributes({
+                                        videoSourceType: 'youtube',
+                                        videoURL: "https://www.youtube.com/embed/" + realID + "?rel=0&wmode=transparent"
+                                    });
+                                    break;
+                                case 'Vimeo':
+                                    setAttributes({
+                                        videoSourceType: 'vimeo',
+                                        videoURL: "https://player.vimeo.com/video/" + realID
+                                    });
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else {
+                            setAttributes({
+                                videoTitle: 'ADVGB_FAIL_TO_LOAD',
+                                poster: ''
+                            });
+                        }
+                    }).catch(function (error) {
+                        _this2.setState({ fetching: false });
+                        setAttributes({
+                            videoTitle: 'ADVGB_FAIL_TO_LOAD',
+                            poster: ''
+                        });
+                    });
+                }
+            }
+        }, {
+            key: "loadLocalVideo",
+            value: function loadLocalVideo(video, blockId) {
+                this.props.setAttributes({
+                    videoURL: video.url,
+                    videoID: video.id,
+                    videoTitle: video.title,
+                    videoSourceType: 'local',
+                    openInLightbox: false
+                });
+                if (document.querySelector('#' + blockId + ' video') != null) {
+                    document.querySelector('#' + blockId + ' video').pause();
+                    document.querySelector('#' + blockId + ' video').load();
+                }
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _props3 = this.props,
+                    isSelected = _props3.isSelected,
+                    attributes = _props3.attributes,
+                    clientId = _props3.clientId,
+                    setAttributes = _props3.setAttributes;
+                var videoURL = attributes.videoURL,
+                    videoID = attributes.videoID,
+                    videoSourceType = attributes.videoSourceType,
+                    videoTitle = attributes.videoTitle,
+                    videoFullWidth = attributes.videoFullWidth,
+                    videoWidth = attributes.videoWidth,
+                    videoHeight = attributes.videoHeight,
+                    playButtonIcon = attributes.playButtonIcon,
+                    playIconID = attributes.playIconID,
+                    playButtonSize = attributes.playButtonSize,
+                    playButtonColor = attributes.playButtonColor,
+                    overlayColor = attributes.overlayColor,
+                    poster = attributes.poster,
+                    posterID = attributes.posterID,
+                    openInLightbox = attributes.openInLightbox,
+                    autoPlay = attributes.autoPlay,
+                    loop = attributes.loop,
+                    muted = attributes.muted,
+                    playback = attributes.playback,
+                    playsinline = attributes.playsinline,
+                    preload = attributes.preload,
+                    isPreview = attributes.isPreview;
+
+
+                var blockClassName = ['advgb-video-block', !!openInLightbox && !!videoURL && 'advgb-video-lightbox'].filter(Boolean).join(' ');
+
+                var videoWrapperClass = ['advgb-video-wrapper', !!videoFullWidth && 'full-width', !openInLightbox && 'no-lightbox'].filter(Boolean).join(' ');
+
+                var blockId = 'advgb-video-' + clientId;
+
+                var videoHostIcon = {
+                    youtube: React.createElement(
+                        "svg",
+                        { id: "Social_Icons", version: "1.1", viewBox: "0 0 128 128", xmlns: "http://www.w3.org/2000/svg" },
+                        React.createElement(
+                            "g",
+                            { id: "_x34__stroke" },
+                            React.createElement(
+                                "g",
+                                { id: "Youtube_1_" },
+                                React.createElement("rect", { clipRule: "evenodd", fill: "none", height: "128", width: "128" }),
+                                React.createElement("path", { clipRule: "evenodd", d: "M126.72,38.224c0,0-1.252-8.883-5.088-12.794    c-4.868-5.136-10.324-5.16-12.824-5.458c-17.912-1.305-44.78-1.305-44.78-1.305h-0.056c0,0-26.868,0-44.78,1.305    c-2.504,0.298-7.956,0.322-12.828,5.458C2.528,29.342,1.28,38.224,1.28,38.224S0,48.658,0,59.087v9.781    c0,10.433,1.28,20.863,1.28,20.863s1.248,8.883,5.084,12.794c4.872,5.136,11.268,4.975,14.116,5.511    c10.24,0.991,43.52,1.297,43.52,1.297s26.896-0.04,44.808-1.345c2.5-0.302,7.956-0.326,12.824-5.462    c3.836-3.912,5.088-12.794,5.088-12.794S128,79.302,128,68.868v-9.781C128,48.658,126.72,38.224,126.72,38.224z M50.784,80.72    L50.78,44.501l34.584,18.172L50.784,80.72z", fill: "#CE1312", fillRule: "evenodd", id: "Youtube" })
+                            )
+                        )
+                    ),
+                    vimeo: React.createElement(
+                        "svg",
+                        { height: "25", viewBox: "0 0 32 32", width: "25", xmlns: "http://www.w3.org/2000/svg" },
+                        React.createElement(
+                            "g",
+                            null,
+                            React.createElement("circle", { cx: "16", cy: "16", id: "BG", r: "16", fill: "#5FCCFF" }),
+                            React.createElement("path", { d: "M24,12.4c-0.1,1.6-1.2,3.7-3.3,6.4c-2.2,2.8-4,4.2-5.5,4.2        c-0.9,0-1.7-0.9-2.4-2.6c-0.4-1.6-0.9-3.2-1.3-4.7c-0.5-1.7-1-2.6-1.5-2.6c-0.1,0-0.5,0.3-1.3,0.8l-0.8-1        c0.8-0.7,1.6-1.4,2.3-2.1c1.1-0.9,1.8-1.4,2.4-1.4c1.2-0.1,2,0.7,2.3,2.5c0.3,2,0.5,3.2,0.6,3.7c0.4,1.6,0.8,2.4,1.2,2.4        c0.3,0,0.8-0.5,1.5-1.6c0.7-1.1,1-1.9,1.1-2.4c0.1-0.9-0.3-1.4-1.1-1.4c-0.4,0-0.8,0.1-1.2,0.3c0.8-2.6,2.3-3.8,4.5-3.7        C23.3,9.2,24.1,10.3,24,12.4", id: "Vimeo", fill: "#FFFFFF" })
+                        )
+                    ),
+                    local: React.createElement(
+                        "svg",
+                        { height: "25", id: "Layer_1", version: "1.1", viewBox: "0 0 24 24", width: "25", xmlns: "http://www.w3.org/2000/svg" },
+                        React.createElement("path", { clipRule: "evenodd", d: "M22.506,21v0.016L17,15.511V19c0,1.105-0.896,2-2,2h-1.5H3H2c-1.104,0-2-0.895-2-2  v-1l0,0V6l0,0V5c0-1.104,0.896-1.999,2-1.999h1l0,0h10.5l0,0H15c1.104,0,2,0.895,2,1.999v3.516l5.5-5.5V3.001  c0.828,0,1.5,0.671,1.5,1.499v15C24,20.327,23.331,20.996,22.506,21z", fillRule: "evenodd" })
+                    )
+                };
+
+                return isPreview ? React.createElement("img", { alt: __('Advanced Video', 'advanced-gutenberg'), width: "100%", src: previewImageData }) : React.createElement(
+                    Fragment,
+                    null,
+                    (!!poster && openInLightbox || !openInLightbox && videoSourceType === 'local') && React.createElement(
+                        BlockControls,
+                        null,
+                        React.createElement(
+                            Toolbar,
+                            null,
+                            React.createElement(MediaUpload, {
+                                allowedTypes: ["image"],
+                                value: posterID,
+                                onSelect: function onSelect(image) {
+                                    return setAttributes({ poster: image.url, posterID: image.id });
+                                },
+                                render: function render(_ref) {
+                                    var open = _ref.open;
+                                    return React.createElement(IconButton, {
+                                        className: "components-toolbar__control",
+                                        label: __('Change image preview', 'advanced-gutenberg'),
+                                        icon: "edit",
+                                        onClick: open
+                                    });
+                                }
+                            }),
+                            React.createElement(IconButton, {
+                                className: "components-toolbar__control",
+                                label: __('Remove image preview', 'advanced-gutenberg'),
+                                icon: "no",
+                                onClick: function onClick() {
+                                    return setAttributes({ poster: undefined, posterID: undefined });
+                                }
+                            })
+                        )
+                    ),
+                    React.createElement(
+                        InspectorControls,
+                        null,
+                        React.createElement(
+                            PanelBody,
+                            { title: __('Advanced Video Settings', 'advanced-gutenberg') },
+                            React.createElement(ToggleControl, {
+                                label: __('Open video in light box', 'advanced-gutenberg'),
+                                help: __('Lightbox offers additional display options.', 'advanced-gutenberg'),
+                                checked: openInLightbox,
+                                onChange: function onChange() {
+                                    return setAttributes({ openInLightbox: !openInLightbox });
+                                }
+                            }),
+                            videoSourceType === 'local' && React.createElement(
+                                Fragment,
+                                null,
+                                React.createElement(ToggleControl, {
+                                    label: __('Autoplay', 'advanced-gutenberg'),
+                                    checked: autoPlay,
+                                    onChange: function onChange() {
+                                        return setAttributes({ autoPlay: !autoPlay });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Loop', 'advanced-gutenberg'),
+                                    checked: loop,
+                                    onChange: function onChange() {
+                                        return setAttributes({ loop: !loop });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Muted', 'advanced-gutenberg'),
+                                    checked: muted,
+                                    onChange: function onChange() {
+                                        return setAttributes({ muted: !muted });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Playback Controls', 'advanced-gutenberg'),
+                                    checked: playback,
+                                    onChange: function onChange() {
+                                        return setAttributes({ playback: !playback });
+                                    }
+                                }),
+                                React.createElement(ToggleControl, {
+                                    label: __('Play inline', 'advanced-gutenberg'),
+                                    checked: playsinline,
+                                    onChange: function onChange() {
+                                        return setAttributes({ playsinline: !playsinline });
+                                    }
+                                }),
+                                React.createElement(SelectControl, {
+                                    label: __('Video preloading', 'advanced-gutenberg'),
+                                    value: preload,
+                                    options: [{ label: __('Auto', 'advanced-gutenberg'), value: 'auto' }, { label: __('Metadata', 'advanced-gutenberg'), value: 'metadata' }, { label: __('None', 'advanced-gutenberg'), value: 'none' }],
+                                    onChange: function onChange(value) {
+                                        return setAttributes({ preload: value });
+                                    }
+                                })
+                            ),
+                            React.createElement(ToggleControl, {
+                                label: __('Full width', 'advanced-gutenberg'),
+                                checked: videoFullWidth,
+                                onChange: function onChange() {
+                                    return setAttributes({ videoFullWidth: !videoFullWidth });
+                                }
+                            }),
+                            !videoFullWidth && React.createElement(RangeControl, {
+                                label: __('Video width', 'advanced-gutenberg'),
+                                value: videoWidth,
+                                min: 100,
+                                max: 1000,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ videoWidth: value });
+                                }
+                            }),
+                            React.createElement(RangeControl, {
+                                label: __('Video height', 'advanced-gutenberg'),
+                                value: videoHeight,
+                                min: 300,
+                                max: 700,
+                                onChange: function onChange(value) {
+                                    return setAttributes({ videoHeight: value });
+                                }
+                            }),
+                            !!openInLightbox && React.createElement(
+                                Fragment,
+                                null,
+                                React.createElement(PanelColorSettings, {
+                                    title: __('Color Settings', 'advanced-gutenberg'),
+                                    initialOpen: false,
+                                    colorSettings: [{
+                                        label: __('Overlay Color', 'advanced-gutenberg'),
+                                        value: overlayColor,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ overlayColor: value === undefined ? '#EEEEEE' : value });
+                                        }
+                                    }, {
+                                        label: __('Play Button Color', 'advanced-gutenberg'),
+                                        value: playButtonColor,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ playButtonColor: value === undefined ? '#fff' : value });
+                                        }
+                                    }]
+                                }),
+                                React.createElement(
+                                    PanelBody,
+                                    { title: __('Play Button', 'advanced-gutenberg') },
+                                    React.createElement(
+                                        BaseControl,
+                                        { label: __('Icon Style', 'advanced-gutenberg') },
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-icon-items-wrapper" },
+                                            Object.keys(PLAY_BUTTON_STYLE).map(function (key, index) {
+                                                return React.createElement(
+                                                    "div",
+                                                    { className: "advgb-icon-item", key: index },
+                                                    React.createElement(
+                                                        "span",
+                                                        { className: key === playButtonIcon ? 'active' : '',
+                                                            onClick: function onClick() {
+                                                                return setAttributes({
+                                                                    playButtonIcon: key,
+                                                                    playIconID: undefined
+                                                                });
+                                                            }
+                                                        },
+                                                        React.createElement(
+                                                            "svg",
+                                                            { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
+                                                            PLAY_BUTTON_STYLE[key]
+                                                        )
+                                                    )
+                                                );
+                                            })
+                                        )
+                                    ),
+                                    React.createElement(
+                                        BaseControl,
+                                        { label: __('Custom icon', 'advanced-gutenberg'),
+                                            help: __('Color settings cannot be applied to custom icon.', 'advanced-gutenberg')
+                                        },
+                                        React.createElement(MediaUpload, {
+                                            allowedTypes: ["image"],
+                                            value: playIconID,
+                                            onSelect: function onSelect(media) {
+                                                setAttributes({
+                                                    playButtonIcon: media.sizes.thumbnail ? media.sizes.thumbnail.url : media.sizes.full.url,
+                                                    playIconID: media.id
+                                                });
+                                            },
+                                            render: function render(_ref2) {
+                                                var open = _ref2.open;
+                                                return React.createElement(
+                                                    Button,
+                                                    {
+                                                        className: "button button-large",
+                                                        onClick: open
+                                                    },
+                                                    __('Upload/Choose', 'advanced-gutenberg')
+                                                );
+                                            }
+                                        })
+                                    ),
+                                    React.createElement(RangeControl, {
+                                        label: __('Play Button Size', 'advanced-gutenberg'),
+                                        value: playButtonSize,
+                                        min: 40,
+                                        max: 200,
+                                        onChange: function onChange(value) {
+                                            return setAttributes({ playButtonSize: value });
+                                        }
+                                    })
+                                )
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: blockClassName },
+                        !!openInLightbox && React.createElement(
+                            "div",
+                            { className: videoWrapperClass, style: { backgroundColor: overlayColor, width: videoWidth } },
+                            React.createElement("div", { className: "advgb-video-poster", style: { backgroundImage: "url(" + poster + ")" } }),
+                            React.createElement(
+                                "div",
+                                { className: "advgb-button-wrapper", style: { height: videoHeight } },
+                                !poster && React.createElement(MediaUpload, {
+                                    allowedTypes: ["image"],
+                                    onSelect: function onSelect(media) {
+                                        return setAttributes({ poster: media.url, posterID: media.id });
+                                    },
+                                    value: posterID,
+                                    render: function render(_ref3) {
+                                        var open = _ref3.open;
+                                        return React.createElement(
+                                            Button,
+                                            {
+                                                className: "button button-large",
+                                                onClick: open
+                                            },
+                                            __('Select image preview', 'advanced-gutenberg')
+                                        );
+                                    }
+                                }),
+                                React.createElement(
+                                    "div",
+                                    { className: "advgb-play-button", style: { color: playButtonColor } },
+                                    !playIconID ? React.createElement(
+                                        "svg",
+                                        { xmlns: "http://www.w3.org/2000/svg",
+                                            width: playButtonSize,
+                                            height: playButtonSize,
+                                            viewBox: "0 0 24 24"
+                                        },
+                                        PLAY_BUTTON_STYLE[playButtonIcon]
+                                    ) : React.createElement("img", { src: playButtonIcon,
+                                        alt: __('Play button', 'advanced-gutenberg'),
+                                        style: { width: playButtonSize },
+                                        className: "advgb-custom-play-button"
+                                    })
+                                )
+                            )
+                        ),
+                        !openInLightbox && React.createElement(
+                            "div",
+                            { className: videoWrapperClass },
+                            (videoSourceType === 'youtube' || videoSourceType === 'vimeo') && React.createElement("iframe", { src: videoURL,
+                                frameBorder: "0",
+                                allowFullScreen: true,
+                                style: { width: videoWidth, height: videoHeight }
+                            }) || videoSourceType === 'local' && React.createElement(
+                                "video",
+                                { width: videoWidth,
+                                    height: videoHeight,
+                                    poster: poster,
+                                    controls: true
+                                },
+                                React.createElement("source", { src: videoURL }),
+                                __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
+                            ) || !videoSourceType && React.createElement("div", { style: { width: videoWidth, height: videoHeight } })
+                        ),
+                        isSelected && React.createElement(
+                            "div",
+                            { className: "advgb-video-input-block" },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-video-input" },
+                                React.createElement(Dashicon, { className: "advgb-video-link-icon", icon: "admin-links" }),
+                                React.createElement(TextControl, {
+                                    placeholder: __('Youtube/Vimeo video URL/ID…', 'advanced-gutenberg'),
+                                    value: videoID,
+                                    onChange: function onChange(value) {
+                                        setAttributes({ videoID: value, videoURL: '', videoTitle: undefined, videoSourceType: '' });
+                                    }
+                                }),
+                                React.createElement(
+                                    Button,
+                                    {
+                                        className: "button button-large",
+                                        disabled: !videoID || videoSourceType === 'local',
+                                        style: { height: '31px' },
+                                        onClick: this.fetchVideoInfo
+                                    },
+                                    __('Fetch', 'advanced-gutenberg')
+                                ),
+                                React.createElement(
+                                    "span",
+                                    { style: { margin: 'auto 10px' } },
+                                    __('or use', 'advanced-gutenberg')
+                                ),
+                                React.createElement(MediaUpload, {
+                                    allowedTypes: ["video"],
+                                    value: videoID,
+                                    onSelect: function onSelect(video) {
+                                        return setAttributes({ videoURL: video.url, videoID: video.id, videoTitle: video.title, videoSourceType: 'local' });
+                                    },
+                                    render: function render(_ref4) {
+                                        var open = _ref4.open;
+                                        return React.createElement(
+                                            Button,
+                                            {
+                                                className: "button button-large is-primary",
+                                                onClick: open
+                                            },
+                                            __('Local video', 'advanced-gutenberg')
+                                        );
+                                    }
+                                })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "advgb-current-video-desc",
+                                    style: { minWidth: '50%', margin: '10px auto', textAlign: 'center' }
+                                },
+                                React.createElement(
+                                    "strong",
+                                    null,
+                                    __('Current Video', 'advanced-gutenberg'),
+                                    ":"
+                                ),
+                                React.createElement(
+                                    "span",
+                                    { title: videoSourceType,
+                                        style: {
+                                            width: '25px',
+                                            height: '25px',
+                                            display: 'inline-block',
+                                            verticalAlign: 'text-bottom',
+                                            margin: 'auto 7px' }
+                                    },
+                                    videoHostIcon[videoSourceType] || this.state.fetching && React.createElement(Spinner, null)
+                                ),
+                                React.createElement(
+                                    "span",
+                                    null,
+                                    videoTitle === 'ADVGB_FAIL_TO_LOAD' && React.createElement(
+                                        "strong",
+                                        { style: { color: 'red' } },
+                                        __('Wrong video URL/ID. Please try another.', 'advanced-gutenberg')
+                                    ) || videoTitle || __('Not selected yet.', 'advanced-gutenberg')
+                                )
+                            )
+                        )
+                    )
+                );
+            }
+        }]);
+
+        return AdvVideo;
+    }(Component);
+
+    var advVideoBlockIcon = React.createElement(
+        "svg",
+        { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement("path", { d: "M0 0h24v24H0z", fill: "none" }),
+        React.createElement("path", { d: "M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" })
+    );
+    var blockAttrs = {
+        videoURL: {
+            type: 'string'
+        },
+        videoID: {
+            type: 'string'
+        },
+        videoSourceType: {
+            type: 'string'
+        },
+        videoTitle: {
+            type: 'string'
+        },
+        videoFullWidth: {
+            type: 'boolean',
+            default: true
+        },
+        videoWidth: {
+            type: 'number'
+        },
+        videoHeight: {
+            type: 'number',
+            default: 450
+        },
+        playButtonIcon: {
+            type: 'string',
+            default: 'normal'
+        },
+        playIconID: {
+            type: 'number'
+        },
+        playButtonSize: {
+            type: 'number',
+            default: 80
+        },
+        playButtonColor: {
+            type: 'string',
+            default: '#fff'
+        },
+        overlayColor: {
+            type: 'string',
+            default: '#EEEEEE'
+        },
+        poster: {
+            type: 'string'
+        },
+        posterID: {
+            type: 'number'
+        },
+        openInLightbox: {
+            type: 'boolean',
+            default: true
+        },
+        changed: {
+            type: 'boolean',
+            default: false
+        },
+        autoPlay: {
+            type: 'boolean',
+            default: false
+        },
+        loop: {
+            type: 'boolean',
+            default: false
+        },
+        muted: {
+            type: 'boolean',
+            default: false
+        },
+        playback: {
+            type: 'boolean',
+            default: true
+        },
+        playsinline: {
+            type: 'boolean',
+            default: true
+        },
+        preload: {
+            type: 'string',
+            default: 'metadata'
+        },
+        isPreview: {
+            type: 'boolean',
+            default: false
+        }
+    };
+
+    registerBlockType('advgb/video', {
+        title: __('Advanced Video', 'advanced-gutenberg'),
+        description: __('Powerful block for insert and embed video.', 'advanced-gutenberg'),
+        icon: {
+            src: advVideoBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('video', 'advanced-gutenberg'), __('embed', 'advanced-gutenberg'), __('media', 'advanced-gutenberg')],
+        attributes: blockAttrs,
+        example: {
+            attributes: {
+                isPreview: true
+            }
+        },
+        edit: AdvVideo,
+        save: function save(_ref5) {
+            var attributes = _ref5.attributes;
+            var videoURL = attributes.videoURL,
+                videoSourceType = attributes.videoSourceType,
+                videoTitle = attributes.videoTitle,
+                videoFullWidth = attributes.videoFullWidth,
+                videoWidth = attributes.videoWidth,
+                videoHeight = attributes.videoHeight,
+                playButtonIcon = attributes.playButtonIcon,
+                playIconID = attributes.playIconID,
+                playButtonSize = attributes.playButtonSize,
+                playButtonColor = attributes.playButtonColor,
+                overlayColor = attributes.overlayColor,
+                poster = attributes.poster,
+                openInLightbox = attributes.openInLightbox,
+                autoPlay = attributes.autoPlay,
+                loop = attributes.loop,
+                muted = attributes.muted,
+                playback = attributes.playback,
+                playsinline = attributes.playsinline,
+                preload = attributes.preload;
+
+
+            var blockClassName = ['advgb-video-block', !!videoFullWidth && 'full-width', !!openInLightbox && !!videoURL && 'advgb-video-lightbox'].filter(Boolean).join(' ');
+
+            var videoWrapperClass = ['advgb-video-wrapper', !!videoFullWidth && 'full-width', !openInLightbox && 'no-lightbox'].filter(Boolean).join(' ');
+
+            var videoAttributes = [];
+            if (loop) videoAttributes.push('loop');
+            if (muted) videoAttributes.push('muted');
+            if (autoPlay) videoAttributes.push('autoplay');
+            if (playback) videoAttributes.push('controls');
+            if (playsinline) videoAttributes.push('playsinline');
+
+            return React.createElement(
+                "div",
+                { className: blockClassName,
+                    "data-video": videoURL,
+                    "data-source": videoSourceType,
+                    "data-video-attr": videoAttributes.join(','),
+                    "data-video-preload": preload
+                },
+                !openInLightbox && React.createElement(
+                    "div",
+                    { className: videoWrapperClass },
+                    (videoSourceType === 'youtube' || videoSourceType === 'vimeo') && React.createElement("iframe", { src: videoURL,
+                        width: videoWidth,
+                        height: videoHeight,
+                        frameBorder: "0",
+                        allowFullScreen: true
+                    }) || videoSourceType === 'local' && React.createElement(
+                        "video",
+                        { className: videoFullWidth && 'full-width',
+                            width: videoWidth,
+                            height: videoHeight,
+                            poster: poster,
+                            controls: playback,
+                            loop: loop,
+                            muted: muted,
+                            autoPlay: autoPlay,
+                            preload: preload,
+                            playsInline: playsinline
+                        },
+                        React.createElement("source", { src: videoURL }),
+                        __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
+                    ) || !videoSourceType && React.createElement("div", { style: { width: videoWidth, height: videoHeight } })
+                ),
+                !!openInLightbox && React.createElement(
+                    "div",
+                    { className: videoWrapperClass, style: { backgroundColor: overlayColor, width: videoWidth } },
+                    React.createElement("div", { className: "advgb-video-poster", style: { backgroundImage: "url(" + poster + ")" } }),
+                    React.createElement(
+                        "div",
+                        { className: "advgb-button-wrapper", style: { height: videoHeight } },
+                        React.createElement(
+                            "div",
+                            { className: "advgb-play-button", style: { color: playButtonColor } },
+                            React.createElement(
+                                "svg",
+                                { xmlns: "http://www.w3.org/2000/svg",
+                                    width: playButtonSize,
+                                    height: playButtonSize,
+                                    viewBox: "0 0 24 24"
+                                },
+                                PLAY_BUTTON_STYLE[playButtonIcon]
+                            )
+                        )
+                    )
+                )
+            );
+        },
+        deprecated: [{
+            attributes: blockAttrs,
+            save: function save(_ref6) {
+                var attributes = _ref6.attributes;
+                var videoURL = attributes.videoURL,
+                    videoSourceType = attributes.videoSourceType,
+                    videoTitle = attributes.videoTitle,
+                    videoFullWidth = attributes.videoFullWidth,
+                    videoWidth = attributes.videoWidth,
+                    videoHeight = attributes.videoHeight,
+                    playButtonIcon = attributes.playButtonIcon,
+                    playButtonSize = attributes.playButtonSize,
+                    playButtonColor = attributes.playButtonColor,
+                    overlayColor = attributes.overlayColor,
+                    poster = attributes.poster,
+                    openInLightbox = attributes.openInLightbox;
+
+
+                var blockClassName = ['advgb-video-block', !!videoFullWidth && 'full-width', !!openInLightbox && !!videoURL && 'advgb-video-lightbox'].filter(Boolean).join(' ');
+
+                var videoWrapperClass = ['advgb-video-wrapper', !!videoFullWidth && 'full-width', !openInLightbox && 'no-lightbox'].filter(Boolean).join(' ');
+
+                return React.createElement(
+                    "div",
+                    { className: blockClassName,
+                        "data-video": videoURL,
+                        "data-source": videoSourceType
+                    },
+                    !openInLightbox && React.createElement(
+                        "div",
+                        { className: videoWrapperClass },
+                        (videoSourceType === 'youtube' || videoSourceType === 'vimeo') && React.createElement("iframe", { src: videoURL,
+                            width: videoWidth,
+                            height: videoHeight,
+                            frameBorder: "0",
+                            allowFullScreen: true
+                        }) || videoSourceType === 'local' && React.createElement(
+                            "video",
+                            { className: videoFullWidth && 'full-width',
+                                width: videoWidth,
+                                height: videoHeight,
+                                poster: poster,
+                                controls: true
+                            },
+                            React.createElement("source", { src: videoURL }),
+                            __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
+                        ) || !videoSourceType && React.createElement("div", { style: { width: videoWidth, height: videoHeight } })
+                    ),
+                    !!openInLightbox && React.createElement(
+                        "div",
+                        { className: videoWrapperClass,
+                            style: { backgroundColor: overlayColor, width: videoWidth } },
+                        React.createElement("div", { className: "advgb-video-poster", style: { backgroundImage: "url(" + poster + ")" } }),
+                        React.createElement(
+                            "div",
+                            { className: "advgb-button-wrapper", style: { height: videoHeight } },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-play-button", style: { color: playButtonColor } },
+                                !playIconID ? React.createElement(
+                                    "svg",
+                                    { xmlns: "http://www.w3.org/2000/svg",
+                                        width: playButtonSize,
+                                        height: playButtonSize,
+                                        viewBox: "0 0 24 24"
+                                    },
+                                    PLAY_BUTTON_STYLE[playButtonIcon]
+                                ) : React.createElement("img", { src: playButtonIcon,
+                                    alt: __('Play button', 'advanced-gutenberg'),
+                                    style: { width: playButtonSize },
+                                    className: "advgb-custom-play-button"
+                                })
+                            )
+                        )
+                    )
+                );
+            }
+        }]
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
 
 /***/ }),
 
@@ -18758,9 +19660,517 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   !*** ./assets/blocks/recent-posts/block.jsx ***!
   \**********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: Unexpected token, expected , (410:12)\n\n  408 |                         <div className=\"advgb-recent-posts\">\n  409 |                             {recentPosts.map( ( post, index ) => (\n> 410 |             const recentPostsView = (\n      |             ^\n  411 |                 <div className={ blockClassName }>\n  412 |                     {this.state.updating && <div className=\"advgb-recent-posts-loading\" />}\n  413 |                     <div className=\"advgb-recent-posts\">\n");
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpBlockEditor, wpComponents, wpData, lodash, wpHtmlEntities, wpDate) {
+    wpBlockEditor = wp.blockEditor || wp.editor;
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var _wpBlockEditor = wpBlockEditor,
+        InspectorControls = _wpBlockEditor.InspectorControls,
+        BlockControls = _wpBlockEditor.BlockControls,
+        MediaUpload = _wpBlockEditor.MediaUpload;
+    var PanelBody = wpComponents.PanelBody,
+        BaseControl = wpComponents.BaseControl,
+        RangeControl = wpComponents.RangeControl,
+        ToggleControl = wpComponents.ToggleControl,
+        TextControl = wpComponents.TextControl,
+        QueryControls = wpComponents.QueryControls,
+        Spinner = wpComponents.Spinner,
+        Toolbar = wpComponents.Toolbar,
+        Placeholder = wpComponents.Placeholder,
+        IconButton = wpComponents.IconButton,
+        Button = wpComponents.Button;
+    var withSelect = wpData.withSelect;
+    var pickBy = lodash.pickBy,
+        isUndefined = lodash.isUndefined;
+    var decodeEntities = wpHtmlEntities.decodeEntities;
+    var dateI18n = wpDate.dateI18n,
+        __experimentalGetSettings = wpDate.__experimentalGetSettings;
+
+
+    var advRecentPostsBlockIcon = React.createElement(
+        "svg",
+        { width: "20", height: "20", viewBox: "2 2 22 22" },
+        React.createElement("path", { fill: "none", d: "M0,0h24v24H0V0z" }),
+        React.createElement("rect", { x: "13", y: "7.5", width: "5", height: "2" }),
+        React.createElement("rect", { x: "13", y: "14.5", width: "5", height: "2" }),
+        React.createElement("path", { d: "M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V5h14V19z" }),
+        React.createElement("path", { d: "M11,6H6v5h5V6z M10,10H7V7h3V10z" }),
+        React.createElement("path", { d: "M11,13H6v5h5V13z M10,17H7v-3h3V17z" })
+    );
+
+    var previewImageData = 'data:image/png;base64,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';
+
+    var initSlider = null;
+
+    var RecentPostsEdit = function (_Component) {
+        _inherits(RecentPostsEdit, _Component);
+
+        function RecentPostsEdit() {
+            _classCallCheck(this, RecentPostsEdit);
+
+            var _this = _possibleConstructorReturn(this, (RecentPostsEdit.__proto__ || Object.getPrototypeOf(RecentPostsEdit)).apply(this, arguments));
+
+            _this.state = {
+                categoriesList: [],
+                updating: false
+            };
+            return _this;
+        }
+
+        _createClass(RecentPostsEdit, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _this2 = this;
+
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+
+                var currentBlockConfig = advgbDefaultConfig['advgb-recent-posts'];
+
+                var categoriesListQuery = {
+                    per_page: -1,
+                    hide_empty: true
+                };
+
+                // No override attributes of blocks inserted before
+                if (attributes.changed !== true) {
+                    if ((typeof currentBlockConfig === "undefined" ? "undefined" : _typeof(currentBlockConfig)) === 'object' && currentBlockConfig !== null) {
+                        Object.keys(currentBlockConfig).map(function (attribute) {
+                            if (typeof attributes[attribute] === 'boolean') {
+                                attributes[attribute] = !!currentBlockConfig[attribute];
+                            } else {
+                                attributes[attribute] = currentBlockConfig[attribute];
+                            }
+                        });
+                    }
+
+                    // Finally set changed attribute to true, so we don't modify anything again
+                    setAttributes({ changed: true });
+                }
+
+                wp.apiFetch({
+                    path: wp.url.addQueryArgs('wp/v2/categories', categoriesListQuery)
+                }).then(function (categoriesList) {
+                    return _this2.setState({ categoriesList: categoriesList });
+                });
+            }
+        }, {
+            key: "componentWillUpdate",
+            value: function componentWillUpdate(nextProps) {
+                var nextPosts = nextProps.recentPosts;
+                var nextView = nextProps.attributes.postView;
+                var _props2 = this.props,
+                    attributes = _props2.attributes,
+                    clientId = _props2.clientId,
+                    recentPosts = _props2.recentPosts;
+
+                var $ = jQuery;
+
+                if (nextView !== 'slider' || nextPosts && recentPosts && nextPosts.length !== recentPosts.length) {
+                    $("#block-" + clientId + " .advgb-recent-posts.slick-initialized").slick('unslick');
+                    $("#block-" + clientId + " .advgb-recent-post").removeAttr('tabindex').removeAttr('role').removeAttr('aria-describedby');
+
+                    if (nextView === 'slider' && nextPosts && recentPosts && nextPosts.length !== recentPosts.length) {
+                        if (!this.state.updating) {
+                            this.setState({ updating: true });
+                        }
+                    }
+
+                    if (initSlider) {
+                        clearTimeout(initSlider);
+                    }
+                }
+            }
+        }, {
+            key: "componentDidUpdate",
+            value: function componentDidUpdate(prevProps) {
+                var that = this;
+                var _props3 = this.props,
+                    attributes = _props3.attributes,
+                    clientId = _props3.clientId;
+                var postView = attributes.postView;
+
+                var $ = jQuery;
+
+                if (postView === 'slider') {
+                    initSlider = setTimeout(function () {
+                        $("#block-" + clientId + " .advgb-recent-posts-block.slider-view .advgb-recent-posts:not(.slick-initialized)").slick({
+                            dots: true,
+                            adaptiveHeight: true
+                        });
+
+                        if (that.state.updating) {
+                            that.setState({ updating: false });
+                        }
+                    }, 100);
+                } else {
+                    $("#block-" + clientId + " .advgb-recent-posts.slick-initialized").slick('unslick');
+                }
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var categoriesList = this.state.categoriesList;
+                var _props4 = this.props,
+                    attributes = _props4.attributes,
+                    setAttributes = _props4.setAttributes,
+                    recentPosts = _props4.recentPosts;
+                var postView = attributes.postView,
+                    order = attributes.order,
+                    orderBy = attributes.orderBy,
+                    category = attributes.category,
+                    numberOfPosts = attributes.numberOfPosts,
+                    columns = attributes.columns,
+                    displayFeaturedImage = attributes.displayFeaturedImage,
+                    displayAuthor = attributes.displayAuthor,
+                    displayDate = attributes.displayDate,
+                    displayExcerpt = attributes.displayExcerpt,
+                    postTextAsExcerpt = attributes.postTextAsExcerpt,
+                    postTextExcerptLength = attributes.postTextExcerptLength,
+                    displayReadMore = attributes.displayReadMore,
+                    readMoreLbl = attributes.readMoreLbl,
+                    isPreview = attributes.isPreview;
+
+
+                var inspectorControls = React.createElement(
+                    InspectorControls,
+                    null,
+                    React.createElement(
+                        PanelBody,
+                        { title: __('Block Settings', 'advanced-gutenberg') },
+                        React.createElement(QueryControls, _extends({ order: order, orderBy: orderBy }, {
+                            categoriesList: categoriesList,
+                            selectedCategoryId: category,
+                            numberOfItems: numberOfPosts,
+                            onOrderChange: function onOrderChange(value) {
+                                return setAttributes({ order: value });
+                            },
+                            onOrderByChange: function onOrderByChange(value) {
+                                return setAttributes({ orderBy: value });
+                            },
+                            onCategoryChange: function onCategoryChange(value) {
+                                return setAttributes({ category: value !== '' ? value : undefined });
+                            },
+                            onNumberOfItemsChange: function onNumberOfItemsChange(value) {
+                                return setAttributes({ numberOfPosts: value });
+                            }
+                        })),
+                        postView === 'grid' && React.createElement(RangeControl, {
+                            label: __('Columns', 'advanced-gutenberg'),
+                            value: columns,
+                            min: 1,
+                            max: 4,
+                            onChange: function onChange(value) {
+                                return setAttributes({ columns: value });
+                            }
+                        }),
+                        React.createElement(ToggleControl, {
+                            label: __('Display Featured Image', 'advanced-gutenberg'),
+                            checked: displayFeaturedImage,
+                            onChange: function onChange() {
+                                return setAttributes({ displayFeaturedImage: !displayFeaturedImage });
+                            }
+                        }),
+                        React.createElement(ToggleControl, {
+                            label: __('Display Post Author', 'advanced-gutenberg'),
+                            checked: displayAuthor,
+                            onChange: function onChange() {
+                                return setAttributes({ displayAuthor: !displayAuthor });
+                            }
+                        }),
+                        React.createElement(ToggleControl, {
+                            label: __('Display Post Date', 'advanced-gutenberg'),
+                            checked: displayDate,
+                            onChange: function onChange() {
+                                return setAttributes({ displayDate: !displayDate });
+                            }
+                        }),
+                        React.createElement(ToggleControl, {
+                            label: __('Display Read More Link', 'advanced-gutenberg'),
+                            checked: displayReadMore,
+                            onChange: function onChange() {
+                                return setAttributes({ displayReadMore: !displayReadMore });
+                            }
+                        }),
+                        displayReadMore && React.createElement(TextControl, {
+                            label: __('Read more text', 'advanced-gutenberg'),
+                            value: readMoreLbl,
+                            onChange: function onChange(value) {
+                                return setAttributes({ readMoreLbl: value });
+                            }
+                        }),
+                        React.createElement(ToggleControl, {
+                            label: __('Display Post Excerpt', 'advanced-gutenberg'),
+                            checked: displayExcerpt,
+                            onChange: function onChange() {
+                                return setAttributes({ displayExcerpt: !displayExcerpt });
+                            }
+                        }),
+                        displayExcerpt && React.createElement(ToggleControl, {
+                            label: __('First Post text as Excerpt', 'advanced-gutenberg'),
+                            help: __('Display some part of first text found in post as excerpt.', 'advanced-gutenberg'),
+                            checked: postTextAsExcerpt,
+                            onChange: function onChange() {
+                                return setAttributes({ postTextAsExcerpt: !postTextAsExcerpt });
+                            }
+                        }),
+                        displayExcerpt && postTextAsExcerpt && React.createElement(RangeControl, {
+                            label: __('Post Text Excerpt length', 'advanced-gutenberg'),
+                            min: 50,
+                            max: 300,
+                            value: postTextExcerptLength,
+                            onChange: function onChange(value) {
+                                return setAttributes({ postTextExcerptLength: value });
+                            }
+                        })
+                    )
+                );
+
+                var hasPosts = Array.isArray(recentPosts) && recentPosts.length;
+
+                // If no posts found we show this notice
+                if (!hasPosts) {
+                    return isPreview ? React.createElement("img", { alt: __('Recent Posts', 'advanced-gutenberg'), width: "100%", src: previewImageData }) : React.createElement(
+                        Fragment,
+                        null,
+                        inspectorControls,
+                        React.createElement(
+                            Placeholder,
+                            {
+                                icon: advRecentPostsBlockIcon,
+                                label: __('ADVGB Recent Posts Block', 'advanced-gutenberg')
+                            },
+                            !Array.isArray(recentPosts) ? React.createElement(Spinner, null) : __('No posts found! Try to change category or publish posts.', 'advanced-gutenberg')
+                        )
+                    );
+                }
+
+                var postViewControls = [{
+                    icon: 'grid-view',
+                    title: __('Grid View', 'advanced-gutenberg'),
+                    onClick: function onClick() {
+                        return setAttributes({ postView: 'grid' });
+                    },
+                    isActive: postView === 'grid'
+                }, {
+                    icon: 'list-view',
+                    title: __('List View', 'advanced-gutenberg'),
+                    onClick: function onClick() {
+                        return setAttributes({ postView: 'list' });
+                    },
+                    isActive: postView === 'list'
+                }, {
+                    icon: 'slides',
+                    title: __('Slider View', 'advanced-gutenberg'),
+                    onClick: function onClick() {
+                        return setAttributes({ postView: 'slider' });
+                    },
+                    isActive: postView === 'slider'
+                }];
+
+                var blockClassName = ['advgb-recent-posts-block', this.state.updating && 'loading', postView === 'grid' && 'columns-' + columns, postView === 'grid' && 'grid-view', postView === 'list' && 'list-view', postView === 'slider' && 'slider-view'].filter(Boolean).join(' ');
+
+                var dateFormat = __experimentalGetSettings().formats.date;
+
+                return isPreview ? React.createElement("img", { alt: __('Recent Posts', 'advanced-gutenberg'), width: "100%", src: previewImageData }) : React.createElement(
+                    Fragment,
+                    null,
+                    inspectorControls,
+                    React.createElement(
+                        BlockControls,
+                        null,
+                        React.createElement(Toolbar, { controls: postViewControls }),
+                        React.createElement(
+                            Toolbar,
+                            null,
+                            React.createElement(IconButton, {
+                                label: __('Refresh', 'advanced-gutenberg'),
+                                icon: "update",
+                                onClick: function onClick() {
+                                    return setAttributes({ myToken: Math.floor(Math.random() * Math.floor(999)) });
+                                }
+                            })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: blockClassName },
+                        this.state.updating && React.createElement("div", { className: "advgb-recent-posts-loading" }),
+                        React.createElement(
+                            "div",
+                            { className: "advgb-recent-posts" },
+                            recentPosts.map(function (post, index) {
+                                return React.createElement(
+                                    "article",
+                                    { key: index, className: "advgb-recent-post" },
+                                    displayFeaturedImage && React.createElement(
+                                        "div",
+                                        { className: "advgb-post-thumbnail" },
+                                        React.createElement(
+                                            "a",
+                                            { href: post.link, target: "_blank" },
+                                            React.createElement("img", { src: post.featured_img ? post.featured_img : advgbBlocks.post_thumb, alt: __('Post Image', 'advanced-gutenberg') })
+                                        )
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "advgb-post-wrapper" },
+                                        React.createElement(
+                                            "h2",
+                                            { className: "advgb-post-title" },
+                                            React.createElement(
+                                                "a",
+                                                { href: post.link, target: "_blank" },
+                                                decodeEntities(post.title.rendered)
+                                            )
+                                        ),
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-post-info" },
+                                            displayAuthor && React.createElement(
+                                                "a",
+                                                { href: post.author_meta.author_link,
+                                                    target: "_blank",
+                                                    className: "advgb-post-author"
+                                                },
+                                                post.author_meta.display_name
+                                            ),
+                                            displayDate && React.createElement(
+                                                "span",
+                                                { className: "advgb-post-date" },
+                                                dateI18n(dateFormat, post.date_gmt)
+                                            )
+                                        ),
+                                        React.createElement(
+                                            "div",
+                                            { className: "advgb-post-content" },
+                                            displayExcerpt && React.createElement("div", { className: "advgb-post-excerpt",
+                                                dangerouslySetInnerHTML: {
+                                                    __html: postTextAsExcerpt ? RecentPostsEdit.extractContent(post.content.rendered, postTextExcerptLength) : post.excerpt.raw
+                                                } }),
+                                            displayReadMore && React.createElement(
+                                                "div",
+                                                { className: "advgb-post-readmore" },
+                                                React.createElement(
+                                                    "a",
+                                                    { href: post.link, target: "_blank" },
+                                                    readMoreLbl ? readMoreLbl : __('Read More', 'advanced-gutenberg')
+                                                )
+                                            )
+                                        )
+                                    )
+                                );
+                            })
+                        )
+                    )
+                );
+            }
+        }], [{
+            key: "extractContent",
+            value: function extractContent(html, length) {
+                var span = document.createElement('span');
+                span.innerHTML = html;
+
+                // Remove script tag
+                var scripts = span.getElementsByTagName('script');
+                var j = scripts.length;
+                while (j--) {
+                    scripts[j].parentNode.removeChild(scripts[j]);
+                }
+
+                // Remove style tag
+                var styles = span.getElementsByTagName('style');
+                var k = styles.length;
+                while (k--) {
+                    styles[k].parentNode.removeChild(styles[k]);
+                }
+
+                var children = span.querySelectorAll('*');
+                for (var i = 0; i < children.length; i++) {
+                    if (children[i].textContent) children[i].textContent += ' ';else children[i].innerText += ' ';
+                }
+
+                var text = [span.textContent || span.innerText].toString().replace(/\s\s+/g, ' ');
+                text = text.slice(0, length).trim();
+
+                if (text.length) text += '…';
+
+                return text;
+            }
+        }]);
+
+        return RecentPostsEdit;
+    }(Component);
+
+    registerBlockType('advgb/recent-posts', {
+        title: __('Recent Posts', 'advanced-gutenberg'),
+        description: __('Display your recent posts in slider or grid view with beautiful styles.', 'advanced-gutenberg'),
+        icon: {
+            src: advRecentPostsBlockIcon,
+            foreground: typeof advgbBlocks !== 'undefined' ? advgbBlocks.color : undefined
+        },
+        category: 'advgb-category',
+        keywords: [__('latest posts', 'advanced-gutenberg'), __('posts slide', 'advanced-gutenberg'), __('posts grid', 'advanced-gutenberg')],
+        supports: {
+            html: false
+        },
+        example: {
+            attributes: {
+                isPreview: true
+            }
+        },
+        edit: withSelect(function (select, props) {
+            var _select = select('core'),
+                getEntityRecords = _select.getEntityRecords;
+
+            var _props$attributes = props.attributes,
+                category = _props$attributes.category,
+                order = _props$attributes.order,
+                orderBy = _props$attributes.orderBy,
+                numberOfPosts = _props$attributes.numberOfPosts,
+                myToken = _props$attributes.myToken;
+
+
+            var recentPostsQuery = pickBy({
+                categories: category,
+                order: order,
+                orderby: orderBy,
+                per_page: numberOfPosts,
+                token: myToken
+            }, function (value) {
+                return !isUndefined(value);
+            });
+
+            return {
+                recentPosts: getEntityRecords('postType', 'post', recentPostsQuery)
+            };
+        })(RecentPostsEdit),
+        save: function save() {
+            // Render in PHP
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components, wp.data, lodash, wp.htmlEntities, wp.date);
 
 /***/ }),
 

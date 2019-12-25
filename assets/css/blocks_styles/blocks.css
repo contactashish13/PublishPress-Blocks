@@ -2991,6 +2991,7 @@ body.block-editor-page .advgb-columns-wrapper .advgb-columns .wp-block {
         padding-left: 0;
         padding-right: 0;
     }
+
     #editor .advgb-columns>.editor-inner-blocks>.editor-block-list__layout>[data-type="advgb/column"]:not(:first-child) {
         margin-left: 46px !important;
     }
