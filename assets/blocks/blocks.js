@@ -9661,6 +9661,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "render",
             value: function render() {
+                var _this3 = this;
+
                 var _props3 = this.props,
                     isSelected = _props3.isSelected,
                     attributes = _props3.attributes,
@@ -9997,14 +9999,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 allowFullScreen: true,
                                 style: { width: videoWidth, height: videoHeight }
                             }) || videoSourceType === 'local' && React.createElement(
-                                "video",
-                                { width: videoWidth,
-                                    height: videoHeight,
-                                    poster: poster,
-                                    controls: true
-                                },
-                                React.createElement("source", { src: videoURL }),
-                                __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
+                                Disabled,
+                                null,
+                                React.createElement(
+                                    "video",
+                                    { width: videoWidth,
+                                        height: videoHeight,
+                                        poster: poster,
+                                        controls: playback,
+                                        muted: muted
+                                    },
+                                    React.createElement("source", { src: videoURL }),
+                                    __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
+                                )
                             ) || !videoSourceType && React.createElement("div", { style: { width: videoWidth, height: videoHeight } })
                         ),
                         isSelected && React.createElement(
@@ -10028,19 +10035,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         disabled: !videoID || videoSourceType === 'local',
                                         style: { height: '31px' },
                                         onClick: this.fetchVideoInfo
+
                                     },
-                                    __('Fetch', 'advanced-gutenberg')
-                                ),
-                                React.createElement(
-                                    "span",
-                                    { style: { margin: 'auto 10px' } },
-                                    __('or use', 'advanced-gutenberg')
+                                    __('Fetch video content', 'advanced-gutenberg')
                                 ),
                                 React.createElement(MediaUpload, {
                                     allowedTypes: ["video"],
                                     value: videoID,
                                     onSelect: function onSelect(video) {
-                                        return setAttributes({ videoURL: video.url, videoID: video.id, videoTitle: video.title, videoSourceType: 'local' });
+                                        return _this3.loadLocalVideo(video, blockId);
                                     },
                                     render: function render(_ref4) {
                                         var open = _ref4.open;
@@ -10048,16 +10051,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                             Button,
                                             {
                                                 className: "button button-large is-primary",
-                                                onClick: open
+                                                onClick: open,
+                                                style: { marginLeft: '5px' }
                                             },
-                                            __('Local video', 'advanced-gutenberg')
+                                            __('Load local video', 'advanced-gutenberg')
                                         );
                                     }
                                 })
                             ),
                             React.createElement(
                                 "div",
-                                { className: "advgb-current-video-desc",
+                                {
+                                    className: "advgb-current-video-desc",
                                     style: { minWidth: '50%', margin: '10px auto', textAlign: 'center' }
                                 },
                                 React.createElement(
@@ -10072,9 +10077,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                         style: {
                                             width: '25px',
                                             height: '25px',
-                                            display: 'inline-block',
-                                            verticalAlign: 'text-bottom',
-                                            margin: 'auto 7px' }
+                                            margin: '-1px 5px 0',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }
                                     },
                                     videoHostIcon[videoSourceType] || this.state.fetching && React.createElement(Spinner, null)
                                 ),
@@ -10283,7 +10290,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         React.createElement(
                             "div",
                             { className: "advgb-play-button", style: { color: playButtonColor } },
-                            React.createElement(
+                            !playIconID ? React.createElement(
                                 "svg",
                                 { xmlns: "http://www.w3.org/2000/svg",
                                     width: playButtonSize,
@@ -10291,90 +10298,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                     viewBox: "0 0 24 24"
                                 },
                                 PLAY_BUTTON_STYLE[playButtonIcon]
-                            )
+                            ) : React.createElement("img", { src: playButtonIcon,
+                                alt: __('Play button', 'advanced-gutenberg'),
+                                style: { width: playButtonSize },
+                                className: "advgb-custom-play-button"
+                            })
                         )
                     )
                 )
             );
-        },
-        deprecated: [{
-            attributes: blockAttrs,
-            save: function save(_ref6) {
-                var attributes = _ref6.attributes;
-                var videoURL = attributes.videoURL,
-                    videoSourceType = attributes.videoSourceType,
-                    videoTitle = attributes.videoTitle,
-                    videoFullWidth = attributes.videoFullWidth,
-                    videoWidth = attributes.videoWidth,
-                    videoHeight = attributes.videoHeight,
-                    playButtonIcon = attributes.playButtonIcon,
-                    playButtonSize = attributes.playButtonSize,
-                    playButtonColor = attributes.playButtonColor,
-                    overlayColor = attributes.overlayColor,
-                    poster = attributes.poster,
-                    openInLightbox = attributes.openInLightbox;
-
-
-                var blockClassName = ['advgb-video-block', !!videoFullWidth && 'full-width', !!openInLightbox && !!videoURL && 'advgb-video-lightbox'].filter(Boolean).join(' ');
-
-                var videoWrapperClass = ['advgb-video-wrapper', !!videoFullWidth && 'full-width', !openInLightbox && 'no-lightbox'].filter(Boolean).join(' ');
-
-                return React.createElement(
-                    "div",
-                    { className: blockClassName,
-                        "data-video": videoURL,
-                        "data-source": videoSourceType
-                    },
-                    !openInLightbox && React.createElement(
-                        "div",
-                        { className: videoWrapperClass },
-                        (videoSourceType === 'youtube' || videoSourceType === 'vimeo') && React.createElement("iframe", { src: videoURL,
-                            width: videoWidth,
-                            height: videoHeight,
-                            frameBorder: "0",
-                            allowFullScreen: true
-                        }) || videoSourceType === 'local' && React.createElement(
-                            "video",
-                            { className: videoFullWidth && 'full-width',
-                                width: videoWidth,
-                                height: videoHeight,
-                                poster: poster,
-                                controls: true
-                            },
-                            React.createElement("source", { src: videoURL }),
-                            __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
-                        ) || !videoSourceType && React.createElement("div", { style: { width: videoWidth, height: videoHeight } })
-                    ),
-                    !!openInLightbox && React.createElement(
-                        "div",
-                        { className: videoWrapperClass,
-                            style: { backgroundColor: overlayColor, width: videoWidth } },
-                        React.createElement("div", { className: "advgb-video-poster", style: { backgroundImage: "url(" + poster + ")" } }),
-                        React.createElement(
-                            "div",
-                            { className: "advgb-button-wrapper", style: { height: videoHeight } },
-                            React.createElement(
-                                "div",
-                                { className: "advgb-play-button", style: { color: playButtonColor } },
-                                !playIconID ? React.createElement(
-                                    "svg",
-                                    { xmlns: "http://www.w3.org/2000/svg",
-                                        width: playButtonSize,
-                                        height: playButtonSize,
-                                        viewBox: "0 0 24 24"
-                                    },
-                                    PLAY_BUTTON_STYLE[playButtonIcon]
-                                ) : React.createElement("img", { src: playButtonIcon,
-                                    alt: __('Play button', 'advanced-gutenberg'),
-                                    style: { width: playButtonSize },
-                                    className: "advgb-custom-play-button"
-                                })
-                            )
-                        )
-                    )
-                );
-            }
-        }]
+        }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
 

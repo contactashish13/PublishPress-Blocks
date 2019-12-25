@@ -462,16 +462,19 @@
                                             style={ { width: videoWidth, height: videoHeight } }
                                     />
                                 )
-                                || (videoSourceType === 'local' &&
-                                    <video width={videoWidth}
-                                           height={videoHeight}
-                                           poster={poster}
-                                           controls
-                                    >
-                                        <source src={videoURL}/>
-                                        { __( 'Your browser does not support HTML5 video.', 'advanced-gutenberg' ) }
-                                    </video>
-                                )
+                                || (videoSourceType === 'local' && (
+                                    <Disabled>
+                                        <video width={videoWidth}
+                                               height={videoHeight}
+                                               poster={poster}
+                                               controls={playback}
+                                               muted={muted}
+                                        >
+                                            <source src={videoURL}/>
+                                            { __( 'Your browser does not support HTML5 video.', 'advanced-gutenberg' ) }
+                                        </video>
+                                    </Disabled>
+                                ))
                                 || !videoSourceType && <div style={ { width: videoWidth, height: videoHeight } } />}
                             </div>
                         ) }
@@ -491,35 +494,39 @@
                                     disabled={ !videoID || videoSourceType === 'local' }
                                     style={ { height: '31px' } }
                                     onClick={ this.fetchVideoInfo }
+
                                 >
-                                    { __( 'Fetch', 'advanced-gutenberg' ) }
+                                    { __( 'Fetch video content', 'advanced-gutenberg' ) }
                                 </Button>
-                                <span style={ { margin: 'auto 10px' } }>{ __( 'or use', 'advanced-gutenberg' ) }</span>
                                 <MediaUpload
                                     allowedTypes={ ["video"] }
                                     value={ videoID }
-                                    onSelect={ (video) => setAttributes( { videoURL: video.url, videoID: video.id, videoTitle: video.title, videoSourceType: 'local' } ) }
+                                    onSelect={ (video) => this.loadLocalVideo(video, blockId) }
                                     render={ ( { open } ) => (
                                         <Button
                                             className="button button-large is-primary"
                                             onClick={ open }
+                                            style={ {marginLeft: '5px'} }
                                         >
-                                            { __( 'Local video', 'advanced-gutenberg' ) }
+                                            { __( 'Load local video', 'advanced-gutenberg' ) }
                                         </Button>
                                     ) }
                                 />
                             </div>
-                            <div className="advgb-current-video-desc"
-                                 style={ { minWidth: '50%', margin: '10px auto', textAlign: 'center' } }
+                            <div
+                                className="advgb-current-video-desc"
+                                style={ { minWidth: '50%', margin: '10px auto', textAlign: 'center' } }
                             >
                                 <strong>{ __( 'Current Video', 'advanced-gutenberg' ) }:</strong>
                                 <span title={videoSourceType}
                                       style={ {
                                           width: '25px',
                                           height: '25px',
-                                          display: 'inline-block',
-                                          verticalAlign: 'text-bottom',
-                                          margin: 'auto 7px' } }
+                                          margin: '-1px 5px 0',
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          justifyContent: 'center'
+                                      } }
                                 >
                                     {videoHostIcon[videoSourceType] || ( this.state.fetching && <Spinner /> ) }
                                 </span>
@@ -735,110 +742,30 @@
                         <div className="advgb-video-poster" style={ { backgroundImage: `url(${poster})` } }/>
                         <div className="advgb-button-wrapper" style={ { height: videoHeight } }>
                             <div className="advgb-play-button" style={ { color: playButtonColor } }>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     width={ playButtonSize }
-                                     height={ playButtonSize }
-                                     viewBox="0 0 24 24"
-                                >
-                                    {PLAY_BUTTON_STYLE[playButtonIcon]}
-                                </svg>
+                                {!playIconID
+                                    ? (
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             width={ playButtonSize }
+                                             height={ playButtonSize }
+                                             viewBox="0 0 24 24"
+                                        >
+                                            {PLAY_BUTTON_STYLE[playButtonIcon]}
+                                        </svg>
+                                    ) : (
+                                        <img src={playButtonIcon}
+                                             alt={ __( 'Play button', 'advanced-gutenberg' ) }
+                                             style={ { width: playButtonSize } }
+                                             className="advgb-custom-play-button"
+                                        />
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
                     }
                 </div>
+
             );
-        },
-        deprecated: [
-            {
-                attributes: blockAttrs,
-                save: function ( { attributes } ) {
-                    const {
-                        videoURL,
-                        videoSourceType,
-                        videoTitle,
-                        videoFullWidth,
-                        videoWidth,
-                        videoHeight,
-                        playButtonIcon,
-                        playButtonSize,
-                        playButtonColor,
-                        overlayColor,
-                        poster,
-                        openInLightbox,
-                    } = attributes;
-
-                    const blockClassName = [
-                        'advgb-video-block',
-                        !!videoFullWidth && 'full-width',
-                        !!openInLightbox && !!videoURL && 'advgb-video-lightbox',
-                    ].filter( Boolean ).join( ' ' );
-
-                    const videoWrapperClass = [
-                        'advgb-video-wrapper',
-                        !!videoFullWidth && 'full-width',
-                        !openInLightbox && 'no-lightbox',
-                    ].filter( Boolean ).join( ' ' );
-
-                    return (
-                        <div className={blockClassName}
-                             data-video={videoURL}
-                             data-source={videoSourceType}
-                        >
-                            {!openInLightbox && (
-                                <div className={videoWrapperClass}>
-                                    {( ( videoSourceType === 'youtube' || videoSourceType === 'vimeo' ) &&
-                                        <iframe src={videoURL}
-                                                width={videoWidth}
-                                                height={videoHeight}
-                                                frameBorder="0"
-                                                allowFullScreen
-                                        />
-                                    )
-                                    || ( videoSourceType === 'local' &&
-                                        <video className={videoFullWidth && 'full-width'}
-                                               width={videoWidth}
-                                               height={videoHeight}
-                                               poster={poster}
-                                               controls
-                                        >
-                                            <source src={videoURL}/>
-                                            {__( 'Your browser does not support HTML5 video.', 'advanced-gutenberg' )}
-                                        </video>
-                                    )
-                                    || !videoSourceType && <div style={{ width: videoWidth, height: videoHeight }}/>}
-                                </div>
-                            )}
-                            {!!openInLightbox &&
-                            <div className={videoWrapperClass}
-                                 style={{ backgroundColor: overlayColor, width: videoWidth }}>
-                                <div className="advgb-video-poster" style={{ backgroundImage: `url(${poster})` }}/>
-                                <div className="advgb-button-wrapper" style={{ height: videoHeight }}>
-                                    <div className="advgb-play-button" style={{ color: playButtonColor }}>
-                                        {!playIconID
-                                            ? (
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     width={playButtonSize}
-                                                     height={playButtonSize}
-                                                     viewBox="0 0 24 24"
-                                                >
-                                                    {PLAY_BUTTON_STYLE[ playButtonIcon ]}
-                                                </svg>
-                                            ) : (
-                                                <img src={playButtonIcon}
-                                                     alt={__( 'Play button', 'advanced-gutenberg' )}
-                                                     style={{ width: playButtonSize }}
-                                                     className="advgb-custom-play-button"
-                                                />
-                                            )
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            }
-                        </div>
-                    );
-                },
-            }]
+        }
     } );
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );
