@@ -224,7 +224,6 @@
                             if (enableLoadMore && index >= itemsToShow) {
                                 return null;
                             }
-
                             return (
                                 <div className="advgb-gallery-item" key={ index }>
                                     <figure className={ selectedImage === index ? 'is-selected' : undefined }>

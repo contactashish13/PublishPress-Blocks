@@ -449,6 +449,8 @@ float: left;'
             plugins_url('assets/blocks/frontend.js', dirname(__FILE__))
         );
 
+        wp_enqueue_script('masonry');
+
         if (!function_exists('advgbAddScriptAttributes')) {
             /**
              * Add attributes to script tag
@@ -4409,7 +4411,7 @@ float: left;'
         }
 
         wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
-        if (strpos($content, 'wp-block-gallery') !== false) {
+        if (strpos($content, 'wp-block-gallery') !== false || strpos($content, 'wp-block-advgb-gallery') !== false) {
             if (!$saved_settings) {
                 $saved_settings = get_option('advgb_settings');
             }

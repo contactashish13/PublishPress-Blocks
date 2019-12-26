@@ -4635,7 +4635,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                             if (enableLoadMore && index >= itemsToShow) {
                                 return null;
                             }
-
                             return React.createElement(
                                 "div",
                                 { className: "advgb-gallery-item", key: index },
