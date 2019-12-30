@@ -351,6 +351,7 @@ float: left;'
         // Include needed JS libraries
         wp_enqueue_script('jquery-ui-tabs');
         wp_enqueue_script('jquery-ui-sortable');
+        wp_enqueue_script('masonry');
         wp_enqueue_script('slick_js');
 
         // Include needed CSS styles
@@ -2104,7 +2105,7 @@ float: left;'
             'count-up','images-slider', 'map', 'newsletter',
             'recent-posts', 'social-links', 'summary', 'adv-tabs',
             'testimonial', 'woo-products', 'columns', 'column',
-            'login-form', 'search-bar', 'icon', 'infobox'
+            'login-form', 'search-bar', 'icon', 'infobox',
         );
 
         foreach ($advgb_block as $block) {
@@ -4411,7 +4412,7 @@ float: left;'
         }
 
         wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
-        if (strpos($content, 'wp-block-gallery') !== false || strpos($content, 'wp-block-advgb-gallery') !== false) {
+        if (strpos($content, 'wp-block-gallery') !== false || strpos($content, 'advgb-gallery') !== false) {
             if (!$saved_settings) {
                 $saved_settings = get_option('advgb_settings');
             }

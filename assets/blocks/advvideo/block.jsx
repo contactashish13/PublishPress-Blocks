@@ -766,6 +766,94 @@
                 </div>
 
             );
-        }
+        },
+        deprecated: [
+            {
+                attributes: blockAttrs,
+                save: function ( { attributes } ) {
+                    const {
+                        videoURL,
+                        videoSourceType,
+                        videoFullWidth,
+                        videoWidth,
+                        videoHeight,
+                        playButtonIcon,
+                        playIconID,
+                        playButtonSize,
+                        playButtonColor,
+                        overlayColor,
+                        poster,
+                        openInLightbox,
+                    } = attributes;
+                    const blockClassName = [
+                        'advgb-video-block',
+                        !!videoFullWidth && 'full-width',
+                        !!openInLightbox && !!videoURL && 'advgb-video-lightbox',
+                    ].filter( Boolean ).join( ' ' );
+                    const videoWrapperClass = [
+                        'advgb-video-wrapper',
+                        !!videoFullWidth && 'full-width',
+                        !openInLightbox && 'no-lightbox',
+                    ].filter( Boolean ).join( ' ' );
+                    return (
+                        <div className={ blockClassName }
+                             data-video={ videoURL }
+                             data-source={ videoSourceType }
+                        >
+                            {!openInLightbox && (
+                                <div className={ videoWrapperClass }>
+                                    {( (videoSourceType === 'youtube' || videoSourceType === 'vimeo') &&
+                                        <iframe src={videoURL}
+                                                width={videoWidth}
+                                                height={videoHeight}
+                                                frameBorder="0"
+                                                allowFullScreen
+                                        />
+                                    )
+                                    || (videoSourceType === 'local' &&
+                                        <video className={ videoFullWidth && 'full-width' }
+                                               width={videoWidth}
+                                               height={videoHeight}
+                                               poster={poster}
+                                               controls
+                                        >
+                                            <source src={videoURL}/>
+                                            { __( 'Your browser does not support HTML5 video.', 'advanced-gutenberg' ) }
+                                        </video>
+                                    )
+                                    || !videoSourceType && <div style={ { width: videoWidth, height: videoHeight } } />}
+                                </div>
+                            ) }
+                            {!!openInLightbox &&
+                            <div className={ videoWrapperClass } style={ { backgroundColor: overlayColor, width: videoWidth } }>
+                                <div className="advgb-video-poster" style={ { backgroundImage: `url(${poster})` } }/>
+                                <div className="advgb-button-wrapper" style={ { height: videoHeight } }>
+                                    <div className="advgb-play-button" style={ { color: playButtonColor } }>
+                                        {!playIconID
+                                            ? (
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width={ playButtonSize }
+                                                     height={ playButtonSize }
+                                                     viewBox="0 0 24 24"
+                                                >
+                                                    {PLAY_BUTTON_STYLE[playButtonIcon]}
+                                                </svg>
+                                            ) : (
+                                                <img src={playButtonIcon}
+                                                     alt={ __( 'Play button', 'advanced-gutenberg' ) }
+                                                     style={ { width: playButtonSize } }
+                                                     className="advgb-custom-play-button"
+                                                />
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    );
+                }
+            }
+        ]
     } );
 })( wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components );

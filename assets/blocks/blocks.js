@@ -10306,7 +10306,81 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     )
                 )
             );
-        }
+        },
+        deprecated: [{
+            attributes: blockAttrs,
+            save: function save(_ref6) {
+                var attributes = _ref6.attributes;
+                var videoURL = attributes.videoURL,
+                    videoSourceType = attributes.videoSourceType,
+                    videoFullWidth = attributes.videoFullWidth,
+                    videoWidth = attributes.videoWidth,
+                    videoHeight = attributes.videoHeight,
+                    playButtonIcon = attributes.playButtonIcon,
+                    playIconID = attributes.playIconID,
+                    playButtonSize = attributes.playButtonSize,
+                    playButtonColor = attributes.playButtonColor,
+                    overlayColor = attributes.overlayColor,
+                    poster = attributes.poster,
+                    openInLightbox = attributes.openInLightbox;
+
+                var blockClassName = ['advgb-video-block', !!videoFullWidth && 'full-width', !!openInLightbox && !!videoURL && 'advgb-video-lightbox'].filter(Boolean).join(' ');
+                var videoWrapperClass = ['advgb-video-wrapper', !!videoFullWidth && 'full-width', !openInLightbox && 'no-lightbox'].filter(Boolean).join(' ');
+                return React.createElement(
+                    "div",
+                    { className: blockClassName,
+                        "data-video": videoURL,
+                        "data-source": videoSourceType
+                    },
+                    !openInLightbox && React.createElement(
+                        "div",
+                        { className: videoWrapperClass },
+                        (videoSourceType === 'youtube' || videoSourceType === 'vimeo') && React.createElement("iframe", { src: videoURL,
+                            width: videoWidth,
+                            height: videoHeight,
+                            frameBorder: "0",
+                            allowFullScreen: true
+                        }) || videoSourceType === 'local' && React.createElement(
+                            "video",
+                            { className: videoFullWidth && 'full-width',
+                                width: videoWidth,
+                                height: videoHeight,
+                                poster: poster,
+                                controls: true
+                            },
+                            React.createElement("source", { src: videoURL }),
+                            __('Your browser does not support HTML5 video.', 'advanced-gutenberg')
+                        ) || !videoSourceType && React.createElement("div", { style: { width: videoWidth, height: videoHeight } })
+                    ),
+                    !!openInLightbox && React.createElement(
+                        "div",
+                        { className: videoWrapperClass, style: { backgroundColor: overlayColor, width: videoWidth } },
+                        React.createElement("div", { className: "advgb-video-poster", style: { backgroundImage: "url(" + poster + ")" } }),
+                        React.createElement(
+                            "div",
+                            { className: "advgb-button-wrapper", style: { height: videoHeight } },
+                            React.createElement(
+                                "div",
+                                { className: "advgb-play-button", style: { color: playButtonColor } },
+                                !playIconID ? React.createElement(
+                                    "svg",
+                                    { xmlns: "http://www.w3.org/2000/svg",
+                                        width: playButtonSize,
+                                        height: playButtonSize,
+                                        viewBox: "0 0 24 24"
+                                    },
+                                    PLAY_BUTTON_STYLE[playButtonIcon]
+                                ) : React.createElement("img", { src: playButtonIcon,
+                                    alt: __('Play button', 'advanced-gutenberg'),
+                                    style: { width: playButtonSize },
+                                    className: "advgb-custom-play-button"
+                                })
+                            )
+                        )
+                    )
+                );
+            }
+        }]
     });
 })(wp.i18n, wp.blocks, wp.element, wp.blockEditor, wp.components);
 
