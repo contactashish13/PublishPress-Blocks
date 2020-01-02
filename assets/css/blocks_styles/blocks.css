@@ -2419,6 +2419,15 @@ body.block-editor-page .advgb-columns-wrapper .advgb-columns .wp-block {
     width: 100%;
 }
 
+#editor .advgb-columns-spacing {
+    height: 10px;
+    width: 100%;
+    display: block;
+    position: relative;
+    z-index: 99;
+    top: -8px;
+}
+
 /*Backend columns*/
 .advgb-columns > .editor-inner-blocks > .editor-block-list__layout {
     display: flex;
