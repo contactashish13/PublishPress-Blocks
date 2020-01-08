@@ -343,7 +343,7 @@ float: left;'
         wp_enqueue_script(
             'advgb_blocks',
             plugins_url('assets/blocks/blocks.js', dirname(__FILE__)),
-            array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-data', 'wp-editor', 'wp-plugins' ),
+            array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-data', 'wp-editor', 'wp-plugins', 'wp-rich-text' ),
             ADVANCED_GUTENBERG_VERSION,
             true
         );
