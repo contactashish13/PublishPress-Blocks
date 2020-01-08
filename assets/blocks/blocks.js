@@ -600,6 +600,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 blockWidth: {
                     type: 'number'
                 },
+                blockContainerWidth: {
+                    type: 'string',
+                    default: 'theme'
+                },
+                customBlockContainerWidth: {
+                    type: 'number',
+                    default: 1140
+                },
+                customBlockContainerWidthUnit: {
+                    type: 'string',
+                    default: 'px'
+                },
                 blockBgColor: {
                     type: 'string'
                 },
@@ -686,6 +698,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 clientId = props.clientId;
             var blockID = attributes.blockID,
                 blockWidth = attributes.blockWidth,
+                blockContainerWidth = attributes.blockContainerWidth,
+                customBlockContainerWidth = attributes.customBlockContainerWidth,
+                customBlockContainerWidthUnit = attributes.customBlockContainerWidthUnit,
                 blockBgColor = attributes.blockBgColor,
                 blockBgImage = attributes.blockBgImage,
                 blockBgImageID = attributes.blockBgImageID,
@@ -765,6 +780,37 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                 return setAttributes({ blockWidth: value });
                             },
                             allowReset: true
+                        }),
+                        React.createElement(SelectControl, {
+                            label: __('Container Width', 'advanced-gutenberg'),
+                            value: blockContainerWidth,
+                            options: [{ label: __('Theme Container Width', 'advanced-gutenberg'), value: 'theme' }, { label: __('Custom', 'advanced-gutenberg'), value: 'custom' }],
+                            onChange: function onChange(value) {
+                                return setAttributes({ blockContainerWidth: value });
+                            }
+                        }),
+                        blockContainerWidth && blockContainerWidth === 'custom' && React.createElement(RangeControl, {
+                            label: [__('Inner Width', 'advanced-gutenberg'), React.createElement(
+                                "div",
+                                { className: "advgb-unit-wrapper", key: "unit" },
+                                ['px', 'vw', '%'].map(function (unit, idx) {
+                                    return React.createElement(
+                                        "span",
+                                        { className: "advgb-unit " + (customBlockContainerWidthUnit === unit ? 'selected' : ''), key: idx,
+                                            onClick: function onClick() {
+                                                return setAttributes({ customBlockContainerWidthUnit: unit });
+                                            }
+                                        },
+                                        unit
+                                    );
+                                })
+                            )],
+                            value: customBlockContainerWidth,
+                            min: 1,
+                            max: customBlockContainerWidthUnit === 'px' ? 2000 : 100,
+                            onChange: function onChange(value) {
+                                return setAttributes({ customBlockContainerWidth: value });
+                            }
                         }),
                         React.createElement(PanelColorSettings, {
                             title: __('Block Color', 'advanced-gutenberg'),

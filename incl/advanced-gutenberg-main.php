@@ -4804,6 +4804,25 @@ float: left;'
                 $style_html .= isset($blockAttrs['paddingLeft']) ? 'padding-left:'.$blockAttrs['paddingLeft'].$paddingUnit.';' : '';
                 $style_html .= '}';
 
+                $theme_option = ag_get_option('AGtheme', 'advanced-gutenberg-theme', 'full', '', array());
+                $blockContainerWidth = isset($blockAttrs['blockContainerWidth']) ? $blockAttrs['blockContainerWidth'] : 'theme';
+                $customBlockContainerWidth = isset($blockAttrs['customBlockContainerWidth']) ? $blockAttrs['customBlockContainerWidth'] : '1140';
+                $customBlockContainerWidthUnit = isset($blockAttrs['customBlockContainerWidthUnit']) ? $blockAttrs['customBlockContainerWidthUnit'] : 'px';
+                if ($blockContainerWidth == 'theme') {
+                    if (isset($theme_option['max_content_width'])) {
+                        $maxWidth = $theme_option['max_content_width'] . 'px';
+                    } else {
+                        $maxWidth = isset($theme_option['content_width']) ? $theme_option['content_width'] : '90%';
+                    }
+                } else {
+                    $maxWidth = $customBlockContainerWidth . $customBlockContainerWidthUnit;
+                }
+                $style_html .= '#' . $colID . ' > .advgb-columns-container {';
+                $style_html .= 'margin-left: auto;';
+                $style_html .= 'margin-right: auto;';
+                $style_html .= 'max-width: '.$maxWidth.';';
+                $style_html .= '}';
+
                 $style_html .= '#'. $colID . ' > .advgb-columns-container > .advgb-columns-row {';
                 $style_html .= isset($blockAttrs['gutter']) && $blockAttrs['gutter'] !== '0' ? 'margin-left: -'.$blockAttrs['gutter'] / 2 .'px;' : '';
                 $style_html .= isset($blockAttrs['gutter']) && $blockAttrs['gutter'] !== '0' ? 'margin-right: -'.$blockAttrs['gutter'] / 2 .'px;' : '';

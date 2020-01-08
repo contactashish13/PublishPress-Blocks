@@ -241,6 +241,18 @@
                 blockWidth: {
                     type: 'number',
                 },
+                blockContainerWidth: {
+                    type: 'string',
+                    default: 'theme'
+                },
+                customBlockContainerWidth: {
+                    type: 'number',
+                    default: 1140
+                },
+                customBlockContainerWidthUnit: {
+                    type: 'string',
+                    default: 'px'
+                },
                 blockBgColor: {
                     type: 'string',
                 },
@@ -326,6 +338,9 @@
             const {
                 blockID,
                 blockWidth,
+                blockContainerWidth,
+                customBlockContainerWidth,
+                customBlockContainerWidthUnit,
                 blockBgColor,
                 blockBgImage,
                 blockBgImageID,
@@ -402,6 +417,35 @@
                                     onChange={( value ) => setAttributes( { blockWidth: value } )}
                                     allowReset
                                 />
+                                <SelectControl
+                                    label={ __( 'Container Width', 'advanced-gutenberg' ) }
+                                    value={ blockContainerWidth }
+                                    options={ [
+                                        { label: __( 'Theme Container Width', 'advanced-gutenberg' ), value: 'theme' },
+                                        { label: __( 'Custom', 'advanced-gutenberg' ), value: 'custom' },
+                                    ] }
+                                    onChange={ ( value ) => setAttributes( { blockContainerWidth: value } ) }
+                                />
+                                { blockContainerWidth && blockContainerWidth === 'custom' &&
+                                <RangeControl
+                                    label={ [
+                                        __( 'Inner Width', 'advanced-gutenberg' ),
+                                        <div className="advgb-unit-wrapper" key="unit">
+                                            { ['px', 'vw', '%'].map( (unit, idx) => (
+                                                <span className={`advgb-unit ${customBlockContainerWidthUnit === unit ? 'selected' : ''}`} key={idx}
+                                                      onClick={ () => setAttributes( { customBlockContainerWidthUnit: unit } ) }
+                                                >
+                                                    {unit}
+                                                </span>
+                                            ) ) }
+                                        </div>
+                                    ] }
+                                    value={ customBlockContainerWidth }
+                                    min={ 1 }
+                                    max={ customBlockContainerWidthUnit === 'px' ? 2000 : 100 }
+                                    onChange={ (value) => setAttributes( { customBlockContainerWidth: value } ) }
+                                />
+                                }
                                 <PanelColorSettings
                                     title={__( 'Block Color', 'advanced-gutenberg' )}
                                     initialOpen={false}
