@@ -3037,8 +3037,6 @@ body.block-editor-page .advgb-columns-wrapper .advgb-columns .wp-block {
         margin-right: -28px;
     }
     .advgb-columns>.block-editor-inner-blocks>.block-editor-block-list__layout>[data-type="advgb/column"] {
-        flex-basis: calc(50% - 16px);
-        flex-grow: 0;
         margin-left: 0;
         margin-right: 0;
     }

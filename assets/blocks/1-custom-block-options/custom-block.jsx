@@ -706,22 +706,22 @@
                         </InspectorControls>
                     )}
                     <style>
-                        {`#block-${clientId} .editor-block-list__block-edit {
+                        {`#block-${clientId} .block-editor-block-list__block-edit {
                           max-width: ${blockWidth ? parseInt( blockWidth ) + 8 : undefined}%;
                       }`}
-                        {`#block-${clientId} > .editor-block-list__block-edit::before {
+                        {`#block-${clientId} > .block-editor-block-list__block-edit::before {
                           background-color: ${blockBgColor};
                           background-image: url(${blockBgImage});
                           background-size: ${blockBgImageSize === 'custom' ? blockBgImageSizeCustom + '%' : blockBgImageSize};
                           background-position: ${blockBgImageAlignV} ${blockBgImageAlignH};
                       }`}
-                        {`#block-${clientId} > .editor-block-list__block-edit::after {
+                        {`#block-${clientId} > .block-editor-block-list__block-edit::after {
                           z-index: 9;
                           background-color: ${blockOverlayColor};
                           ${blockOverlayDisplay && `opacity: ${blockOverlayOpacity ? blockOverlayOpacity / 100 : 0.5};`}
                       }`}
                         {!blockOverlayDisplay &&
-                        `#block-${clientId} > .editor-block-list__block-edit:hover::after {
+                        `#block-${clientId} > .block-editor-block-list__block-edit:hover::after {
                           opacity: ${blockOverlayOpacity ? blockOverlayOpacity / 100 : 0.5};
                       }`}
                         {blockTopDivider &&
