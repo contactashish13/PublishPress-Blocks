@@ -4808,7 +4808,7 @@ float: left;'
                 $blockContainerWidth = isset($blockAttrs['blockContainerWidth']) ? $blockAttrs['blockContainerWidth'] : 'theme';
                 $customBlockContainerWidth = isset($blockAttrs['customBlockContainerWidth']) ? $blockAttrs['customBlockContainerWidth'] : '1140';
                 $customBlockContainerWidthUnit = isset($blockAttrs['customBlockContainerWidthUnit']) ? $blockAttrs['customBlockContainerWidthUnit'] : 'px';
-                if ($blockContainerWidth == 'theme') {
+                if ($blockContainerWidth === 'theme') {
                     if (isset($theme_option['max_content_width'])) {
                         $maxWidth = $theme_option['max_content_width'] . 'px';
                     } else {
@@ -4836,7 +4836,9 @@ float: left;'
                 if ($blockName === 'advgb/column') {
                     $childColID = $blockAttrs['colId'];
                     $childColWidth = $blockAttrs['width'];
-                    $style_html .= '#'.$childColID.'{width: '.$childColWidth.'%;}';
+                    if ($childColWidth !== 0) {
+                        $style_html .= '#' . $childColID . '{width: ' . $childColWidth . '%;}';
+                    }
                 }
 
                 // Styles for tablet
