@@ -184,6 +184,21 @@ if(!class_exists('AdvancedGutenbergMain')) {
                 add_action('wp_ajax_advgb_custom_styles_ajax', array($this, 'customStylesAjax'));
                 add_action('wp_ajax_advgb_delete_profiles', array($this, 'deleteProfiles'));
                 add_action('wp_ajax_advgb_block_config_save', array($this, 'saveBlockConfig'));
+
+                // PublishPress Capabilities support
+                add_filter('cme_plugin_capabilities', function($plugin_caps) {
+                    $plugin_caps['Advanced Gutenberg'] = [
+                        'edit_advgb_profiles',
+                        'edit_others_advgb_profiles',
+                        'create_advgb_profiles',
+                        'publish_advgb_profiles',
+                        'delete_advgb_profiles',
+                        'delete_others_advgb_profiles',
+                        'read_advgb_profile',
+                        'read_private_advgb_profiles'
+                    ];
+                    return $plugin_caps;
+                });
             } else {
                 // Front-end
                 add_filter('render_block_data', array($this, 'contentPreRender'));
