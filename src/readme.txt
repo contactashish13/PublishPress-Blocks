@@ -127,7 +127,8 @@ The Advanced Gutenberg Custom CSS can be created from the plugin configuration a
 
 == Changelog ==
 
-= 2.4.6 =
+= 2.4.6b1 =
+ * Add: Support for nested blocks in 5th level
  * Add: PublishPress Capabilities support
 
 = 2.4.5 =
