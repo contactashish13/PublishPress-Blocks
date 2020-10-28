@@ -1,0 +1,9 @@
+{
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpmd/phpmd": "^2.9",
+        "sebastian/phpcpd": "^6.0",
+        "automattic/vipwpcs": "^2.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0"
+    }
+}
