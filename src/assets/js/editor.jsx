@@ -75,6 +75,7 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined'){
                 }
 
                 //console.log('missing_block: ' + missing_block);
+                console.log(advgb_blocks_vars);
                 
                 if (missing_block) {
                     if (console !== undefined && console.error !== undefined) {
@@ -103,11 +104,11 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined'){
                                 nonce: advgb_blocks_vars.nonce
                             },
                             success: function (data) {
-                                //console.log(data);
+                                console.log(data);
                             }
                         });
                     } catch (e) {
-                        //console.log(e);
+                        console.log(e);
                     }
                 }
             });

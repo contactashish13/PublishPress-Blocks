@@ -115,15 +115,22 @@ window.onload = function () {
 
         $('#blocks_list').val(JSON.stringify(list_blocks_names));
 
-        // Use this ajax query to update the block list in db
-        $.ajax({
-            url: ajaxurl,
-            method: 'POST',
-            data: {
-                action: 'advgb_update_blocks_list',
-                blocksList: listBlocks,
-                nonce: nonce
-            }
-        });
+        try {
+            // Use this ajax query to update the block list in db
+            $.ajax({
+                url: ajaxurl,
+                method: 'POST',
+                data: {
+                    action: 'advgb_update_blocks_list',
+                    blocksList: listBlocks,
+                    nonce: nonce
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 };
