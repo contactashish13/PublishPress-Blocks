@@ -48,8 +48,8 @@ wp_enqueue_script('wp-block-library');
 wp_enqueue_script('wp-editor');
 wp_enqueue_script('wp-edit-post');
 wp_enqueue_script('wp-plugins');
-do_action('enqueue_block_editor_assets');
-/*wp_enqueue_script('advgb_update_list');
+/*do_action('enqueue_block_editor_assets');
+wp_enqueue_script('advgb_update_list');
 wp_localize_script('advgb_update_list', 'advgbUpdate', array('onProfile' => true));
 wp_add_inline_script(
     'wp-blocks',
