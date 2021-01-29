@@ -33,12 +33,6 @@ if (function_exists('get_block_categories')) {
     $blockCategories = gutenberg_get_block_categories(get_post());
 }
 
-// Active and Inactive blocks
-$active_inactive_blocks = AdvancedGutenbergMain::getUserBlocksForGutenberg();
-
-// List of block names only
-$list_blocks_names = [];
-
 // In profile page we load gutenberg files to retrieve all blocks, including new ones
 wp_enqueue_script('wp-blocks');
 wp_enqueue_script('wp-element');
@@ -49,13 +43,13 @@ wp_enqueue_script('wp-editor');
 wp_enqueue_script('wp-edit-post');
 wp_enqueue_script('wp-plugins');
 do_action('enqueue_block_editor_assets');
-/*wp_enqueue_script('advgb_update_list');
+wp_enqueue_script('advgb_update_list');
 wp_localize_script('advgb_update_list', 'advgbUpdate', array('onProfile' => true));
 wp_add_inline_script(
     'wp-blocks',
     sprintf('wp.blocks.setCategories( %s );', wp_json_encode($blockCategories)),
     'after'
-);*/
+);
 ?>
 
 <form method="post">
@@ -134,56 +128,15 @@ wp_add_inline_script(
             <?php 
             $counter = 0;
             echo '<pre>';
-            /*var_dump($blockCategories);
             foreach($all_blocks_list as $block) {
                 echo $counter++ . ': ' . $block['name'] . '<br>';
             }
-            var_dump($all_blocks_list);*/
-            echo '<h3>Inactive blocks</h3>';
-            var_dump($active_inactive_blocks['inactive_blocks']);
+            var_dump($all_blocks_list);
             echo '</pre>';
             ?>
             
             <div class="blocks-section">
-                
-                <?php foreach ($blockCategories as $blockCategory) { ?>
-                    <div class="category-block clearfix" data-category="<?php echo $blockCategory['slug']; ?>">
-                        <h3 class="category-name">
-                            <span><?php echo $blockCategory['title']; ?></span>
-                            <i class="mi"></i>
-                        </h3>
-                        <ul class="blocks-list">
-                            <?php 
-                            foreach ($all_blocks_list as $block) {
-                                if($block['category'] === $blockCategory['slug']) {
-                                    ?>
-                                    <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
-                                        <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
-                                            <span class="block-icon">
-                                                <?php echo $block['icon']; ?>
-                                            </span>
-                                            <span class="block-title"><?php echo $block['title']; ?></span>
-                                        </label>
-                                        <div class="ju-switch-button">
-                                            <label class="switch">
-                                                <input id="<?php echo $block['name']; ?>" type="checkbox" name="active_blocks[]" value="<?php echo $block['name']; ?>" <?php echo (in_array($block['name'], $active_inactive_blocks['inactive_blocks'])) ? '' : 'checked="checked"'; ?>>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <?php
-                                    array_push($list_blocks_names, $block['name']);
-                                }
-                            } 
-                            ?>
-                        </ul>
-                    </div>
-                <?php } 
-                //var_dump($list_blocks_names);
-                //echo stripslashes(json_encode($list_blocks_names));
-                ?>
-                
-                <input type="hidden" name="blocks_list" id="blocks_list" value="<?php echo htmlspecialchars(json_encode($list_blocks_names), ENT_QUOTES); ?>" />
+                <input type="hidden" name="blocks_list" id="blocks_list" />
             </div>
         </div>
 
