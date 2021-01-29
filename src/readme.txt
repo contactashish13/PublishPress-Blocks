@@ -139,6 +139,7 @@ The PublishPress Blocks Custom CSS can be created from the plugin configuration 
  * Fix: Deprecated code for Social Links block
  * Fix: Deprecated code for Summary block
  * Fix: Deprecated code for Woo Products block
+ * Fix: Support for more plugins in Profiles
 
 = 2.5.3 =
  * Fix: Advanced Button and Advanced Icon duplication id
