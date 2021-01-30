@@ -183,7 +183,7 @@ wp_add_inline_script(
                 //echo stripslashes(json_encode($list_blocks_names));
                 ?>
                 
-                <input type="hidden" name="blocks_list" id="blocks_list" value="<?php echo htmlspecialchars(json_encode($list_blocks_names), ENT_QUOTES); ?>" />
+                <input type="hidden" name="blocks_list" id="blocks_list" value="<?php echo stripslashes(htmlspecialchars(json_encode($list_blocks_names), ENT_QUOTES)); ?>" />
             </div>
         </div>
 
