@@ -74,12 +74,11 @@ if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined'){
                     }
                 }
 
-                //console.log('missing_block: ' + missing_block);
+                console.log('missing_block: ' + missing_block);
                 console.log(advgb_blocks_vars);
                 
                 if (missing_block) {
                     if (console !== undefined && console.error !== undefined) {
-                        //console.log('console: ' + console);
                         console.error('Reloading editor by PublishPress Blocks plugin');
                     }
                     // Replace original allowed block settings by our modified list
