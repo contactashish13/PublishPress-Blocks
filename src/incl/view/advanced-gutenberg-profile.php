@@ -201,7 +201,7 @@ wp_add_inline_script(
                 ?>
                     <div class="category-block clearfix" data-category="<?php echo $missed_block_category; ?>">
                         <h3 class="category-name">
-                            <span><?php echo ucfirst(str_replace('-', ' ', $missed_block_category)); ?></span>
+                            <span><?php echo ucwords(str_replace('-', ' ', $missed_block_category)); ?></span>
                             <i class="mi"></i>
                         </h3>
                         <ul class="blocks-list">
