@@ -158,7 +158,10 @@ wp_add_inline_script(
             
             <div class="blocks-section">
                 
-                <?php foreach ($blockCategories as $blockCategory) { ?>
+                <?php 
+                // Block categories when using 'get_block_categories' or 'gutenberg_get_block_categories'
+                foreach ($blockCategories as $blockCategory) { 
+                ?>
                     <div class="category-block clearfix" data-category="<?php echo $blockCategory['slug']; ?>">
                         <h3 class="category-name">
                             <span><?php echo $blockCategory['title']; ?></span>
@@ -190,9 +193,45 @@ wp_add_inline_script(
                             ?>
                         </ul>
                     </div>
-                <?php } 
-                //var_dump($list_blocks_names);
-                //echo stripslashes(json_encode($list_blocks_names));
+                <?php 
+                } 
+                
+                // Missed block categories outside scope of 'get_block_categories' / 'gutenberg_get_block_categories'
+                foreach ($missed_block_categories as $missed_block_category) { 
+                ?>
+                    <div class="category-block clearfix" data-category="<?php echo $missed_block_category; ?>">
+                        <h3 class="category-name">
+                            <span><?php echo ucfirst(str_replace('-', ' ', $missed_block_category)); ?></span>
+                            <i class="mi"></i>
+                        </h3>
+                        <ul class="blocks-list">
+                            <?php 
+                            foreach ($all_blocks_list as $block) {
+                                if($block['category'] === $missed_block_category) {
+                                    ?>
+                                    <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
+                                        <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
+                                            <span class="block-icon">
+                                                <?php echo $block['icon']; ?>
+                                            </span>
+                                            <span class="block-title"><?php echo $block['title']; ?></span>
+                                        </label>
+                                        <div class="ju-switch-button">
+                                            <label class="switch">
+                                                <input id="<?php echo $block['name']; ?>" type="checkbox" name="active_blocks[]" value="<?php echo $block['name']; ?>" <?php echo (in_array($block['name'], $active_inactive_blocks['inactive_blocks'])) ? '' : 'checked="checked"'; ?>>
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <?php
+                                    array_push($list_blocks_names, $block['name']);
+                                }
+                            } 
+                            ?>
+                        </ul>
+                    </div>
+                <?php 
+                }
                 ?>
                 
                 <input type="hidden" name="blocks_list" id="blocks_list" value="<?php echo stripslashes(htmlspecialchars(json_encode($list_blocks_names), ENT_QUOTES)); ?>" />
