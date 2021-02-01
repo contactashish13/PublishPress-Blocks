@@ -8,6 +8,10 @@ wp_localize_script('advgb_profile_js', 'advgb', array(
     'toProfilesList' => admin_url('admin.php?page=advgb_main&view=profiles'),
 ));
 
+/* All the blocks coming from other plugins
+ * To have 'advgb_blocks_list' up-to-date, the user needs to edit a post/page first
+ * in case a new plugin with blocks is installed ad activated 
+ */
 $all_blocks_list     = get_option('advgb_blocks_list');
 
 $postid              = $_GET['id']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- view only
@@ -32,6 +36,9 @@ if (function_exists('get_block_categories')) {
 } elseif (function_exists('gutenberg_get_block_categories')) {
     $blockCategories = gutenberg_get_block_categories(get_post());
 }
+
+// Missed block categories when using 'get_block_categories' or 'gutenberg_get_block_categories'
+$missed_block_categories = AdvancedGutenbergMain::getMissedBlockCategories();
 
 // Active and Inactive blocks
 $active_inactive_blocks = AdvancedGutenbergMain::getUserBlocksForGutenberg();
@@ -132,13 +139,18 @@ wp_add_inline_script(
             </div>
 
             <?php 
-            $counter = 0;
+            // Extract categories from block names. e.g. "category/lorem-ipsum-block" -> 'category'
+            
+    
+            //$counter = 0;
             echo '<pre>';
             /*var_dump($blockCategories);
             foreach($all_blocks_list as $block) {
                 echo $counter++ . ': ' . $block['name'] . '<br>';
             }
             var_dump($all_blocks_list);*/
+            echo '<h3>Missed categories</h3>';
+            var_dump($missed_block_categories);
             echo '<h3>Inactive blocks</h3>';
             var_dump($active_inactive_blocks['inactive_blocks']);
             echo '</pre>';

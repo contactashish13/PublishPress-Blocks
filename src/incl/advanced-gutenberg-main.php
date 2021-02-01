@@ -693,6 +693,45 @@ if(!class_exists('AdvancedGutenbergMain')) {
         }
 
         /**
+         * Get missed block categories when using 'get_block_categories' or 'gutenberg_get_block_categories'
+         *
+         * @return array
+         */
+        public function getMissedBlockCategories() {
+            
+            // Block categories by using WP functions
+            $block_categories_wp = [];
+            $filtered_categories_wp = [];
+            if (function_exists('get_block_categories')) {
+                $block_categories_wp = get_block_categories(get_post());
+            } elseif (function_exists('gutenberg_get_block_categories')) {
+                $block_categories_wp = gutenberg_get_block_categories(get_post());
+            }
+            foreach ($block_categories_wp as $block_category_wp) {
+                array_push($filtered_categories_wp, $block_category_wp['slug']);
+            }   
+            
+            //var_dump($filtered_categories_wp);
+            
+            // Block categories from 'advgb_blocks_list' option
+            $current_category = null;
+            $block_categories = [];
+            $all_blocks_list = get_option('advgb_blocks_list');
+            foreach ($all_blocks_list as $block) {
+                $current_category = explode('/', $block['category']);
+                array_push($block_categories, $current_category[0]);
+            }
+            $filtered_categories = array_unique($block_categories);
+            
+            //var_dump($filtered_categories);
+            
+            // Get the difference between both block categories arrays
+            $diff_block_categories = array_diff($filtered_categories, $filtered_categories_wp);
+            
+            return $diff_block_categories;
+        }
+        
+        /**
          * Ajax to get list of users
          *
          * @return boolean,void     Return false if failure, echo json on success
