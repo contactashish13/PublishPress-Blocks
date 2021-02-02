@@ -155,80 +155,91 @@ wp_enqueue_script('wp-plugins');
             <div class="blocks-section">
                 
                 <?php 
-                // Block categories when using 'get_block_categories' or 'gutenberg_get_block_categories'
-                foreach ($blockCategories as $blockCategory) { 
-                ?>
-                    <div class="category-block clearfix" data-category="<?php echo $blockCategory['slug']; ?>">
-                        <h3 class="category-name">
-                            <span><?php echo $blockCategory['title']; ?></span>
-                            <i class="mi"></i>
-                        </h3>
-                        <ul class="blocks-list">
-                            <?php 
-                            foreach ($all_blocks_list as $block) {
-                                if($block['category'] === $blockCategory['slug']) {
-                                    ?>
-                                    <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
-                                        <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
-                                            <span class="block-icon">
-                                                <?php //echo htmlspecialchars_decode($block['icon']); ?>
-                                                <?php echo $block['icon']; ?>
-                                            </span>
-                                            <span class="block-title"><?php echo $block['title']; ?></span>
-                                        </label>
-                                        <div class="ju-switch-button">
-                                            <label class="switch">
-                                                <input id="<?php echo $block['name']; ?>" type="checkbox" name="active_blocks[]" value="<?php echo $block['name']; ?>" <?php echo (in_array($block['name'], $active_inactive_blocks['inactive_blocks'])) ? '' : 'checked="checked"'; ?>>
-                                                <span class="slider"></span>
+                if(!empty($all_blocks_list)) {
+                    
+                    // Block categories when using 'get_block_categories' or 'gutenberg_get_block_categories'
+                    foreach ($blockCategories as $blockCategory) { 
+                    ?>
+                        <div class="category-block clearfix" data-category="<?php echo $blockCategory['slug']; ?>">
+                            <h3 class="category-name">
+                                <span><?php echo $blockCategory['title']; ?></span>
+                                <i class="mi"></i>
+                            </h3>
+                            <ul class="blocks-list">
+                                <?php 
+                                foreach ($all_blocks_list as $block) {
+                                    if($block['category'] === $blockCategory['slug']) {
+                                        ?>
+                                        <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
+                                            <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
+                                                <span class="block-icon">
+                                                    <?php //echo htmlspecialchars_decode($block['icon']); ?>
+                                                    <?php echo $block['icon']; ?>
+                                                </span>
+                                                <span class="block-title"><?php echo $block['title']; ?></span>
                                             </label>
-                                        </div>
-                                    </li>
-                                    <?php
-                                    array_push($list_blocks_names, $block['name']);
-                                }
-                            } 
-                            ?>
-                        </ul>
-                    </div>
-                <?php 
-                } 
+                                            <div class="ju-switch-button">
+                                                <label class="switch">
+                                                    <input id="<?php echo $block['name']; ?>" type="checkbox" name="active_blocks[]" value="<?php echo $block['name']; ?>" <?php echo (in_array($block['name'], $active_inactive_blocks['inactive_blocks'])) ? '' : 'checked="checked"'; ?>>
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <?php
+                                        array_push($list_blocks_names, $block['name']);
+                                    }
+                                } 
+                                ?>
+                            </ul>
+                        </div>
+                    <?php 
+                    } 
+
+                    // Missed block categories outside scope of 'get_block_categories' / 'gutenberg_get_block_categories'
+                    foreach ($missed_block_categories as $missed_block_category) { 
+                    ?>
+                        <div class="category-block clearfix" data-category="<?php echo $missed_block_category; ?>">
+                            <h3 class="category-name">
+                                <span><?php echo ucwords(str_replace('-', ' ', $missed_block_category)); ?></span>
+                                <i class="mi"></i>
+                            </h3>
+                            <ul class="blocks-list">
+                                <?php 
+                                foreach ($all_blocks_list as $block) {
+                                    if($block['category'] === $missed_block_category) {
+                                        ?>
+                                        <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
+                                            <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
+                                                <span class="block-icon">
+                                                    <?php echo $block['icon']; ?>
+                                                </span>
+                                                <span class="block-title"><?php echo $block['title']; ?></span>
+                                            </label>
+                                            <div class="ju-switch-button">
+                                                <label class="switch">
+                                                    <input id="<?php echo $block['name']; ?>" type="checkbox" name="active_blocks[]" value="<?php echo $block['name']; ?>" <?php echo (in_array($block['name'], $active_inactive_blocks['inactive_blocks'])) ? '' : 'checked="checked"'; ?>>
+                                                    <span class="slider"></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <?php
+                                        array_push($list_blocks_names, $block['name']);
+                                    }
+                                } 
+                                ?>
+                            </ul>
+                        </div>
+                    <?php 
+                    }
                 
-                // Missed block categories outside scope of 'get_block_categories' / 'gutenberg_get_block_categories'
-                foreach ($missed_block_categories as $missed_block_category) { 
-                ?>
-                    <div class="category-block clearfix" data-category="<?php echo $missed_block_category; ?>">
-                        <h3 class="category-name">
-                            <span><?php echo ucwords(str_replace('-', ' ', $missed_block_category)); ?></span>
-                            <i class="mi"></i>
-                        </h3>
-                        <ul class="blocks-list">
-                            <?php 
-                            foreach ($all_blocks_list as $block) {
-                                if($block['category'] === $missed_block_category) {
-                                    ?>
-                                    <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
-                                        <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
-                                            <span class="block-icon">
-                                                <?php echo $block['icon']; ?>
-                                            </span>
-                                            <span class="block-title"><?php echo $block['title']; ?></span>
-                                        </label>
-                                        <div class="ju-switch-button">
-                                            <label class="switch">
-                                                <input id="<?php echo $block['name']; ?>" type="checkbox" name="active_blocks[]" value="<?php echo $block['name']; ?>" <?php echo (in_array($block['name'], $active_inactive_blocks['inactive_blocks'])) ? '' : 'checked="checked"'; ?>>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <?php
-                                    array_push($list_blocks_names, $block['name']);
-                                }
-                            } 
-                            ?>
-                        </ul>
-                    </div>
-                <?php 
-                }
+                } else {
+                    echo '<div class="ju-notice-msg ju-notice-info">' . 
+                        '<a href="' . admin_url('post-new.php?post_type=page') . '" class="thickbox">' .
+                        __('Click here to allow our plugin to update the list of blocks', 'advanced-gutenberg') .
+                        '</a>, ' . 
+                        __('then refresh this page. The list of blocks will be displayed.', 'advanced-gutenberg') . 
+                        '</div>';
+                } 
                 ?>
                 
                 <input type="hidden" name="blocks_list" id="blocks_list" value="<?php echo stripslashes(htmlspecialchars(json_encode($list_blocks_names), ENT_QUOTES)); ?>" />

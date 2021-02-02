@@ -1,3 +1,4 @@
+/* Columns Manager */
 .ju-main-wrapper .ju-left-panel .tabs.ju-menu-tabs li.tab a.link-tab:hover:before, .ju-main-wrapper .ju-left-panel .tabs.ju-menu-tabs li.tab a.link-tab.active:not(.expanded):before, .ju-main-wrapper .ju-left-panel .tabs.ju-menu-tabs li.tab .ju-submenu-tabs div.link-tab:hover:before, .ju-main-wrapper .ju-left-panel .tabs.ju-menu-tabs li.tab .ju-submenu-tabs div.link-tab.active:before {
   content: '';
   display: block;
@@ -11,7 +12,9 @@
   pointer-events: none;
 }
 
-.ju-notice-success, .ju-notice-error {
+.ju-notice-success,
+.ju-notice-error,
+.ju-notice-info {
   padding: 10px;
   margin: 20px 20px 20px 0;
   background-color: #fff;
@@ -331,6 +334,10 @@ input.ju-radiobox:focus {
 
 .ju-notice-success {
   border-left-color: #46b450;
+}
+
+.ju-notice-info {
+  border-left-color: #655997;
 }
 
 .ju-notice-error {
