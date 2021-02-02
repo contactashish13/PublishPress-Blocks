@@ -55,14 +55,6 @@ wp_enqueue_script('wp-block-library');
 wp_enqueue_script('wp-editor');
 wp_enqueue_script('wp-edit-post');
 wp_enqueue_script('wp-plugins');
-/*do_action('enqueue_block_editor_assets');
-wp_enqueue_script('advgb_update_list');
-wp_localize_script('advgb_update_list', 'advgbUpdate', array('onProfile' => true));
-wp_add_inline_script(
-    'wp-blocks',
-    sprintf('wp.blocks.setCategories( %s );', wp_json_encode($blockCategories)),
-    'after'
-);*/
 ?>
 
 <form method="post">
@@ -147,8 +139,12 @@ wp_add_inline_script(
             /*var_dump($blockCategories);
             foreach($all_blocks_list as $block) {
                 echo $counter++ . ': ' . $block['name'] . '<br>';
+            }*/
+            echo '<h3>All blocks</h3>';
+            foreach ($all_blocks_list as $block) {
+                echo $block['name'] . '<br>';
             }
-            var_dump($all_blocks_list);*/
+            //var_dump($all_blocks_list);
             echo '<h3>Missed categories</h3>';
             var_dump($missed_block_categories);
             echo '<h3>Inactive blocks</h3>';
@@ -175,6 +171,7 @@ wp_add_inline_script(
                                     <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
                                         <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
                                             <span class="block-icon">
+                                                <?php //echo htmlspecialchars_decode($block['icon']); ?>
                                                 <?php echo $block['icon']; ?>
                                             </span>
                                             <span class="block-title"><?php echo $block['title']; ?></span>

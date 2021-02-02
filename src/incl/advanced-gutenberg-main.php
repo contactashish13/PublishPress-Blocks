@@ -485,12 +485,6 @@ if(!class_exists('AdvancedGutenbergMain')) {
                 wp_enqueue_script('wp-block-library');
                 wp_enqueue_script('wp-editor');
                 do_action('enqueue_block_editor_assets');
-                /*wp_enqueue_script(
-                    'advgb_update_list',
-                    plugins_url('assets/js/update-block-list.js', dirname(__FILE__)),
-                    array('jquery'),
-                    ADVANCED_GUTENBERG_VERSION
-                );*/
 
                 $blockCategories = array();
                 if (function_exists('gutenberg_get_block_categories')) {
@@ -504,8 +498,6 @@ if(!class_exists('AdvancedGutenbergMain')) {
                     sprintf('wp.blocks.setCategories( %s );', wp_json_encode($blockCategories)),
                     'after'
                 );
-
-                //wp_localize_script('advgb_update_list', 'updateListNonce', array('nonce' => $advgb_nonce));
             }
         }
 
@@ -1384,12 +1376,6 @@ if(!class_exists('AdvancedGutenbergMain')) {
                     array(),
                     ADVANCED_GUTENBERG_VERSION
                 );
-                /*wp_register_script(
-                    'advgb_update_list',
-                    plugins_url('assets/js/update-block-list.js', dirname(__FILE__)),
-                    array('jquery'),
-                    ADVANCED_GUTENBERG_VERSION
-                );*/
                 wp_register_script(
                     'advgb_profile_js',
                     plugins_url('assets/js/profile.js', dirname(__FILE__)),
