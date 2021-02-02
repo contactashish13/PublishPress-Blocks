@@ -475,6 +475,7 @@ if(!class_exists('AdvancedGutenbergMain')) {
          */
         public function initBlocksList()
         {
+            // @TODO Check if this function required
             if (get_option('advgb_blocks_list') === false
                 || (defined('GUTENBERG_VERSION') && version_compare(get_option('advgb_gutenberg_version'), GUTENBERG_VERSION, '<'))) {
                 $advgb_nonce = wp_create_nonce('advgb_update_blocks_list');
@@ -484,20 +485,6 @@ if(!class_exists('AdvancedGutenbergMain')) {
                 wp_enqueue_script('wp-components');
                 wp_enqueue_script('wp-block-library');
                 wp_enqueue_script('wp-editor');
-                do_action('enqueue_block_editor_assets');
-
-                $blockCategories = array();
-                if (function_exists('gutenberg_get_block_categories')) {
-                    $blockCategories = gutenberg_get_block_categories(get_post());
-                } elseif (function_exists('get_block_categories')) {
-                    $blockCategories = get_block_categories(get_post());
-                }
-
-                wp_add_inline_script(
-                    'wp-blocks',
-                    sprintf('wp.blocks.setCategories( %s );', wp_json_encode($blockCategories)),
-                    'after'
-                );
             }
         }
 
