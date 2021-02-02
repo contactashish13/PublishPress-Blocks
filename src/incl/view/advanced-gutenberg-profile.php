@@ -47,14 +47,15 @@ $active_inactive_blocks = AdvancedGutenbergMain::getUserBlocksForGutenberg();
 $list_blocks_names = [];
 
 // In profile page we load gutenberg files to retrieve all blocks, including new ones
-wp_enqueue_script('wp-blocks');
+// @TODO Check if these are required
+/*wp_enqueue_script('wp-blocks');
 wp_enqueue_script('wp-element');
 wp_enqueue_script('wp-data');
 wp_enqueue_script('wp-components');
 wp_enqueue_script('wp-block-library');
 wp_enqueue_script('wp-editor');
 wp_enqueue_script('wp-edit-post');
-wp_enqueue_script('wp-plugins');
+wp_enqueue_script('wp-plugins');*/
 ?>
 
 <form method="post">
@@ -77,7 +78,37 @@ wp_enqueue_script('wp-plugins');
             </ul>
         </div>
 
-        <?php if (isset($_GET['save_profile'])) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display message, no action ?>
+        <?php 
+        /* First time in Profiles edit. No blocks has been added. 
+         * Need to load an invisible editor to save blocks in database on the background.
+         */
+        if(empty($all_blocks_list)) {
+            ?>
+            <style>
+            #TB_overlay, #TB_window { display: none !important; }
+            </style>
+            <script>
+            window.onload = function() {
+                tb_show('Saving blocks... Close this popup.', 'post-new.php?post_type=page&TB_iframe=false&width=400&height=200', false);
+            }
+            </script>
+            <div class="ju-notice-msg ju-notice-info"> 
+                <h3>
+                    <?php _e('Welcome to profiles!', 'advanced-gutenberg'); ?>
+                </h3>
+                <h4>
+                    <?php _e('Blocks are being saved before you can manage them. Please wait until the page finish to load, then click "Refresh" to see the available blocks.', 'advanced-gutenberg'); ?>
+                </h4>
+                <p>
+                    <a href="admin.php?page=advgb_main&view=profile&id=<?php echo esc_attr($_GET['id']); ?>" class="button button-primary pp-primary-button">
+                        <?php esc_html_e('Refresh', 'advanced-gutenberg') ?>
+                    </a>
+                </p>
+            </div>
+        <?php
+        }
+        
+        if (isset($_GET['save_profile'])) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display message, no action ?>
             <div class="ju-notice-msg ju-notice-success">
                 <?php esc_html_e('Profile saved successfully!', 'advanced-gutenberg') ?>
                 <a href="<?php echo esc_attr(admin_url('admin.php?page=advgb_main&view=profiles')) ?>" target="_self">
@@ -131,16 +162,13 @@ wp_enqueue_script('wp-plugins');
             </div>
 
             <?php 
-            // Extract categories from block names. e.g. "category/lorem-ipsum-block" -> 'category'
-            
-    
             //$counter = 0;
-            echo '<pre>';
+            //echo '<pre>';
             /*var_dump($blockCategories);
             foreach($all_blocks_list as $block) {
                 echo $counter++ . ': ' . $block['name'] . '<br>';
             }*/
-            echo '<h3>All blocks</h3>';
+            /*echo '<h3>All blocks</h3>';
             foreach ($all_blocks_list as $block) {
                 echo $block['name'] . '<br>';
             }
@@ -149,7 +177,7 @@ wp_enqueue_script('wp-plugins');
             var_dump($missed_block_categories);
             echo '<h3>Inactive blocks</h3>';
             var_dump($active_inactive_blocks['inactive_blocks']);
-            echo '</pre>';
+            echo '</pre>';*/
             ?>
             
             <div class="blocks-section">
@@ -231,15 +259,7 @@ wp_enqueue_script('wp-plugins');
                         </div>
                     <?php 
                     }
-                
-                } else {
-                    echo '<div class="ju-notice-msg ju-notice-info">' . 
-                        '<a href="' . admin_url('post-new.php?post_type=page') . '" class="thickbox">' .
-                        __('Click here to allow our plugin to update the list of blocks', 'advanced-gutenberg') .
-                        '</a>, ' . 
-                        __('then refresh this page. The list of blocks will be displayed.', 'advanced-gutenberg') . 
-                        '</div>';
-                } 
+                }
                 ?>
                 
                 <input type="hidden" name="blocks_list" id="blocks_list" value="<?php echo stripslashes(htmlspecialchars(json_encode($list_blocks_names), ENT_QUOTES)); ?>" />
