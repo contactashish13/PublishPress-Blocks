@@ -200,9 +200,8 @@ wp_enqueue_script('wp-plugins');*/
                                         ?>
                                         <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
                                             <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
-                                                <span class="block-icon">
-                                                    <?php //echo htmlspecialchars_decode($block['icon']); ?>
-                                                    <?php echo $block['icon']; ?>
+                                                <span class="block-icon"<?php echo ($block['iconColor']) ? ' style="color:' . $block['iconColor'] . ';"' : '' ?>>
+                                                    <?php echo $block['icon'] ?>
                                                 </span>
                                                 <span class="block-title"><?php echo $block['title']; ?></span>
                                             </label>
@@ -238,8 +237,8 @@ wp_enqueue_script('wp-plugins');*/
                                         ?>
                                         <li class="block-item ju-settings-option" data-type="<?php echo $block['name']; ?>">
                                             <label for="<?php echo $block['name']; ?>" class="ju-setting-label">
-                                                <span class="block-icon">
-                                                    <?php echo $block['icon']; ?>
+                                                <span class="block-icon"<?php echo ($block['iconColor']) ? ' style="color:' . $block['iconColor'] . ';"' : '' ?>>
+                                                    <?php echo $block['icon'] ?>
                                                 </span>
                                                 <span class="block-title"><?php echo $block['title']; ?></span>
                                             </label>
