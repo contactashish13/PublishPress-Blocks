@@ -97,6 +97,7 @@ register_activation_hook(ADVANCED_GUTENBERG_PLUGIN, function () {
 $advgb_current_version = get_option('advgb_version', '0.0.0');
 global $wpdb;
 
+// @TODO Check the whole if() and apply to all the deprecated blocks
 if (version_compare($advgb_current_version, '2.0.6', 'lt')) {
     // Get all GB-ADV active profiles
     $profiles = $wpdb->get_results('SELECT * FROM '. $wpdb->prefix. 'posts
